@@ -111,6 +111,13 @@ import Formalizations
 #print axioms ThreeAxes.ExactArc.inv_add_inv_inverse
 #print axioms ThreeAxes.ExactArc.one_add_pow_char
 #print axioms ThreeAxes.ExactArc.inv_sq_char
+#print axioms ThreeAxes.WeightedTrinomials.sq_eq_trace_smul_sub_det_smul
+#print axioms ThreeAxes.WeightedTrinomials.hidden_commutator
+#print axioms ThreeAxes.WeightedTrinomials.weighted_trinomial
+#print axioms ThreeAxes.WeightedTrinomials.weighted_curve
+#print axioms ThreeAxes.WeightedTrinomials.N_sq
+#print axioms ThreeAxes.WeightedTrinomials.schur_r2
+#print axioms ThreeAxes.WeightedTrinomials.schur_r2_col
 #print axioms Matrix.adjugate_fin_two_eq_trace_smul_one_sub
 #print axioms Matrix.adjugate_add_fin_two
 #print axioms Matrix.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two

@@ -19,3 +19,4 @@ public import Formalizations.RingTheory.FreeField.ThreeAxes.DegenerateResidue
 public import Formalizations.RingTheory.FreeField.ThreeAxes.ExactArc
 public import Formalizations.RingTheory.FreeField.ThreeAxes.Extractors
 public import Formalizations.RingTheory.FreeField.ThreeAxes.TraceResidue
+public import Formalizations.RingTheory.FreeField.ThreeAxes.WeightedTrinomials
