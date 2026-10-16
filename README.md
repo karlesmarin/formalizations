@@ -60,5 +60,5 @@ Import everything with `import Formalizations`, or a single file, e.g.
 
 ## License
 
-Carles Marín (investigador independiente, karlesmarin@gmail.com). 
+Carles Marín (investigador independiente, karlesmarin@gmail.com).
 Apache 2.0, as Mathlib. Written with Claude (Anthropic) as an AI assistant; every statement is machine-checked.
