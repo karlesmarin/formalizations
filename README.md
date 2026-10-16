@@ -25,7 +25,12 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | Area | File | Main result |
 |---|---|---|
 | `Algebra.Ring` | `Continuant` | Euler's continuant; `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹` |
-| `LinearAlgebra.Matrix` | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
+| `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |
+| | `Adjugate` | Diagonal entries of the adjugate are principal minors |
+| | `Rank` | `rank (A + B) ≤ rank A + rank B`; nullity under low-rank perturbation; block triangular bounds |
+| | `Rank.Kronecker` | `rank (A ⊗ₖ 1) = card p * rank A` |
+| | `Charpoly.Jacobi` | Resolvent series and Jacobi's formula for the derivative of the reversed charpoly |
+| | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
 | | `FreeLocusCertificate` | Soundness of the free-locus certificate ("not flip-poly") |
 | `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
 | | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |
@@ -44,10 +49,14 @@ Import everything with `import Formalizations`, or a single file, e.g.
 ## Adding a formalization
 
 1. Put the file under `Formalizations/<Area>/<Topic>.lean`, following Mathlib's area names.
-2. Start it with the copyright header, then the imports (Mathlib modules only, never `import Mathlib`), then a module
-   docstring `/-! # Title … ## Main results … ## References -/`.
+2. Write it as Mathlib does:
+   - the copyright header;
+   - `module`;
+   - `public import` of the Mathlib modules it needs (never `import Mathlib`);
+   - a module docstring `/-! # Title … ## Main results … ## References -/`;
+   - `@[expose] public section`.
 3. Add its main results to `FormalizationsTest/Axioms.lean`, and the import to `Formalizations.lean`.
-4. `lake build && sh scripts/check_axioms.sh`.
+4. `lake build` (no warnings) and `sh scripts/check_axioms.sh`.
 
 ## License
 

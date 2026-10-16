@@ -100,20 +100,23 @@ def E2 (X Y T : M2 R) : M2 R :=
 
 theorem trace_extractor (X Y T : M2 R) :
     E2 X Y T = (2 * trace T) • (cm X Y * cm X Y) := by
-  ext i j <;> fin_cases i <;> fin_cases j <;>
+  ext i j
+  fin_cases i <;> fin_cases j <;>
     simp [E2, cm, acm, Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two] <;> ring
 
 /-- (D) doubled determinant extractor. -/
 theorem det_extractor (X Y T : M2 R) :
     E2 X Y T * T - (2 : R) • (cm X Y * cm X Y * (T * T)) = (2 * det T) • (cm X Y * cm X Y) := by
-  ext i j <;> fin_cases i <;> fin_cases j <;>
+  ext i j
+  fin_cases i <;> fin_cases j <;>
     simp [E2, cm, acm, Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two] <;> ring
 
 /-- (Z) H0 vanishes at square-zero triples. -/
 theorem H0_square_zero (X Y Z : M2 R) (hx : X * X = 0) (hy : Y * Y = 0) (hz : Z * Z = 0) :
     blk (X * X) (Y * Y) (Z * Z) = 0 := by
   rw [hx, hy, hz]
-  ext i j <;> fin_cases i <;> fin_cases j <;> simp [blk]
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [blk]
 
 /-- (P) partial fractions behind the closed form of P_M. -/
 theorem PM_partial_fractions {K : Type*} [Field K] (d u : K)

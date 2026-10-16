@@ -60,9 +60,9 @@ theorem annihilator_left (M A B : M2 R) (h : det M = 0) :
   have hB := sandwich M B
   rw [h, zero_smul, sub_zero] at hA hB
   have e1 : M * A * M * B * M = trace (A * M) • (M * B * M) := by
-    rw [hA]; simp [Matrix.smul_mul, Matrix.mul_assoc]
+    rw [hA]; simp [Matrix.mul_assoc]
   have e2 : M * B * M * A * M = trace (B * M) • (M * A * M) := by
-    rw [hB]; simp [Matrix.smul_mul, Matrix.mul_assoc]
+    rw [hB]; simp [Matrix.mul_assoc]
   rw [sub_mul, e1, e2, hA, hB, smul_smul, smul_smul, mul_comm, sub_self]
 
 theorem annihilator_right (M A B : M2 R) (h : det M = 0) :
@@ -72,16 +72,16 @@ theorem annihilator_right (M A B : M2 R) (h : det M = 0) :
   rw [h, zero_smul, sub_zero] at hA hB
   have e1 : M * (A * M * B * M) = trace (A * M) • (M * B * M) := by
     rw [show M * (A * M * B * M) = (M * A * M) * B * M by simp [Matrix.mul_assoc], hA]
-    simp [Matrix.smul_mul, Matrix.mul_assoc]
+    simp [Matrix.mul_assoc]
   have e2 : M * (B * M * A * M) = trace (B * M) • (M * A * M) := by
     rw [show M * (B * M * A * M) = (M * B * M) * A * M by simp [Matrix.mul_assoc], hB]
-    simp [Matrix.smul_mul, Matrix.mul_assoc]
+    simp [Matrix.mul_assoc]
   rw [Matrix.mul_sub, e1, e2, hA, hB, smul_smul, smul_smul, mul_comm, sub_self]
 
 /-- (C) determinant of a sum, 2×2. -/
 theorem det_add_adj (A B : M2 R) :
     det (A + B) = det A + trace (adjugate A * B) + det B := by
-  simp [Matrix.det_fin_two, Matrix.trace_fin_two, Matrix.adjugate_fin_two, Matrix.mul_apply,
+  simp [Matrix.det_fin_two, Matrix.trace_fin_two, Matrix.adjugate_fin_two,
     Fin.sum_univ_two, Matrix.vecMul, dotProduct]
   ring
 
@@ -95,7 +95,7 @@ theorem adj_sq_leading (a b e : R) (D : M2 R) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Nsq, sq, Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.adjugate_fin_two,
-      Matrix.one_apply, Matrix.vecMul, dotProduct] <;> ring
+      Matrix.vecMul, dotProduct] <;> ring
 
 theorem inv_target (a b t s : R) :
     (t • (1 : M2 R) + s • Nsq a b) * (t • (1 : M2 R) - s • Nsq a b) = t ^ 2 • (1 : M2 R) := by
@@ -158,8 +158,7 @@ theorem D2 (a b : R) (T : M2 R) : Dx a b (Dx a b T) = (-2 : R) • (Nsq a b * T 
 theorem D3 (a b : R) (T : M2 R) : Dx a b (Dx a b (Dx a b T)) = 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Dx, Nsq, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, Matrix.sub_apply,
-      Matrix.vecMul, dotProduct] <;> ring
+    simp [Dx, Nsq, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, Matrix.sub_apply] <;> ring
 
 def cm (X T : M2 R) : M2 R := X * T - T * X
 def disc (X : M2 R) : R := trace X ^ 2 - 4 * det X

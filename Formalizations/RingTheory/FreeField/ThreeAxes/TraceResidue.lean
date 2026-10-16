@@ -137,7 +137,8 @@ theorem h4_general (a0 b0 a1 b1 a2 b2 tx ty tz sx sy sz : R) :
       + (a0 * b2 - a2 * b0) ^ 2 * ty ^ 2 * sx * sz
       + (a1 * b2 - a2 * b1) ^ 2 * tx ^ 2 * sy * sz := by
   rw [det4]
-  simp [blk, Nsq, d3, Matrix.one_apply] <;> ring
+  simp [blk, Nsq, d3]
+  ring
 
 end General
 
@@ -178,8 +179,10 @@ theorem arc_det (e s : ℚ) :
       det (Yx e s) = -e ∧ det (Yy e) = -e ∧ det (Yz e) = -e := by
   refine ⟨?_, ?_, ?_, ?_⟩
   · rw [det4]
-    simp [H0, blk, Yx, Yy, Yz, Nx, Ny, Nz, d3, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
-  all_goals (simp [Yx, Yy, Yz, Nx, Ny, Nz, Matrix.det_fin_two] <;> ring)
+    simp [H0, blk, Yx, Yy, Yz, Nx, Ny, Nz, d3, Matrix.mul_apply, Fin.sum_univ_two]
+    ring
+  all_goals simp [Yx, Yy, Yz, Nx, Ny, Nz, Matrix.det_fin_two]
+  all_goals ring
 
 end Example
 
@@ -207,25 +210,29 @@ theorem witness :
     v6W = !![4/5, -43/10; 4/5, 56/5] ∧ det v6W = 62/5 := by
   have hv : v6W = !![4/5, -43/10; 4/5, 56/5] := by
     ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Wx, Wy, Wz, Wxi, Wyi, Wzi, Xxi, Xyi, v6W, Matrix.mul_apply, Fin.sum_univ_two,
+      simp [Wx, Wy, Wxi, Wyi, Wzi, Xxi, Xyi, v6W, Matrix.mul_apply, Fin.sum_univ_two,
         Matrix.one_apply] <;> norm_num
   refine ⟨⟨?_, ?_, ?_⟩, ⟨?_, ?_, ?_⟩, ?_, hv, ?_⟩
   · ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Wx, Wxi, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;> norm_num
+      simp [Wx, Wxi, Matrix.mul_apply, Fin.sum_univ_two]
   · ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Wy, Wyi, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;> norm_num
+      simp [Wy, Wyi, Matrix.mul_apply, Fin.sum_univ_two] <;> norm_num
   · ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Wz, Wzi, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;> norm_num
+      simp [Wz, Wzi, Matrix.mul_apply, Fin.sum_univ_two] <;> norm_num
   · ext i j; fin_cases i <;> fin_cases j <;>
       simp [Wx, Xxi, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;> norm_num
   · ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Wy, Xyi, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;> norm_num
+      simp [Wy, Xyi, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
+    norm_num
   · rw [Matrix.det_fin_two]
-    simp [Wz, Matrix.one_apply] <;> norm_num
+    simp [Wz]
+    norm_num
   · rw [det4]
-    simp [H0, blk, Wx, Wy, Wz, d3, Matrix.mul_apply, Fin.sum_univ_two] <;> norm_num
+    simp [H0, blk, Wx, Wy, Wz, d3, Matrix.mul_apply, Fin.sum_univ_two]
+    norm_num
   · rw [hv, Matrix.det_fin_two]
-    simp <;> norm_num
+    simp
+    norm_num
 
 end Witness
 

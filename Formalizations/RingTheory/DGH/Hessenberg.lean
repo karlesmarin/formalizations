@@ -213,7 +213,7 @@ lemma exists_cf (f : Ordinal.{u} →₀ Ordinal.{u}) (hf : ∀ e, f e < ω) : �
       by_cases he : e = a
       · subst he; rw [hfa]; exact omega0_pos
       · have := hf e
-        rwa [Finsupp.add_apply, Finsupp.single_apply, if_neg (Ne.symm he), zero_add] at this
+        rwa [Finsupp.add_apply, Finsupp.single_apply, ite_eq_right (Ne.symm he), zero_add] at this
     obtain ⟨n, hn⟩ := lt_omega0.1 (by simpa [hfa] using hf a)
     exact ⟨replicate n a + s, by rw [cf_add, cf_replicate, hs, hn]⟩
 

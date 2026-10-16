@@ -156,22 +156,22 @@ theorem D_one : D M 1 = layer1 M := by
   have hex : ∃ a, (1 : Ordinal.{0}) = succ a := ⟨0, ord_succ_zero.symm⟩
   have hc : hex.choose = 0 :=
     succ_injective (hex.choose_spec.symm.trans ord_succ_zero.symm)
-  simp only [core, h1, if_false, dif_pos hex, hc, if_true]
+  simp only [core, h1, ite_false, dite_eq_left hex, hc, ite_true]
 
 theorem D_succ {a : Ordinal.{0}} (ha : a ≠ 0) : D M (succ a) = succStep (D M) a := by
   rw [D_eq]
   have hex : ∃ b, succ a = succ b := ⟨a, rfl⟩
   have hc : hex.choose = a := (succ_injective hex.choose_spec).symm
-  simp only [core, ord_succ_ne_zero, if_false, dif_pos hex, hc, ha]
+  simp only [core, ord_succ_ne_zero, ite_false, dite_eq_left hex, hc, ha]
   apply succStep_congr
   intro b hb
   show (if b < succ a then D M b else ∅) = D M b
-  rw [if_pos (lt_succ_iff.2 hb)]
+  rw [ite_eq_left (lt_succ_iff.2 hb)]
 
 theorem D_limit {α : Ordinal.{0}} (h0 : α ≠ 0) (hs : ¬ ∃ a, α = succ a) :
     D M α = ⋃ (b) (_ : b < α), D M b := by
   rw [D_eq]
-  simp only [core, h0, if_false, dif_neg hs]
+  simp only [core, h0, ite_false, dite_eq_right hs]
   ext x
   simp +contextual [Set.mem_iUnion]
 
@@ -199,7 +199,7 @@ lemma prodSets_restr {E : Ordinal.{0} → Set R} {a : Ordinal.{0}} {s : Multiset
 lemma sumCand_restr (E : Ordinal.{0} → Set R) (a : Ordinal.{0}) :
     sumCand (restr E a) a = sumCand E a := by
   ext s
-  simp only [sumCand, Set.mem_setOf_eq, restr_self]
+  simp only [sumCand, Set.mem_ofPred_eq, restr_self]
   constructor
   · rintro ⟨h0, hs, h⟩; exact ⟨h0, hs, by rwa [sumSets_restr hs] at h⟩
   · rintro ⟨h0, hs, h⟩; exact ⟨h0, hs, by rwa [sumSets_restr hs]⟩
@@ -207,7 +207,7 @@ lemma sumCand_restr (E : Ordinal.{0} → Set R) (a : Ordinal.{0}) :
 lemma prodCand_restr (E : Ordinal.{0} → Set R) (a : Ordinal.{0}) :
     prodCand (restr E a) a = prodCand E a := by
   ext s
-  simp only [prodCand, Set.mem_setOf_eq, restr_self]
+  simp only [prodCand, Set.mem_ofPred_eq, restr_self]
   constructor
   · rintro ⟨h0, hs, h⟩; exact ⟨h0, hs, by rwa [prodSets_restr hs] at h⟩
   · rintro ⟨h0, hs, h⟩; exact ⟨h0, hs, by rwa [prodSets_restr hs]⟩
@@ -215,7 +215,7 @@ lemma prodCand_restr (E : Ordinal.{0} → Set R) (a : Ordinal.{0}) :
 lemma invCand_restr (E : Ordinal.{0} → Set R) (a : Ordinal.{0}) :
     invCand (restr E a) a = invCand E a := by
   ext b
-  simp only [invCand, Set.mem_setOf_eq, restr_self]
+  simp only [invCand, Set.mem_ofPred_eq, restr_self]
   constructor
   · rintro ⟨hb, h⟩; exact ⟨hb, by simpa [restr, hb] using h⟩
   · rintro ⟨hb, h⟩; exact ⟨hb, by simpa [restr, hb] using h⟩
@@ -231,7 +231,7 @@ theorem D_succ_case1 {a : Ordinal.{0}} (ha : a ≠ 0) (h1 : ¬ SumClosed (D M a)
   refine ⟨s, by rwa [sumCand_restr] at hs, fun t ht => ?_, ?_⟩
   · exact WellFounded.not_lt_min Multiset.wellFounded_isDershowitzMannaLT _
       (show t ∈ sumCand (restr (D M) a) a by rwa [sumCand_restr])
-  · rw [D_succ M ha, succStep, succStep₀, dif_pos h1', ← hsdef, restr_self,
+  · rw [D_succ M ha, succStep, succStep₀, dite_eq_left h1', ← hsdef, restr_self,
       sumSets_restr hs.2.1]
 
 /-- Case 2: `D a` closed under sums, not under products. -/
@@ -247,7 +247,7 @@ theorem D_succ_case2 {a : Ordinal.{0}} (ha : a ≠ 0) (h1 : SumClosed (D M a))
   refine ⟨s, by rwa [prodCand_restr] at hs, fun t ht => ?_, ?_⟩
   · exact WellFounded.not_lt_min Multiset.wellFounded_isDershowitzMannaLT _
       (show t ∈ prodCand (restr (D M) a) a by rwa [prodCand_restr])
-  · rw [D_succ M ha, succStep, succStep₀, dif_neg h1', dif_pos h2', ← hsdef, restr_self,
+  · rw [D_succ M ha, succStep, succStep₀, dite_eq_right h1', dite_eq_left h2', ← hsdef, restr_self,
       prodSets_restr hs.2.1]
 
 /-- Case 3: `D a` closed under sums and products, not rationally closed. -/
@@ -263,7 +263,7 @@ theorem D_succ_case3 {a : Ordinal.{0}} (ha : a ≠ 0) (h1 : SumClosed (D M a))
   refine ⟨b, by rwa [invCand_restr] at hb, fun c hc => ?_, ?_⟩
   · exact WellFounded.not_lt_min (wellFounded_lt (α := Ordinal.{0})) _
       (show c ∈ invCand (restr (D M) a) a by rwa [invCand_restr])
-  · rw [D_succ M ha, succStep, succStep₀, dif_neg h1', dif_neg h2', dif_pos h3', ← hbdef,
+  · rw [D_succ M ha, succStep, succStep₀, dite_eq_right h1', dite_eq_right h2', dite_eq_left h3', ← hbdef,
       restr_self]
     simp [restr, hb.1]
 
@@ -274,7 +274,7 @@ theorem D_succ_case4 {a : Ordinal.{0}} (ha : a ≠ 0) (h1 : SumClosed (D M a))
   have h1' : ¬ ¬ SumClosed (restr (D M) a a) := by rw [restr_self]; exact not_not.2 h1
   have h2' : ¬ ¬ MulClosed (restr (D M) a a) := by rw [restr_self]; exact not_not.2 h2
   have h3' : ¬ ¬ InvClosed (restr (D M) a a) := by rw [restr_self]; exact not_not.2 h3
-  rw [D_succ M ha, succStep, succStep₀, dif_neg h1', dif_neg h2', dif_neg h3', restr_self]
+  rw [D_succ M ha, succStep, succStep₀, dite_eq_right h1', dite_eq_right h2', dite_eq_right h3', restr_self]
 
 /-! ### Monotonicity -/
 
