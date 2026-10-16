@@ -1,0 +1,131 @@
+/-
+Author: Carles Marín (with Claude as AI assistant).
+
+T158Identidades: the finite identities behind the exact arc and Theorem B (atiyah-l2, 16-oct),
+promoted to general statements (notas/identidades_a_teoremas_16oct.md).
+
+* (T1) `sq_eq_neg_det_of_trace_zero`: a 2×2 matrix over a commutative ring with trace 0 squares to −det • 1.
+       `exactArc_sq`: U = !![i t², −t; i² t³ − η, −i t²] satisfies U * U = (t η) • 1 (with η = t^k: t^(k+1) • 1).
+* (T2) `prod_scalar_interleave`: in an R-algebra, a₀ (c b₁) (c b₂) ⋯ (c b_r) with c central scalar equals
+       c^r • (a₀ b₁ ⋯ b_r) — the evaluation of 𝒥^r at a point where every u_j² is the scalar c.
+       `H0_eval`: if u², v², w² all equal s • 1, then H0 = [[u²+v², u²],[u², u²+w²]] equals s • [[2,1],[1,2]] (blockwise).
+* (T3) `inv_add_inv`: for units a, b of a ring, a⁻¹ + b⁻¹ = a⁻¹ (a + b) b⁻¹;
+       `inv_add_inv_inverse`: if a + b is a unit e, then b e⁻¹ a is a two-sided inverse of a⁻¹ + b⁻¹.
+* (T4) `one_add_pow_char`: in characteristic p, (1 + x)^p = 1 + x^p;
+       `inv_sq_char`: if 1 + x^p is a unit e (p ≥ 2), then (1+x)^(p−2) e⁻¹ is a two-sided inverse of (1+x)²,
+       so u⁻² lies in A[(1 + x^p)⁻¹] and Theorem B fails in characteristic p.
+
+Mathlib imports only; writes no .olean.
+-/
+import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.LinearAlgebra.Matrix.Notation
+import Mathlib.Data.Matrix.Block
+import Mathlib.Algebra.CharP.Lemmas
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.FinCases
+import Mathlib.Tactic.NoncommRing
+
+namespace T158Identidades
+
+open Matrix
+
+/-! ### T1: trace-zero 2×2 matrices have scalar square; the exact arc -/
+
+theorem sq_eq_neg_det_of_trace_zero {R : Type*} [CommRing R] (M : Matrix (Fin 2) (Fin 2) R)
+    (h : M.trace = 0) : M * M = (-M.det) • (1 : Matrix (Fin 2) (Fin 2) R) := by
+  rw [Matrix.trace_fin_two] at h
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two]
+  · linear_combination M 0 0 * h
+  · linear_combination M 0 1 * h
+  · linear_combination M 1 0 * h
+  · linear_combination M 1 1 * h
+
+/-- The exact arc of T158: one matrix per index `i`, perturbation `η` (take `η = t^k`). -/
+def exactArc {R : Type*} [CommRing R] (i t η : R) : Matrix (Fin 2) (Fin 2) R :=
+  !![i * t ^ 2, -t; i ^ 2 * t ^ 3 - η, -(i * t ^ 2)]
+
+theorem exactArc_trace {R : Type*} [CommRing R] (i t η : R) : (exactArc i t η).trace = 0 := by
+  simp [exactArc, Matrix.trace_fin_two]
+
+theorem exactArc_det {R : Type*} [CommRing R] (i t η : R) : (exactArc i t η).det = -(t * η) := by
+  simp [exactArc, Matrix.det_fin_two]; ring
+
+theorem exactArc_sq {R : Type*} [CommRing R] (i t η : R) :
+    exactArc i t η * exactArc i t η = (t * η) • (1 : Matrix (Fin 2) (Fin 2) R) := by
+  rw [sq_eq_neg_det_of_trace_zero _ (exactArc_trace i t η), exactArc_det, neg_neg]
+
+theorem exactArc_sq_pow {R : Type*} [CommRing R] (i t : R) (k : ℕ) :
+    exactArc i t (t ^ k) * exactArc i t (t ^ k) = t ^ (k + 1) • (1 : Matrix (Fin 2) (Fin 2) R) := by
+  rw [exactArc_sq, pow_succ']
+
+/-! ### T2: scalar evaluation -/
+
+theorem prod_scalar_interleave {R S : Type*} [CommSemiring R] [Semiring S] [Algebra R S] (c : R) (a : S)
+    (l : List S) :
+    a * (l.map fun b => algebraMap R S c * b).prod = c ^ l.length • (a * l.prod) := by
+  induction l generalizing a with
+  | nil => simp
+  | cons b l ih =>
+    simp only [List.map_cons, List.prod_cons, List.length_cons]
+    rw [← mul_assoc, ← mul_assoc, ← Algebra.commutes, mul_assoc (algebraMap R S c), ← Algebra.smul_def,
+      smul_mul_assoc, ih, smul_smul, ← pow_succ', mul_assoc]
+
+theorem H0_eval {R n : Type*} [CommRing R] [Fintype n] [DecidableEq n] (s : R)
+    (u v w : Matrix n n R) (hu : u * u = s • 1) (hv : v * v = s • 1) (hw : w * w = s • 1) :
+    Matrix.fromBlocks (u * u + v * v) (u * u) (u * u) (u * u + w * w) =
+      s • Matrix.fromBlocks (1 + 1 : Matrix n n R) 1 1 (1 + 1) := by
+  rw [hu, hv, hw, Matrix.fromBlocks_smul, smul_add]
+
+/-! ### T3: two axes -/
+
+theorem inv_add_inv {R : Type*} [Ring R] (a b : Rˣ) :
+    ((a⁻¹ : Rˣ) : R) + ((b⁻¹ : Rˣ) : R) = (a⁻¹ : Rˣ) * ((a : R) + b) * (b⁻¹ : Rˣ) := by
+  rw [mul_add, add_mul, Units.inv_mul, one_mul, mul_assoc, Units.mul_inv, mul_one, add_comm]
+
+theorem inv_add_inv_inverse {R : Type*} [Ring R] (a b e : Rˣ) (he : (e : R) = a + b) :
+    ((b : R) * (e⁻¹ : Rˣ) * a) * (((a⁻¹ : Rˣ) : R) + ((b⁻¹ : Rˣ) : R)) = 1 ∧
+    (((a⁻¹ : Rˣ) : R) + ((b⁻¹ : Rˣ) : R)) * ((b : R) * (e⁻¹ : Rˣ) * a) = 1 := by
+  rw [inv_add_inv, ← he]
+  constructor
+  · calc (b : R) * (e⁻¹ : Rˣ) * a * ((a⁻¹ : Rˣ) * e * (b⁻¹ : Rˣ))
+        = (b : R) * (e⁻¹ : Rˣ) * (a * (a⁻¹ : Rˣ)) * e * (b⁻¹ : Rˣ) := by noncomm_ring
+      _ = 1 := by
+        rw [Units.mul_inv, mul_one, mul_assoc (b : R), Units.inv_mul, mul_one, Units.mul_inv]
+  · calc ((a⁻¹ : Rˣ) : R) * e * (b⁻¹ : Rˣ) * (b * (e⁻¹ : Rˣ) * a)
+        = ((a⁻¹ : Rˣ) : R) * e * ((b⁻¹ : Rˣ) * b) * (e⁻¹ : Rˣ) * a := by noncomm_ring
+      _ = 1 := by
+        rw [Units.inv_mul, mul_one, mul_assoc ((a⁻¹ : Rˣ) : R), Units.mul_inv, mul_one, Units.inv_mul]
+
+/-! ### T4: characteristic p -/
+
+theorem one_add_pow_char {R : Type*} [Ring R] (p : ℕ) [Fact p.Prime] [CharP R p] (x : R) :
+    (1 + x) ^ p = 1 + x ^ p := by
+  rw [add_pow_char_of_commute (p := p) (h := Commute.one_left x), one_pow]
+
+theorem inv_sq_char {R : Type*} [Ring R] (p : ℕ) [Fact p.Prime] [CharP R p] (x : R) (e : Rˣ)
+    (he : (e : R) = 1 + x ^ p) :
+    (1 + x) ^ 2 * ((1 + x) ^ (p - 2) * (e⁻¹ : Rˣ)) = 1 ∧
+    ((1 + x) ^ (p - 2) * (e⁻¹ : Rˣ)) * (1 + x) ^ 2 = 1 := by
+  have hp : 2 ≤ p := (Fact.out : p.Prime).two_le
+  have hpow : (1 + x) ^ 2 * (1 + x) ^ (p - 2) = e := by
+    rw [← pow_add, Nat.add_sub_cancel' hp, he, one_add_pow_char p]
+  have hcomm : Commute (e : R) ((1 + x) ^ 2) := by
+    rw [← hpow]; exact (Commute.pow_pow_self (1 + x) 2 2).mul_left (Commute.pow_pow_self (1 + x) (p - 2) 2)
+  refine ⟨by rw [← mul_assoc, hpow, Units.mul_inv], ?_⟩
+  rw [mul_assoc, hcomm.units_inv_left.eq, ← mul_assoc, (Commute.pow_pow_self (1 + x) (p - 2) 2).eq, hpow,
+    Units.mul_inv]
+
+end T158Identidades
+
+#print axioms T158Identidades.sq_eq_neg_det_of_trace_zero
+#print axioms T158Identidades.exactArc_sq_pow
+#print axioms T158Identidades.prod_scalar_interleave
+#print axioms T158Identidades.H0_eval
+#print axioms T158Identidades.inv_add_inv
+#print axioms T158Identidades.inv_add_inv_inverse
+#print axioms T158Identidades.one_add_pow_char
+#print axioms T158Identidades.inv_sq_char
