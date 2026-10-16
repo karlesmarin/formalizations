@@ -1,14 +1,21 @@
-import Formalizations.Algebra.Ring.Continuant
-import Formalizations.LinearAlgebra.Matrix.FreeLocus
-import Formalizations.LinearAlgebra.Matrix.FreeLocusCertificate
-import Formalizations.RingTheory.DGH.Absorb
-import Formalizations.RingTheory.DGH.Basic
-import Formalizations.RingTheory.DGH.Epsilon0
-import Formalizations.RingTheory.DGH.Finite
-import Formalizations.RingTheory.DGH.FqLower
-import Formalizations.RingTheory.DGH.Hessenberg
-import Formalizations.RingTheory.DGH.JakobsOrder
-import Formalizations.RingTheory.FreeField.ThreeAxes.DegenerateResidue
-import Formalizations.RingTheory.FreeField.ThreeAxes.ExactArc
-import Formalizations.RingTheory.FreeField.ThreeAxes.Extractors
-import Formalizations.RingTheory.FreeField.ThreeAxes.TraceResidue
+module
+
+public import Formalizations.Algebra.Ring.Continuant
+public import Formalizations.LinearAlgebra.Matrix.Adjugate
+public import Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi
+public import Formalizations.LinearAlgebra.Matrix.FinTwo
+public import Formalizations.LinearAlgebra.Matrix.FreeLocus
+public import Formalizations.LinearAlgebra.Matrix.FreeLocusCertificate
+public import Formalizations.LinearAlgebra.Matrix.Rank
+public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
+public import Formalizations.RingTheory.DGH.Absorb
+public import Formalizations.RingTheory.DGH.Basic
+public import Formalizations.RingTheory.DGH.Epsilon0
+public import Formalizations.RingTheory.DGH.Finite
+public import Formalizations.RingTheory.DGH.FqLower
+public import Formalizations.RingTheory.DGH.Hessenberg
+public import Formalizations.RingTheory.DGH.JakobsOrder
+public import Formalizations.RingTheory.FreeField.ThreeAxes.DegenerateResidue
+public import Formalizations.RingTheory.FreeField.ThreeAxes.ExactArc
+public import Formalizations.RingTheory.FreeField.ThreeAxes.Extractors
+public import Formalizations.RingTheory.FreeField.ThreeAxes.TraceResidue

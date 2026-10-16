@@ -3,15 +3,17 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NoncommRing
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.LinearCombination
+module
+
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NoncommRing
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.LinearCombination
 
 /-!
 # Trace and determinant extractors
@@ -34,6 +36,8 @@ Finite identities used in the three-axes problem.
 * `PM_partial_fractions`: `(1−2du)/((1−(d+1)u)(1−du)) = (1−d)/(1−(d+1)u) + d/(1−du)`
   (Kassel–Reutenauer, §5.2).
 -/
+
+@[expose] public section
 
 namespace ThreeAxes.Extractors
 

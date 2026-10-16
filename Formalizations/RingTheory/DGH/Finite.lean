@@ -3,11 +3,13 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Formalizations.RingTheory.DGH.Absorb
-import Formalizations.RingTheory.DGH.Basic
-import Formalizations.RingTheory.DGH.JakobsOrder
-import Mathlib.Algebra.BigOperators.Group.Multiset.Basic
-import Mathlib.Algebra.Ring.Subring.Defs
+module
+
+public import Formalizations.RingTheory.DGH.Absorb
+public import Formalizations.RingTheory.DGH.Basic
+public import Formalizations.RingTheory.DGH.JakobsOrder
+public import Mathlib.Algebra.BigOperators.Group.Multiset.Basic
+public import Mathlib.Algebra.Ring.Subring.Defs
 
 /-!
 # Finite strata of the DGH stratification
@@ -23,6 +25,8 @@ strictly for `n ≥ 1`:
 * `D_omega_subring`: if moreover `L * L ⊆ L`, `D M ω` is the carrier of a subring of `R`;
 * `A3`, `A4`: associativity and sum over a union, as set identities.
 -/
+
+@[expose] public section
 
 open Pointwise Order
 

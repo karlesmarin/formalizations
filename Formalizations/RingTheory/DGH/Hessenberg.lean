@@ -3,11 +3,13 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Formalizations.RingTheory.DGH.JakobsOrder
-import Mathlib.SetTheory.Ordinal.CantorNormalForm
-import Mathlib.SetTheory.Ordinal.Veblen
-import Mathlib.SetTheory.Ordinal.Principal
-import Mathlib.Data.Finsupp.Multiset
+module
+
+public import Formalizations.RingTheory.DGH.JakobsOrder
+public import Mathlib.SetTheory.Ordinal.CantorNormalForm
+public import Mathlib.SetTheory.Ordinal.Veblen
+public import Mathlib.SetTheory.Ordinal.Principal
+public import Mathlib.Data.Finsupp.Multiset
 
 /-!
 # Jakobs' order through the Hessenberg sum
@@ -27,6 +29,8 @@ form coefficients: `a ♯ b = CNF.eval ω (CNF.coeff ω a + CNF.coeff ω b)`.
 
 * F. Jakobs, PhD thesis, 2019, Thm. 1.1.3; Dubrovin–Gräter–Hanke, Prop. 2.1.
 -/
+
+@[expose] public section
 
 universe u
 

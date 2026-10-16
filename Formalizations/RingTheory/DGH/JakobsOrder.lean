@@ -3,8 +3,10 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.Data.Multiset.DershowitzManna
-import Mathlib.Data.Finset.Max
+module
+
+public import Mathlib.Data.Multiset.DershowitzManna
+public import Mathlib.Data.Finset.Max
 
 /-!
 # Jakobs' order is the Dershowitz–Manna order
@@ -22,6 +24,8 @@ coincides with Jakobs' order "lexicographic from the largest element".
 
 * F. Jakobs, PhD thesis, 2019, Thm. 1.1.3; Dubrovin–Gräter–Hanke, Prop. 2.1.
 -/
+
+@[expose] public section
 
 namespace DGH
 

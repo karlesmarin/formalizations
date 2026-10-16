@@ -3,13 +3,15 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.Algebra.Field.Basic
-import Mathlib.LinearAlgebra.Matrix.Rank
-import Mathlib.Data.Matrix.Block
-import Mathlib.LinearAlgebra.Matrix.Kronecker
-import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
-import Mathlib.LinearAlgebra.Dimension.Constructions
-import Mathlib.RingTheory.Nilpotent.Basic
+module
+
+public import Mathlib.Algebra.Field.Basic
+public import Mathlib.LinearAlgebra.Matrix.Rank
+public import Mathlib.Data.Matrix.Block
+public import Mathlib.LinearAlgebra.Matrix.Kronecker
+public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+public import Mathlib.RingTheory.Nilpotent.Basic
 
 /-!
 # Soundness of the free-locus certificate
@@ -30,6 +32,8 @@ Over a field `K`, `corank A = card ι - rank A` for a square matrix `A : Matrix 
 
 The file is self-contained: the statements it needs from `FreeLocus` are re-proved here.
 -/
+
+@[expose] public section
 
 namespace FreeLocusCertificate
 

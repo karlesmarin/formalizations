@@ -3,11 +3,13 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.SetTheory.Ordinal.Arithmetic
-import Mathlib.Data.Multiset.DershowitzManna
-import Mathlib.Algebra.Ring.Pointwise.Set
-import Mathlib.Algebra.BigOperators.Group.Multiset.Defs
-import Mathlib.Algebra.BigOperators.Group.List.Defs
+module
+
+public import Mathlib.SetTheory.Ordinal.Arithmetic
+public import Mathlib.Data.Multiset.DershowitzManna
+public import Mathlib.Algebra.Ring.Pointwise.Set
+public import Mathlib.Algebra.BigOperators.Group.Multiset.Defs
+public import Mathlib.Algebra.BigOperators.Group.List.Defs
 
 /-!
 # The Dubrovin–Gräter–Hanke stratification
@@ -27,6 +29,8 @@ well-founded recursion on ordinals. The minimal multiset of indices in cases 1�
 * F. Jakobs, PhD thesis, 2019, Def. 1.1.4.
 * N. Dubrovin, J. Gräter, T. Hanke.
 -/
+
+@[expose] public section
 
 open Pointwise Order
 

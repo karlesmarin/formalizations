@@ -3,10 +3,12 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Formalizations.RingTheory.DGH.Basic
-import Formalizations.RingTheory.DGH.Hessenberg
-import Mathlib.Algebra.BigOperators.Group.List.Basic
-import Mathlib.Algebra.BigOperators.Group.Multiset.Basic
+module
+
+public import Formalizations.RingTheory.DGH.Basic
+public import Formalizations.RingTheory.DGH.Hessenberg
+public import Mathlib.Algebra.BigOperators.Group.List.Basic
+public import Mathlib.Algebra.BigOperators.Group.Multiset.Basic
 
 /-!
 # The DGH stratification closes at `ε₀`
@@ -31,6 +33,8 @@ with `mu = iota ♯ piHat`, `h` the Hessenberg value, and `Q` / `S` the successo
 * `kappa_le_epsilon0`;
 * `sum_entry`, `prod_entry`, `D_stationary`, `main_contra`, `nadd_lt_epsilon_zero`, `jakobsLT_map`.
 -/
+
+@[expose] public section
 
 open Pointwise Order Ordinal Multiset
 

@@ -3,14 +3,16 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.LinearAlgebra.Matrix.Adjugate
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.FinCases
-import Mathlib.Tactic.LinearCombination
+module
+
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.LinearAlgebra.Matrix.Adjugate
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.FinCases
+public import Mathlib.Tactic.LinearCombination
 
 /-!
 # Degenerate residues in the three-axes problem
@@ -31,6 +33,8 @@ ring unless stated.
 * `D2`, `D3`, `comm2_det`, `comm3`: iterated conjugation differences at `x = N − 1`.
 * `F2_witness`: an explicit rational witness with nonzero determinant.
 -/
+
+@[expose] public section
 
 namespace ThreeAxes.DegenerateResidue
 

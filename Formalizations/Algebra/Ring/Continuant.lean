@@ -3,14 +3,16 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.Algebra.Group.Units.Basic
-import Mathlib.Algebra.Ring.Basic
-import Mathlib.Algebra.Field.Basic
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.Data.Matrix.Mul
-import Mathlib.Tactic.NoncommRing
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Algebra.Group.Units.Basic
+public import Mathlib.Algebra.Ring.Basic
+public import Mathlib.Algebra.Field.Basic
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.Data.Matrix.Mul
+public import Mathlib.Tactic.NoncommRing
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Ring
 
 /-!
 # Continuants in a noncommutative ring
@@ -27,6 +29,8 @@ Dubrovin–Gräter–Hanke strata: `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹
 * `E_mul_three`: the continuant is the `(0,0)` entry of `E a * E r * E b` in `M₂(R)`,
   `E x = !![x, 1; 1, 0]` (the Möbius / `GL₂` picture).
 -/
+
+@[expose] public section
 
 namespace Continuant
 

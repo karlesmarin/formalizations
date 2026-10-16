@@ -3,15 +3,17 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.LinearAlgebra.Matrix.Adjugate
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.LinearCombination
-import Mathlib.Tactic.NoncommRing
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.FinCases
+module
+
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.LinearAlgebra.Matrix.Adjugate
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.LinearCombination
+public import Mathlib.Tactic.NoncommRing
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.FinCases
 
 /-!
 # Residues along square-zero directions
@@ -30,6 +32,8 @@ Conventions: `Y_j = 1 + x_j` evaluated; `H0(Y) = [[Yx²+Yy², Yx²],[Yx², Yx²+
 * `arc_det`: an exact example along a square-zero arc.
 * `witness`: an integer witness on the zero set of `det H0`, with `Y_j ∈ SL₂(ℤ)`.
 -/
+
+@[expose] public section
 
 namespace ThreeAxes.TraceResidue
 

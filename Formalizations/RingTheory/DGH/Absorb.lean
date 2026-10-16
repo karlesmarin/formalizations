@@ -3,8 +3,10 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.Algebra.Ring.Pointwise.Set
-import Mathlib.Algebra.Field.Basic
+module
+
+public import Mathlib.Algebra.Ring.Pointwise.Set
+public import Mathlib.Algebra.Field.Basic
 
 /-!
 # Absorption lemmas for the DGH stratification
@@ -17,6 +19,8 @@ inverses, and Hua's identity in a division ring.
 
 * F. Jakobs, PhD thesis, 2019, Def. 1.1.4.
 -/
+
+@[expose] public section
 
 open Pointwise
 

@@ -3,11 +3,13 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.Algebra.Field.Basic
-import Mathlib.Tactic.NoncommRing
-import Mathlib.LinearAlgebra.Matrix.Rank
-import Mathlib.Data.Matrix.Block
-import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+module
+
+public import Mathlib.Algebra.Field.Basic
+public import Mathlib.Tactic.NoncommRing
+public import Mathlib.LinearAlgebra.Matrix.Rank
+public import Mathlib.Data.Matrix.Block
+public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 
 /-!
 # Linear algebra for the free-locus obstruction
@@ -24,6 +26,8 @@ inversion height.
   `fromBlocks A B 0 D` is at most the corank of the whole matrix.
 * `corank_unit_sub_le`: an invertible matrix minus a matrix of rank `≤ k` has corank `≤ k`.
 -/
+
+@[expose] public section
 
 namespace FreeLocus
 

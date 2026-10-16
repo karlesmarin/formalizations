@@ -3,15 +3,17 @@ Copyright (c) 2026 Carles Marín. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Carles Marín
 -/
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Algebra.Ring.Periodic
-import Mathlib.Combinatorics.Enumerative.DoubleCounting
-import Mathlib.Data.Int.GCD
-import Mathlib.Data.Int.ModEq
-import Mathlib.Data.Nat.Prime.Basic
-import Mathlib.RingTheory.Coprime.Lemmas
-import Mathlib.Tactic.LinearCombination
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.Ring.Periodic
+public import Mathlib.Combinatorics.Enumerative.DoubleCounting
+public import Mathlib.Data.Int.GCD
+public import Mathlib.Data.Int.ModEq
+public import Mathlib.Data.Nat.Prime.Basic
+public import Mathlib.RingTheory.Coprime.Lemmas
+public import Mathlib.Tactic.LinearCombination
+public import Mathlib.Tactic.Ring
 
 /-!
 # Combinatorial core of `κ(F_q(x)) = ω²`
@@ -37,6 +39,8 @@ The hypotheses `k < L` and `N i ≥ 1` are not needed.
 
 * `card_ne_const_le`, `card_ne_const_le_of_lt`.
 -/
+
+@[expose] public section
 
 open Finset
 
