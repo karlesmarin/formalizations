@@ -1,12 +1,22 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-DGHAbsorb: pointwise-set lemmas behind the Dubrovin–Gräter–Hanke stratification
-(Jakobs 2019, Def 1.1.4): iterated sums `sumPow`, distributivity of a set over an
-n-term sum, absorption of a layer of inverses, and Hua's identity in a division ring.
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
 import Mathlib.Algebra.Ring.Pointwise.Set
 import Mathlib.Algebra.Field.Basic
+
+/-!
+# Absorption lemmas for the DGH stratification
+
+Pointwise-set lemmas behind the Dubrovin–Gräter–Hanke stratification (Jakobs 2019, Def. 1.1.4):
+iterated sums `sumPow`, distributivity of a set over an `n`-term sum, absorption of a layer of
+inverses, and Hua's identity in a division ring.
+
+## References
+
+* F. Jakobs, PhD thesis, 2019, Def. 1.1.4.
+-/
 
 open Pointwise
 
@@ -86,9 +96,3 @@ theorem hua_identity' {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) (_hab : a + b ≠ 
 end DivisionRing
 
 end DGH
-
-#print axioms DGH.mul_sumPow_subset
-#print axioms DGH.inv_mul_subset_inv
-#print axioms DGH.inv_mul_sumPow_subset
-#print axioms DGH.hua_identity
-#print axioms DGH.hua_identity'

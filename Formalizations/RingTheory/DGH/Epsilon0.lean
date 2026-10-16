@@ -1,28 +1,36 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
+-/
+import Formalizations.RingTheory.DGH.Basic
+import Formalizations.RingTheory.DGH.Hessenberg
+import Mathlib.Algebra.BigOperators.Group.List.Basic
+import Mathlib.Algebra.BigOperators.Group.Multiset.Basic
 
-DGHEps0: κ ≤ ε₀. For ANY ring `R` and ANY `M ⊆ R`, the Dubrovin–Gräter–Hanke stratum
-`D M ε₀` (F. Jakobs, thesis 2019, Def 1.1.4; `DGHStrat`) is closed under sums, products
-and inverses of its units of `R`.
+/-!
+# The DGH stratification closes at `ε₀`
 
-Proof (notas/kappa_eps0_prueba.md, with the potentials written as "minimum of a failure
-set"): three monotone potentials, one per process,
+For any ring `R` and any `M ⊆ R`, the Dubrovin–Gräter–Hanke stratum `D M ε₀` is closed under
+sums, products and inverses of its units of `R` (`κ ≤ ε₀`).
+
+## Proof sketch
+
+Three monotone potentials, one per process, each written as the minimum of a failure set:
 * `iota x`   = min {c | invSet (D c) ⊄ D x}, capped at `A + 1`;
 * `piHat x`  = min {h(t.map iota) | t ∈ N(Q), prodSets t ⊄ D x}, capped at `ω^(A+2)`;
 * `sigHat x` = min {h(t.map mu)   | t ∈ N(S), sumSets t ⊄ D x}, capped at `ω^(B+1)`,
-with `mu = iota ♯ piHat`, `h` the Hessenberg value (`DGHHessenberg`), `Q`/`S` the
-successors of inverse / (inverse or product) steps. Primitivity (substitution lemmas)
-puts the chosen multisets in `N(Q)` / `N(S)`; on `Q` / `S` the labels `iota` / `mu` are
-strictly increasing, so they preserve Jakobs' order. `Phi = mu ♯ sigHat` is then strictly
-increasing on `[1, ε₀)` and bounded by some `β < ε₀`: impossible.
 
-Main results: `kappa_le_epsilon0`, plus `sum_entry` (P2), `prod_entry` (P1),
-`D_stationary`, `main_contra`, `nadd_lt_epsilon_zero`, `jakobsLT_map`.
+with `mu = iota ♯ piHat`, `h` the Hessenberg value, and `Q` / `S` the successors of inverse /
+(inverse or product) steps. Substitution lemmas put the chosen multisets in `N(Q)` / `N(S)`; on
+`Q` / `S` the labels `iota` / `mu` are strictly increasing, so they preserve Jakobs' order. Then
+`Phi = mu ♯ sigHat` is strictly increasing on `[1, ε₀)` and bounded by some `β < ε₀`: impossible.
+
+## Main results
+
+* `kappa_le_epsilon0`;
+* `sum_entry`, `prod_entry`, `D_stationary`, `main_contra`, `nadd_lt_epsilon_zero`, `jakobsLT_map`.
 -/
-import DGHStrat
-import DGHHessenberg
-import Mathlib.Algebra.BigOperators.Group.List.Basic
-import Mathlib.Algebra.BigOperators.Group.Multiset.Basic
 
 open Pointwise Order Ordinal Multiset
 
@@ -704,11 +712,3 @@ theorem kappa_le_epsilon0 :
 end
 
 end DGH
-
-#print axioms DGH.nadd_lt_epsilon_zero
-#print axioms DGH.jakobsLT_map
-#print axioms DGH.sum_entry
-#print axioms DGH.prod_entry
-#print axioms DGH.D_stationary
-#print axioms DGH.main_contra
-#print axioms DGH.kappa_le_epsilon0

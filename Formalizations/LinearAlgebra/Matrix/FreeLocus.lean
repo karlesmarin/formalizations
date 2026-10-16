@@ -1,21 +1,29 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-FreeLocusLinAlg: the elementary linear-algebra and ring-identity ingredients of the
-free-locus height obstruction (notes: research/atiyah-l2/notas/altura_loci_libres.md).
-
-* Ring identities in a division ring: a special case of Woodbury, and the two
-  "inverse of r plus inverses" identities.
-* Subadditivity of `Matrix.rank` over a field.
-* Corank of each diagonal block of a block upper-triangular matrix `fromBlocks A B 0 D`
-  is at most the corank of the whole matrix.
-* An invertible matrix minus a matrix of rank ≤ k has corank ≤ k.
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
 import Mathlib.Algebra.Field.Basic
 import Mathlib.Tactic.NoncommRing
 import Mathlib.LinearAlgebra.Matrix.Rank
 import Mathlib.Data.Matrix.Block
 import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+
+/-!
+# Linear algebra for the free-locus obstruction
+
+Elementary linear-algebra and ring-identity ingredients of the free-locus obstruction to
+inversion height.
+
+## Main results
+
+* `woodbury_special`, `inv_add_inv_two`, `inv_add_inv_one`: ring identities in a division ring
+  (a special case of Woodbury, and two "inverse of `r` plus inverses" identities).
+* `rank_add_le`: subadditivity of `Matrix.rank` over a field.
+* `corank_left_le`, `corank_right_le`: the corank of each diagonal block of
+  `fromBlocks A B 0 D` is at most the corank of the whole matrix.
+* `corank_unit_sub_le`: an invertible matrix minus a matrix of rank `≤ k` has corank `≤ k`.
+-/
 
 namespace FreeLocus
 
@@ -136,11 +144,3 @@ theorem corank_unit_sub_le (U E : Matrix n n K) (hU : IsUnit U) (k : ℕ) (hE : 
 
 end Rank
 end FreeLocus
-
-#print axioms FreeLocus.woodbury_special
-#print axioms FreeLocus.inv_add_inv_two
-#print axioms FreeLocus.inv_add_inv_one
-#print axioms FreeLocus.rank_add_le
-#print axioms FreeLocus.corank_left_le
-#print axioms FreeLocus.corank_right_le
-#print axioms FreeLocus.corank_unit_sub_le

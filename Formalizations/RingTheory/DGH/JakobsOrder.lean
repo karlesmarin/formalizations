@@ -1,14 +1,27 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-DGHLex: on a linear order, Mathlib's Dershowitz–Manna order on multisets
-(`Multiset.IsDershowitzMannaLT`) coincides with Jakobs' order "lexicographic from the
-largest element" (F. Jakobs, thesis 2019, Thm 1.1.3; Dubrovin–Gräter–Hanke Prop 2.1).
-Proved: the equivalence, totality, translation invariance, and that the
-`WellFounded.min` used in `DGHStrat` is a minimum (not just minimal) for Jakobs' order.
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
 import Mathlib.Data.Multiset.DershowitzManna
 import Mathlib.Data.Finset.Max
+
+/-!
+# Jakobs' order is the Dershowitz–Manna order
+
+On a linear order, Mathlib's Dershowitz–Manna order on multisets (`Multiset.IsDershowitzMannaLT`)
+coincides with Jakobs' order "lexicographic from the largest element".
+
+## Main results
+
+* `isDershowitzMannaLT_iff_jakobsLT`, `jakobsLT_total`, `jakobsLT_add_right`;
+* `wellFounded_min_jakobsLE`: the `WellFounded.min` used in `DGH.Basic` is a minimum for Jakobs'
+  order.
+
+## References
+
+* F. Jakobs, PhD thesis, 2019, Thm. 1.1.3; Dubrovin–Gräter–Hanke, Prop. 2.1.
+-/
 
 namespace DGH
 
@@ -139,8 +152,3 @@ theorem wellFounded_min_jakobsLE [WellFoundedLT α] (S : Set (Multiset α)) (hS 
         (Multiset.wellFounded_isDershowitzMannaLT.not_lt_min S ht)
 
 end DGH
-
-#print axioms DGH.isDershowitzMannaLT_iff_jakobsLT
-#print axioms DGH.jakobsLT_total
-#print axioms DGH.jakobsLT_add_right
-#print axioms DGH.wellFounded_min_jakobsLE

@@ -1,23 +1,7 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-LociLibresCert: soundness of the certificate of the tool `excovery/loci_libres.py`
-(one direction only: a flip-poly pencil has corank ≤ m at every point of size m; corank > m
-at some point of size m certifies "not flip-poly").
-
-Over a field `K`, `corank A = card ι - rank A` for a square matrix `A : Matrix ι ι K`.
-
-* (1) `rank_add_rank_le_fromBlocks`: `rank A + rank D ≤ rank (fromBlocks A B 0 D)`;
-      `corank_fromBlocks_le`: `corank (fromBlocks A B 0 D) ≤ corank A + corank D`.
-* (2) `rank_kronecker_one`: `rank (A ⊗ₖ 1_m) = m * rank A`; `corank_kronecker_one`.
-* (3) `corank_unit_sub_mul_le`: `corank (U - P * Q) ≤ m` for `U` invertible and `P` of width `m`;
-      `corank_one_sub_nil_sub_mul_le`: same with `U = 1 - N`, `N` nilpotent.
-* (4) `TriBounded`, `Cert`: block upper-triangular matrices with one free diagonal block `B` and
-      `k` further diagonal blocks of corank ≤ m (invertible blocks included, `corank_of_isUnit`);
-      `cert_corank`: `corank M - k * m ≤ corank B`.
-
-Self-contained (the needed statements of FreeLocusLinAlg.lean are re-proved here, since
-that file is not built as an olean). Mathlib imports only; writes no .olean.
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
 import Mathlib.Algebra.Field.Basic
 import Mathlib.LinearAlgebra.Matrix.Rank
@@ -27,7 +11,27 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.LinearAlgebra.Dimension.Constructions
 import Mathlib.RingTheory.Nilpotent.Basic
 
-namespace LociLibresCert
+/-!
+# Soundness of the free-locus certificate
+
+One direction of the free-locus test: a flip-poly pencil has corank `≤ m` at every point of
+size `m`, so corank `> m` at some point of size `m` certifies "not flip-poly".
+Over a field `K`, `corank A = card ι - rank A` for a square matrix `A : Matrix ι ι K`.
+
+## Main results
+
+* `rank_add_rank_le_fromBlocks`: `rank A + rank D ≤ rank (fromBlocks A B 0 D)`;
+  `corank_fromBlocks_le`: `corank (fromBlocks A B 0 D) ≤ corank A + corank D`.
+* `rank_kronecker_one`: `rank (A ⊗ₖ 1_m) = m * rank A`; `corank_kronecker_one`.
+* `corank_unit_sub_mul_le`: `corank (U - P * Q) ≤ m` for `U` invertible and `P` of width `m`;
+  `corank_one_sub_nil_sub_mul_le`: the same with `U = 1 - N`, `N` nilpotent.
+* `TriBounded`, `Cert`: block upper-triangular matrices with one free diagonal block `B` and `k`
+  further diagonal blocks of corank `≤ m`; `cert_corank`: `corank M - k * m ≤ corank B`.
+
+The file is self-contained: the statements it needs from `FreeLocus` are re-proved here.
+-/
+
+namespace FreeLocusCertificate
 
 open Matrix Module
 open scoped Kronecker
@@ -263,15 +267,4 @@ theorem cert_corank {c : ℕ} {β : Type} [Fintype β] [DecidableEq β] {B : Mat
   have := h.corank_le; omega
 
 end Certificate
-end LociLibresCert
-
-#print axioms LociLibresCert.rank_add_rank_le_fromBlocks
-#print axioms LociLibresCert.corank_fromBlocks_le
-#print axioms LociLibresCert.rank_kronecker_one
-#print axioms LociLibresCert.corank_kronecker_one
-#print axioms LociLibresCert.corank_unit_sub_mul_le
-#print axioms LociLibresCert.corank_one_sub_nil_sub_mul_le
-#print axioms LociLibresCert.corank_of_isUnit
-#print axioms LociLibresCert.TriBounded.corank_le
-#print axioms LociLibresCert.Cert.corank_le
-#print axioms LociLibresCert.cert_corank
+end FreeLocusCertificate

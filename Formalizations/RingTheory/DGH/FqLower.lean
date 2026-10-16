@@ -1,22 +1,7 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-FqLower.lean — combinatorial core of the lower bound κ(F_q(x)) = ω² for the DGH length
-(notes: research/atiyah-l2/notas/h8_cuenta.md, Sombra 3).
-
-Statement. Let `L` be a prime, `G` an additive commutative group, and
-`f : ℤ → G` an `L`-periodic function that is a finite sum of `k` "arithmetic-progression
-indicators": `f n = ∑ i, [n ≡ m i (mod N i)] • c i`. Then `f` is constant on all residues
-mod `L` except at most `k` of them.
-
-Proof used here (simpler than the hand proof; no CRT, no L-adic valuations, no pigeonhole):
-* `M := ∏_{i : L ∤ N i} N i` is coprime to `L`; pick `b` with `b·M ≡ 1 (mod L)`.
-* For `r : ℤ`, `n := b·M·r ≡ r (mod L)`, so `f r = f n`. Terms with `L ∤ N i` are evaluated at
-  a multiple of `N i`, hence equal the constant `c₀ := ∑_{L ∤ N i} [0 ≡ m i (mod N i)] c i`.
-  So `f r ≠ c₀` forces some `i` with `L ∣ N i` and some `s ≡ r (mod L)`, `s ≡ m i (mod N i)`.
-* Such an `i` determines `r mod L` (two such `s` are congruent mod `N i`, hence mod `L`).
-  So the bad residues inject into `Fin k`.
-The hypotheses `k < L` and `N i ≥ 1` are not needed (for `k ≥ L` the bound is trivial).
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Algebra.Ring.Periodic
@@ -28,9 +13,34 @@ import Mathlib.RingTheory.Coprime.Lemmas
 import Mathlib.Tactic.LinearCombination
 import Mathlib.Tactic.Ring
 
+/-!
+# Combinatorial core of `κ(F_q(x)) = ω²`
+
+The combinatorial core of the lower bound `κ(F_q(x)) = ω²` for the length of the DGH
+stratification.
+
+Let `L` be a prime, `G` an additive commutative group, and `f : ℤ → G` an `L`-periodic function
+that is a finite sum of `k` arithmetic-progression indicators,
+`f n = ∑ i, [n ≡ m i (mod N i)] • c i`. Then `f` is constant on all residues mod `L` except at
+most `k` of them.
+
+## Proof sketch
+
+* `M := ∏_{i : L ∤ N i} N i` is coprime to `L`; pick `b` with `b·M ≡ 1 (mod L)`.
+* For `r : ℤ`, `n := b·M·r ≡ r (mod L)`, so `f r = f n`. Terms with `L ∤ N i` are evaluated at a
+  multiple of `N i`, hence equal the constant `c₀`. So `f r ≠ c₀` forces some `i` with `L ∣ N i`.
+* Such an `i` determines `r mod L`, so the bad residues inject into `Fin k`.
+
+The hypotheses `k < L` and `N i ≥ 1` are not needed.
+
+## Main results
+
+* `card_ne_const_le`, `card_ne_const_le_of_lt`.
+-/
+
 open Finset
 
-namespace FqLower
+namespace DGH.FqLower
 
 /-- Core counting lemma (no `k < L`, no `N i ≥ 1` needed). -/
 theorem card_ne_const_le {G : Type*} [AddCommGroup G] [DecidableEq G] (L : ℕ) (hL : L.Prime) (k : ℕ)
@@ -99,7 +109,4 @@ theorem card_ne_const_le_of_lt {G : Type*} [AddCommGroup G] [DecidableEq G] (L :
     ∃ c₀ : G, ((Finset.range L).filter (fun r : ℕ => f r ≠ c₀)).card ≤ k :=
   card_ne_const_le L hL k N m c f hper hf
 
-end FqLower
-
-#print axioms FqLower.card_ne_const_le
-#print axioms FqLower.card_ne_const_le_of_lt
+end DGH.FqLower

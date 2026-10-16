@@ -1,13 +1,7 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-Continuantes: Euler's continuant in a (noncommutative) ring and the absorption
-identities behind the DGH strata (notas: a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹).
-(1) `K` with K [] = 1, K [x] = x, K (xs ++ [y, z]) = K (xs ++ [y]) * z + K xs;
-    K [a, r, b] = a*r*b + a + b.
-(2) absorption for units a, b; (3) two-sided reduction for units w₁, w₂;
-(4) harmonic denominator in a field; (5) the continuant is the (0,0) entry of
-E a * E r * E b in M₂(R), E x = !![x, 1; 1, 0] (Möbius / GL₂ picture).
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
 import Mathlib.Algebra.Group.Units.Basic
 import Mathlib.Algebra.Ring.Basic
@@ -18,7 +12,23 @@ import Mathlib.Tactic.NoncommRing
 import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.Ring
 
-namespace Continuantes
+/-!
+# Continuants in a noncommutative ring
+
+Euler's continuant `K` in a (noncommutative) ring and the absorption identities behind the
+Dubrovin–Gräter–Hanke strata: `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹`.
+
+## Main results
+
+* `K` with `K [] = 1`, `K [x] = x`, `K (xs ++ [y, z]) = K (xs ++ [y]) * z + K xs`;
+  `K_three`: `K [a, r, b] = a*r*b + a + b`.
+* `absorb`, `absorb_K`: absorption for units `a`, `b`; `reduce_bilateral`: two-sided reduction.
+* `harmonic_three`: the harmonic denominator in a field.
+* `E_mul_three`: the continuant is the `(0,0)` entry of `E a * E r * E b` in `M₂(R)`,
+  `E x = !![x, 1; 1, 0]` (the Möbius / `GL₂` picture).
+-/
+
+namespace Continuant
 
 section Ring
 variable {R : Type*} [Ring R]
@@ -93,16 +103,4 @@ theorem harmonic_three {F : Type*} [Field F] (a b c : F) (ha : a ≠ 0) (hb : b 
     field_simp; ring
   rw [e, inv_div]
 
-end Continuantes
-
-#print axioms Continuantes.K_append_two
-#print axioms Continuantes.K_three
-#print axioms Continuantes.absorb
-#print axioms Continuantes.absorb_K
-#print axioms Continuantes.reduce_bilateral
-#print axioms Continuantes.E_mul_three
-#print axioms Continuantes.E_mul_three_00
-#print axioms Continuantes.E_mul_three_01
-#print axioms Continuantes.E_mul_three_10
-#print axioms Continuantes.E_mul_three_11
-#print axioms Continuantes.harmonic_three
+end Continuant

@@ -1,26 +1,7 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-T152Identidades: the finite identities behind the degenerate-residue chain of 3XX (atiyah-l2, 15-oct).
-All matrices are 2×2 over a commutative ring unless stated.
-
-* (S) `sandwich`: M A M = tr(A M) • M − det M • adj A. Hence, for det M = 0:
-      `annihilator_left`: (M A M B − M B M A) M = 0;  `annihilator_right`: M (A M B M − B M A M) = 0.
-      (q = ψaψb − ψbψa kills the common image; q' = aψbψ − bψaψ the common kernel.)
-* (C) `det_add_adj`: det(A + B) = det A + tr(adj A · B) + det B  (the Γ₁ compression of T152).
-* (L) leading coefficient of the TARGET s = Σ Y_j⁻² along Y = N + εΔ (N = Nsq a b, square-zero):
-      `adj_sq_leading`: adj(N + εΔ)² = ε • (τ • 1 − σ • N) + ε² • (adj Δ)², with τ = tr(NΔ), σ = tr Δ;
-      `inv_target`: (τ • 1 + σ • N)(τ • 1 − σ • N) = τ² • 1  (so the ε⁻¹ term is (τI+σN)⁻¹ = A⁻¹).
-* (H) `realization_det`: det [[A+B, A],[A, A+C]] · (det A det B det C)
-                         = det(det B det C • adj A + det A det C • adj B + det A det B • adj C)
-      (= Π det · det(A⁻¹+B⁻¹+C⁻¹) when invertible; with A_j = τ_jI+σ_jN_j this gives h4).
-* (D) T152 conjugation differences at x = N − 1 (N = Nsq a b): with D(T) = T − x T x⁻¹, x⁻¹ = −(1+N):
-      `D2`: D(D T) = −2 • N T N;  `D3`: D(D(D T)) = 0.
-      `comm2_det`: det[X,[X,T]] = −disc X · det[X,T];  `comm3`: [X,[X,[X,T]]] = disc X • [X,T].
-* (W) `F2_witness`: F₂ = D_x²(y u⁻¹ y⁻¹ + v⁻¹ + w⁻¹) at the integer witness W ∈ Z(H0):
-      F₂ = !![−203/10, 704/5; −13/10, 203/10], det F₂ = −4581/20 ≠ 0.
-
-Mathlib imports only; writes no .olean.
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.LinearAlgebra.Matrix.Adjugate
@@ -31,7 +12,27 @@ import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.FinCases
 import Mathlib.Tactic.LinearCombination
 
-namespace T152Identidades
+/-!
+# Degenerate residues in the three-axes problem
+
+Finite identities behind the degenerate-residue analysis of `s = u⁻² + v⁻² + w⁻²` in the free
+field of `F₃` (`u = 1 + x`, `v = 1 + y`, `w = 1 + z`). All matrices are `2×2` over a commutative
+ring unless stated.
+
+## Main results
+
+* `sandwich`: `M A M = tr(A M) • M − det M • adj A`; hence, for `det M = 0`,
+  `annihilator_left`: `(M A M B − M B M A) M = 0` and `annihilator_right`.
+* `det_add_adj`: `det(A + B) = det A + tr(adj A · B) + det B`.
+* `adj_sq_leading`, `inv_target`: the leading coefficient of `s` along `Y = N + εΔ` with `N`
+  square-zero: `adj(N + εΔ)² = ε • (τ • 1 − σ • N) + ε² • (adj Δ)²`.
+* `realization_det`: `det [[A+B, A],[A, A+C]] · (det A det B det C)
+  = det(det B det C • adj A + det A det C • adj B + det A det B • adj C)`.
+* `D2`, `D3`, `comm2_det`, `comm3`: iterated conjugation differences at `x = N − 1`.
+* `F2_witness`: an explicit rational witness with nonzero determinant.
+-/
+
+namespace ThreeAxes.DegenerateResidue
 
 open Matrix
 
@@ -199,16 +200,4 @@ theorem F2_witness :
 
 end Witness
 
-end T152Identidades
-
-#print axioms T152Identidades.annihilator_left
-#print axioms T152Identidades.annihilator_right
-#print axioms T152Identidades.det_add_adj
-#print axioms T152Identidades.adj_sq_leading
-#print axioms T152Identidades.inv_target
-#print axioms T152Identidades.realization_det
-#print axioms T152Identidades.D2
-#print axioms T152Identidades.D3
-#print axioms T152Identidades.comm2_det
-#print axioms T152Identidades.comm3
-#print axioms T152Identidades.F2_witness
+end ThreeAxes.DegenerateResidue

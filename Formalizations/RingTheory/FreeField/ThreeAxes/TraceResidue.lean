@@ -1,24 +1,7 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-T151Residuos: certificates for the residue / trace-direction mechanism of T151 (3XX, atiyah-l2), in minimal form.
-Conventions: Y_j = 1 + x_j evaluated; H0(Y) = [[Yx²+Yy², Yx²],[Yx², Yx²+Yz²]] (4×4 for 2×2 blocks).
-
-* (P) `polar`: 2×2 Cayley–Hamilton polarization AB + BA = tr A • B + tr B • A + (tr(AB) − tr A tr B) • 1;
-      `polar_traceless`: tr N = 0 ⇒ NΔ + ΔN = tr Δ • N + tr(NΔ) • 1.
-* (D) `det_add_smul`: det(A + εB) = det A + ε (tr A tr B − tr(AB)) + ε² det B;
-      `adjugate_add_smul`: adj(A + εB) = adj A + ε • adj B.
-* (R) `residue_sqzero`: tr N = 0, det N = 0 ⇒ det(N + εΔ) = ε (ε det Δ − tr(NΔ)) and adj(N + εΔ) = −N + ε • adj Δ
-      (so ε (N + εΔ)⁻¹ → N / tr(NΔ): the residue does not see tr Δ).
-      `inv_sub_one_sqzero`: N² = 0 ⇒ (N − 1)(−(1 + N)) = 1.
-* (H) `h4_general`: for N_j = !![a_j b_j, −a_j²; b_j², −a_j b_j] and A_j = τ_j • 1 + σ_j • N_j,
-      det [[Ax+Ay, Ax],[Ax, Ax+Az]] = e₂(τ)² + d₀₁² τz² σx σy + d₀₂² τy² σx σz + d₁₂² τx² σy σz, d_ij = a_i b_j − a_j b_i.
-* (E) the exact example of T151 §1: N_j² = 0, H0(N) = 0, the residue of v6 = !![11,−16;11,−11] with det 55,
-      det H0(N + εΔ(σ)) = ε⁴ (ε²σ² − 4εσ + 2ε + 4σ + 9), det Y_j = −ε.
-* (W) integer witness on Z(H0) (replaces the irrational point of T151 §1): Y_j ∈ SL₂(ℤ), X_j = Y_j − 1 invertible,
-      det H0(Y) = 0, v6(Y) = !![4/5, −43/10; 4/5, 56/5] with det 62/5 ≠ 0.
-
-Mathlib imports only; writes no .olean.
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.LinearAlgebra.Matrix.Adjugate
@@ -30,7 +13,25 @@ import Mathlib.Tactic.NoncommRing
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.FinCases
 
-namespace T151Residuos
+/-!
+# Residues along square-zero directions
+
+Certificates for the residue / trace-direction mechanism in the three-axes problem.
+Conventions: `Y_j = 1 + x_j` evaluated; `H0(Y) = [[Yx²+Yy², Yx²],[Yx², Yx²+Yz²]]`.
+
+## Main results
+
+* `polar`: `2×2` Cayley–Hamilton polarization `AB + BA = tr A • B + tr B • A + (tr(AB) − tr A tr B) • 1`;
+  `polar_traceless`.
+* `det_add_smul`: `det(A + εB) = det A + ε (tr A tr B − tr(AB)) + ε² det B`; `adjugate_add_smul`.
+* `residue_sqzero`: `tr N = 0`, `det N = 0` ⇒ `det(N + εΔ) = ε (ε det Δ − tr(NΔ))` and
+  `adj(N + εΔ) = −N + ε • adj Δ` (the residue does not see `tr Δ`); `inv_sub_one_sqzero`.
+* `h4_general`: the determinant of `H0` at `A_j = τ_j • 1 + σ_j • N_j` in closed form.
+* `arc_det`: an exact example along a square-zero arc.
+* `witness`: an integer witness on the zero set of `det H0`, with `Y_j ∈ SL₂(ℤ)`.
+-/
+
+namespace ThreeAxes.TraceResidue
 
 open Matrix
 
@@ -224,10 +225,4 @@ theorem witness :
 
 end Witness
 
-end T151Residuos
-
-#print axioms T151Residuos.polar
-#print axioms T151Residuos.residue_sqzero
-#print axioms T151Residuos.h4_general
-#print axioms T151Residuos.arc_det
-#print axioms T151Residuos.witness
+end ThreeAxes.TraceResidue

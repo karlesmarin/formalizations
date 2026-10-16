@@ -1,26 +1,32 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-DGHHessenberg: Jakobs' order on finite multisets of ordinals (F. Jakobs, thesis 2019,
-Thm 1.1.3; Dubrovin–Gräter–Hanke Prop 2.1) read as the order of ordinals through the
-Hessenberg (natural) sum `h s = ♯_{x ∈ s} ω ^ x`.
-
-The installed Mathlib (rev 701fb6e9, May 2026) no longer ships `NatOrdinal` / `Ordinal.nadd`
-(no `NaturalOps.lean`, no occurrence of `nadd`), so the natural sum is defined here in the
-classical way, through Cantor normal form coefficients:
-`a ♯ b = CNF.eval ω (CNF.coeff ω a + CNF.coeff ω b)`.
-
-Proved:
-(1) `hval_add`        : h (s + t) = h s ♯ h t.
-(2) `jakobsLT_iff_hval_lt` : jakobsLT s t ↔ h s < h t; hence `hval_injective`.
-(3) `image_hval`      : {h s | ∀ x ∈ s, x ≤ Λ} = Set.Iio (ω ^ (Λ + 1)).
-Corollary `omega0_opow_add_one_lt_epsilon_zero` : Λ < ε₀ → ω ^ (Λ + 1) < ε₀.
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
-import DGHLex
+import Formalizations.RingTheory.DGH.JakobsOrder
 import Mathlib.SetTheory.Ordinal.CantorNormalForm
 import Mathlib.SetTheory.Ordinal.Veblen
 import Mathlib.SetTheory.Ordinal.Principal
 import Mathlib.Data.Finsupp.Multiset
+
+/-!
+# Jakobs' order through the Hessenberg sum
+
+Jakobs' order on finite multisets of ordinals, read as the order of ordinals through the
+Hessenberg (natural) sum `h s = ♯_{x ∈ s} ω ^ x`. The natural sum is defined through Cantor normal
+form coefficients: `a ♯ b = CNF.eval ω (CNF.coeff ω a + CNF.coeff ω b)`.
+
+## Main results
+
+* `hval_add`: `h (s + t) = h s ♯ h t`.
+* `jakobsLT_iff_hval_lt`: `jakobsLT s t ↔ h s < h t`; hence `hval_injective`.
+* `image_hval`: `{h s | ∀ x ∈ s, x ≤ Λ} = Set.Iio (ω ^ (Λ + 1))`.
+* `omega0_opow_add_one_lt_epsilon_zero`: `Λ < ε₀ → ω ^ (Λ + 1) < ε₀`.
+
+## References
+
+* F. Jakobs, PhD thesis, 2019, Thm. 1.1.3; Dubrovin–Gräter–Hanke, Prop. 2.1.
+-/
 
 universe u
 
@@ -251,11 +257,3 @@ theorem omega0_opow_add_one_lt_epsilon_zero {Λ : Ordinal.{u}} (h : Λ < ε₀) 
 end
 
 end DGH
-
-#print axioms DGH.hval_add
-#print axioms DGH.jakobsLT_iff_hval_lt
-#print axioms DGH.hval_injective
-#print axioms DGH.image_hval
-#print axioms DGH.exists_equiv_jakobs
-#print axioms DGH.omega0_opow_add_one_lt_epsilon_zero
-#print axioms DGH.nadd_assoc

@@ -1,20 +1,28 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-DGHFinite: the finite strata of the Dubrovin–Gräter–Hanke stratification `D M`
-(`DGHStrat`). With `L = layer1 M` and the hypothesis that the chain of iterated sums
-`sumPow n L` (`DGHAbsorb`) grows strictly for `n ≥ 1`, we prove:
-(1) `D M n = sumPow n L` for every natural `n` (the minimal case-1 multiset at stratum
-    `n ≥ 1` is `n+1` copies of `1`, via Jakobs' order from `DGHLex`);
-(2) `D M ω = ⋃ n, sumPow n L`, closed under sums;
-(3) if moreover `L * L ⊆ L`, `D M ω` is the carrier of a subring of `R`;
-(4) the set identities A3 (associativity) and A4 (sum over a union).
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
-import DGHAbsorb
-import DGHStrat
-import DGHLex
+import Formalizations.RingTheory.DGH.Absorb
+import Formalizations.RingTheory.DGH.Basic
+import Formalizations.RingTheory.DGH.JakobsOrder
 import Mathlib.Algebra.BigOperators.Group.Multiset.Basic
 import Mathlib.Algebra.Ring.Subring.Defs
+
+/-!
+# Finite strata of the DGH stratification
+
+With `L = layer1 M` and the hypothesis that the chain of iterated sums `sumPow n L` grows
+strictly for `n ≥ 1`:
+
+## Main results
+
+* `D_natCast_eq`: `D M n = sumPow n L` for every natural `n` (the minimal case-1 multiset at
+  stratum `n ≥ 1` is `n+1` copies of `1`, via Jakobs' order);
+* `D_omega_eq`, `D_omega_sumClosed`: `D M ω = ⋃ n, sumPow n L`, closed under sums;
+* `D_omega_subring`: if moreover `L * L ⊆ L`, `D M ω` is the carrier of a subring of `R`;
+* `A3`, `A4`: associativity and sum over a union, as set identities.
+-/
 
 open Pointwise Order
 
@@ -302,11 +310,3 @@ theorem A4 {P D' E A B : Set R} (h : D' = E ∪ (A + B)) :
 end
 
 end DGH
-
-#print axioms DGH.D_natCast_eq
-#print axioms DGH.D_omega_eq
-#print axioms DGH.D_omega_sumClosed
-#print axioms DGH.D_omega_mulClosed
-#print axioms DGH.D_omega_subring
-#print axioms DGH.A3
-#print axioms DGH.A4

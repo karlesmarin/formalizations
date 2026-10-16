@@ -1,25 +1,7 @@
 /-
-Author: Carles Marín (with Claude as AI assistant).
-
-T155Identidades: finite identities behind T154–T156 and the evening of 15-oct (atiyah-l2, 3XX).
-
-* (B) `blk_det_formula`: det [[A+B, A],[A, A+C]] = det(A(B+C)) + det(B(A+C)) + det(C(A+B)) − det(AB) − det(AC) − det(BC)
-      for 2×2 matrices over a commutative ring (T154 (3.5)).
-* (E) `trace_extractor`: with K = XY − YX, E2(T) := {K,[XT+TX,Y]} − {[X²,Y],[T,Y]} satisfies
-      E2(T) = (2·tr T) • K² (2×2). (T154 (3.2), doubled to avoid ½.)
-* (D) `det_extractor`: E2(T)·T − 2•(K²·T²) = (2·det T) • K² (T154 (3.4), doubled).
-* (Z) `H0_square_zero`: if X², Y², Z² vanish then the H0 block matrix vanishes (corank 4 at square-zero points:
-      Lemma 1 of elevacion_modular_15oct).
-* (S) `sharpness`: in a division ring, u (u⁻²+v⁻²) v = u⁻¹ v + u v⁻¹ (two-axis clearing, T154).
-* (F) `fox_commutator`: in any ring with units x, y: x y x⁻¹ y⁻¹ − 1 = (1+x)(y x⁻¹ y⁻¹ + x⁻¹ y⁻¹) − (1+y)(x⁻¹ y⁻¹ + y⁻¹)
-      (χ-twisted right Fox decomposition of a commutator; no z-term).
-      `comaximal_intersection`: if u e + w f = 1 then u (1 − e u) = w (f u) — the element b of the counterexample to
-      «extended NC» lies in uR ∩ wR.
-* (A) `re_inv_one_add`: for z ∈ ℂ with ‖z‖ = 1 and z ≠ −1, Re (1+z)⁻¹ = 1/2 (accretivity of simple reciprocals).
-* (P) `PM_partial_fractions`: (1−2du)/((1−(d+1)u)(1−du)) = (1−d)/(1−(d+1)u) + d/(1−du) (closed form of P_M,
-      Kassel–Reutenauer §5.2).
-
-Mathlib imports only; writes no .olean.
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
 -/
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.LinearAlgebra.Matrix.Trace
@@ -31,7 +13,29 @@ import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.LinearCombination
 
-namespace T155Identidades
+/-!
+# Trace and determinant extractors
+
+Finite identities used in the three-axes problem.
+
+## Main results
+
+* `blk_det_formula`: `det [[A+B, A],[A, A+C]] = det(A(B+C)) + det(B(A+C)) + det(C(A+B))
+  − det(AB) − det(AC) − det(BC)` for `2×2` matrices over a commutative ring.
+* `trace_extractor`: with `K = XY − YX`, `E2(T) := {K,[XT+TX,Y]} − {[X²,Y],[T,Y]}` satisfies
+  `E2(T) = (2·tr T) • K²` (`2×2`).
+* `det_extractor`: `E2(T)·T − 2•(K²·T²) = (2·det T) • K²`.
+* `H0_square_zero`: if `X², Y², Z²` vanish then the block matrix `H0` vanishes.
+* `sharpness`: in a division ring, `u (u⁻²+v⁻²) v = u⁻¹ v + u v⁻¹`.
+* `fox_commutator`: for units `x`, `y`,
+  `x y x⁻¹ y⁻¹ − 1 = (1+x)(y x⁻¹ y⁻¹ + x⁻¹ y⁻¹) − (1+y)(x⁻¹ y⁻¹ + y⁻¹)`;
+  `comaximal_intersection`: if `u e + w f = 1` then `u (1 − e u) = w (f u)`.
+* `re_inv_one_add`: for `z ∈ ℂ` with `‖z‖ = 1`, `z ≠ −1`, `Re (1+z)⁻¹ = 1/2`.
+* `PM_partial_fractions`: `(1−2du)/((1−(d+1)u)(1−du)) = (1−d)/(1−(d+1)u) + d/(1−du)`
+  (Kassel–Reutenauer, §5.2).
+-/
+
+namespace ThreeAxes.Extractors
 
 open Matrix
 
@@ -183,16 +187,4 @@ theorem re_inv_one_add (z : ℂ) (hz : ‖z‖ = 1) (h : z ≠ -1) : ((1 + z)⁻
   rw [this]
   field_simp
 
-end T155Identidades
-
-#print axioms T155Identidades.blk_det_formula
-#print axioms T155Identidades.trace_extractor
-#print axioms T155Identidades.det_extractor
-#print axioms T155Identidades.H0_square_zero
-#print axioms T155Identidades.PM_partial_fractions
-#print axioms T155Identidades.sharpness
-#print axioms T155Identidades.fox_commutator
-#print axioms T155Identidades.comaximal_intersection
-#print axioms T155Identidades.re_inv_one_add
-#print axioms T155Identidades.commutator_eq_bracket
-#print axioms T155Identidades.bracket_comaximal
+end ThreeAxes.Extractors

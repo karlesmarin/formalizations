@@ -1,34 +1,54 @@
-# atiyah-l2-lean
+# Formalizations
 
-Formalizaciones en Lean 4 de la investigación atiyah-l2: campos libres, altura de inversión y el problema 3XX en C[F₃].
-- Autor: Carles Marín, con Claude como asistente.
-- Lean v4.35.0. Mathlib fijado en `f0b4c815` (ver `lakefile.lean`).
-- Solo se importan módulos de Mathlib, nunca `import Mathlib` entero.
-- Sin `sorry`; los únicos axiomas son los estándar (`propext`, `Classical.choice`, `Quot.sound`).
+Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/leanprover-community/mathlib4) and
+organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
+results.
+
+- Lean `v4.35.0`; Mathlib pinned in `lakefile.lean`.
+- No `sorry`. Every main result depends only on the standard axioms (`propext`, `Classical.choice`, `Quot.sound`),
+  checked in CI by `scripts/check_axioms.sh`.
+
+## Using it
 
 ```
+git clone https://github.com/karlesmarin/formalizations.git
+cd formalizations
 lake exe cache get
 lake build
 ```
 
-## Módulos
+Import everything with `import Formalizations`, or a single file, e.g.
+`import Formalizations.RingTheory.DGH.Epsilon0`.
 
-| Módulo | Contenido |
-|---|---|
-| `DGHStrat` | Estratificación de Dubrovin–Gräter–Hanke `D : Ordinal → Set R` (Jakobs 2019, Def. 1.1.4) |
-| `DGHLex` | Orden de Dershowitz–Manna = orden de Jakobs (lexicográfico desde el mayor) |
-| `DGHHessenberg` | Orden de Jakobs leído por la suma natural de Hessenberg |
-| `DGHAbsorb` | Sumas iteradas, absorción de una capa de inversas, identidad de Hua |
-| `DGHFinite` | Estratos finitos de `D M`; `D M ω` como subanillo |
-| `DGHEps0` | κ ≤ ε₀: `D M ε₀` es cerrado por sumas, productos e inversas |
-| `Continuantes` | Continuante de Euler no conmutativo; a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹ |
-| `FqLower` | Núcleo combinatorio de la cota inferior κ(F_q(x)) = ω² |
-| `FreeLocusLinAlg` | Ingredientes de álgebra lineal de la obstrucción por loci libres |
-| `LociLibresCert` | Corrección (una dirección) del certificado de loci libres |
-| `T151Residuos` | Mecanismo de residuo y dirección de traza (3XX) |
-| `T152Identidades` | Cadena del residuo degenerado (3XX) |
-| `T155Identidades` | Fórmula de bloques de det, extractores de traza y de det, descomposición de Fox |
-| `T158Identidades` | Arco exacto U² = t^{k+1}I, evaluación escalar, dos ejes, característica p |
+## Contents
 
-## Estado
-Repositorio privado mientras los resultados no estén publicados. El depósito en Zenodo lo decide Carles.
+| Area | File | Main result |
+|---|---|---|
+| `Algebra.Ring` | `Continuant` | Euler's continuant; `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹` |
+| `LinearAlgebra.Matrix` | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
+| | `FreeLocusCertificate` | Soundness of the free-locus certificate ("not flip-poly") |
+| `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
+| | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |
+| | `Hessenberg` | Jakobs' order through the Hessenberg natural sum |
+| | `Absorb` | Absorption of a layer of inverses; Hua's identity |
+| | `Finite` | Finite strata; `D M ω` as a subring |
+| | `Epsilon0` | The stratification closes at `ε₀` (`kappa_le_epsilon0`) |
+| | `FqLower` | Combinatorial core of `κ(F_q(x)) = ω²` |
+| `RingTheory.FreeField.ThreeAxes` | `ExactArc` | Traceless `2×2` squares are scalar; scalar evaluation; characteristic `p` |
+| | `Extractors` | Trace and determinant extractors; Fox decomposition of a commutator |
+| | `TraceResidue` | Residues along square-zero directions |
+| | `DegenerateResidue` | Degenerate-residue identities; explicit witnesses |
+
+`FormalizationsTest/Axioms.lean` prints the axioms of every main result.
+
+## Adding a formalization
+
+1. Put the file under `Formalizations/<Area>/<Topic>.lean`, following Mathlib's area names.
+2. Start it with the copyright header, then the imports (Mathlib modules only, never `import Mathlib`), then a module
+   docstring `/-! # Title … ## Main results … ## References -/`.
+3. Add its main results to `FormalizationsTest/Axioms.lean`, and the import to `Formalizations.lean`.
+4. `lake build && sh scripts/check_axioms.sh`.
+
+## License
+
+Apache 2.0, as Mathlib. Written with Claude (Anthropic) as an AI assistant; every statement is machine-checked.
