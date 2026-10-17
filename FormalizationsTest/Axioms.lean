@@ -118,6 +118,16 @@ import Formalizations
 #print axioms ThreeAxes.WeightedTrinomials.N_sq
 #print axioms ThreeAxes.WeightedTrinomials.schur_r2
 #print axioms ThreeAxes.WeightedTrinomials.schur_r2_col
+#print axioms ThreeAxes.AtomCertificate.det_eq_of_certificate
+#print axioms ThreeAxes.AtomCertificate.Q2_mul_K
+#print axioms ThreeAxes.AtomCertificate.det_Q2
+#print axioms ThreeAxes.AtomCertificate.Kv_identity
+#print axioms ThreeAxes.AtomCertificate.det_matR
+#print axioms ThreeAxes.AtomCertificate.det_matO
+#print axioms ThreeAxes.QuaternionResidues.qj_mul_qi
+#print axioms ThreeAxes.QuaternionResidues.rank_res
+#print axioms ThreeAxes.QuaternionResidues.res_mul_res_eq_zero_iff
+#print axioms ThreeAxes.QuaternionResidues.prod_res_ne_zero
 #print axioms Matrix.adjugate_fin_two_eq_trace_smul_one_sub
 #print axioms Matrix.adjugate_add_fin_two
 #print axioms Matrix.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two
