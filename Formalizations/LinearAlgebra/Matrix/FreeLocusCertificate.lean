@@ -5,6 +5,9 @@ Authors: Carles Marín
 -/
 module
 
+public import Formalizations.LinearAlgebra.Matrix.FreeLocus
+public import Formalizations.LinearAlgebra.Matrix.Rank
+public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
 public import Mathlib.Algebra.Field.Basic
 public import Mathlib.LinearAlgebra.Matrix.Rank
 public import Mathlib.Data.Matrix.Block
@@ -30,7 +33,10 @@ Over a field `K`, `corank A = card ι - rank A` for a square matrix `A : Matrix 
 * `TriBounded`, `Cert`: block upper-triangular matrices with one free diagonal block `B` and `k`
   further diagonal blocks of corank `≤ m`; `cert_corank`: `corank M - k * m ≤ corank B`.
 
-The file is self-contained: the statements it needs from `FreeLocus` are re-proved here.
+The general rank facts (subadditivity, rank–nullity, block-triangular and Kronecker bounds)
+are imported from `Formalizations.LinearAlgebra.Matrix.Rank` and
+`Formalizations.LinearAlgebra.Matrix.Rank.Kronecker`; this file restates the two it lists
+under `Main results` in terms of `corank`.
 -/
 
 @[expose] public section
@@ -47,26 +53,11 @@ noncomputable def corank {ι : Type*} [Fintype ι] (A : Matrix ι ι K) : ℕ :=
   Fintype.card ι - A.rank
 
 section Basic
-variable {n m : Type*} [Fintype n] [Fintype m]
-
-omit [Fintype m] in
-/-- Subadditivity of matrix rank (as in FreeLocusLinAlg). -/
-theorem rank_add_le (A B : Matrix m n K) : (A + B).rank ≤ A.rank + B.rank := by
-  unfold Matrix.rank
-  rw [Matrix.mulVecLin_add]
-  exact (Submodule.finrank_mono (LinearMap.range_add_le _ _)).trans
-    (Submodule.finrank_add_le_finrank_add_finrank _ _)
-
-omit [Fintype m] in
-/-- Rank–nullity for a matrix. -/
-theorem rank_add_finrank_ker (A : Matrix m n K) :
-    A.rank + finrank K (LinearMap.ker A.mulVecLin) = Fintype.card n := by
-  unfold Matrix.rank
-  rw [LinearMap.finrank_range_add_finrank_ker, Module.finrank_fintype_fun_eq_card]
+variable {n : Type*} [Fintype n]
 
 theorem corank_eq_finrank_ker (A : Matrix n n K) :
     corank A = finrank K (LinearMap.ker A.mulVecLin) := by
-  have := rank_add_finrank_ker A
+  have := rank_add_finrank_ker_mulVecLin A
   unfold corank; omega
 
 theorem corank_of_isUnit [DecidableEq n] (A : Matrix n n K) (h : IsUnit A) : corank A = 0 := by
@@ -77,111 +68,27 @@ end Basic
 section Blocks
 variable {n m : Type*} [Fintype n] [Fintype m]
 
-/-- Kernel of a block upper-triangular matrix: `dim ker M ≤ dim ker A + dim ker D`. -/
-theorem finrank_ker_fromBlocks_le (A : Matrix n n K) (B : Matrix n m K) (D : Matrix m m K) :
-    finrank K (LinearMap.ker (fromBlocks A B 0 D).mulVecLin) ≤
-      finrank K (LinearMap.ker A.mulVecLin) + finrank K (LinearMap.ker D.mulVecLin) := by
-  set KM := LinearMap.ker (fromBlocks A B 0 D).mulVecLin with hKM
-  have hmem : ∀ v : KM, A *ᵥ ((v : n ⊕ m → K) ∘ Sum.inl) + B *ᵥ ((v : n ⊕ m → K) ∘ Sum.inr) = 0
-      ∧ D *ᵥ ((v : n ⊕ m → K) ∘ Sum.inr) = 0 := by
-    intro v
-    have hv : (fromBlocks A B 0 D) *ᵥ (v : n ⊕ m → K) = 0 := v.2
-    rw [fromBlocks_mulVec] at hv
-    refine ⟨funext fun i => ?_, funext fun i => ?_⟩
-    · simpa using congrFun hv (Sum.inl i)
-    · simpa using congrFun hv (Sum.inr i)
-  let f : KM →ₗ[K] (m → K) := (LinearMap.funLeft K K Sum.inr).comp KM.subtype
-  have hf : ∀ v : KM, f v = (v : n ⊕ m → K) ∘ Sum.inr := fun v => rfl
-  have hfr : LinearMap.range f ≤ LinearMap.ker D.mulVecLin := by
-    rintro _ ⟨v, rfl⟩
-    rw [LinearMap.mem_ker, Matrix.mulVecLin_apply, hf]
-    exact (hmem v).2
-  let g : (LinearMap.ker f) →ₗ[K] (n → K) :=
-    (LinearMap.funLeft K K Sum.inl).comp (KM.subtype.comp (LinearMap.ker f).subtype)
-  have hg : ∀ u : LinearMap.ker f, g u = ((u : KM) : n ⊕ m → K) ∘ Sum.inl := fun u => rfl
-  have hinr : ∀ u : LinearMap.ker f, ((u : KM) : n ⊕ m → K) ∘ Sum.inr = 0 := by
-    intro u; rw [← hf]; exact u.2
-  have hginj : Function.Injective g := by
-    intro u u' hu
-    rw [hg, hg] at hu
-    apply Subtype.ext; apply Subtype.ext
-    funext s
-    rcases s with i | i
-    · exact congrFun hu i
-    · exact (congrFun (hinr u) i).trans (congrFun (hinr u') i).symm
-  have hgr : LinearMap.range g ≤ LinearMap.ker A.mulVecLin := by
-    rintro _ ⟨u, rfl⟩
-    rw [LinearMap.mem_ker, Matrix.mulVecLin_apply, hg]
-    have h := (hmem (u : KM)).1
-    rw [hinr u, Matrix.mulVec_zero, add_zero] at h
-    exact h
-  have h1 := LinearMap.finrank_range_add_finrank_ker f
-  have h2 : finrank K (LinearMap.range f) ≤ finrank K (LinearMap.ker D.mulVecLin) :=
-    Submodule.finrank_mono hfr
-  have h3 : finrank K (LinearMap.ker f) ≤ finrank K (LinearMap.ker A.mulVecLin) := by
-    rw [← LinearMap.finrank_range_of_inj hginj]; exact Submodule.finrank_mono hgr
-  omega
-
-/-- (1) `rank A + rank D ≤ rank (fromBlocks A B 0 D)`. -/
+/-- (1) `rank A + rank D ≤ rank (fromBlocks A B 0 D)`; this is
+`Matrix.rank_add_rank_le_rank_fromBlocks_zero₂₁`. -/
 theorem rank_add_rank_le_fromBlocks (A : Matrix n n K) (B : Matrix n m K) (D : Matrix m m K) :
-    A.rank + D.rank ≤ (fromBlocks A B 0 D).rank := by
-  have h := finrank_ker_fromBlocks_le A B D
-  have hA := rank_add_finrank_ker A
-  have hD := rank_add_finrank_ker D
-  have hM := rank_add_finrank_ker (fromBlocks A B 0 D)
-  rw [Fintype.card_sum] at hM
-  omega
+    A.rank + D.rank ≤ (fromBlocks A B 0 D).rank :=
+  rank_add_rank_le_rank_fromBlocks_zero₂₁ A B D
 
 /-- (1) `corank (fromBlocks A B 0 D) ≤ corank A + corank D`. -/
 theorem corank_fromBlocks_le (A : Matrix n n K) (B : Matrix n m K) (D : Matrix m m K) :
     corank (fromBlocks A B 0 D) ≤ corank A + corank D := by
   rw [corank_eq_finrank_ker, corank_eq_finrank_ker, corank_eq_finrank_ker]
-  exact finrank_ker_fromBlocks_le A B D
+  exact finrank_ker_mulVecLin_fromBlocks_zero₂₁_le A B D
 
 end Blocks
 
 section Kron
 variable {n : Type*} [Fintype n] {m : ℕ}
 
-theorem kron_one_mulVec (A : Matrix n n K) (v : n × Fin m → K) (i : n) (k : Fin m) :
-    ((A ⊗ₖ (1 : Matrix (Fin m) (Fin m) K)) *ᵥ v) (i, k) = (A *ᵥ fun j => v (j, k)) i := by
-  simp [mulVec, dotProduct, kroneckerMap_apply, one_apply, Fintype.sum_prod_type]
-
-/-- `ker (A ⊗ I_m) ≃ (Fin m → ker A)`. -/
-noncomputable def kerKronEquiv (A : Matrix n n K) :
-    LinearMap.ker (A ⊗ₖ (1 : Matrix (Fin m) (Fin m) K)).mulVecLin ≃ₗ[K]
-      (Fin m → LinearMap.ker A.mulVecLin) where
-  toFun v k := ⟨fun j => (v : n × Fin m → K) (j, k), by
-    rw [LinearMap.mem_ker, Matrix.mulVecLin_apply]
-    funext i
-    have hv : (A ⊗ₖ (1 : Matrix (Fin m) (Fin m) K)) *ᵥ (v : n × Fin m → K) = 0 := v.2
-    rw [← kron_one_mulVec, hv]; rfl⟩
-  invFun w := ⟨fun p => (w p.2 : n → K) p.1, by
-    rw [LinearMap.mem_ker, Matrix.mulVecLin_apply]
-    funext ⟨i, k⟩
-    rw [kron_one_mulVec]
-    have hw : A *ᵥ (w k : n → K) = 0 := (w k).2
-    exact congrFun hw i⟩
-  map_add' v w := by funext k; rfl
-  map_smul' c v := by funext k; rfl
-  left_inv v := by rfl
-  right_inv w := by rfl
-
-/-- (2) `rank (A ⊗ₖ I_m) = m * rank A`. -/
+/-- (2) `rank (A ⊗ₖ I_m) = m * rank A`; this is `Matrix.rank_kronecker_one` with `p = Fin m`. -/
 theorem rank_kronecker_one (A : Matrix n n K) :
     (A ⊗ₖ (1 : Matrix (Fin m) (Fin m) K)).rank = m * A.rank := by
-  have hk := (kerKronEquiv (K := K) (m := m) A).finrank_eq
-  rw [Module.finrank_pi_fintype, Finset.sum_const, Finset.card_univ, Fintype.card_fin,
-    smul_eq_mul] at hk
-  have h1 := rank_add_finrank_ker (A ⊗ₖ (1 : Matrix (Fin m) (Fin m) K))
-  have h2 := rank_add_finrank_ker A
-  rw [Fintype.card_prod, Fintype.card_fin] at h1
-  have h3 : m * (A.rank + finrank K (LinearMap.ker A.mulVecLin)) = m * Fintype.card n := by
-    rw [h2]
-  rw [Nat.mul_add] at h3
-  rw [hk] at h1
-  have : Fintype.card n * m = m * Fintype.card n := Nat.mul_comm _ _
-  omega
+  rw [Matrix.rank_kronecker_one, Fintype.card_fin]
 
 /-- (2) `corank (A ⊗ₖ I_m) = m * corank A`. -/
 theorem corank_kronecker_one (A : Matrix n n K) :
@@ -194,14 +101,11 @@ end Kron
 section Flip
 variable {ι : Type*} [Fintype ι] [DecidableEq ι] {m : ℕ}
 
-/-- (3) Invertible minus a matrix of rank ≤ k has corank ≤ k (as in FreeLocusLinAlg). -/
+/-- (3) Invertible minus a matrix of rank ≤ k has corank ≤ k; this is
+`FreeLocus.corank_unit_sub_le`. -/
 theorem corank_unit_sub_le (U E : Matrix ι ι K) (hU : IsUnit U) (k : ℕ) (hE : E.rank ≤ k) :
-    corank (U - E) ≤ k := by
-  unfold corank
-  have h1 : U.rank = Fintype.card ι := rank_of_isUnit U hU
-  have h2 : U.rank ≤ (U - E).rank + E.rank := by
-    simpa using rank_add_le (U - E) E
-  omega
+    corank (U - E) ≤ k :=
+  FreeLocus.corank_unit_sub_le U E hU k hE
 
 /-- (3) Flip-poly bound: `corank (U - P * Q) ≤ m` for `U` invertible, `P` with `m` columns. -/
 theorem corank_unit_sub_mul_le (U : Matrix ι ι K) (hU : IsUnit U)

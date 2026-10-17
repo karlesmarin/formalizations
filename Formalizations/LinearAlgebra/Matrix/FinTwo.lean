@@ -16,6 +16,8 @@ all consequences of the Cayley–Hamilton theorem in dimension two.
 
 ## Main results
 
+* `Matrix.mul_self_eq_trace_smul_sub_det_smul_fin_two`: Cayley–Hamilton,
+  `A * A = trace A • A - det A • 1`.
 * `Matrix.adjugate_fin_two_eq_trace_smul_one_sub`: `adjugate A = trace A • 1 - A`.
 * `Matrix.adjugate_add_fin_two`: the adjugate is additive.
 * `Matrix.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two`: the polarized Cayley–Hamilton
@@ -28,6 +30,13 @@ all consequences of the Cayley–Hamilton theorem in dimension two.
 * `Matrix.lie_lie_lie_eq_discr_smul_lie_fin_two`: `⁅X, ⁅X, ⁅X, T⁆⁆⁆ = discr X • ⁅X, T⁆`.
 * `Matrix.det_lie_lie_eq_neg_discr_mul_det_lie_fin_two`:
   `det ⁅X, ⁅X, T⁆⁆ = -discr X * det ⁅X, T⁆`.
+
+## Related
+
+In Mathlib, Cayley–Hamilton is `Matrix.aeval_self_charpoly` and the `2 × 2` characteristic
+polynomial is `Matrix.charpoly_fin_two` (which assumes `Nontrivial R`); the entries of the `2 × 2`
+adjugate are `Matrix.adjugate_fin_two` and the discriminant is `Matrix.discr_fin_two`. The
+statements above are their coordinate-free consequences, with no `Nontrivial` hypothesis.
 -/
 
 @[expose] public section
@@ -35,6 +44,13 @@ all consequences of the Cayley–Hamilton theorem in dimension two.
 namespace Matrix
 
 variable {R : Type*} [CommRing R]
+
+/-- Cayley–Hamilton for `2 × 2` matrices: `A * A = trace A • A - det A • 1`. -/
+theorem mul_self_eq_trace_smul_sub_det_smul_fin_two (A : Matrix (Fin 2) (Fin 2) R) :
+    A * A = trace A • A - det A • (1 : Matrix (Fin 2) (Fin 2) R) := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [mul_apply, Fin.sum_univ_two, det_fin_two, trace_fin_two] <;> ring
 
 /-- The adjugate of a `2 × 2` matrix is `trace A • 1 - A`. -/
 theorem adjugate_fin_two_eq_trace_smul_one_sub (A : Matrix (Fin 2) (Fin 2) R) :

@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 184 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 187 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
@@ -39,11 +39,12 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
 | | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |
 | | `Hessenberg` | Jakobs' order through the Hessenberg natural sum |
-| | `Absorb` | Absorption of a layer of inverses; Hua's identity |
+| | `Absorb` | Absorption of a layer of inverses; `(a⁻¹ + b⁻¹)⁻¹ = b (a + b)⁻¹ a`; Hua's identity `a − (a⁻¹ + (b⁻¹ − a)⁻¹)⁻¹ = a b a` |
 | | `Finite` | Finite strata; `D M ω` as a subring |
 | | `Epsilon0` | The stratification closes at `ε₀` (`kappa_le_epsilon0`) |
 | | `FqLower` | Combinatorial core of `κ(F_q(x)) = ω²` |
-| `RingTheory.FreeField.ThreeAxes` | `ExactArc` | Traceless `2×2` squares are scalar; scalar evaluation; characteristic `p` |
+| `RingTheory.FreeField.ThreeAxes` | `Basic` | Shared definitions: the block matrix `[[A+B, A],[A, A+C]]`, an explicit `4×4` determinant, square-zero `2×2` matrices, witness matrices |
+| | `ExactArc` | Traceless `2×2` squares are scalar; scalar evaluation; characteristic `p` |
 | | `Extractors` | Trace and determinant extractors; Fox decomposition of a commutator |
 | | `TraceResidue` | Residues along square-zero directions |
 | | `DegenerateResidue` | Degenerate-residue identities; explicit witnesses |
@@ -53,6 +54,37 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `InverseIdentities` 🆕 | Inverse identities over any division ring: `(p⁻¹+q⁻¹+r)⁻¹ = q(prq+p+q)⁻¹p`, Woodbury corners of the harmonic matrix, block Schur compression, explicit inverses of chain and cycle matrices |
 
 `FormalizationsTest/Axioms.lean` prints the axioms of every main result.
+
+## 🔗 Relation to Mathlib and other libraries
+
+Where a statement here is a direct consequence of a Mathlib lemma (kept because a paper cites it
+by name), the file says so and proves it in one line from that lemma.
+
+- 🧱 **Block inverses and Schur complements.** Mathlib's block inverse
+  (`Matrix.fromBlocks₂₂Invertible`, `Matrix.invOf_fromBlocks₂₂_eq`) is stated over a `CommRing`.
+  `InverseIdentities.fromBlocks_mul_schur`, `schur_two` and `WeightedTrinomials.schur_r2` are the
+  noncommutative versions over any ring, with one-sided inverses.
+- 🔁 **Woodbury.** Mathlib has the matrix identity over a `Ring` (`Matrix.invOf_add_mul_mul`).
+  `woodbury_corner` and `woodbury_sum` read one entry of it for the harmonic matrix
+  `diag(b, c) + a 𝟙𝟙ᵀ` over a division ring.
+- ➗ **Sums of inverses.** `a⁻¹ + b⁻¹ = a⁻¹ (a + b) b⁻¹` is Mathlib's `inv_add_inv'` /
+  `invOf_add_invOf`. `three_term_inv` adds a middle term:
+  `(p⁻¹ + q⁻¹ + r)⁻¹ = q (p r q + p + q)⁻¹ p`.
+- 🔲 **`2 × 2` matrices.** `FinTwo` gives coordinate-free forms of Mathlib's `charpoly_fin_two`,
+  `adjugate_fin_two` and `discr_fin_two`, such as `adjugate A = trace A • 1 − A` and the polarized
+  Cayley–Hamilton identity.
+- 🧮 **Adjugate.** Mathlib's `Matrix.adjugate_fin_succ_eq_det_submatrix` is stated for `Fin n.succ`.
+  `Adjugate` gives the diagonal entries for an arbitrary index type.
+- 📏 **Rank.** Mathlib has `LinearMap.rank_add_le`, but no `Matrix.rank_add_le` and no rank bounds
+  for block triangular matrices. The same two statements over a field also appear, independently,
+  in [complexitylib](https://github.com/SamuelSchlesinger/complexitylib).
+- 🔢 **Ordinals.** Mathlib's natural (Hessenberg) sum moved to
+  [combinatorial-games](https://github.com/vihdzp/combinatorial-games) (`NatOrdinal`). `Hessenberg`
+  defines it independently, inside Mathlib, through Cantor normal form; the two definitions are
+  not proved equal here.
+- 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
+  (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
+  order from the largest element.
 
 ## 🧾 How the certificates are checked
 

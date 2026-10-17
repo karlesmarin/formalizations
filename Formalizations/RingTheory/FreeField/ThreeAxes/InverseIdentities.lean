@@ -43,6 +43,18 @@ of the three-axes problem that were only checked numerically.
 
 Matrix inverses are `⅟M` for an arbitrary `Invertible M` instance; existence is proved separately
 (`IsUnit`), using that matrix rings over a division ring are Dedekind-finite.
+
+## Related
+
+* `three_term_eq` with `r = 0` is Mathlib's `inv_add_inv'` (`invOf_add_invOf` for `Invertible`).
+* `woodbury_corner` and `woodbury_sum` are scalar readings of the Woodbury identity for the
+  harmonic matrix `diag(b, c) + a 𝟙 𝟙ᵀ`. Mathlib has Woodbury for matrices over a `Ring` as
+  `Matrix.invOf_add_mul_mul` (`⅟` version; the `⁻¹` version `Matrix.add_mul_mul_inv_eq_sub` is
+  stated over a `CommRing`).
+* `schur_two` and `fromBlocks_mul_schur` are noncommutative versions, with one-sided inverses, of
+  Mathlib's block inverse through a Schur complement, `Matrix.fromBlocks₂₂Invertible` and
+  `Matrix.invOf_fromBlocks₂₂_eq` (also `Matrix.fromBlocks₁₁Invertible`), which are stated over a
+  `CommRing`.
 -/
 
 @[expose] public section

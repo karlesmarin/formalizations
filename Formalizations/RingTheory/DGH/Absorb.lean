@@ -13,11 +13,24 @@ public import Mathlib.Algebra.Field.Basic
 
 Pointwise-set lemmas behind the Dubrovin–Gräter–Hanke stratification (Jakobs 2019, Def. 1.1.4):
 iterated sums `sumPow`, distributivity of a set over an `n`-term sum, absorption of a layer of
-inverses, and Hua's identity in a division ring.
+inverses, the inverse of a sum of two inverses, and Hua's identity in a division ring.
+
+## Main results
+
+* `mul_sumPow_subset`, `inv_mul_subset_inv`, `inv_mul_sumPow_subset`.
+* `inv_add_inv_inv`, `inv_add_inv_inv'`: `(a⁻¹ + b⁻¹)⁻¹ = b (a + b)⁻¹ a = a (a + b)⁻¹ b`
+  (the "parallel sum"; one line from Mathlib's `inv_add_inv'`).
+* `hua_classical`: Hua's identity `a − (a⁻¹ + (b⁻¹ − a)⁻¹)⁻¹ = a b a`.
+
+## Related
+
+The binary distributivity step is Mathlib's `Set.mul_add_subset`; the identity
+`a⁻¹ + b⁻¹ = a⁻¹ (a + b) b⁻¹` is Mathlib's `inv_add_inv'` (`invOf_add_invOf` for `Invertible`).
 
 ## References
 
 * F. Jakobs, PhD thesis, 2019, Def. 1.1.4.
+* L.-K. Hua, *On the automorphisms of a sfield*, Proc. Nat. Acad. Sci. USA 35 (1949), 386–389.
 -/
 
 @[expose] public section
@@ -42,12 +55,7 @@ lemma sumPow_mono (n : ℕ) {S T : Set R} (h : S ⊆ T) : sumPow n S ⊆ sumPow 
   | zero => exact le_rfl
   | succ n ih => exact Set.add_subset_add h ih
 
-/-- (b) Left distributivity of pointwise product over pointwise sum
-(this is Mathlib's `Set.mul_add_subset`). -/
-theorem mul_add_subset' (X A B : Set R) : X * (A + B) ⊆ X * A + X * B :=
-  Set.mul_add_subset X A B
-
-/-- (b) `X * (D + ⋯ + D) ⊆ X*D + ⋯ + X*D`. -/
+/-- (b) `X * (D + ⋯ + D) ⊆ X*D + ⋯ + X*D` (iterating Mathlib's `Set.mul_add_subset`). -/
 theorem mul_sumPow_subset (X D : Set R) (n : ℕ) : X * sumPow n D ⊆ sumPow n (X * D) := by
   induction n with
   | zero =>
@@ -76,26 +84,32 @@ theorem inv_mul_sumPow_subset {U S : Set K} (h : U⁻¹ * S ⊆ S) (n : ℕ) :
     S⁻¹ * sumPow n U ⊆ sumPow n S⁻¹ :=
   (mul_sumPow_subset _ _ n).trans (sumPow_mono n (inv_mul_subset_inv h))
 
-/-- `a⁻¹ + b⁻¹ = a⁻¹ (a + b) b⁻¹`. -/
-lemma inv_add_inv_eq_left {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) :
-    a⁻¹ + b⁻¹ = a⁻¹ * (a + b) * b⁻¹ := by
-  rw [mul_add, add_mul, inv_mul_cancel₀ ha, one_mul, mul_assoc, mul_inv_cancel₀ hb,
-    mul_one, add_comm]
-
-/-- `a⁻¹ + b⁻¹ = b⁻¹ (a + b) a⁻¹`. -/
-lemma inv_add_inv_eq_right {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) :
-    a⁻¹ + b⁻¹ = b⁻¹ * (a + b) * a⁻¹ := by
-  rw [mul_add, add_mul, mul_assoc, mul_inv_cancel₀ ha, mul_one, inv_mul_cancel₀ hb, one_mul, add_comm]
-
-/-- (d) Hua's identity (noncommutative form). -/
-theorem hua_identity {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) (_hab : a + b ≠ 0) :
+/-- (d) The inverse of a sum of two inverses ("parallel sum"), noncommutative form:
+`(a⁻¹ + b⁻¹)⁻¹ = b (a + b)⁻¹ a`. This is Mathlib's `inv_add_inv'` inverted with `mul_inv_rev`.
+It is not Hua's identity (that is `hua_classical`). -/
+theorem inv_add_inv_inv {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) :
     (a⁻¹ + b⁻¹)⁻¹ = b * (a + b)⁻¹ * a := by
-  rw [inv_add_inv_eq_left ha hb, mul_inv_rev, mul_inv_rev, inv_inv, inv_inv, mul_assoc]
+  rw [inv_add_inv' ha hb, mul_inv_rev, mul_inv_rev, inv_inv, inv_inv, mul_assoc]
 
-/-- (d) Hua's identity, symmetric form. -/
-theorem hua_identity' {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) (_hab : a + b ≠ 0) :
+/-- (d) The inverse of a sum of two inverses, symmetric form: `(a⁻¹ + b⁻¹)⁻¹ = a (a + b)⁻¹ b`. -/
+theorem inv_add_inv_inv' {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) :
     (a⁻¹ + b⁻¹)⁻¹ = a * (a + b)⁻¹ * b := by
-  rw [inv_add_inv_eq_right ha hb, mul_inv_rev, mul_inv_rev, inv_inv, inv_inv, mul_assoc]
+  rw [add_comm a⁻¹, add_comm a b]
+  exact inv_add_inv_inv hb ha
+
+@[deprecated inv_add_inv_inv (since := "2026-10-17")] alias hua_identity := inv_add_inv_inv
+@[deprecated inv_add_inv_inv' (since := "2026-10-17")] alias hua_identity' := inv_add_inv_inv'
+
+/-- **Hua's identity** in a division ring: if `a ≠ 0`, `b ≠ 0` and `a b ≠ 1`, then
+`a − (a⁻¹ + (b⁻¹ − a)⁻¹)⁻¹ = a b a`. -/
+theorem hua_classical {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) (hab : a * b ≠ 1) :
+    a - (a⁻¹ + (b⁻¹ - a)⁻¹)⁻¹ = a * b * a := by
+  have hc : b⁻¹ - a ≠ 0 := by
+    intro h
+    rw [sub_eq_zero] at h
+    exact hab (by rw [← h, inv_mul_cancel₀ hb])
+  rw [inv_add_inv_inv ha hc, add_sub_cancel, inv_inv, sub_mul, inv_mul_cancel₀ hb, sub_mul,
+    one_mul, sub_sub_cancel]
 
 end DivisionRing
 

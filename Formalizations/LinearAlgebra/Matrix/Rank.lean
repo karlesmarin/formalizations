@@ -26,6 +26,16 @@ Throughout, `K` is a field. The nullity of a matrix `A` is expressed as
 * `Matrix.rank_add_rank_le_rank_fromBlocks_zero₂₁`: `A.rank + D.rank ≤ (fromBlocks A B 0 D).rank`.
 * `Matrix.rank_fromBlocks_zero₂₁_le_left`, `Matrix.rank_fromBlocks_zero₂₁_le_right`: upper bounds
   for the rank of `fromBlocks A B 0 D` in terms of the rank of one diagonal block.
+
+## Related
+
+Mathlib has `LinearMap.rank_add_le` (cardinal rank of linear maps) but no `Matrix.rank_add_le`.
+Independently, `Matrix.rank_add_le` and `rank_add_rank_le_rank_fromBlocks_zero₂₁` over a field
+also appear in `complexitylib` (<https://github.com/SamuelSchlesinger/complexitylib>,
+`Complexitylib/Algebraic/LinearAlgebra/MatrixRank/Internal.lean`).
+
+This file is the single home of these rank facts in this repository: `FreeLocus` and
+`FreeLocusCertificate` import them.
 -/
 
 @[expose] public section

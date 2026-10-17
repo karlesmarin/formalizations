@@ -297,7 +297,8 @@ theorem D_omega_subring (hH : StrictChain M) (hLL : layer1 M * layer1 M ⊆ laye
 /-! ### (4) Set identities A3, A4 -/
 
 omit M in
-/-- A3: `X (A B) = (X A) B` for pointwise products of sets. -/
+/-- A3: `X (A B) = (X A) B` for pointwise products of sets; this is Mathlib's `mul_assoc` for
+`Set R` (a semigroup under `Pointwise`), kept under the label of the proof it belongs to. -/
 theorem A3 (X A B : Set R) : X * (A * B) = (X * A) * B := (mul_assoc X A B).symm
 
 omit M in

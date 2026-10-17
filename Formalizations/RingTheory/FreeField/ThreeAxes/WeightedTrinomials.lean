@@ -5,6 +5,7 @@ Authors: Carles Marín
 -/
 module
 
+public import Formalizations.LinearAlgebra.Matrix.FinTwo
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.LinearAlgebra.Matrix.Trace
 public import Mathlib.LinearAlgebra.Matrix.Notation
@@ -37,6 +38,13 @@ the rank-two block matrix.
   `!![A + B, C; C, A + 2B]` has right inverse
   `!![S⁻¹, −S⁻¹ C Q⁻¹; −Q⁻¹ C S⁻¹, Q⁻¹ + Q⁻¹ C S⁻¹ C Q⁻¹]`; in particular its `(1,1)` entry is
   `S⁻¹`.
+
+## Related
+
+Mathlib's block inverse through a Schur complement (`Matrix.fromBlocks₁₁Invertible`,
+`Matrix.invOf_fromBlocks₂₂_eq`) is stated over a `CommRing`; `schur_r2` is the noncommutative
+`2 × 2` case with entries in a ring (compare `ThreeAxes.InverseIdentities.schur_two`, pivot in the
+other corner).
 -/
 
 @[expose] public section
@@ -47,11 +55,11 @@ open Matrix
 
 /-! ### The hidden commutator -/
 
+/-- Cayley–Hamilton for `2×2` matrices; this is `Matrix.mul_self_eq_trace_smul_sub_det_smul_fin_two`
+(in `Formalizations.LinearAlgebra.Matrix.FinTwo`). -/
 theorem sq_eq_trace_smul_sub_det_smul {R : Type*} [CommRing R] (X : Matrix (Fin 2) (Fin 2) R) :
-    X * X = X.trace • X - X.det • (1 : Matrix (Fin 2) (Fin 2) R) := by
-  ext i j
-  fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two, Matrix.trace_fin_two] <;> ring
+    X * X = X.trace • X - X.det • (1 : Matrix (Fin 2) (Fin 2) R) :=
+  Matrix.mul_self_eq_trace_smul_sub_det_smul_fin_two X
 
 section Hidden
 

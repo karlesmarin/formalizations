@@ -16,6 +16,7 @@ public import Formalizations.RingTheory.DGH.FqLower
 public import Formalizations.RingTheory.DGH.Hessenberg
 public import Formalizations.RingTheory.DGH.JakobsOrder
 public import Formalizations.RingTheory.FreeField.ThreeAxes.AtomCertificate
+public import Formalizations.RingTheory.FreeField.ThreeAxes.Basic
 public import Formalizations.RingTheory.FreeField.ThreeAxes.DegenerateResidue
 public import Formalizations.RingTheory.FreeField.ThreeAxes.ExactArc
 public import Formalizations.RingTheory.FreeField.ThreeAxes.Extractors

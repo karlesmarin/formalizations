@@ -5,6 +5,7 @@ Authors: Carles Marín
 -/
 module
 
+public import Formalizations.RingTheory.FreeField.ThreeAxes.Basic
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.LinearAlgebra.Matrix.Trace
 public import Mathlib.LinearAlgebra.Matrix.Notation
@@ -35,6 +36,9 @@ Finite identities used in the three-axes problem.
 * `re_inv_one_add`: for `z ∈ ℂ` with `‖z‖ = 1`, `z ≠ −1`, `Re (1+z)⁻¹ = 1/2`.
 * `PM_partial_fractions`: `(1−2du)/((1−(d+1)u)(1−du)) = (1−d)/(1−(d+1)u) + d/(1−du)`
   (Kassel–Reutenauer, §5.2).
+
+The block matrix `blk`, the `4 × 4` determinant `det4` and `M2` are in
+`Formalizations.RingTheory.FreeField.ThreeAxes.Basic`.
 -/
 
 @[expose] public section
@@ -46,42 +50,6 @@ open Matrix
 section Comm
 
 variable {R : Type*} [CommRing R]
-
-abbrev M2 (R : Type*) [CommRing R] := Matrix (Fin 2) (Fin 2) R
-
-def d3 (a b c d e f g h i : R) : R := a*e*i - a*f*h - b*d*i + b*f*g + c*d*h - c*e*g
-
-theorem det4 (A : Matrix (Fin 4) (Fin 4) R) : det A =
-    A 0 0 * d3 (A 1 1) (A 1 2) (A 1 3) (A 2 1) (A 2 2) (A 2 3) (A 3 1) (A 3 2) (A 3 3)
-  - A 0 1 * d3 (A 1 0) (A 1 2) (A 1 3) (A 2 0) (A 2 2) (A 2 3) (A 3 0) (A 3 2) (A 3 3)
-  + A 0 2 * d3 (A 1 0) (A 1 1) (A 1 3) (A 2 0) (A 2 1) (A 2 3) (A 3 0) (A 3 1) (A 3 3)
-  - A 0 3 * d3 (A 1 0) (A 1 1) (A 1 2) (A 2 0) (A 2 1) (A 2 2) (A 3 0) (A 3 1) (A 3 2) := by
-  rw [det_succ_row_zero]
-  simp only [Fin.sum_univ_four, det_fin_three, submatrix_apply, d3]
-  have e1 : (Fin.succAbove (1 : Fin 4) 2 : Fin 4) = 3 := rfl
-  have e2 : (Fin.succAbove (2 : Fin 4) 2 : Fin 4) = 3 := rfl
-  have e3 : (Fin.succAbove (3 : Fin 4) 2 : Fin 4) = 2 := rfl
-  have e4 : (Fin.succAbove (2 : Fin 4) 1 : Fin 4) = 1 := rfl
-  have e5 : (Fin.succAbove (3 : Fin 4) 1 : Fin 4) = 1 := rfl
-  have e6 : (Fin.succAbove (1 : Fin 4) 1 : Fin 4) = 2 := rfl
-  have e7 : (Fin.succAbove (0 : Fin 4) 2 : Fin 4) = 3 := rfl
-  have e8 : (Fin.succAbove (0 : Fin 4) 1 : Fin 4) = 2 := rfl
-  have e9 : (Fin.succAbove (0 : Fin 4) 0 : Fin 4) = 1 := rfl
-  have f1 : (Fin.succAbove (1 : Fin 4) 0 : Fin 4) = 0 := rfl
-  have f2 : (Fin.succAbove (2 : Fin 4) 0 : Fin 4) = 0 := rfl
-  have f3 : (Fin.succAbove (3 : Fin 4) 0 : Fin 4) = 0 := rfl
-  have g0 : (Fin.succ (0 : Fin 3) : Fin 4) = 1 := rfl
-  have g1 : (Fin.succ (1 : Fin 3) : Fin 4) = 2 := rfl
-  have g2 : (Fin.succ (2 : Fin 3) : Fin 4) = 3 := rfl
-  simp only [e1, e2, e3, e4, e5, e6, e7, e8, e9, f1, f2, f3, g0, g1, g2]
-  norm_num
-  ring
-
-def blk (A B C : M2 R) : Matrix (Fin 4) (Fin 4) R :=
-  !![A 0 0 + B 0 0, A 0 1 + B 0 1, A 0 0, A 0 1;
-     A 1 0 + B 1 0, A 1 1 + B 1 1, A 1 0, A 1 1;
-     A 0 0, A 0 1, A 0 0 + C 0 0, A 0 1 + C 0 1;
-     A 1 0, A 1 1, A 1 0 + C 1 0, A 1 1 + C 1 1]
 
 /-- (B) block-determinant formula for H0. -/
 theorem blk_det_formula (A B C : M2 R) :

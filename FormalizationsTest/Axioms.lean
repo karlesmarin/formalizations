@@ -30,8 +30,9 @@ import Formalizations
 #print axioms DGH.mul_sumPow_subset
 #print axioms DGH.inv_mul_subset_inv
 #print axioms DGH.inv_mul_sumPow_subset
-#print axioms DGH.hua_identity
-#print axioms DGH.hua_identity'
+#print axioms DGH.inv_add_inv_inv
+#print axioms DGH.inv_add_inv_inv'
+#print axioms DGH.hua_classical
 #print axioms DGH.D_natCast_eq
 #print axioms DGH.D_omega_eq
 #print axioms DGH.D_omega_sumClosed
@@ -62,7 +63,6 @@ import Formalizations
 #print axioms FreeLocus.woodbury_special
 #print axioms FreeLocus.inv_add_inv_two
 #print axioms FreeLocus.inv_add_inv_one
-#print axioms FreeLocus.rank_add_le
 #print axioms FreeLocus.corank_left_le
 #print axioms FreeLocus.corank_right_le
 #print axioms FreeLocus.corank_unit_sub_le
@@ -76,6 +76,8 @@ import Formalizations
 #print axioms FreeLocusCertificate.TriBounded.corank_le
 #print axioms FreeLocusCertificate.Cert.corank_le
 #print axioms FreeLocusCertificate.cert_corank
+#print axioms ThreeAxes.det4
+#print axioms ThreeAxes.Nsq_sq
 #print axioms ThreeAxes.TraceResidue.polar
 #print axioms ThreeAxes.TraceResidue.residue_sqzero
 #print axioms ThreeAxes.TraceResidue.h4_general
@@ -128,6 +130,7 @@ import Formalizations
 #print axioms ThreeAxes.QuaternionResidues.rank_res
 #print axioms ThreeAxes.QuaternionResidues.res_mul_res_eq_zero_iff
 #print axioms ThreeAxes.QuaternionResidues.prod_res_ne_zero
+#print axioms Matrix.mul_self_eq_trace_smul_sub_det_smul_fin_two
 #print axioms Matrix.adjugate_fin_two_eq_trace_smul_one_sub
 #print axioms Matrix.adjugate_add_fin_two
 #print axioms Matrix.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two

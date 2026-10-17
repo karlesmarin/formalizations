@@ -25,6 +25,15 @@ form coefficients: `a ♯ b = CNF.eval ω (CNF.coeff ω a + CNF.coeff ω b)`.
 * `image_hval`: `{h s | ∀ x ∈ s, x ≤ Λ} = Set.Iio (ω ^ (Λ + 1))`.
 * `omega0_opow_add_one_lt_epsilon_zero`: `Λ < ε₀ → ω ^ (Λ + 1) < ε₀`.
 
+## Related
+
+Mathlib no longer contains the natural sum of ordinals: it was moved out of
+`Mathlib.SetTheory.Ordinal.NaturalOps` to the combinatorial games library
+(<https://github.com/vihdzp/combinatorial-games>, `CombinatorialGames.NatOrdinal`), where it is
+defined by recursion on `NatOrdinal`. The `nadd` here is defined independently, inside Mathlib,
+through Cantor normal form coefficients; no equivalence between the two definitions is proved
+here.
+
 ## References
 
 * F. Jakobs, PhD thesis, 2019, Thm. 1.1.3; Dubrovin–Gräter–Hanke, Prop. 2.1.

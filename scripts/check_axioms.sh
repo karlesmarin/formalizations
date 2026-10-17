@@ -1,5 +1,4 @@
 #!/bin/sh
-# encaje: CI script of this Lean repository (not a research tool).
 # Axiom audit: prints the axioms of every main result and fails if any depends on `sorryAx`
 # or on an axiom outside {propext, Classical.choice, Quot.sound}.
 set -e

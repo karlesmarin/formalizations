@@ -20,9 +20,18 @@ coincides with Jakobs' order "lexicographic from the largest element".
 * `wellFounded_min_jakobsLE`: the `WellFounded.min` used in `DGH.Basic` is a minimum for Jakobs'
   order.
 
+## Related
+
+The Dershowitz–Manna order and its well-foundedness are Mathlib's
+`Multiset.IsDershowitzMannaLT` and `Multiset.wellFounded_isDershowitzMannaLT`
+(`Mathlib.Data.Multiset.DershowitzManna`); this file adds its characterization, on a linear
+order, as the lexicographic order from the largest element.
+
 ## References
 
 * F. Jakobs, PhD thesis, 2019, Thm. 1.1.3; Dubrovin–Gräter–Hanke, Prop. 2.1.
+* N. Dershowitz, Z. Manna, *Proving termination with multiset orderings*, Comm. ACM 22 (1979),
+  465–476.
 -/
 
 @[expose] public section
