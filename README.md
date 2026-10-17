@@ -1,12 +1,14 @@
 # 🧮 Formalizations
 
+[![build](https://github.com/karlesmarin/formalizations/actions/workflows/build.yml/badge.svg)](https://github.com/karlesmarin/formalizations/actions/workflows/build.yml)
+
 Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/leanprover-community/mathlib4) and
 organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
 results.
 
-- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean`.
-- ✅ No `sorry`, no `native_decide`, no new axioms. Every main result depends only on the standard axioms
-  (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh`.
+- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 184 main results depend only on the standard axioms
+  (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
 
