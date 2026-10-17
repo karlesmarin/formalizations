@@ -95,6 +95,10 @@ certificate is a matrix multiplication.
 
 ## ➕ Adding a formalization
 
+0. 🔎 Check that it is not already formalized: Mathlib (by name, by type pattern with
+   [Loogle](https://loogle.lean-lang.org), and by meaning), the Mathlib Archive, other Lean libraries on GitHub, and
+   the Isabelle [AFP](https://www.isa-afp.org). If it exists, use it and cite it; if a weaker version exists, say in
+   the docstring what is added.
 1. Put the file under `Formalizations/<Area>/<Topic>.lean`, following Mathlib's area names.
 2. Write it as Mathlib does:
    - the copyright header;
@@ -104,6 +108,8 @@ certificate is a matrix multiplication.
    - `@[expose] public section`.
 3. Add its main results to `FormalizationsTest/Axioms.lean`, and the import to `Formalizations.lean`.
 4. `lake build` (no warnings) and `sh scripts/check_axioms.sh`.
+5. Update this README: a row in the contents table, the count of main results, and the section on the relation to
+   Mathlib when relevant.
 
 ## 📜 License
 
