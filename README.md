@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 187 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 202 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
@@ -52,6 +52,9 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `AtomCertificate` 🆕 | Integer certificate of a `9×9` atom: `Q·Kᵢ = 16·Qᵢ`, `det Q = 256`, a rank-one identity, and two `9×9` determinants (`5·2⁵⁶`, `2⁴⁹`) via a triangular factorization certificate |
 | | `QuaternionResidues` 🆕 | Integral quaternions mod `5`: six rank-one residues, products vanish exactly on inverse pairs, nonzero along reduced words |
 | | `InverseIdentities` 🆕 | Inverse identities over any division ring: `(p⁻¹+q⁻¹+r)⁻¹ = q(prq+p+q)⁻¹p`, Woodbury corners of the harmonic matrix, block Schur compression, explicit inverses of chain and cycle matrices |
+| | `SizeChainPencil` 🆕 | A diagonal matrix with distinct eigenvalues and the cyclic permutation matrix generate `M_d(K)`; `diag(3,…,d+2) − 1 − C_d²` is invertible (Gershgorin); the `F^{(λ)}` case: invertibility iff `λ ∉ {−1,0,1,2}` |
+| | `Criterion` 🆕 | Monotone invariants and stable association; the non-membership criterion with the localization lemma as a named hypothesis; the corank at a representation is a monotone invariant |
+| | `ChainPencilConditions` 🆕 | The eight rank conditions (EPIC both sides, `𝒦ᵢᴿ = 𝒦ᵢᴸ = 0`) for the chain pencils `Q₃`, `Q₄`, by `decide` certificates |
 
 `FormalizationsTest/Axioms.lean` prints the axioms of every main result.
 
@@ -78,6 +81,17 @@ by name), the file says so and proves it in one line from that lemma.
 - 📏 **Rank.** Mathlib has `LinearMap.rank_add_le`, but no `Matrix.rank_add_le` and no rank bounds
   for block triangular matrices. The same two statements over a field also appear, independently,
   in [complexitylib](https://github.com/SamuelSchlesinger/complexitylib).
+  `Criterion.corankInvariant` uses Mathlib's `Matrix.rank_mul_le_left`, `rank_mul_le_right` and
+  `rank_mul_eq_{left,right}_of_isUnit_det` for monotonicity and invariance; only the padding step
+  (`rank (A ⊕ 1) = rank A + card`) uses the block bounds of `Rank`.
+- 🎯 **Diagonal dominance.** `SizeChainPencil.det_matE_real_ne_zero` is an application of Mathlib's
+  Gershgorin theorem (`det_ne_zero_of_sum_row_lt_diag`), not a new proof of it. That a diagonal
+  matrix with distinct eigenvalues and the cyclic permutation matrix generate the full matrix
+  algebra is classical; we did not find it in Mathlib, so `adjoin_cyc_diagonal_eq_top` proves it.
+- 🧷 **Stable association.** Mathlib has no stable association of matrices or theory of firs.
+  `Criterion` defines stable association and takes the localization lemma, the complete
+  factorization and Cohn's Cor. 0.5.5 as a named hypothesis; `ChainPencilConditions` does not
+  formalize Cohn's Theorem 5.8.8 (conditions ⇒ atom).
 - 🔢 **Ordinals.** Mathlib's natural (Hessenberg) sum moved to
   [combinatorial-games](https://github.com/vihdzp/combinatorial-games) (`NatOrdinal`). `Hessenberg`
   defines it independently, inside Mathlib, through Cantor normal form; the two definitions are
