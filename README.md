@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 224 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 236 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
@@ -57,6 +57,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `ChainPencilConditions` 🆕 | The eight rank conditions (EPIC both sides, `𝒦ᵢᴿ = 𝒦ᵢᴸ = 0`) for the chain pencils `Q₃`, `Q₄`, by `decide` certificates |
 | | `ParabolicFamily` 🆕 | The exact arc is the conjugate `Kⁱ U₀ K⁻ⁱ` of an antidiagonal matrix; conjugates of a central square stay central; the parabolic family `N_j = Kʲ N K⁻ʲ = t c_j r_j` with `N_j² = 0` and the cyclic trace law `tr(N_{j₁}⋯N_{j_q}) = t^{2q} ∏ (j_{l+1} − j_l)`; `det (1 + J) = n + 1` |
 | | `ArrowMatrix` 🆕 | Explicit two-sided inverse of the arrow matrix `[[diag d, ω], [α, 0]]` over a division ring; its border corner is `−(Σ α d⁻¹ ω)⁻¹` |
+| | `PhiCompression` 🆕 | Compression of `φ = Σ α d⁻¹ ω + w d₂⁻¹` over a division ring: explicit two-sided inverse of `[[diag d, −ω d₂], [α, w]]` with `φ⁻¹ = d₂ (M⁻¹)_{∞∞}`; scalar Woodbury `φ⁻¹ = c − c (α T ω) c` from a right inverse `T` of `diag d + ω c α`; two-sided block Schur inverse with upper-left pivot over any ring |
 | | `QuaternionCurve` 🆕 | `t i`, `t j`, `t k` in `ℍ[R]` square to `−t²` and anticommute pairwise |
 
 `FormalizationsTest/Axioms.lean` prints the axioms of every main result.

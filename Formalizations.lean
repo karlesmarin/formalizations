@@ -25,6 +25,7 @@ public import Formalizations.RingTheory.FreeField.ThreeAxes.ExactArc
 public import Formalizations.RingTheory.FreeField.ThreeAxes.Extractors
 public import Formalizations.RingTheory.FreeField.ThreeAxes.InverseIdentities
 public import Formalizations.RingTheory.FreeField.ThreeAxes.ParabolicFamily
+public import Formalizations.RingTheory.FreeField.ThreeAxes.PhiCompression
 public import Formalizations.RingTheory.FreeField.ThreeAxes.QuaternionCurve
 public import Formalizations.RingTheory.FreeField.ThreeAxes.QuaternionResidues
 public import Formalizations.RingTheory.FreeField.ThreeAxes.SizeChainPencil
