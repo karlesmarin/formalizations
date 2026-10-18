@@ -13,7 +13,7 @@ public import Formalizations.LinearAlgebra.Matrix.Rank
 # Monotone invariants and the non-membership criterion
 
 The abstract skeleton of the criterion used to prove that an inverse `H⁻¹` does not have entries
-in a localization `U_Σ` (Part 2, Definition 3.3 and Theorem 3.4).
+in a localization `U_Σ` (Definition 3.3 and Theorem 3.4).
 
 A *monotone invariant* (`MonotoneInvariant`) is a function `μ` from square matrices over a ring `P`
 to `ℕ∞` that is unchanged by relabelling, by padding with an identity block and by multiplication
@@ -27,7 +27,7 @@ identity blocks.
 
 The ring-theoretic input of Theorem 3.4 is **not** formalized here:
 
-* the matrix localization lemma (Part 2, Lemma 3.1), which rests on the theory of firs and
+* the matrix localization lemma (Lemma 3.1), which rests on the theory of firs and
   semifirs (Cohn 2006, §3.2, Thm 3.2.3, Prop. 7.5.9; Schofield 2007, Thm 5.6);
 * the existence of a complete factorization `Q = G₁ 𝒜 G₂` with an atom `𝒜` stably associated with
   the given atomic factor, and the transitivity of stable association (Cohn 2006, Cor. 0.5.5).

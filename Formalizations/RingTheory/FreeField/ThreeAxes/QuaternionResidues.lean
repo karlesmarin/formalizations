@@ -13,7 +13,7 @@ public import Mathlib.Algebra.Field.ZMod
 # Residues modulo `5` of the quaternions `1 ± 2q`
 
 Finite part of the lemma that no binomial degenerates on the quaternion curve of the three-axes
-problem (Part 2, Lemma 3.1). The Lipschitz quaternions map to `M₂(𝔽₅)` by `𝐢 ↦ diag(2,3)`,
+problem (Lemma 4.5). The Lipschitz quaternions map to `M₂(𝔽₅)` by `𝐢 ↦ diag(2,3)`,
 `𝐣 ↦ !![0,1;-1,0]`. The six generators `1 ± 2𝐢, 1 ± 2𝐣, 1 ± 2𝐤` reduce to matrices of rank one,
 and the product of two residues vanishes exactly when the letters are mutually inverse. Hence the
 residue of the product of a reduced word is never zero.

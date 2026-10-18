@@ -12,7 +12,7 @@ public import Mathlib.LinearAlgebra.Matrix.Notation
 # The atom certificate for the `9 × 9` pencil of the three-axes problem
 
 Integer data behind the proof that the `3 × 3` target matrix `F` of the three-axes problem is an
-atom (Part 2, Lemma 6.4(a)). The linear pencil `Q = Q₀ + u Q_u + v Q_v + w Q_w` is a `9 × 9`
+atom (Lemma 7.8(a)). The linear pencil `Q = Q₀ + u Q_u + v Q_v + w Q_w` is a `9 × 9`
 linearisation of `F`; at the point `u = v = w = 2` it is invertible with `det Q(2,2,2) = 256`, and
 the normalised coefficients `K_i = 16 Q(2,2,2)⁻¹ Q_i` are integer matrices. The algebra they
 generate is all of `M₉`, witnessed by a rank-one element `r ℓ` (a polynomial without constant term
@@ -209,7 +209,7 @@ theorem det_Q2 : Q2.det = 256 :=
   det_eq_of_certificate (L := LQ2) (U := UQ2) σQ2 256 (by decide) (by decide) (by decide)
     (by decide) (by decide)
 
-/-! ### The rank-one element: identity (6.1) -/
+/-! ### The rank-one element: identity (7.1) -/
 
 /-- The column vector `r`. -/
 def r : Fin 9 → ℤ := ![0, 0, -1, 0, 0, 0, -2, 4, 1]
@@ -224,7 +224,7 @@ theorem Kv_identity :
       2048 • vecMulVec r ℓ := by
   decide
 
-/-! ### The two bases of words: identities (6.2) -/
+/-! ### The two bases of words: identities (7.2) -/
 
 /-- `K_ω = K_{ω₁} K_{ω₂} ⋯` (left to right). -/
 def word (ω : List Letter) : Matrix (Fin 9) (Fin 9) ℤ := (ω.map K).prod

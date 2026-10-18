@@ -14,7 +14,7 @@ public import Mathlib.Data.Int.Cast.Lemmas
 /-!
 # The eight rank conditions for the chain pencil `Q_r`
 
-Finite certificate of the eight rank conditions of Part 2, Lemma 5.7(2), for `r = 3` and `r = 4`.
+Finite certificate of the eight rank conditions of Lemma 5.7(2), for `r = 3` and `r = 4`.
 
 `Q_r` is the `(5r + 1) × (5r + 1)` linear pencil `C0 + u Cu + v Cv + w Cw` of (5.1): five chain
 blocks (a letter `u, v, w` on the diagonal, `−1` above it), a bottom row carrying the left

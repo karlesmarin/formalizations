@@ -16,7 +16,7 @@ public import Mathlib.Tactic.FinCases
 # The linear algebra behind the atoms of the size chain
 
 Linear-algebra core of the atom criterion for the `4d × 4d` pencil `𝐋` of the size chain
-(Part 2, Lemma 6.2(c)). The pencil is an atom when the coefficient matrices `𝖢, 𝖣` generate the
+(Lemma 6.2(c)). The pencil is an atom when the coefficient matrices `𝖢, 𝖣` generate the
 full matrix algebra and `𝖣` and `𝖤 = 𝖣 − 1 − 𝖢²` are invertible. This file proves these three
 facts for the two families used in the paper:
 

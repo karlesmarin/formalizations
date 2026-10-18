@@ -20,23 +20,23 @@ of the three-axes problem that were only checked numerically.
 
 ## Main results
 
-* `three_term_inv` (Part 1, proof of Cor. 5.3, "A16"):
+* `three_term_inv` (Lemma 7.4, case `n′ = 2`; "A16"):
   `(p⁻¹ + q⁻¹ + r)⁻¹ = q (p r q + p + q)⁻¹ p`; `one_term_inv`: `(d⁻¹ + r)⁻¹ = (1 + d r)⁻¹ d`.
 * `schur_two`: the `2 × 2` block inverse with a pivot `a` and Schur complement `S`, over any ring.
 * `harmonicMatrix`: `H a b c = !![a + b, a; a, a + c]`. With `s = a⁻¹ + b⁻¹ + c⁻¹ ≠ 0`:
-  `harmonic_isUnit`; `woodbury_corner` (Part 1, (5.1)): `s⁻¹ = b − b (H⁻¹)₁₁ b`;
-  `woodbury_sum` (Part 2, Lemma 6.1(1)): `s⁻¹ = a − (a a) H⁻¹ (a a)ᵀ`.
-* `intermediate_inv` (Part 2, Lemma 6.2): for `M = !![d₃, d₂; −d₁, d₁ r d₂ + d₁ + d₂]`,
+  `harmonic_isUnit`; `woodbury_corner` (§5.1): `s⁻¹ = b − b (H⁻¹)₁₁ b`;
+  `woodbury_sum` (Lemma 7.6(1)): `s⁻¹ = a − (a a) H⁻¹ (a a)ᵀ`.
+* `intermediate_inv` (Lemma 7.4, case `n′ = 3`, up to a permutation): for `M = !![d₃, d₂; −d₁, d₁ r d₂ + d₁ + d₂]`,
   `(d₁⁻¹ + d₂⁻¹ + d₃⁻¹ + r)⁻¹ = d₂ (M⁻¹)₂₂ d₁`.
 * `fromBlocks_mul_schur`: block inverse of `fromBlocks A B C E` from right inverses of `E` and of
   the Schur complement `S = A − B E⁻¹ C`, over any ring.
-* `compression_schur`, `compression_inv` (Part 2, Lemma 6.6): for
+* `compression_schur`, `compression_inv` (Lemma 7.4): for
   `M = [[Y, d₁ 𝟙ᵀ], [−𝟙 d₂, diag d]]` with `Y = d₁ r d₂ + d₁ + d₂` and `f = d₁⁻¹ + d₂⁻¹ + Σ dᵢ⁻¹ + r`,
   the Schur complement of `diag d` is `d₁ f d₂` and `f⁻¹ = d₂ (M⁻¹)₁₁ d₁`.
-* `chain_mul_inv`, `chain_inv_corner` (Part 1, Lemma 3.2): the upper bidiagonal chain `C` with
+* `chain_mul_inv`, `chain_inv_corner` (§3.4 and Lemma 3.5): the upper bidiagonal chain `C` with
   `ℓ 0, …, ℓ q` on the diagonal and `−a 0, …, −a (q−1)` above it has the explicit inverse
   `chainInv`, and `(C⁻¹)_{0,q} = ℓ 0⁻¹ a 0 ℓ 1⁻¹ ⋯ a (q−1) ℓ q⁻¹` (`chainProd`), for every `q`.
-* `cycleMatrix_inv` (Part 2, (2.1)/(2.2)): for the cyclic `d × d` matrix `F̂_d` with `p₁, …, p_d`
+* `cycleMatrix_inv` ((6.1)/(6.2)): for the cyclic `d × d` matrix `F̂_d` with `p₁, …, p_d`
   on the diagonal, `c` on the superdiagonal and in position `(d, 1)`,
   `(F̂_d⁻¹)₁₁ = [p₁ + (−1)^{d−1} c p₂⁻¹ c ⋯ p_d⁻¹ c]⁻¹`, for every `d ≥ 2`; `cycle_inv` is the
   block form `F̂_d = [[p₁, c e₁ᵀ], [c e_{d−1}, T_d]]` with the explicit block inverse (2.2).
@@ -140,7 +140,7 @@ theorem harmonic_isUnit (a b c : D) (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0)
   have h := harmonic_mul_inv a b c ha hb hc hs
   ⟨⟨_, _, h, mul_eq_one_comm.mp h⟩, rfl⟩
 
-/-- **Part 1, (5.1).** `s⁻¹ = b − b (H⁻¹)₁₁ b` with `H = diag(b, c) + a 𝟙 𝟙ᵀ` and
+/-- **§5.1.** `s⁻¹ = b − b (H⁻¹)₁₁ b` with `H = diag(b, c) + a 𝟙 𝟙ᵀ` and
 `s = a⁻¹ + b⁻¹ + c⁻¹` (in the paper `a = u², b = v², c = w²`). -/
 theorem woodbury_corner (a b c : D) (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0)
     (hs : a⁻¹ + b⁻¹ + c⁻¹ ≠ 0) [Invertible (harmonicMatrix a b c)] :
@@ -154,7 +154,7 @@ theorem woodbury_corner (a b c : D) (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0)
     neg_mul, mul_neg, mul_inv_cancel_left₀ hc, inv_mul_cancel₀ ha]
   abel
 
-/-- **Part 2, Lemma 6.1(1).** `s⁻¹ = a − (a a) H⁻¹ (a a)ᵀ` with `H = !![a + b, a; a, a + c]` and
+/-- **Lemma 7.6(1).** `s⁻¹ = a − (a a) H⁻¹ (a a)ᵀ` with `H = !![a + b, a; a, a + c]` and
 `s = a⁻¹ + b⁻¹ + c⁻¹` (in the paper `a = d₁, b = d₂, c = d₃`). -/
 theorem woodbury_sum (a b c : D) (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0)
     (hs : a⁻¹ + b⁻¹ + c⁻¹ ≠ 0) [Invertible (harmonicMatrix a b c)] :
@@ -177,9 +177,9 @@ theorem woodbury_sum (a b c : D) (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0)
   conv_rhs => rw [e]
   abel
 
-/-! ### Lemma 6.2 of Part 2 -/
+/-! ### Intermediate inverse (Lemma 7.4, case `n′ = 3`) -/
 
-/-- The matrix `!![d₃, d₂; −d₁, d₁ r d₂ + d₁ + d₂]` of Part 2, Lemma 6.2. -/
+/-- The matrix `!![d₃, d₂; −d₁, d₁ r d₂ + d₁ + d₂]` of the intermediate inverse. -/
 def intermediateMatrix (d₁ d₂ d₃ r : D) : Matrix (Fin 2) (Fin 2) D :=
   !![d₃, d₂; -d₁, d₁ * r * d₂ + d₁ + d₂]
 
@@ -204,7 +204,7 @@ theorem intermediate_isUnit (d₁ d₂ d₃ r : D) (h₁ : d₁ ≠ 0) (h₂ : d
   have h := intermediate_mul_inv d₁ d₂ d₃ r h₁ h₂ h₃ hf
   ⟨⟨_, _, h, mul_eq_one_comm.mp h⟩, rfl⟩
 
-/-- **Part 2, Lemma 6.2.** `(s₃ + r)⁻¹ = d₂ (M⁻¹)₂₂ d₁` with `s₃ = d₁⁻¹ + d₂⁻¹ + d₃⁻¹` and
+/-- **Intermediate inverse (Lemma 7.4, case `n′ = 3`).** `(s₃ + r)⁻¹ = d₂ (M⁻¹)₂₂ d₁` with `s₃ = d₁⁻¹ + d₂⁻¹ + d₃⁻¹` and
 `M = !![d₃, d₂; −d₁, d₁ r d₂ + d₁ + d₂]`. -/
 theorem intermediate_inv (d₁ d₂ d₃ r : D) (h₁ : d₁ ≠ 0) (h₂ : d₂ ≠ 0) (h₃ : d₃ ≠ 0)
     (hf : d₁⁻¹ + d₂⁻¹ + d₃⁻¹ + r ≠ 0) [Invertible (intermediateMatrix d₁ d₂ d₃ r)] :
@@ -234,13 +234,13 @@ theorem fromBlocks_mul_schur (S Si : Matrix m m R) (B : Matrix m n R) (C : Matri
 
 end Block
 
-/-! ### Lemma 6.6 of Part 2: compression -/
+/-! ### Lemma 7.4: compression -/
 
 section Compression
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
-/-- `M = [[Y, d₁ 𝟙ᵀ], [−𝟙 d₂, diag d]]` with `Y = d₁ r d₂ + d₁ + d₂` (Part 2, Lemma 6.6). -/
+/-- `M = [[Y, d₁ 𝟙ᵀ], [−𝟙 d₂, diag d]]` with `Y = d₁ r d₂ + d₁ + d₂` (Lemma 7.4). -/
 def compressionMatrix (d₁ d₂ r : D) (d : ι → D) : Matrix (Fin 1 ⊕ ι) (Fin 1 ⊕ ι) D :=
   fromBlocks (of fun _ _ => d₁ * r * d₂ + d₁ + d₂) (of fun _ _ => d₁) (of fun _ _ => -d₂)
     (diagonal d)
@@ -287,7 +287,7 @@ theorem compression_isUnit (d₁ d₂ r : D) (d : ι → D) (h₁ : d₁ ≠ 0) 
   have h := compression_mul_inv d₁ d₂ r d h₁ h₂ hd hf
   ⟨⟨_, _, h, mul_eq_one_comm.mp h⟩, rfl⟩
 
-/-- **Part 2, Lemma 6.6.** `f⁻¹ = d₂ (M⁻¹)₁₁ d₁` for `f = d₁⁻¹ + d₂⁻¹ + Σ dᵢ⁻¹ + r`. -/
+/-- **Lemma 7.4.** `f⁻¹ = d₂ (M⁻¹)₁₁ d₁` for `f = d₁⁻¹ + d₂⁻¹ + Σ dᵢ⁻¹ + r`. -/
 theorem compression_inv (d₁ d₂ r : D) (d : ι → D) (h₁ : d₁ ≠ 0) (h₂ : d₂ ≠ 0)
     (hd : ∀ i, d i ≠ 0) (hf : d₁⁻¹ + d₂⁻¹ + ∑ i, (d i)⁻¹ + r ≠ 0)
     [Invertible (compressionMatrix d₁ d₂ r d)] :
@@ -300,7 +300,7 @@ theorem compression_inv (d₁ d₂ r : D) (d : ι → D) (h₁ : d₁ ≠ 0) (h�
 
 end Compression
 
-/-! ### Bidiagonal chains (Part 1, Lemma 3.2) -/
+/-! ### Bidiagonal chains (§3.4, Lemma 3.5) -/
 
 section Chain
 
@@ -362,7 +362,7 @@ theorem chain_isUnit (q : ℕ) (ℓ a : ℕ → D) (hℓ : ∀ i, ℓ i ≠ 0) :
   have h := chain_mul_inv q ℓ a hℓ
   ⟨⟨_, _, h, mul_eq_one_comm.mp h⟩, rfl⟩
 
-/-- **Part 1, Lemma 3.2 (chain inverse).** For the `(q+1) × (q+1)` upper bidiagonal chain with
+/-- **Chain inverse (§3.4, Lemma 3.5).** For the `(q+1) × (q+1)` upper bidiagonal chain with
 `ℓ 0, …, ℓ q` on the diagonal and `−a 0, …, −a (q−1)` above it,
 `(C⁻¹)_{0,q} = ℓ 0⁻¹ a 0 ℓ 1⁻¹ ⋯ a (q−1) ℓ q⁻¹`. -/
 theorem chain_inv_corner (q : ℕ) (ℓ a : ℕ → D) (hℓ : ∀ i, ℓ i ≠ 0)
@@ -382,11 +382,11 @@ theorem chainProd_neg (ℓ : ℕ → D) (c : D) (i n : ℕ) :
 
 end Chain
 
-/-! ### The cyclic witness of Part 2, (2.1)/(2.2) -/
+/-! ### The cyclic witness, (6.1)/(6.2) -/
 
 section Cycle
 
-/-- `F̂_d` for `d = n + 2` in the block form of the proof of Part 2, (2.1):
+/-- `F̂_d` for `d = n + 2` in the block form of the proof of (6.1):
 `F̂_d = [[p₁, c e₁ᵀ], [c e_{d−1}, T_d]]`, with `T_d` upper bidiagonal, `p₂, …, p_d` on the
 diagonal and `c` above it (`chain` with `a = −c`). Here `p k` is `p_{k+1}`. Up to the reindexing
 `Fin 1 ⊕ Fin (d − 1) ≃ Fin d`, this is the matrix with `p₁, …, p_d` on the diagonal, `c` on the
@@ -475,7 +475,7 @@ theorem cycle_schur_sign (n : ℕ) (p : ℕ → D) (c : D) :
   rw [chainProd_neg, hc, pow_succ]
   simp [mul_assoc, sub_eq_add_neg]
 
-/-- **Part 2, (2.1)/(2.2), block form.** `ρ_d = (F̂_d⁻¹)₁₁ = σ⁻¹ =
+/-- **(6.1)/(6.2), block form.** `ρ_d = (F̂_d⁻¹)₁₁ = σ⁻¹ =
 [p₁ + (−1)^{d−1} c p₂⁻¹ c p₃⁻¹ c ⋯ p_d⁻¹ c]⁻¹` (`d = n + 2`;
 `chainProd _ (fun _ => c) 0 n = p₂⁻¹ c p₃⁻¹ ⋯ c p_d⁻¹`). -/
 theorem cycle_inv (n : ℕ) (p : ℕ → D) (c : D) (hp : ∀ k, p (k + 1) ≠ 0)
@@ -509,7 +509,7 @@ theorem cycleMatrix_isUnit (n : ℕ) (p : ℕ → D) (c : D) (hp : ∀ k, p (k +
   have h := cycleMatrix_mul_inv n p c hp hσ
   ⟨⟨_, _, h, mul_eq_one_comm.mp h⟩, rfl⟩
 
-/-- **Part 2, (2.1).** For the cyclic `d × d` matrix `F̂_d` (`d = n + 2`) with `p₁, …, p_d` on the
+/-- **(6.1).** For the cyclic `d × d` matrix `F̂_d` (`d = n + 2`) with `p₁, …, p_d` on the
 diagonal, `c` on the superdiagonal and `c` in position `(d, 1)`, over a division ring:
 `ρ_d = (F̂_d⁻¹)₁₁ = [p₁ + (−1)^{d−1} c p₂⁻¹ c p₃⁻¹ c ⋯ p_d⁻¹ c]⁻¹`, provided the `p_j` (`j ≥ 2`)
 and the Schur complement are nonzero. -/
