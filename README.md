@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 202 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 224 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
@@ -55,6 +55,9 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `SizeChainPencil` 🆕 | A diagonal matrix with distinct eigenvalues and the cyclic permutation matrix generate `M_d(K)`; `diag(3,…,d+2) − 1 − C_d²` is invertible (Gershgorin); the `F^{(λ)}` case: invertibility iff `λ ∉ {−1,0,1,2}` |
 | | `Criterion` 🆕 | Monotone invariants and stable association; the non-membership criterion with the localization lemma as a named hypothesis; the corank at a representation is a monotone invariant |
 | | `ChainPencilConditions` 🆕 | The eight rank conditions (EPIC both sides, `𝒦ᵢᴿ = 𝒦ᵢᴸ = 0`) for the chain pencils `Q₃`, `Q₄`, by `decide` certificates |
+| | `ParabolicFamily` 🆕 | The exact arc is the conjugate `Kⁱ U₀ K⁻ⁱ` of an antidiagonal matrix; conjugates of a central square stay central; the parabolic family `N_j = Kʲ N K⁻ʲ = t c_j r_j` with `N_j² = 0` and the cyclic trace law `tr(N_{j₁}⋯N_{j_q}) = t^{2q} ∏ (j_{l+1} − j_l)`; `det (1 + J) = n + 1` |
+| | `ArrowMatrix` 🆕 | Explicit two-sided inverse of the arrow matrix `[[diag d, ω], [α, 0]]` over a division ring; its border corner is `−(Σ α d⁻¹ ω)⁻¹` |
+| | `QuaternionCurve` 🆕 | `t i`, `t j`, `t k` in `ℍ[R]` square to `−t²` and anticommute pairwise |
 
 `FormalizationsTest/Axioms.lean` prints the axioms of every main result.
 
@@ -67,6 +70,12 @@ by name), the file says so and proves it in one line from that lemma.
   (`Matrix.fromBlocks₂₂Invertible`, `Matrix.invOf_fromBlocks₂₂_eq`) is stated over a `CommRing`.
   `InverseIdentities.fromBlocks_mul_schur`, `schur_two` and `WeightedTrinomials.schur_r2` are the
   noncommutative versions over any ring, with one-sided inverses.
+- ↗️ **Arrow matrices.** Over a commutative ring the inverse of `[[diag d, ω], [α, 0]]` is a case
+  of Mathlib's `Matrix.invOf_fromBlocks₁₁_eq`. `ArrowMatrix` gives it over a division ring, with
+  the inverse written out and both products checked.
+- 🔄 **Conjugates and rank-one determinants.** `ParabolicFamily.units_conj_mul_conj_eq` is
+  Mathlib's `Units.conj_pow` with `n = 2` plus centrality; `det_one_add_allOnes` is
+  `Matrix.det_one_add_replicateCol_mul_replicateRow` for the all-ones matrix.
 - 🔁 **Woodbury.** Mathlib has the matrix identity over a `Ring` (`Matrix.invOf_add_mul_mul`).
   `woodbury_corner` and `woodbury_sum` read one entry of it for the harmonic matrix
   `diag(b, c) + a 𝟙𝟙ᵀ` over a division ring.
