@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 246 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 306 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
@@ -29,6 +29,13 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | Area | File | Main result |
 |---|---|---|
 | `Algebra.Ring` | `Continuant` | Euler's continuant; `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹` |
+| `Analysis.SpecialFunctions.Integrals` | `LogDivSelf` 🆕 | `∫₁ᴺ log x / x dx = (log N)² / 2` |
+| `Analysis.TransformerAttention` | `CriticalExponents` 🆕 | Phase A exponents of the attention decay: `2η² + ηγ_χ + 1 = 0`, `βχ = −1`, `α + χ = 2`, Rushbrooke and Josephson with `d = 1`, the Fisher residual, `η = 2γ` refuted on `(0, 1)`, AM-GM bound `γ_χ ≥ 2√2` |
+| | `CardyPDI` 🆕 | `log PDI + ΔH_Cardy = 0` (Phase 7 form), residual `−log 2 / 2` (Phase 8 form); `d/dx artanh x = 1/(1 − x²)` |
+| | `Pade` 🆕 | The `[2/2]` minus the `[1/1]` Padé approximant of `e^{−z}` is `2z³/((z + 2)(z² + 6z + 12))`; `θ_eff` closed form |
+| | `CayleyMap` 🆕 | Fixed point `z* = (√17 − 3)/2` of `(2 − z)/(2 + z)`, `χ = (5 + √17)/4`, Floquet multiplier `(√17 − 9)/8` with `|μ| < 1` |
+| | `RGFlow` 🆕 | `V = γ − γ³/3` gives `−V' ≠ β = −(1 − γ²)/2` (factor 2); the corrected `V = γ/2 − γ³/6`; `tanh(t/2 + c)` solves `γ' = (1 − γ²)/2` |
+| | `HeatCapacity` 🆕 | Erratum to the Hagedorn heat capacity: both derivations give `(log N)²/12`, three times smaller than the published `(log N)²/4` |
 | `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |
 | | `Adjugate` | Diagonal entries of the adjugate are principal minors |
 | | `Rank` | `rank (A + B) ≤ rank A + rank B`; nullity under low-rank perturbation; block triangular bounds |
@@ -109,6 +116,13 @@ by name), the file says so and proves it in one line from that lemma.
   [combinatorial-games](https://github.com/vihdzp/combinatorial-games) (`NatOrdinal`). `Hessenberg`
   defines it independently, inside Mathlib, through Cantor normal form; the two definitions are
   not proved equal here.
+- 📈 **Real special functions.** Mathlib defines `Real.artanh` but, at the pinned commit, has no
+  derivative lemma for `artanh` or `tanh`; `CardyPDI.hasDerivAt_artanh` derives the first from
+  `Real.artanh_eq_half_log`, and `RGFlow.rg_flow_tanh` uses `tanh = sinh / cosh`. The two-variable
+  AM-GM step of `CriticalExponents` is Mathlib's `two_mul_le_add_of_sq_le_mul`, and three of its
+  closed forms are instances of `div_mul_cancel₀` and `one_div_mul_cancel`, proved in one line.
+  The files in `Analysis.TransformerAttention` port the repository
+  [lean-taf](https://github.com/karlesmarin/lean-taf) (Lean `v4.30.0-rc2`), which stays as published.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.

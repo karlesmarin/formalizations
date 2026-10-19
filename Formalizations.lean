@@ -1,6 +1,13 @@
 module
 
 public import Formalizations.Algebra.Ring.Continuant
+public import Formalizations.Analysis.SpecialFunctions.Integrals.LogDivSelf
+public import Formalizations.Analysis.TransformerAttention.CardyPDI
+public import Formalizations.Analysis.TransformerAttention.CayleyMap
+public import Formalizations.Analysis.TransformerAttention.CriticalExponents
+public import Formalizations.Analysis.TransformerAttention.HeatCapacity
+public import Formalizations.Analysis.TransformerAttention.Pade
+public import Formalizations.Analysis.TransformerAttention.RGFlow
 public import Formalizations.LinearAlgebra.Matrix.Adjugate
 public import Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi
 public import Formalizations.LinearAlgebra.Matrix.FinTwo
