@@ -110,7 +110,10 @@ public import Formalizations.NumberTheory.MahlerBasis.FiniteMahlerBasis
 public import Formalizations.NumberTheory.MahlerBasis.LogarithmChange
 public import Formalizations.NumberTheory.MahlerBasis.ParityAndKernel
 public import Formalizations.NumberTheory.MahlerBasis.RankProfile
+public import Formalizations.NumberTheory.NumericalSemigroup.GenusBound
 public import Formalizations.NumberTheory.OrderOfTwo
+public import Formalizations.NumberTheory.PrescribedMoments.Biquanimous
+public import Formalizations.NumberTheory.PrescribedMoments.CubicModels
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.Arithmetic
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.LinearCoefficient
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.Multipliers
@@ -148,6 +151,7 @@ public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin
 public import Formalizations.Physics.Supergravity.AnomalyQuantization.U2Example
 public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
 public import Formalizations.Probability.Distributions.Superstatistics.StudentMixture
+public import Formalizations.RepresentationTheory.Symplectic.ResidueCapacity
 public import Formalizations.RingTheory.DGH.Absorb
 public import Formalizations.RingTheory.DGH.Basic
 public import Formalizations.RingTheory.DGH.Epsilon0
