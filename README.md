@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 668 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 1021 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -49,6 +49,31 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `Charpoly.Jacobi` | Resolvent series and Jacobi's formula for the derivative of the reversed charpoly |
 | | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
 | | `FreeLocusCertificate` | Soundness of the free-locus certificate ("not flip-poly") |
+| `MusicTheory` | `IntervalVector` 🆕 | The interval vector of a pitch-class set in `ℤ/12` is invariant under transposition and inversion |
+| | `Fourier` 🆕 | The DFT of a pitch-class set as `ZMod.dft` of its indicator: interval vector = inverse transform of `‖Â‖²`, homometry iff equal power spectrum, Babbitt's hexachord theorem, common tones under inversion from `Â²`, the triple correlation separates a homometric pair, `Â` is a complete invariant |
+| | `ParityA6` 🆕 | `Â(6) = #even − #odd` pitch classes, so `Â(6) = 0` iff parity balance; the frequency `m` of `ℤ/(2m)` |
+| | `MTransform` 🆕 | Multiplication by a unit permutes the Fourier coefficients (`M₅` exchanges `a₁` and `a₅`); `2‖Â(1)‖² = P + Q√3` with integers read from the interval vector, ordered in `ℤ√3` |
+| | `Tiling` 🆕 | `A ⊕ B = ℤ/12` iff `#A · #B = 12` and `Â A k = 0 ∨ Â B k = 0` for `k ≠ 0`, via the discrete convolution theorem |
+| | `InversionDFT` 🆕 | Translations are diagonal and inversion swaps `k ↔ −k` on the characters of `ZMod N`; the blocks `span {χ_k, χ_−k}` are dihedral-invariant, irreducible for `k ≠ −k`; self-paired frequencies `{0}` / `{0, N/2}` |
+| | `CycleGraphSpectrum` 🆕 | Every circulant is diagonalized by the characters with eigenvalue the DFT of its first column; the characters form a basis; spectrum `2 cos(2πk/12)` of `cycleGraph 12`; abelian Cayley graphs |
+| | `NeoRiemannian` 🆕 | `T/I` (`DihedralGroup 12`) acts simply transitively on the 24 triads; the centralizer of the `T/I` group in `Equiv.Perm Triad` is the `PLR` group (Crans–Fiore–Satyendra duality); voice-leading sizes of `P`, `L`, `R` |
+| | `SixThirty` 🆕 | The set class 6-30: orbit of size 12, stabilizer `{T₀, T₆}`, and its dual (centralizer of the induced action) has order 12, acts simply transitively and has a dihedral presentation |
+| | `TonnetzSpectrum` 🆕 | The Tonnetz adjacency matrix is symmetric and bipartite; explicit eigenvectors for `±{3, √5, 2cos(π/12), √3, 1, 2cos(5π/12)}`; `√5 < 2√2` |
+| | `TonnetzCompleteness` 🆕 | The 24 eigenvectors form a basis of `ℂ^(ZMod 12 × Bool)`, so these are all the eigenvalues |
+| | `DiatonicScale` 🆕 | Myhill's property for the diatonic, not for the whole-tone scale; maximal evenness; generation by fifths; the three-gap theorem in `ℤ/12`; well-formedness |
+| | `Temperament` 🆕 | 3-limit regular temperament: the Pythagorean comma generates the kernel of the 12-EDO val; 5- and 7-EDO do not temper it; 12-EDO is meantone; the 5-limit kernel has rank 2 |
+| | `CircleOfFifths` 🆕 | The reduction `ℤ² → ℤ/12` kills the comma: twelve fifths close the circle and generate `ℤ/12`; four fifths are a major third |
+| | `MaximalEvenness` 🆕 | For strictly convex `V`, the step-gap energy `∑ V(gᵢ)` is minimized exactly by the balanced gap configurations (necessary, not sufficient, for maximal evenness) |
+| | `AllPairsEvenness` 🆕 | Double summation by parts for the all-pairs energy; for every convex `V` decreasing at the top, the pentatonic, whole-tone, diatonic and octatonic sets minimize it, uniquely up to `T/I` for strict `V`; censuses by kernel `decide` on bitmasks |
+| | `CyclicHuddling` 🆕 | Fourier amplitudes of subsets of `ZMod N` (identified with `ZMod.dft`): transposition, complement, arcs, threshold exchange |
+| | `CyclicHuddlingGeometry` 🆕 | Huddling for every `N ≠ 0`: `‖Â(B)(1)‖ ≤ ‖Â(arc #B)(1)‖`, equality exactly for translates of the arc; every unit frequency |
+| | `CyclicHuddlingClosedForm` 🆕 | `‖Â(arc m)(1)‖ = sin(πm/N)/sin(π/N)` for `1 < N`; the sharp bound and its equality case; `m ↔ N − m` |
+| | `Huddling` 🆕 | Twelve-tone Huddling; through `M₅`, chains of fifths maximize `‖a₅‖` |
+| | `DiatonicExtremality` 🆕 | Among 7-sets the diatonic maximizes `‖a₅‖ = 2 + √3 = sin(7π/12)/sin(π/12)` and minimizes every convex all-pairs energy; the two equality classes coincide |
+| | `ComplementEnergy` 🆕 | Complement transport of symmetric pair energies; constant row sums iff complementation preserves energy gaps / minimizers |
+| | `TranslationInvariantEnergy` 🆕 | Difference potentials on finite abelian groups: one scalar controls the complement correction; a hexachord and its complement have equal energy |
+| | `ExtremalityConnections` 🆕 | Homometric sets have equal energies; homometry survives complementation; the pentatonic results from the diatonic by complementation |
+| | `MelodicWord` 🆕 | An odd-step statistic of melodic words is antisymmetric under retrograde and invariant under repeated notes; the pitch-class DFT is order-blind |
 | `Physics.Particles.GaugeHiggsUnification` | `NotchCentreCharge` 🆕 | The bialternant `N = det (yᵢ^{μⱼ})` of `s_λ(1, −1, t, t⁻¹)` over `ℤ[T;T⁻¹]` vanishes iff `Odd b ∧ ((Odd a ∧ Odd c) ∨ a = c)`; `D(−t) = (−1)^{a+2b+3c} D(t)`; degenerate irreps have even centre charge `a + 2b + 3c` |
 | | `BlindCount` 🆕 | The blind set in partition coordinates (two branches) equals `N = 0`; `l₁` is odd on it; the shell `l₁ = 2k+1` has `⌈(k+1)²/2⌉` blind partitions |
 | | `CosetCensus` 🆕 | Boundary conditions `[p; q, r; s]` on `S¹/ℤ₂`: the label `(p+q, q+s)` is a complete invariant of the equivalence, `(N+1)²` classes, of which `⌊(N+1)²/2⌋` have a reflection-coset sector |
@@ -199,6 +224,20 @@ by name), the file says so and proves it in one line from that lemma.
   therefore not ported. `LogMul` adds the additivity `logOf_mul` and the power law `logOf_pow`.
 - 〰️ **Airy functions.** Mathlib has no Airy functions and no Sturm comparison theorem; `Airy.Basic`
   builds the oscillation argument from Rolle's theorem and the intermediate value theorem.
+- 🎼 **Music theory.** Mathlib has no music theory. The Fourier files use Mathlib's discrete
+  Fourier transform `ZMod.dft` (`Fourier.Ahat` is `ZMod.dft` of the indicator, and
+  `CyclicHuddling.Ahat_eq_dft` identifies the set-sum form with it); `InversionDFT`,
+  `CycleGraphSpectrum` and `TonnetzCompleteness` work with the characters `j ↦ stdAddChar (j * k)`
+  as vectors and obtain their basis from `ZMod.dft` (`dftChar_eq_smul_invDFT`); Mathlib's
+  `ZMod.dft_comp_neg` is the transform-level form of `InversionDFT.inv_dftChar`. `Matrix.circulant`,
+  `SimpleGraph.cycleGraph`, `DihedralGroup` and `Subgroup.centralizer` are used as they are; we did
+  not find in Mathlib that the centralizer of a transitive action is semiregular, which
+  `NeoRiemannian` proves for its use. [Prismriver](https://arxiv.org/abs/2606.19936) (Aniva–Wang) is a
+  Lean 4 library of music theory; the overlap with it was not audited. The censuses of
+  `AllPairsEvenness` range over all `k`-subsets of `ℤ/12`; they are checked by `decide` in the kernel
+  on a bitmask encoding, with a proved bridge to the `Finset` statements. These files port the
+  repository [music-math](https://github.com/karlesmarin/music-math) (Lean `v4.30.0-rc2`), which stays
+  as published; there the censuses used `native_decide`.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.
