@@ -26,6 +26,7 @@ public import Formalizations.Analysis.TransformerAttention.GammaMobius
 public import Formalizations.Analysis.TransformerAttention.HeatCapacity
 public import Formalizations.Analysis.TransformerAttention.Pade
 public import Formalizations.Analysis.TransformerAttention.RGFlow
+public import Formalizations.Combinatorics.Additive.AddClosedInterval
 public import Formalizations.Combinatorics.Hall.Tight
 public import Formalizations.Combinatorics.Matroid.Transversal
 public import Formalizations.Combinatorics.Matroid.TransversalObstruction
@@ -60,6 +61,9 @@ public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.Basic
 public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.Kirchhoff
 public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.SpanningTreeMinor
 public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
+public import Formalizations.FieldTheory.Finite.CartierOperator
+public import Formalizations.FieldTheory.Finite.OddPowerVandermonde
+public import Formalizations.GroupTheory.FiniteAbelian.OddCharacter
 public import Formalizations.GroupTheory.GroupAction.DistinguishingNumber
 public import Formalizations.GroupTheory.GroupAction.SectionRegular
 public import Formalizations.GroupTheory.GroupAction.Separation
@@ -73,6 +77,7 @@ public import Formalizations.LinearAlgebra.Matrix.FreeLocusCertificate
 public import Formalizations.LinearAlgebra.Matrix.Rank
 public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
 public import Formalizations.LinearAlgebra.Matrix.WalkCount
+public import Formalizations.LinearAlgebra.PointwiseProductSpan
 public import Formalizations.MusicTheory.AllPairsEvenness
 public import Formalizations.MusicTheory.CircleOfFifths
 public import Formalizations.MusicTheory.ComplementEnergy
@@ -98,6 +103,8 @@ public import Formalizations.MusicTheory.Tiling
 public import Formalizations.MusicTheory.TonnetzCompleteness
 public import Formalizations.MusicTheory.TonnetzSpectrum
 public import Formalizations.MusicTheory.TranslationInvariantEnergy
+public import Formalizations.NumberTheory.FermatQuotient
+public import Formalizations.NumberTheory.OrderOfTwo
 public import Formalizations.NumberTheory.WeightedCharacterSums.DigitCorollaries
 public import Formalizations.NumberTheory.WeightedCharacterSums.DigitRecursion
 public import Formalizations.NumberTheory.WeightedCharacterSums.NoZeros
