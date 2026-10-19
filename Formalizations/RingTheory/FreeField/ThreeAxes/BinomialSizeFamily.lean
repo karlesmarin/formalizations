@@ -21,7 +21,7 @@ Corollary 7.10(a): `q_d = w⁻¹ + Σ_{i<d} yⁱ u⁻¹ y⁻ⁱ` and `e_d = q_d�
 
 ## Main results
 
-* `rankOne_mul_inv`, `rankOne_inv_mul` (rank one): for `Δ i ≠ 0`, `u ≠ 0` and
+* `rankOne_mul_inv`, `rankOneInv_mul` (rank one): for `Δ i ≠ 0`, `u ≠ 0` and
   `q = u⁻¹ + Σ_i (Δ i)⁻¹ ≠ 0`, `H = diagonal Δ + u J` has the two-sided inverse
   `Hinv i j = δ_ij (Δ i)⁻¹ − (Δ i)⁻¹ q⁻¹ (Δ j)⁻¹`. Both are the Woodbury identities
   `Matrix.add_mul_mul_invOf_mul_eq_one` and `Matrix.add_mul_mul_invOf_mul_eq_one'` (over a ring)
