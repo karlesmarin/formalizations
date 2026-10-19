@@ -240,6 +240,10 @@ import Formalizations
 #print axioms ThreeAxes.BinomialSizeFamily.inv_q_eq
 #print axioms ThreeAxes.BinomialSizeFamily.conj_add_mul_pow
 #print axioms ThreeAxes.BinomialSizeFamily.det_scalar_point
+#print axioms ThreeAxes.BinomialSizeFamily.idemU_eq
+#print axioms ThreeAxes.BinomialSizeFamily.cycShift_pow_apply
+#print axioms ThreeAxes.BinomialSizeFamily.idemBlock_eq
+#print axioms ThreeAxes.BinomialSizeFamily.idemBlock_isUnit
 #print axioms ThreeAxes.QuaternionCurve.xi_mul_self
 #print axioms ThreeAxes.QuaternionCurve.eta_mul_self
 #print axioms ThreeAxes.QuaternionCurve.zeta_mul_self

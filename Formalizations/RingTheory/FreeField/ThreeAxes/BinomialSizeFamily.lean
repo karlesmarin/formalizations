@@ -7,6 +7,7 @@ module
 
 public import Mathlib.LinearAlgebra.Matrix.Invertible
 public import Mathlib.LinearAlgebra.Matrix.SchurComplement
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 public import Mathlib.LinearAlgebra.Matrix.RowCol
 public import Mathlib.Algebra.BigOperators.Ring.Finset
 public import Mathlib.Algebra.Field.Basic
@@ -31,6 +32,11 @@ Corollary 7.10(a): `q_d = w⁻¹ + Σ_{i<d} yⁱ u⁻¹ y⁻ⁱ` and `e_d = q_d�
   in `u`, `w`, `y`.
 * `det_scalar_point` (scalar point, commutative ring): `det (diag(0, 1, …, 1) + J) = 1`, via the
   Weinstein–Aronszajn identity `Matrix.det_one_add_mul_comm` with a rank-two factorization.
+* `idemBlock_isUnit` (idempotent point, field): at `U = 1 − E₀₀` (`idemU_eq`), `W = 1` and `Y`
+  the cyclic shift `Y_{ab} = [a = b + 1]` (`cycShift_pow_apply`: `(Yᵏ)_{ab} = [a = b + k]`), the
+  block matrix with block `(i, j) = U Yʲ + δ_ij (if i = 0 then W else Yⁱ U)` is invertible for
+  every size `d = n + 1 ≥ 1`. Proof: `idemBlock_eq` computes the entries, `mulVec` has trivial
+  kernel.
 
 ## Related
 
@@ -174,5 +180,151 @@ theorem det_scalar_point {R : Type*} [CommRing R] (n : ℕ) :
     all_goals ring
   rw [hM, det_one_add_mul_comm, hBA, det_fin_two_of]
   ring
+
+/-! ### Idempotent point -/
+
+section Idempotent
+
+open Fin.NatCast
+
+variable {K : Type*} [Field K] (n : ℕ)
+
+/-- The cyclic shift `Y` on `K^{n+1}`: `Y_{ab} = [a = b + 1]`. -/
+def cycShift : Matrix (Fin (n + 1)) (Fin (n + 1)) K := of fun a b => if a = b + 1 then 1 else 0
+
+/-- `U = 1 − E₀₀` (`idemU_eq`). -/
+def idemU : Matrix (Fin (n + 1)) (Fin (n + 1)) K := of fun a b => if a = b ∧ a ≠ 0 then 1 else 0
+
+theorem idemU_eq : idemU (K := K) n = 1 - single 0 0 1 := by
+  ext a b
+  by_cases h : a = b <;> by_cases ha : a = 0 <;> simp [idemU, one_apply, single_apply, h, ha] <;>
+    grind
+
+theorem cycShift_pow_apply (k : ℕ) (a b : Fin (n + 1)) :
+    (cycShift (K := K) n ^ k) a b = if a = b + (k : Fin (n + 1)) then 1 else 0 := by
+  have hY : ∀ a c, cycShift (K := K) n a c = if a = c + 1 then 1 else 0 := fun _ _ => rfl
+  induction k generalizing a with
+  | zero => simp [one_apply]
+  | succ k ih =>
+    rw [pow_succ', mul_apply]
+    simp only [hY, ih, ite_mul, one_mul, zero_mul]
+    rw [Finset.sum_eq_single (a - 1)]
+    · have : a = a - 1 + 1 := by abel
+      simp only [← this, ite_true, Nat.cast_succ, sub_eq_iff_eq_add, add_assoc]
+    · intro c _ hc
+      exact ite_eq_right_iff.mpr fun h => absurd (by rw [h]; abel) hc
+    · simp
+
+/-- The `(n+1) × (n+1)` block matrix with block `(i, j)` equal to
+`U Yʲ + δ_ij (if i = 0 then W else Yⁱ U)`, at `W = 1`, `U = 1 − E₀₀`, `Y` the cyclic shift. -/
+def idemBlock : Matrix (Fin (n + 1) × Fin (n + 1)) (Fin (n + 1) × Fin (n + 1)) K :=
+  of fun p q =>
+    (idemU (K := K) n * cycShift n ^ (q.1 : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) K) p.2 q.2 +
+      if p.1 = q.1 then
+        (if p.1 = 0 then (1 : Matrix (Fin (n + 1)) (Fin (n + 1)) K)
+          else cycShift n ^ (p.1 : ℕ) * idemU n) p.2 q.2
+      else 0
+
+/-- The entries of `idemBlock`. -/
+def idemBlockEntries : Matrix (Fin (n + 1) × Fin (n + 1)) (Fin (n + 1) × Fin (n + 1)) K :=
+  of fun p q => (if p.2 ≠ 0 ∧ p.2 = q.2 + q.1 then 1 else 0) +
+    if p.1 = q.1 then
+      (if p.1 = 0 then (if p.2 = q.2 then 1 else 0)
+        else (if q.2 ≠ 0 ∧ p.2 = q.2 + p.1 then 1 else 0))
+    else 0
+
+theorem idemBlock_eq : idemBlock (K := K) n = idemBlockEntries n := by
+  ext ⟨i, a⟩ ⟨j, b⟩
+  simp only [idemBlock, idemBlockEntries, of_apply, mul_apply, cycShift_pow_apply,
+    Fin.cast_val_eq_self, idemU, mul_ite, mul_one, mul_zero]
+  congr 1
+  · rw [Finset.sum_eq_single a]
+    · by_cases ha : a = 0 <;> simp [ha]
+    · intro c _ hc; simp [Ne.symm hc]
+    · simp
+  · by_cases hij : i = j
+    · subst hij
+      by_cases hi : i = 0
+      · simp [hi, one_apply]
+      · simp only [hi, ite_true, ite_false]
+        rw [mul_apply]
+        simp only [cycShift_pow_apply, Fin.cast_val_eq_self, of_apply, mul_ite, mul_one, mul_zero]
+        rw [Finset.sum_eq_single b]
+        · by_cases hb : b = 0 <;> simp [hb]
+        · intro c _ hc; simp [hc]
+        · simp
+    · simp [hij]
+
+theorem idemBlockEntries_mulVec (v : Fin (n + 1) × Fin (n + 1) → K) (i a : Fin (n + 1)) :
+    (idemBlockEntries (K := K) n *ᵥ v) (i, a) =
+      (if a ≠ 0 then ∑ j, v (j, a - j) else 0) +
+        if i = 0 then v (0, a) else (if a ≠ i then v (i, a - i) else 0) := by
+  simp only [mulVec, dotProduct, idemBlockEntries, of_apply, add_mul, Finset.sum_add_distrib,
+    Fintype.sum_prod_type]
+  congr 1
+  · by_cases ha : a = 0
+    · simp [ha]
+    · simp only [ha, ne_eq, not_false_eq_true, true_and, ite_true, ite_mul, one_mul, zero_mul]
+      refine Finset.sum_congr rfl fun j _ => ?_
+      rw [Finset.sum_eq_single (a - j)]
+      · simp
+      · intro b _ hb
+        exact ite_eq_right_iff.mpr fun h => absurd (by rw [h]; abel) hb
+      · simp
+  · by_cases hi : i = 0
+    · subst hi
+      simp [ite_mul, Finset.sum_ite_eq]
+    · simp only [hi, ite_false, ite_mul, one_mul, zero_mul]
+      rw [Finset.sum_eq_single i]
+      · simp only [ite_true]
+        by_cases hai : a = i
+        · subst hai
+          simp only [ne_eq, not_true_eq_false, ite_false]
+          refine Finset.sum_eq_zero fun b _ => ?_
+          exact ite_eq_right_iff.mpr fun ⟨hb, h⟩ => absurd (by simpa using h) hb
+        · rw [Finset.sum_eq_single (a - i)]
+          · have h1 : a - i ≠ 0 := fun h => hai (sub_eq_zero.mp h)
+            have h2 : a = a - i + i := by abel
+            simp [h1, hai, ← h2]
+          · intro b _ hb
+            exact ite_eq_right_iff.mpr fun ⟨_, h⟩ => absurd (by rw [h]; abel) hb
+          · simp
+      · intro j _ hj
+        simp [Ne.symm hj]
+      · simp
+
+/-- The block matrix at the idempotent point is invertible for every size `n + 1 ≥ 1`
+(trivial kernel). -/
+theorem idemBlock_isUnit : IsUnit (idemBlock (K := K) n) := by
+  rw [idemBlock_eq, ← mulVec_injective_iff_isUnit]
+  intro v w hvw
+  rw [← sub_eq_zero] at hvw ⊢
+  rw [← mulVec_sub] at hvw
+  set x := v - w
+  have hx : ∀ i a, (if a ≠ 0 then ∑ j, x (j, a - j) else 0) +
+      (if i = 0 then x (0, a) else (if a ≠ i then x (i, a - i) else 0)) = 0 := fun i a => by
+    rw [← idemBlockEntries_mulVec, hvw]; rfl
+  have hS : ∀ c, c ≠ 0 → ∑ j, x (j, c - j) = 0 := fun c hc => by
+    simpa [hc] using hx c c
+  have hS' : ∀ a : Fin (n + 1), (if a ≠ 0 then ∑ j, x (j, a - j) else 0) = 0 := fun a => by
+    by_cases ha : a = 0 <;> simp [ha, hS]
+  have h0 : ∀ a, x (0, a) = 0 := fun a => by simpa [hS' a] using hx 0 a
+  have h1 : ∀ i c, i ≠ 0 → c ≠ 0 → x (i, c) = 0 := fun i c hi hc => by
+    have hne : c + i ≠ i := fun h => hc (by simpa using h)
+    simpa [hS' (c + i), hi, hne] using hx i (c + i)
+  have h2 : ∀ i, i ≠ 0 → x (i, 0) = 0 := fun i hi => by
+    have := hS i hi
+    rwa [Finset.sum_eq_single i (fun j _ hj => ?_) (by simp), sub_self] at this
+    by_cases hj0 : j = 0
+    · subst hj0; exact h0 _
+    · exact h1 j _ hj0 (sub_ne_zero.mpr (Ne.symm hj))
+  ext ⟨i, a⟩
+  by_cases hi : i = 0
+  · subst hi; exact h0 a
+  · by_cases ha : a = 0
+    · subst ha; exact h2 i hi
+    · exact h1 i a hi ha
+
+end Idempotent
 
 end ThreeAxes.BinomialSizeFamily
