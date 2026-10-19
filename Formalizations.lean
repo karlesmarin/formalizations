@@ -160,6 +160,13 @@ public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Basic
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Coproduct
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Eulerian
 public import Formalizations.RingTheory.Polynomial.Chebyshev.Docagne
+public import Formalizations.RingTheory.Polynomial.CoefficientRing.Division
+public import Formalizations.RingTheory.Polynomial.CoefficientRing.Operations
+public import Formalizations.RingTheory.Polynomial.CoefficientRing.Quadratic
+public import Formalizations.RingTheory.Polynomial.CoefficientRing.Recentering
+public import Formalizations.RingTheory.Polynomial.CoefficientRing.Residues
+public import Formalizations.RingTheory.Polynomial.CoefficientRing.StableFamilies
+public import Formalizations.RingTheory.Polynomial.CoefficientRing.StableIntervals
 public import Formalizations.RingTheory.PowerSeries.LogMul
 public import Formalizations.SetTheory.Ordinal.Gentzen.Acc
 public import Formalizations.SetTheory.Ordinal.Gentzen.Ordinals
