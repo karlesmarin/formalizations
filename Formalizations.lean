@@ -98,6 +98,11 @@ public import Formalizations.MusicTheory.Tiling
 public import Formalizations.MusicTheory.TonnetzCompleteness
 public import Formalizations.MusicTheory.TonnetzSpectrum
 public import Formalizations.MusicTheory.TranslationInvariantEnergy
+public import Formalizations.NumberTheory.WeightedCharacterSums.DigitCorollaries
+public import Formalizations.NumberTheory.WeightedCharacterSums.DigitRecursion
+public import Formalizations.NumberTheory.WeightedCharacterSums.NoZeros
+public import Formalizations.NumberTheory.WeightedCharacterSums.SubsetSumsAndRows
+public import Formalizations.NumberTheory.WeightedCharacterSums.WeightedHalfSum
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.AlignmentPolynomials
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.BlindCount
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.ChargeQuantization

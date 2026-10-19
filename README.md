@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 1272 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 1325 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -127,6 +127,11 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `TranslationInvariantEnergy` 🆕 | Difference potentials on finite abelian groups: one scalar controls the complement correction; a hexachord and its complement have equal energy |
 | | `ExtremalityConnections` 🆕 | Homometric sets have equal energies; homometry survives complementation; the pentatonic results from the diatonic by complementation |
 | | `MelodicWord` 🆕 | An odd-step statistic of melodic words is antisymmetric under retrograde and invariant under repeated notes; the pitch-class DFT is order-blind |
+| `NumberTheory.WeightedCharacterSums` | `DigitRecursion` 🆕 | For `χ` completely multiplicative and periodic off the multiples of `q`, `S(m) = ∑_{n≤m} n χ(n)` satisfies `S(qk + r) = s q S(k) + k(T_q + q C(r)) + T(r)`; zeros propagate along base-`q` digits; complete sequences and their pairs version (names `SegmentoII.*` as cited by the paper's blueprint) |
+| | `DigitCorollaries` 🆕 | The digit recursion over any commutative ring; families of zeros of `S`, digit blocks, the identities `4χ(2)T = 2(1 − χ(2))T_f` and `fχ(2)C = (1 − 2χ(2))T_f`, the case `χ(2) = 1` |
+| | `WeightedHalfSum` 🆕 | For an odd Dirichlet character modulo odd `f`: `∑_{c ≤ (f−1)/2} c χ(c) = (f/2) B_{1,χ} (χ(2)⁻¹ − 1)` and the unweighted twin |
+| | `SubsetSumsAndRows` 🆕 | Growth of intervals of subset sums; `∑_{c≤m} c ε(c) ≡ (n² − 1)/8 (mod 2)` for signs `ε`, so it vanishes only if `(2/n) = 1` |
+| | `NoZeros` 🆕 | `∑_{n≤m} n (n/q) ≠ 0` for all `m ≥ 1` when `q = 179, 227` (the symbol extended completely multiplicatively with `χ(q) = 1`): a finite certificate checked by `decide +kernel` |
 | `Physics.Particles.GaugeHiggsUnification` | `NotchCentreCharge` 🆕 | The bialternant `N = det (yᵢ^{μⱼ})` of `s_λ(1, −1, t, t⁻¹)` over `ℤ[T;T⁻¹]` vanishes iff `Odd b ∧ ((Odd a ∧ Odd c) ∨ a = c)`; `D(−t) = (−1)^{a+2b+3c} D(t)`; degenerate irreps have even centre charge `a + 2b + 3c` |
 | | `BlindCount` 🆕 | The blind set in partition coordinates (two branches) equals `N = 0`; `l₁` is odd on it; the shell `l₁ = 2k+1` has `⌈(k+1)²/2⌉` blind partitions |
 | | `CosetCensus` 🆕 | Boundary conditions `[p; q, r; s]` on `S¹/ℤ₂`: the label `(p+q, q+s)` is a complete invariant of the equivalence, `(N+1)²` classes, of which `⌊(N+1)²/2⌋` have a reflection-coset sector |
@@ -339,6 +344,12 @@ by name), the file says so and proves it in one line from that lemma.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.
+- 🔢 **Character sums and digit recursions.** Mathlib has Dirichlet characters, `legendreSym`,
+  `jacobiSym` and the subset sums `Finset.subsetSum` (which `SubsetSumsAndRows.SS` is, by `abbrev`),
+  but no generalized Bernoulli number `B_{1,χ}` and no value of a Dirichlet `L`-function at `s = 0`
+  for odd `χ`; `WeightedHalfSum` takes `B_{1,χ} ≠ 0` as a hypothesis where it is needed. The
+  certificates of `NoZeros` are checked by `decide +kernel`, with a proved bridge from the
+  computable symbol to `legendreSym`.
 
 ## 🧾 How the certificates are checked
 
