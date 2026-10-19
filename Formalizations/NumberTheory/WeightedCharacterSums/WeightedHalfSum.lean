@@ -5,6 +5,7 @@ Authors: Carles Marín
 -/
 module
 
+public import Formalizations.NumberTheory.DirichletCharacter.AbelZero
 public import Formalizations.NumberTheory.WeightedCharacterSums.DigitCorollaries
 public import Mathlib.Algebra.BigOperators.Intervals
 public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
@@ -27,7 +28,7 @@ The proof reduces to the ring identities `DigitosII.diag`.
 ## Main results
 
 * `DiagKK.thm_diag`: `∑_{c=1}^{(f-1)/2} c χ(c) = (f/2) B_{1,χ} (χ(2)⁻¹ − 1)`, with
-  `B_{1,χ} = f⁻¹ ∑_{a ∈ ZMod f} χ(a) a.val`.
+  `B_{1,χ} = f⁻¹ ∑_{a ∈ ZMod f} χ(a) a.val` (`ConjeturaC.B1`).
 * `DiagKK.thm_diag_half`: the unweighted sum, `∑_{c ≤ (f-1)/2} χ(c) = (χ(2)⁻¹ − 2) B_{1,χ}`.
 * `DiagKK.thm_diag_iff`: if `B_{1,χ} ≠ 0`, the weighted half sum vanishes iff `χ(2) = 1`.
 
@@ -59,20 +60,7 @@ section Field
 
 variable {K : Type*} [Field K]
 
-/-- `B_{1,χ} = N⁻¹ ∑_{a ∈ ZMod N} χ(a) a.val`. -/
-noncomputable def B1 {N : ℕ} [NeZero N] (χ : MulChar (ZMod N) K) : K :=
-  (N : K)⁻¹ * ∑ a : ZMod N, χ a * (a.val : K)
-
-/-- A sum over `ZMod N` as a sum over `range N`. -/
-theorem sum_zmod_eq_sum_range {M : Type*} [AddCommMonoid M] (N : ℕ) [NeZero N]
-    (f : ZMod N → M) : ∑ a : ZMod N, f a = ∑ n ∈ range N, f n := by
-  refine Finset.sum_nbij' (fun a => a.val) (fun n => (n : ZMod N)) ?_ ?_ ?_ ?_ ?_
-  · intro a _; simp [ZMod.val_lt]
-  · intro n _; simp
-  · intro a _; simp
-  · intro n hn
-    simp [ZMod.val_natCast, Nat.mod_eq_of_lt (mem_range.1 hn)]
-  · intro a _; simp
+open ConjeturaC (B1 sum_zmod_eq_sum_range)
 
 /-- The bridge: the hypotheses of `diag` for `n ↦ χ(n mod f)`, and `T_f = f B_{1,χ}`. -/
 lemma bridge (c : ℕ) (χ : DirichletCharacter K (2 * c + 1)) (hodd : χ.Odd) :
