@@ -7,8 +7,9 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 343 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 385 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
+  The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
 
@@ -69,6 +70,9 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `PhiCompression` 🆕 | Compression of `φ = Σ α d⁻¹ ω + w d₂⁻¹` over a division ring: explicit two-sided inverse of `[[diag d, −ω d₂], [α, w]]` with `φ⁻¹ = d₂ (M⁻¹)_{∞∞}`; scalar Woodbury `φ⁻¹ = c − c (α T ω) c` from a right inverse `T` of `diag d + ω c α`; two-sided block Schur inverse with upper-left pivot over any ring |
 | | `BinomialSizeFamily` 🆕 | Explicit two-sided inverse of `diag Δ + u J` over a division ring with `q = u⁻¹ + Σ Δᵢ⁻¹`, derived from Mathlib's Woodbury identity; `q⁻¹ = u − u (Σ_{i,j} H⁻¹ᵢⱼ) u`; `(yⁱ u y⁻ⁱ + u) yⁱ = yⁱ u + u yⁱ`; `det (diag(0, 1, …, 1) + J) = 1`; at the idempotent point (`U = 1 − E₀₀`, `W = 1`, `Y` the cyclic shift) the `d × d` block matrix `U Yʲ + δᵢⱼ (i = 0 ? W : Yⁱ U)` is invertible for every `d ≥ 1` |
 | | `QuaternionCurve` 🆕 | `t i`, `t j`, `t k` in `ℍ[R]` square to `−t²` and anticommute pairwise |
+| `SetTheory.Ordinal.Gentzen` | `Acc` 🆕 | Well-foundedness below `ε₀` without choice: a syntactic order `slt` (by `ONote.cmp`) and normal form `SNF` on `ONote`; `acc_slt`, `wf_slt`, `ti_syntactic` depend on `propext` only; bridge `slt_iff_lt`, `SNF_iff_NF` to Mathlib's `<` and `NF` |
+| | `TwoPow` 🆕 | `2^α` (`twoPow' (ω·γ + m) = ω^γ · 2^m`) and the cut-elimination inequalities L1–L5 of Gentzen's consistency proof, with their counterexamples at `α = 0, 1`, all on `propext` only; bridge: `twoPow'` denotes `2^α` and equals Mathlib's `ONote.opow` |
+| | `Ordinals` 🆕 | The same `2^α` and L1–L5 on Mathlib's `NONote` through `repr` (uses choice); transfinite induction from `NONote.lt_wf` |
 
 `FormalizationsTest/Axioms.lean` prints the axioms of every main result.
 
@@ -118,6 +122,14 @@ by name), the file says so and proves it in one line from that lemma.
   [combinatorial-games](https://github.com/vihdzp/combinatorial-games) (`NatOrdinal`). `Hessenberg`
   defines it independently, inside Mathlib, through Cantor normal form; the two definitions are
   not proved equal here.
+- 🪜 **Ordinal notations below `ε₀`.** Mathlib proves that its normal notations are well founded
+  (`NONote.lt_wf`), but its order and normal form on `ONote` are defined through
+  `ONote.repr : ONote → Ordinal`, so the proof uses `Classical.choice` (through `Ordinal.lt_wf`);
+  so do `ONote.opow` and the core lemma `Nat.pow_lt_pow_right`. `Gentzen.Acc` and
+  `Gentzen.TwoPow` redo well-foundedness, transfinite induction, `2^α` and the inequalities of
+  Gentzen's cut elimination on a syntactic order and normal form, depending on `propext` only, and
+  prove that they agree with Mathlib's (the bridge uses choice). Gentzen's consistency proof itself
+  is not formalized here; it has been formalized in Coq by Bryce and Goré (arXiv:2603.00487).
 - 📈 **Real special functions.** Mathlib defines `Real.artanh` but, at the pinned commit, has no
   derivative lemma for `artanh` or `tanh`; `CardyPDI.hasDerivAt_artanh` derives the first from
   `Real.artanh_eq_half_log`, and `RGFlow.rg_flow_tanh` uses `tanh = sinh / cosh`. The two-variable

@@ -41,3 +41,6 @@ public import Formalizations.RingTheory.FreeField.ThreeAxes.QuaternionResidues
 public import Formalizations.RingTheory.FreeField.ThreeAxes.SizeChainPencil
 public import Formalizations.RingTheory.FreeField.ThreeAxes.TraceResidue
 public import Formalizations.RingTheory.FreeField.ThreeAxes.WeightedTrinomials
+public import Formalizations.SetTheory.Ordinal.Gentzen.Acc
+public import Formalizations.SetTheory.Ordinal.Gentzen.Ordinals
+public import Formalizations.SetTheory.Ordinal.Gentzen.TwoPow
