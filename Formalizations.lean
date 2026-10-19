@@ -18,6 +18,7 @@ public import Formalizations.RingTheory.DGH.JakobsOrder
 public import Formalizations.RingTheory.FreeField.ThreeAxes.ArrowMatrix
 public import Formalizations.RingTheory.FreeField.ThreeAxes.AtomCertificate
 public import Formalizations.RingTheory.FreeField.ThreeAxes.Basic
+public import Formalizations.RingTheory.FreeField.ThreeAxes.BinomialSizeFamily
 public import Formalizations.RingTheory.FreeField.ThreeAxes.ChainPencilConditions
 public import Formalizations.RingTheory.FreeField.ThreeAxes.Criterion
 public import Formalizations.RingTheory.FreeField.ThreeAxes.DegenerateResidue
