@@ -23,7 +23,7 @@ direction is a compactness argument through Rado's selection principle
 ## References
 
 * N. G. de Bruijn, P. Erdős, *A colour problem for infinite graphs and a problem in the theory of
-  relations*, Indag. Math. 13 (1951) 369–373.
+  relations*, Indag. Math. (Proceedings) 54 (1951) 371–373.
 -/
 
 @[expose] public section
