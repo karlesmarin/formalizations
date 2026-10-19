@@ -2,6 +2,7 @@ module
 
 public import Formalizations.Algebra.Ring.Continuant
 public import Formalizations.Analysis.ODE.RungeKutta.OrderConditions
+public import Formalizations.Analysis.Polynomial.EnestromKakeya
 public import Formalizations.Analysis.Polynomial.RealRoots.BudanFourier
 public import Formalizations.Analysis.Polynomial.RealRoots.Descartes
 public import Formalizations.Analysis.Polynomial.RealRoots.NewtonInequalities
@@ -12,7 +13,12 @@ public import Formalizations.Analysis.Polynomial.RealRoots.VirtualRoots.Count
 public import Formalizations.Analysis.SpecialFunctions.Airy.Basic
 public import Formalizations.Analysis.SpecialFunctions.Airy.Perturbation
 public import Formalizations.Analysis.SpecialFunctions.Airy.PowerSeries
+public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic
+public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.Clausen
+public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.ComplexBoundary
+public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.FiveTerm
 public import Formalizations.Analysis.SpecialFunctions.Integrals.LogDivSelf
+public import Formalizations.Analysis.SpecialFunctions.Trigonometric.FejerJackson
 public import Formalizations.Analysis.TransformerAttention.CardyPDI
 public import Formalizations.Analysis.TransformerAttention.CayleyMap
 public import Formalizations.Analysis.TransformerAttention.CriticalExponents
@@ -105,6 +111,9 @@ public import Formalizations.Physics.Particles.StandardModel.AxionCouplings.Spin
 public import Formalizations.Physics.Particles.StandardModel.SMEFT.AllOrdersSelfCouplings
 public import Formalizations.Physics.Particles.StandardModel.SMEFT.HiggsSelfCouplings
 public import Formalizations.Physics.Particles.StandardModel.SMEFT.TopEdgeCollapse
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.AntipodeFloor
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MandelstamTamm
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin
 public import Formalizations.Physics.Supergravity.AnomalyQuantization.U2Example
 public import Formalizations.RingTheory.DGH.Absorb
 public import Formalizations.RingTheory.DGH.Basic

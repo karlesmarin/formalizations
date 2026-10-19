@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 1175 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 1217 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -31,6 +31,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 |---|---|---|
 | `Algebra.Ring` | `Continuant` | Euler's continuant; `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹` |
 | `Analysis.ODE.RungeKutta` | `OrderConditions` 🆕 | Butcher order conditions `γ(t) Φ(t) = 1` over planar rooted trees, reduced to a finite catalogue; Euler, Heun, RK4 (order 4, not 5), Dormand–Prince (order 5), Gauss–Legendre `s = 3` (order 4 in `ℚ(√15)`; order 6 in the denominator-cleared form over `ℤ[√15]` by `decide`); `Φ` invariant under permuting children |
+| `Analysis.Polynomial` | `EnestromKakeya` 🆕 | Eneström–Kakeya: positive non-increasing coefficients give no zero in the open unit disk; zeros on the circle are roots of unity; strictly decreasing coefficients give none in the closed disk |
 | `Analysis.Polynomial.RealRoots` | `RealRooted` 🆕 | Real-rooted polynomials (`Splits` over `ℝ`): closure, root count; sign alternation at `n + 1` points gives `n` roots; one root per gap of an increasing sequence gives real-rootedness; combinations of interlacing pairs |
 | | `Sturm` 🆕 | Sturm's theorem: for squarefree `p`, the number of distinct roots in `(a, b]` is `V(a) − V(b)` for the Sturm sequence; the chain agrees with Mathlib's `Polynomial.sturmSeq`, and `V` is `List.signVariations` of the values |
 | | `BudanFourier` 🆕 | Budan–Fourier: the number of roots in `(a, b]` with multiplicity is at most the drop of sign variations of `p, p′, p″, …`, with even difference |
@@ -41,7 +42,12 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `Analysis.SpecialFunctions.Airy` | `PowerSeries` 🆕 | The Airy recurrence `c_{k+3} = c_k/((k+2)(k+3))` gives `y'' = X y` in `ℚ⟦X⟧` |
 | | `Basic` 🆕 | The real Airy functions are entire and solve `y'' = x y`; zeros unbounded below (Sturm comparison from Rolle and the IVT); dominant solutions do not decay; a recessive solution by reduction of order and an entire one; infinitely many quantum-bouncer levels |
 | | `Perturbation` 🆕 | `w = u²` for `u'' = (x − E) u` satisfies `w''' = 4 (x − E) w' + 2 w` |
+| `Analysis.SpecialFunctions.Dilogarithm` | `Basic` 🆕 | The real dilogarithm `Li₂`: `Li₂ 1 = π²/6`, derivative, Euler's reflection, Landen's identity, duplication, values at `φ⁻²`, `φ⁻¹`, `−φ⁻¹`; the Rogers dilogarithm, `L(φ⁻²) = π²/15` |
+| | `Clausen` 🆕 | The Clausen function `Cl₂` and Catalan's constant `G = Cl₂(π/2)`; the Bernoulli parabola `∑ cos(nθ)/n²`; `Cl₂ > 0` on `(0, π)`; the two series never vanish together on `(0, 2π)` |
+| | `ComplexBoundary` 🆕 | The complex dilogarithm on the closed disk: boundary values `π²B₂(x) + i Cl₂(2πx)`, no zero on the circle, derivatives of the branches `Li₂ + 4π²A + 2πiB log`; a zero of the imaginary part inside the disk (O'Sullivan) |
+| | `FiveTerm` 🆕 | Abel's five-term relation for the Rogers dilogarithm |
 | `Analysis.SpecialFunctions.Integrals` | `LogDivSelf` 🆕 | `∫₁ᴺ log x / x dx = (log N)² / 2` |
+| `Analysis.SpecialFunctions.Trigonometric` | `FejerJackson` 🆕 | The Fejér–Jackson inequality `∑_{k=1}^M sin(kθ)/k > 0` on `(0, π)` |
 | `Analysis.TransformerAttention` | `CriticalExponents` 🆕 | Phase A exponents of the attention decay: `2η² + ηγ_χ + 1 = 0`, `βχ = −1`, `α + χ = 2`, Rushbrooke and Josephson with `d = 1`, the Fisher residual, `η = 2γ` refuted on `(0, 1)`, AM-GM bound `γ_χ ≥ 2√2` |
 | | `CardyPDI` 🆕 | `log PDI + ΔH_Cardy = 0` (Phase 7 form), residual `−log 2 / 2` (Phase 8 form); `d/dx artanh x = 1/(1 − x²)` |
 | | `Pade` 🆕 | The `[2/2]` minus the `[1/1]` Padé approximant of `e^{−z}` is `2z³/((z + 2)(z² + 6z + 12))`; `θ_eff` closed form |
@@ -134,6 +140,9 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `Physics.Particles.StandardModel.SMEFT` | `AllOrdersSelfCouplings` 🆕 | All orders in `α`: `δκ₄ − 6 δκ₃ = α(3α³ + 30α² + 35α − 4)/(3(α+1)²)`, `δκ₅ − 15 δκ₃`, `δκ₆ − 15 δκ₃` in closed form; dimension-8 breaking at first order; catalog `δκ₇ … δκ₁₂` with `δκ₁₁ = δκ₁₂` |
 | | `TopEdgeCollapse` 🆕 | At the degree-12 edge the 11- and 12-point contributions coincide; the 12-point one is `246400 α⁴/(1 + α)²` |
 | | `HiggsSelfCouplings` 🆕 | Tree-level matching of the Higgs self-couplings: `O_φ = (vh + h²/2)³`; `c_φ` pieces with `δκ₄ = 6 δκ₃`; `δκ₄ − 6 δκ₃ = −(4/3)(v²/Λ²) C_{H,kin}`, so the ratio is `6` iff `C_{H,kin} = 0`; leading order `δκ₅ − 15 δκ₃ = δκ₆ − 15 δκ₃ = −5 (v²/Λ²) C_{H,kin}` |
+| `Physics.QuantumMechanics.SpeedLimit` | `MargolusLevitin` 🆕 | `1 − (2/π)(x + sin x) ≤ cos x`; Margolus–Levitin: orthogonality at time `τ` forces `π ≤ 2⟨E⟩τ` (`ℏ = 1`) |
+| | `MandelstamTamm` 🆕 | `L¹` Mandelstam–Tamm bound `1 ≤ D₁ τ` with `D₁` the mean absolute energy deviation |
+| | `AntipodeFloor` 🆕 | `‖∑ wⱼxⱼ/(1 − xⱼz)‖ ≥ ∑ wⱼxⱼ/(1 + xⱼ)` on the unit circle for `wⱼ ≥ 0`, `xⱼ ∈ [0, 1)` |
 | `Physics.Supergravity.AnomalyQuantization` | `U2Example` 🆕 | The `U(2)` form `(2 b₀ (m − n)² + b₁ (m + n)²)/8` of Monnier–Moore–Park is integer-valued iff `2 b₀ + b₁ ≡ 0 (mod 8)`; `4 ∣ b₀ ∧ 8 ∣ b₁` is sufficient, not necessary (`(1, 6)`); two samples decide integrality with rational coefficients |
 | `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
 | | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |
@@ -299,6 +308,12 @@ by name), the file says so and proves it in one line from that lemma.
   of `adjMatrix_pow_apply_eq_card_walk` for directed relations. The resolvent series, Jacobi's formula
   and Newton's identity used by `Ihara` are those of `LinearAlgebra.Matrix.Charpoly.Jacobi`, and the
   diagonal adjugate entry is `Matrix.adjugate_apply_self_eq_det_submatrix`.
+- ∿ **Dilogarithm and quantum speed limits.** Mathlib has no polylogarithm, Clausen function or
+  Catalan's constant; `Dilogarithm.Clausen` derives the real part on the circle from Mathlib's
+  Fourier expansion of the Bernoulli polynomials (`hasSum_one_div_nat_pow_mul_cos`) and
+  `Li₂ 1 = π²/6` from `hasSum_zeta_two`. Mathlib has no quantum mechanics; `SpeedLimit` states the
+  bounds for a discrete spectral measure with real sums. Eneström–Kakeya and Fejér–Jackson were not
+  found in Mathlib.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.
