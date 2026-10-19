@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 1062 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 1106 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -49,6 +49,19 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `RGFlow` 🆕 | `V = γ − γ³/3` gives `−V' ≠ β = −(1 − γ²)/2` (factor 2); the corrected `V = γ/2 − γ³/6`; `tanh(t/2 + c)` solves `γ' = (1 − γ²)/2` |
 | | `GammaMobius` 🆕 | The Padé exponent `(2θ − T√2)/(2θ + T√2)` is the Möbius transform `(1 − u)/(1 + u)` of `u = T/(θ√2)` (needs `s² = 2`); the horizon `θ√2 (1 − γ)/(1 + γ)` at the Padé exponent equals `T`; `β = −2u/(1 + u)²` |
 | | `HeatCapacity` 🆕 | Erratum to the Hagedorn heat capacity: both derivations give `(log N)²/12`, three times smaller than the published `(log N)²/4` |
+| `Combinatorics.SimpleGraph.MatchingPolynomial` | `Basic` 🆕 | The matching polynomial `μ(G) = ∑ (−1)^k m_k X^(n−2k)`: monic of degree `n`, isomorphism invariant, vertex-deletion recurrences for `m_k`, the partition function and `μ` |
+| | `RamanujanBound` 🆕 | The bound `2√(k−1)` and the Ramanujan predicate; `2√(k−1) ≤ k` |
+| | `Signing` 🆕 | Signed adjacency matrices |
+| | `ExpectedCharpoly` 🆕 | `±1` edge signings and the statement of the Godsil–Gutman identity |
+| | `GodsilGutman` 🆕 | Godsil–Gutman: the characteristic polynomials of all `±1` signings sum to `#signings • μ(G)`; matchings ↔ edge involutions |
+| | `TwoLift` 🆕 | `charpoly [[B, C], [C, B]] = charpoly (B + C) · charpoly (B − C)` (2-lifts) |
+| | `PathTree` 🆕 | Godsil's path tree `T(G, u)` is acyclic; prepending the root edge |
+| | `MatchingSum` 🆕 | `μ` is multiplicative on disjoint unions, binary and indexed; the recurrence with the vertex removed |
+| | `Divisibility` 🆕 | `T(G, u)` minus its root is the union of the `T(G − u, b)`; Godsil's identity `μ(G) μ(T − r) = μ(G − u) μ(T)` |
+| | `ForestComponents` 🆕 | `μ(G) = ∏ μ(components)`; `μ(G) ∣ μ(T(G, u))` for connected `G` |
+| | `ForestRealRooted` 🆕 | `μ(forest) = charpoly(A)`; Heilmann–Lieb: `μ(G)` is real-rooted for every finite graph |
+| | `HeilmannLieb` 🆕 | Interlacing: if `q` alternates at the simple roots of `p`, then `X p − q` is real-rooted and interlaced by `p` |
+| | `HeilmannLiebBound` 🆕 | Weighted Gershgorin (Collatz–Wielandt); Heilmann–Lieb bound: the roots of `μ(G)` lie in `[−2√(Δ−1), 2√(Δ−1)]` for maximum degree `≤ Δ`, `Δ ≥ 2` |
 | `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |
 | | `Adjugate` | Diagonal entries of the adjugate are principal minors |
 | | `Rank` | `rank (A + B) ≤ rank A + rank B`; nullity under low-rank perturbation; block triangular bounds |
@@ -254,6 +267,12 @@ by name), the file says so and proves it in one line from that lemma.
   are formalized in Isabelle/HOL by Li and by Li–Paulson. These files port part of the repository
   [godsil-gutman-lean](https://github.com/karlesmarin/godsil-gutman-lean) (Lean `v4.30.0-rc2`), which
   stays as published.
+- 🔗 **Matching polynomials.** Mathlib has matchings as subgraphs (`Subgraph.IsMatching`) but no
+  matching polynomial, path tree, Godsil–Gutman identity or Heilmann–Lieb theorem. `MatchingPolynomial`
+  counts matchings as sets of pairwise disjoint edges; it uses Mathlib's `SimpleGraph.sum`,
+  `deleteIncidenceSet` (vertex deletion keeps the vertex, isolated), Gershgorin, and
+  `Matrix.IsHermitian.splits_charpoly` (of which `MSS.charpoly_symmetric_realRooted` is a one-line
+  corollary). The files port the matching-polynomial part of godsil-gutman-lean.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.
