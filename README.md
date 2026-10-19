@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 1106 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 1175 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -49,6 +49,23 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `RGFlow` 🆕 | `V = γ − γ³/3` gives `−V' ≠ β = −(1 − γ²)/2` (factor 2); the corrected `V = γ/2 − γ³/6`; `tanh(t/2 + c)` solves `γ' = (1 − γ²)/2` |
 | | `GammaMobius` 🆕 | The Padé exponent `(2θ − T√2)/(2θ + T√2)` is the Möbius transform `(1 − u)/(1 + u)` of `u = T/(θ√2)` (needs `s² = 2`); the horizon `θ√2 (1 − γ)/(1 + γ)` at the Padé exponent equals `T`; `β = −2u/(1 + u)²` |
 | | `HeatCapacity` 🆕 | Erratum to the Hagedorn heat capacity: both derivations give `(log N)²/12`, three times smaller than the published `(log N)²/4` |
+| `Combinatorics.SimpleGraph` | `OrientedIncMatrix` 🆕 | The oriented incidence matrix `N` and the Gram factorization `N Nᵀ = D − A` |
+| `Combinatorics.SimpleGraph.Ihara` | `Bass` 🆕 | Bass's formula `(1 − u²)^|V| det(1 − uB) = (1 − u²)^|E| det(1 − uA + u²(D − 1))` for the non-backtracking operator `B` |
+| | `TraceFormula` 🆕 | `tr(Aᵏ)` counts closed walks; Bass's formula in `R[X]` and its derivative; the generating function of `tr(Bᵏ)` from `A` and `D` |
+| | `NbWalkCount` 🆕 | `B` is the `0-1` matrix of the non-backtracking relation; `tr(Bᵏ)` counts closed non-backtracking dart sequences |
+| | `NbVanishing` 🆕 | `tr(Bᵏ) = 0` for `0 < k <` girth |
+| | `PathTreeLift` 🆕 | Tree-like closed walks (lifts to Godsil's path tree); acyclic edge support implies tree-like |
+| | `TreeLikeWalks` 🆕 | Tree-like walk counts, matching power sums `p_k`; below the girth every closed walk is tree-like |
+| | `PowerSumGenfun` 🆕 | The power-sum generating function of a multiset is a sum of geometric series |
+| | `PowerSumLogDeriv` 🆕 | Power sums times `∏(1 − θX)` give the reverse of the derivative |
+| | `ResolventDiag` 🆕 | `(∑ (Mᵏ)ᵢᵢ Xᵏ) · charpolyRev M = charpolyRev (M∖i)` |
+| | `GodsilMoment` 🆕 | `∑_v μ(G − v) = X μ′(G)` |
+| | `MomentBridge` 🆕 | Closed tree-like walks at `v` ↔ closed walks at the root of `T(G, v)`; Godsil's identity in charpoly form |
+| | `MomentAssembly` 🆕 | Godsil's moment theorem: `p_k` = number of closed tree-like walks of length `k` |
+| | `GapWindow` 🆕 | The gap law `tr(Aᵏ) − p_k = tr(Bᵏ)` for `1 ≤ k ≤ girth + 1` |
+| `Combinatorics.SimpleGraph.MatrixTree` | `Basic` 🆕 | Reduced Laplacian `L₀ = N₀ N₀ᵀ`; `det L₀` as a sum of squared maximal minors (Cauchy–Binet) |
+| | `SpanningTreeMinor` 🆕 | A squared maximal minor of `N₀` is `1` iff its edges span a connected subgraph, else `0` |
+| | `Kirchhoff` 🆕 | Kirchhoff's matrix-tree theorem: `det L₀` = number of spanning trees, over any integral domain |
 | `Combinatorics.SimpleGraph.MatchingPolynomial` | `Basic` 🆕 | The matching polynomial `μ(G) = ∑ (−1)^k m_k X^(n−2k)`: monic of degree `n`, isomorphism invariant, vertex-deletion recurrences for `m_k`, the partition function and `μ` |
 | | `RamanujanBound` 🆕 | The bound `2√(k−1)` and the Ramanujan predicate; `2√(k−1) ≤ k` |
 | | `Signing` 🆕 | Signed adjacency matrices |
@@ -67,6 +84,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `Rank` | `rank (A + B) ≤ rank A + rank B`; nullity under low-rank perturbation; block triangular bounds |
 | | `Rank.Kronecker` | `rank (A ⊗ₖ 1) = card p * rank A` |
 | | `Charpoly.Jacobi` | Resolvent series and Jacobi's formula for the derivative of the reversed charpoly |
+| | `CauchyBinet` 🆕 | The Cauchy–Binet formula `det (A B) = ∑_S det A[·, S] det B[S, ·]` |
+| | `WalkCount` 🆕 | Powers of the `0-1` matrix of a decidable relation count directed walks; `tr(Mᵏ)` via cyclic products |
 | | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
 | | `FreeLocusCertificate` | Soundness of the free-locus certificate ("not flip-poly") |
 | `MusicTheory` | `IntervalVector` 🆕 | The interval vector of a pitch-class set in `ℤ/12` is invariant under transposition and inversion |
@@ -273,6 +292,13 @@ by name), the file says so and proves it in one line from that lemma.
   `deleteIncidenceSet` (vertex deletion keeps the vertex, isolated), Gershgorin, and
   `Matrix.IsHermitian.splits_charpoly` (of which `MSS.charpoly_symmetric_realRooted` is a one-line
   corollary). The files port the matching-polynomial part of godsil-gutman-lean.
+- 🕸️ **Ihara zeta and the matrix-tree theorem.** Mathlib has the Laplacian, the degree matrix
+  (`SimpleGraph.degMatrix`, used by `Ihara.Bass`), the unoriented incidence matrix and walk counting
+  by powers of the adjacency matrix of a simple graph, but no Cauchy–Binet formula, oriented incidence
+  matrix, matrix-tree theorem, Hashimoto operator or Ihara zeta function. `WalkCount` is the analogue
+  of `adjMatrix_pow_apply_eq_card_walk` for directed relations. The resolvent series, Jacobi's formula
+  and Newton's identity used by `Ihara` are those of `LinearAlgebra.Matrix.Charpoly.Jacobi`, and the
+  diagonal adjugate entry is `Matrix.adjugate_apply_self_eq_det_submatrix`.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.

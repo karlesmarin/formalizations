@@ -89,7 +89,7 @@ public noncomputable def fourierVar (p : Polynomial ℝ) (x : ℝ) : ℕ :=
   ((((fourierSeq p).map (fun q => SignType.sign (q.eval x))).filter (· ≠ 0)).destutter (· ≠ ·)).length - 1
 
 /-- **Bridge to the Sturm toolkit.** `fourierVar p x` is, definitionally, `Sturm.signVarAt` applied
-to the derivative tower. This single `rfl` makes the entire sign-variation toolkit from `Sturm.lean`
+to the derivative tower. This single `rfl` makes the entire sign-variation toolkit from `Sturm`
 (locally-constant on root-free intervals, `signChanges`/`wallCount` parity engine, interior
 cancellation) act directly on the Fourier sequence. -/
 public theorem fourierVar_eq_signVarAt (p : Polynomial ℝ) (x : ℝ) :

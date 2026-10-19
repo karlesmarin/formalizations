@@ -59,7 +59,7 @@ On an interval where `P'` keeps a constant nonzero sign, `P` is strictly monoton
 hypothesis under which `ℛ_d(a,b,P)` is defined, and it is what makes the minimiser of `|P|` on `[a,b]`
 unique: either the single root (if `P` changes sign across the interval) or the endpoint nearer to
 zero. The two lemmas below are the analytic foundation; they reuse the mean-value engine already used
-in `BudanFourier.lean` for the sign analysis. -/
+in `BudanFourier` for the sign analysis. -/
 
 /-- Where the derivative is positive on `[a,b]`, `P` is strictly increasing there. -/
 public theorem eval_strictMonoOn_of_derivative_pos {p : Polynomial ℝ} {a b : ℝ}

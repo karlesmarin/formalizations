@@ -1,0 +1,235 @@
+/-
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
+-/
+module
+
+public import Mathlib.Data.Matrix.Mul
+public import Mathlib.Data.Fintype.BigOperators
+public import Mathlib.Logic.Equiv.Fin.Basic
+public import Mathlib.Algebra.BigOperators.Fin
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.Logic.Equiv.Fin.Rotate
+
+/-!
+# Walk counting for a finite digraph (the power of a `0-1` matrix)
+
+For a decidable relation `r` on a finite type `V` (a finite directed graph) we count directed walks
+by powers of its `0-1` adjacency matrix. This is the directed-graph analogue of
+`SimpleGraph.adjMatrix_pow_apply_eq_card_walk`, which Mathlib provides for simple graphs. The file
+also expresses `trace (Mᵏ)` as a sum over closed index sequences and proves its invariance under
+cyclic rotation.
+
+## Main definitions
+
+* `Matrix.relMatrix r`: the `ℕ`-valued `0-1` adjacency matrix of `r`.
+* `Matrix.relWalks r k i j`: the finset of length-`k` directed `r`-walks from `i` to `j`, as vertex
+  lists.
+
+## Main results
+
+* `Matrix.relMatrix_pow_apply`: `((relMatrix r) ^ k) i j = (relWalks r k i j).card`.
+* `Matrix.pow_apply_eq_sum`, `Matrix.trace_pow_eq_sum_closed`: entries and trace of `Mᵏ` as sums
+  over index sequences.
+* `Matrix.trace_pow_eq_sum_cyclicProd`: the same sum written with cyclic products, which are
+  invariant under rotation (`Matrix.cyclicProd_comp_finRotate`).
+-/
+
+@[expose] public section
+namespace Matrix
+
+open Finset
+
+variable {V : Type*} [Fintype V] [DecidableEq V]
+variable (r : V → V → Prop) [DecidableRel r]
+
+/-- The `ℕ`-valued `0-1` adjacency matrix of a decidable relation `r`. -/
+def relMatrix : Matrix V V ℕ := fun i j => if r i j then 1 else 0
+
+/-- The finset of length-`k` directed `r`-walks from `i` to `j`, encoded as the list of visited
+vertices `[i, …, j]`. -/
+def relWalks : ℕ → V → V → Finset (List V)
+  | 0, i, j => if i = j then {[i]} else ∅
+  | k + 1, i, j =>
+    Finset.univ.biUnion fun l =>
+      if r i l then (relWalks k l j).map ⟨List.cons i, List.cons_injective⟩ else ∅
+
+section PowSum
+variable {R : Type*} [CommSemiring R]
+
+/-- The `(i, j)` entry of `Mᵏ` as a sum, over length-`k` vertex walks `i → j` (encoded as
+`Fin (k+1) → V` tuples with fixed endpoints), of the product of the edge weights. -/
+theorem pow_apply_eq_sum (M : Matrix V V R) (k : ℕ) (i j : V) :
+    (M ^ k) i j = ∑ p : Fin (k + 1) → V,
+      if p 0 = i ∧ p (Fin.last k) = j then ∏ t : Fin k, M (p t.castSucc) (p t.succ) else 0 := by
+  induction k generalizing i with
+  | zero =>
+    rw [pow_zero, Matrix.one_apply, Finset.sum_eq_single (fun _ => i)]
+    · simp
+    · intro p _ hp
+      have hpi : p 0 ≠ i := fun h => hp (funext fun a => by rw [Fin.eq_zero a]; exact h)
+      simp [Fin.last_zero, hpi]
+    · intro h; exact absurd (Finset.mem_univ _) h
+  | succ k ih =>
+    rw [pow_succ', Matrix.mul_apply]
+    simp_rw [ih, Finset.mul_sum, mul_ite, mul_zero]
+    rw [Finset.sum_comm]
+    have hL : ∀ p : Fin (k + 1) → V,
+        (∑ l : V, if p 0 = l ∧ p (Fin.last k) = j then M i l * ∏ t : Fin k,
+            M (p t.castSucc) (p t.succ) else 0)
+          = if p (Fin.last k) = j then M i (p 0) * ∏ t : Fin k, M (p t.castSucc) (p t.succ)
+            else 0 := by
+      intro p
+      by_cases hj : p (Fin.last k) = j
+      · simp only [hj, and_true]
+        rw [Finset.sum_ite_eq]
+        simp
+      · simp [hj]
+    rw [Finset.sum_congr rfl fun p _ => hL p,
+      ← Equiv.sum_comp (Fin.consEquiv (fun _ : Fin (k + 2) => V)), Fintype.sum_prod_type,
+      Finset.sum_comm]
+    refine Finset.sum_congr rfl fun p _ => ?_
+    simp only [Fin.consEquiv_apply, Fin.cons_zero, ← Fin.succ_last, Fin.cons_succ,
+      Fin.prod_univ_succ, Fin.castSucc_zero, Fin.cons_zero, Fin.cons_succ]
+    by_cases hQ : p (Fin.last k) = j
+    · simp only [hQ, and_true]
+      rw [Finset.sum_ite_eq']
+      simp
+    · simp [hQ]
+
+/-- **The trace of `Mᵏ` counts closed walks.** It is the sum, over closed length-`k` walks (tuples
+`p : Fin (k+1) → V` with `p 0 = p (last)`), of the product of the edge weights. -/
+theorem trace_pow_eq_sum_closed (M : Matrix V V R) (k : ℕ) :
+    (M ^ k).trace = ∑ p : Fin (k + 1) → V,
+      if p 0 = p (Fin.last k) then ∏ t : Fin k, M (p t.castSucc) (p t.succ) else 0 := by
+  rw [Matrix.trace]
+  simp only [Matrix.diag_apply, pow_apply_eq_sum]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun p _ => ?_
+  by_cases h : p 0 = p (Fin.last k)
+  · rw [ite_eq_left h, Finset.sum_eq_single (p 0)]
+    · simp [h.symm]
+    · intro a _ ha; rw [ite_eq_right]; rintro ⟨h1, -⟩; exact ha h1.symm
+    · intro h'; exact absurd (Finset.mem_univ _) h'
+  · rw [ite_eq_right h]
+    refine Finset.sum_eq_zero fun a _ => ite_eq_right ?_
+    rintro ⟨h1, h2⟩; exact h (h1.trans h2.symm)
+
+/-! ## Rotation invariance — toward closed geodesics -/
+
+/-- The **cyclic product** of edge weights along a closed walk `w : Fin (n+1) → V`,
+`∏ₜ M (w t) (w (σ t))` where `σ = finRotate (n+1)` is the cyclic successor. -/
+def cyclicProd {n : ℕ} (M : Matrix V V R) (w : Fin (n + 1) → V) : R :=
+  ∏ t : Fin (n + 1), M (w t) (w (finRotate (n + 1) t))
+
+omit [Fintype V] [DecidableEq V] in
+/-- **Rotation invariance.** The cyclic product is unchanged when the closed walk is rotated by the
+cyclic shift `finRotate`. This is what makes the weight a class function on rotation orbits — the
+structure that groups closed non-backtracking walks into (prime) geodesics. -/
+theorem cyclicProd_comp_finRotate {n : ℕ} (M : Matrix V V R) (w : Fin (n + 1) → V) :
+    cyclicProd M (w ∘ finRotate (n + 1)) = cyclicProd M w := by
+  simp only [cyclicProd, Function.comp_apply]
+  exact Equiv.prod_comp (finRotate (n + 1)) fun t => M (w t) (w (finRotate (n + 1) t))
+
+omit [Fintype V] [DecidableEq V] in
+/-- **Invariance under the whole rotation group.** The cyclic product is unchanged by any iterate of
+`finRotate` — i.e. it is a class function on the `ℤ/(n+1)` rotation orbits. -/
+theorem cyclicProd_comp_finRotate_iterate {n : ℕ} (M : Matrix V V R) (w : Fin (n + 1) → V) (j : ℕ) :
+    cyclicProd M (w ∘ (⇑(finRotate (n + 1)))^[j]) = cyclicProd M w := by
+  induction j with
+  | zero => simp
+  | succ j ih =>
+    rw [Function.iterate_succ, ← Function.comp_assoc, cyclicProd_comp_finRotate, ih]
+
+/-- **The cyclic trace formula.** `tr(M^(m+1))` is the sum, over all closed cyclic walks
+`w : Fin (m+1) → V`, of the cyclic product of edge weights. Connects the closed-walk trace
+(`trace_pow_eq_sum_closed`) to the rotation-equivariant `cyclicProd`. -/
+theorem trace_pow_eq_sum_cyclicProd {m : ℕ} (M : Matrix V V R) :
+    (M ^ (m + 1)).trace = ∑ w : Fin (m + 1) → V, cyclicProd M w := by
+  rw [trace_pow_eq_sum_closed, ← Finset.sum_filter]
+  refine Finset.sum_bij'
+    (fun (p : Fin (m + 2) → V) _ => (fun t : Fin (m + 1) => p t.castSucc))
+    (fun (w : Fin (m + 1) → V) _ => Fin.snoc w (w 0))
+    (fun _ _ => Finset.mem_univ _) ?_ ?_ ?_ ?_
+  · intro w _
+    rw [Finset.mem_filter]
+    refine ⟨Finset.mem_univ _, ?_⟩
+    simp only [Fin.snoc_last, ← Fin.castSucc_zero, Fin.snoc_castSucc]
+  · intro p hp
+    rw [Finset.mem_filter] at hp
+    funext x
+    simp only []
+    refine Fin.lastCases ?_ (fun t => ?_) x
+    · rw [Fin.snoc_last, Fin.castSucc_zero]; exact hp.2
+    · rw [Fin.snoc_castSucc]
+  · intro w _
+    funext t
+    rw [Fin.snoc_castSucc]
+  · intro p hp
+    rw [Finset.mem_filter] at hp
+    dsimp only [cyclicProd]
+    refine Finset.prod_congr rfl fun t _ => ?_
+    congr 1
+    refine Fin.lastCases ?_ (fun t' => ?_) t
+    · rw [Fin.succ_last, finRotate_last, Fin.castSucc_zero]; exact hp.2.symm
+    · rw [finRotate_apply]
+      congr 1
+      apply Fin.ext
+      simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_add_one,
+        ite_eq_right (Fin.castSucc_lt_last t').ne]
+
+end PowSum
+
+variable {r}
+
+/-- Every walk in `relWalks r k i j` starts at `i`. -/
+theorem head?_of_mem_relWalks {k : ℕ} {i j : V} {w : List V} (hw : w ∈ relWalks r k i j) :
+    w.head? = some i := by
+  cases k with
+  | zero =>
+    rw [relWalks] at hw
+    split_ifs at hw with h
+    · simp only [Finset.mem_singleton] at hw; subst hw; rfl
+    · simp at hw
+  | succ k =>
+    rw [relWalks, Finset.mem_biUnion] at hw
+    obtain ⟨l, -, hl⟩ := hw
+    split_ifs at hl with h
+    · rw [Finset.mem_map] at hl
+      obtain ⟨p, -, rfl⟩ := hl
+      rfl
+    · simp at hl
+
+/-- **Powers of the `0-1` adjacency matrix count directed walks.** -/
+theorem relMatrix_pow_apply (k : ℕ) (i j : V) :
+    ((relMatrix r) ^ k) i j = (relWalks r k i j).card := by
+  induction k generalizing i with
+  | zero =>
+    rw [pow_zero, Matrix.one_apply, relWalks]
+    split_ifs with h <;> simp
+  | succ k ih =>
+    rw [pow_succ', Matrix.mul_apply, relWalks]
+    rw [Finset.card_biUnion]
+    · refine Finset.sum_congr rfl fun l _ => ?_
+      rw [relMatrix]
+      split_ifs with h
+      · rw [Finset.card_map, ih, one_mul]
+      · rw [zero_mul, Finset.card_empty]
+    · intro l _ l' _ hll
+      simp only [Finset.disjoint_left]
+      intro w hw hw'
+      apply hll
+      split_ifs at hw hw' with h h'
+      · rw [Finset.mem_map] at hw hw'
+        obtain ⟨p, hp, rfl⟩ := hw
+        obtain ⟨p', hp', hpp'⟩ := hw'
+        have hpp2 : p' = p := List.cons_injective hpp'
+        have := head?_of_mem_relWalks hp
+        have := head?_of_mem_relWalks (hpp2 ▸ hp')
+        simp_all
+      · simp at hw'
+      · simp at hw
+      · simp at hw
+
+end Matrix

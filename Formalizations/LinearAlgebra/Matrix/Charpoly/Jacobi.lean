@@ -37,7 +37,8 @@ of the traces of the powers of `M`. No eigenvalues and no assumption on `R` are 
 * `Matrix.derivative_det`: Jacobi's formula.
 * `Matrix.coe_derivative_charpolyRev_eq_neg_mul_mk_trace_pow`: Newton's identity
   `(charpolyRev M)′ = - charpolyRev M * ∑ₖ trace (Mᵏ⁺¹) Xᵏ` in `R⟦X⟧`. Its constant coefficient is
-  `Matrix.coeff_charpolyRev_eq_neg_trace`.
+  `Matrix.coeff_charpolyRev_eq_neg_trace`. `Matrix.derivative_coe_charpolyRev` is the same identity
+  with the derivative taken in `R⟦X⟧`.
 -/
 
 @[expose] public section
@@ -58,6 +59,10 @@ open PowerSeries
 `∑ₖ (Mᵏ) i j Xᵏ`. It is the inverse of `1 - X • M`, see `Matrix.resolventSeries_eq_inv`. -/
 noncomputable def resolventSeries (M : Matrix n n R) : Matrix n n R⟦X⟧ :=
   of fun i j => mk fun k => (M ^ k) i j
+
+theorem resolventSeries_apply (M : Matrix n n R) (i j : n) :
+    resolventSeries M i j = mk fun k => (M ^ k) i j :=
+  rfl
 
 @[simp]
 theorem coeff_resolventSeries_apply (M : Matrix n n R) (i j : n) (k : ℕ) :
@@ -205,6 +210,14 @@ theorem coe_derivative_charpolyRev_eq_neg_mul_mk_trace_pow (M : Matrix n n R) :
     ← Polynomial.coeToPowerSeries.ringHom_apply, map_neg, AddMonoidHom.map_trace, Matrix.map_mul,
     hMC, hadj, ← det_smul_resolventSeries, smul_mul_assoc, trace_smul,
     trace_resolventSeries_mul_map_C, smul_eq_mul, hdet, neg_mul]
+
+/-- Newton's identity for traces with the derivative taken in `R⟦X⟧`:
+`d⁄dX (charpolyRev M) = - charpolyRev M * ∑ₖ trace (Mᵏ⁺¹) Xᵏ`. -/
+theorem derivative_coe_charpolyRev (M : Matrix n n R) :
+    d⁄dX (M.charpolyRev : R⟦X⟧) =
+      -(M.charpolyRev : R⟦X⟧) * PowerSeries.mk fun k => (M ^ (k + 1)).trace := by
+  rw [PowerSeries.derivative_coe]
+  exact coe_derivative_charpolyRev_eq_neg_mul_mk_trace_pow M
 
 end Jacobi
 
