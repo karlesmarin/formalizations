@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 385 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 442 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -45,7 +45,17 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `Charpoly.Jacobi` | Resolvent series and Jacobi's formula for the derivative of the reversed charpoly |
 | | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
 | | `FreeLocusCertificate` | Soundness of the free-locus certificate ("not flip-poly") |
-| `Physics.Particles.StandardModel.SMEFT` | `HiggsSelfCouplings` 🆕 | Tree-level matching of the Higgs self-couplings: `O_φ = (vh + h²/2)³`; `c_φ` pieces with `δκ₄ = 6 δκ₃`; `δκ₄ − 6 δκ₃ = −(4/3)(v²/Λ²) C_{H,kin}`, so the ratio is `6` iff `C_{H,kin} = 0`; leading order `δκ₅ − 15 δκ₃ = δκ₆ − 15 δκ₃ = −5 (v²/Λ²) C_{H,kin}` |
+| `Physics.Particles.GaugeHiggsUnification` | `NotchCentreCharge` 🆕 | The bialternant `N = det (yᵢ^{μⱼ})` of `s_λ(1, −1, t, t⁻¹)` over `ℤ[T;T⁻¹]` vanishes iff `Odd b ∧ ((Odd a ∧ Odd c) ∨ a = c)`; `D(−t) = (−1)^{a+2b+3c} D(t)`; degenerate irreps have even centre charge `a + 2b + 3c` |
+| | `BlindCount` 🆕 | The blind set in partition coordinates (two branches) equals `N = 0`; `l₁` is odd on it; the shell `l₁ = 2k+1` has `⌈(k+1)²/2⌉` blind partitions |
+| | `CosetCensus` 🆕 | Boundary conditions `[p; q, r; s]` on `S¹/ℤ₂`: the label `(p+q, q+s)` is a complete invariant of the equivalence, `(N+1)²` classes, of which `⌊(N+1)²/2⌋` have a reflection-coset sector |
+| | `OddEighths` 🆕 | `SU(7)` moments: `8D ≡ 2A₄ + 3 (mod 6)` and `2W` odd for every bulk content, for both gauge seeds; `8D` odd if the gauge contribution is odd |
+| | `R60JointExistence` 🆕 | Farkas certificate: four anomaly-neutral additions realize `±Θ₀₁`, `±Θ₂₃`, so the localized tadpole never obstructs an anomaly-free completion of `(3, 60)` |
+| | `R60LocalizedAnomaly` 🆕 | Localized cubic anomalies of the `60` of `SU(4)`: numerators `−6`, `6`; both independent of the Wilson line, the mixed `C² · U(1)` piece not |
+| | `ScalarCPSource` 🆕 | `Im (λ (conj v₁ · v₂)²) = 0` for real `λ, v₁, v₂` |
+| | `InternalU1MixingNoGo` 🆕 | `Even n₃` and `3 n₃ − 2 n₄ = 1` are incompatible |
+| `Physics.Particles.StandardModel.SMEFT` | `AllOrdersSelfCouplings` 🆕 | All orders in `α`: `δκ₄ − 6 δκ₃ = α(3α³ + 30α² + 35α − 4)/(3(α+1)²)`, `δκ₅ − 15 δκ₃`, `δκ₆ − 15 δκ₃` in closed form; dimension-8 breaking at first order; catalog `δκ₇ … δκ₁₂` with `δκ₁₁ = δκ₁₂` |
+| | `TopEdgeCollapse` 🆕 | At the degree-12 edge the 11- and 12-point contributions coincide; the 12-point one is `246400 α⁴/(1 + α)²` |
+| | `HiggsSelfCouplings` 🆕 | Tree-level matching of the Higgs self-couplings: `O_φ = (vh + h²/2)³`; `c_φ` pieces with `δκ₄ = 6 δκ₃`; `δκ₄ − 6 δκ₃ = −(4/3)(v²/Λ²) C_{H,kin}`, so the ratio is `6` iff `C_{H,kin} = 0`; leading order `δκ₅ − 15 δκ₃ = δκ₆ − 15 δκ₃ = −5 (v²/Λ²) C_{H,kin}` |
 | `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
 | | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |
 | | `Hessenberg` | Jakobs' order through the Hessenberg natural sum |
@@ -143,7 +153,12 @@ by name), the file says so and proves it in one line from that lemma.
   `HiggsSelfCouplings` is a set of identities in `ℝ`: the field-redefinition pieces are inputs,
   not derived, and the leading-order identities are consistent with the geometric SMEFT of
   Helset, Martin and Trott (arXiv:2001.01453) and not claimed as new. It and `GammaMobius` port
-  two more files of lean-taf.
+  two more files of lean-taf. `AllOrdersSelfCouplings` ports `smeft-lean` (Lean `v4.27.0`); there
+  the `δκₙ` are rational functions of `α` taken as input, and only the identities between them are
+  proved. `GaugeHiggsUnification` collects the certificates of a series of notes on
+  six-dimensional `SU(4)` and `SU(7)` gauge-Higgs unification: finite integer checks by `decide`,
+  a bialternant over Mathlib's `LaurentPolynomial` (Mathlib has no Schur polynomials), and counts
+  over `Finset`; the physical inputs (weights, species vectors, gauge seeds) are data, not derived.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.
