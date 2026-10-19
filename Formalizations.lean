@@ -1,6 +1,10 @@
 module
 
 public import Formalizations.Algebra.Ring.Continuant
+public import Formalizations.Analysis.ODE.RungeKutta.OrderConditions
+public import Formalizations.Analysis.SpecialFunctions.Airy.Basic
+public import Formalizations.Analysis.SpecialFunctions.Airy.Perturbation
+public import Formalizations.Analysis.SpecialFunctions.Airy.PowerSeries
 public import Formalizations.Analysis.SpecialFunctions.Integrals.LogDivSelf
 public import Formalizations.Analysis.TransformerAttention.CardyPDI
 public import Formalizations.Analysis.TransformerAttention.CayleyMap
@@ -62,6 +66,12 @@ public import Formalizations.RingTheory.FreeField.ThreeAxes.QuaternionResidues
 public import Formalizations.RingTheory.FreeField.ThreeAxes.SizeChainPencil
 public import Formalizations.RingTheory.FreeField.ThreeAxes.TraceResidue
 public import Formalizations.RingTheory.FreeField.ThreeAxes.WeightedTrinomials
+public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Abelianization
+public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Adams
+public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Basic
+public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Coproduct
+public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Eulerian
+public import Formalizations.RingTheory.PowerSeries.LogMul
 public import Formalizations.SetTheory.Ordinal.Gentzen.Acc
 public import Formalizations.SetTheory.Ordinal.Gentzen.Ordinals
 public import Formalizations.SetTheory.Ordinal.Gentzen.TwoPow

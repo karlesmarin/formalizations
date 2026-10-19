@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 542 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 668 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -30,6 +30,10 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | Area | File | Main result |
 |---|---|---|
 | `Algebra.Ring` | `Continuant` | Euler's continuant; `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹` |
+| `Analysis.ODE.RungeKutta` | `OrderConditions` 🆕 | Butcher order conditions `γ(t) Φ(t) = 1` over planar rooted trees, reduced to a finite catalogue; Euler, Heun, RK4 (order 4, not 5), Dormand–Prince (order 5), Gauss–Legendre `s = 3` (order 4 in `ℚ(√15)`; order 6 in the denominator-cleared form over `ℤ[√15]` by `decide`); `Φ` invariant under permuting children |
+| `Analysis.SpecialFunctions.Airy` | `PowerSeries` 🆕 | The Airy recurrence `c_{k+3} = c_k/((k+2)(k+3))` gives `y'' = X y` in `ℚ⟦X⟧` |
+| | `Basic` 🆕 | The real Airy functions are entire and solve `y'' = x y`; zeros unbounded below (Sturm comparison from Rolle and the IVT); dominant solutions do not decay; a recessive solution by reduction of order and an entire one; infinitely many quantum-bouncer levels |
+| | `Perturbation` 🆕 | `w = u²` for `u'' = (x − E) u` satisfies `w''' = 4 (x − E) w' + 2 w` |
 | `Analysis.SpecialFunctions.Integrals` | `LogDivSelf` 🆕 | `∫₁ᴺ log x / x dx = (log N)² / 2` |
 | `Analysis.TransformerAttention` | `CriticalExponents` 🆕 | Phase A exponents of the attention decay: `2η² + ηγ_χ + 1 = 0`, `βχ = −1`, `α + χ = 2`, Rushbrooke and Josephson with `d = 1`, the Fisher residual, `η = 2γ` refuted on `(0, 1)`, AM-GM bound `γ_χ ≥ 2√2` |
 | | `CardyPDI` 🆕 | `log PDI + ΔH_Cardy = 0` (Phase 7 form), residual `−log 2 / 2` (Phase 8 form); `d/dx artanh x = 1/(1 − x²)` |
@@ -91,6 +95,12 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `PhiCompression` 🆕 | Compression of `φ = Σ α d⁻¹ ω + w d₂⁻¹` over a division ring: explicit two-sided inverse of `[[diag d, −ω d₂], [α, w]]` with `φ⁻¹ = d₂ (M⁻¹)_{∞∞}`; scalar Woodbury `φ⁻¹ = c − c (α T ω) c` from a right inverse `T` of `diag d + ω c α`; two-sided block Schur inverse with upper-left pivot over any ring |
 | | `BinomialSizeFamily` 🆕 | Explicit two-sided inverse of `diag Δ + u J` over a division ring with `q = u⁻¹ + Σ Δᵢ⁻¹`, derived from Mathlib's Woodbury identity; `q⁻¹ = u − u (Σ_{i,j} H⁻¹ᵢⱼ) u`; `(yⁱ u y⁻ⁱ + u) yⁱ = yⁱ u + u yⁱ`; `det (diag(0, 1, …, 1) + J) = 1`; at the idempotent point (`U = 1 − E₀₀`, `W = 1`, `Y` the cyclic shift) the `d × d` block matrix `U Yʲ + δᵢⱼ (i = 0 ? W : Yⁱ U)` is invertible for every `d ≥ 1` |
 | | `QuaternionCurve` 🆕 | `t i`, `t j`, `t k` in `ℍ[R]` square to `−t²` and anticommute pairwise |
+| `RingTheory.HopfAlgebra.ConnesKreimer` | `Coproduct` 🆕 | Planar rooted trees and the admissible-cut coproduct through the `B₊` cocycle; coassociativity up to `List.Perm` (`coprod_coassoc`) |
+| | `Basic` 🆕 | The Connes–Kreimer–Foissy algebra `H k = MonoidAlgebra k (FreeMonoid RTree)` is a Mathlib `HopfAlgebra` (`instCKHopf`); both antipode axioms |
+| | `Adams` 🆕 | Adams operators `Ψₙ = id^{⋆n}`, `Ψ₋₁ = S`; local nilpotency of `J = id − u∘ε`; the first Eulerian idempotent `e⁽¹⁾ = log_⋆ id` fixes primitives |
+| | `Abelianization` 🆕 | The commutative quotient `H k / ⟨ab − ba⟩` (`RingQuot`) is a `HopfAlgebra` (`instHabHopf`) |
+| | `Eulerian` 🆕 | On the commutative quotient: `Ψⁿ` are algebra maps, `Ψᵖ ∘ Ψ^q = Ψ^{pq}`, `Ψⁱ ∘ e⁽¹⁾ = i e⁽¹⁾`, and `e⁽¹⁾ ∘ e⁽¹⁾ = e⁽¹⁾` (`eulerian1_idem_ab`) |
+| `RingTheory.PowerSeries` | `LogMul` 🆕 | `logOf (f g) = logOf f + logOf g` and `logOf (fⁿ) = n • logOf f` for constant coefficient `1`, by uniqueness of antiderivatives; coefficient form for `(1 + X)ᵖ` |
 | `SetTheory.Ordinal.Gentzen` | `Acc` 🆕 | Well-foundedness below `ε₀` without choice: a syntactic order `slt` (by `ONote.cmp`) and normal form `SNF` on `ONote`; `acc_slt`, `wf_slt`, `ti_syntactic` depend on `propext` only; bridge `slt_iff_lt`, `SNF_iff_NF` to Mathlib's `<` and `NF` |
 | | `TwoPow` 🆕 | `2^α` (`twoPow' (ω·γ + m) = ω^γ · 2^m`) and the cut-elimination inequalities L1–L5 of Gentzen's consistency proof, with their counterexamples at `α = 0, 1`, all on `propext` only; bridge: `twoPow'` denotes `2^α` and equals Mathlib's `ONote.opow` |
 | | `Ordinals` 🆕 | The same `2^α` and L1–L5 on Mathlib's `NONote` through `repr` (uses choice); transfinite induction from `NONote.lt_wf` |
@@ -174,6 +184,21 @@ by name), the file says so and proves it in one line from that lemma.
   period lattices, for the axion-gauge couplings of Choi, Forslund, Lam and Shao
   (arXiv:2309.03937) and the anomaly coefficients of Monnier, Moore and Park (arXiv:1711.04777);
   the dictionary from characteristic classes to these forms is an input.
+- 🌳 **Rooted trees and Hopf algebras.** Mathlib's `RootedTree` (`Mathlib.Order.SuccPred.Tree`) is
+  a tree given by its ancestorship order on a carrier type; it has no cuts, no planar structure
+  and no isomorphism classes, so `ConnesKreimer` and `RungeKutta` use an inductive type of planar
+  trees instead. The `Coalgebra`, `Bialgebra`, `HopfAlgebra`, `MonoidAlgebra`, `RingQuot` and
+  convolution (`WithConv`) of Mathlib are used as they are; Mathlib has no Hopf algebra of trees.
+  These files port [connes-kreimer-lean](https://github.com/karlesmarin/connes-kreimer-lean),
+  [runge-kutta-order-conditions-lean](https://github.com/karlesmarin/runge-kutta-order-conditions-lean)
+  and [airy-bouncer-lean](https://github.com/karlesmarin/airy-bouncer-lean) (Lean `v4.30.0-rc2`),
+  which stay as published; the adaptation of `ConnesKreimer` to `MonoidAlgebra` as a structure
+  follows the port of the same code in [lean-pool](https://github.com/LeanPool/lean-pool).
+- 📐 **Power-series logarithm.** Mathlib has `PowerSeries.logOf`, `logOf_exp` and
+  `derivative_log_mul_one_add_X`; the original `logOf_exp` and `(1 + X) · (log(1 + X))' = 1` are
+  therefore not ported. `LogMul` adds the additivity `logOf_mul` and the power law `logOf_pow`.
+- 〰️ **Airy functions.** Mathlib has no Airy functions and no Sturm comparison theorem; `Airy.Basic`
+  builds the oscillation argument from Rolle's theorem and the intermediate value theorem.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.
