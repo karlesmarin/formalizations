@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 442 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 542 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -53,9 +53,20 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `R60LocalizedAnomaly` 🆕 | Localized cubic anomalies of the `60` of `SU(4)`: numerators `−6`, `6`; both independent of the Wilson line, the mixed `C² · U(1)` piece not |
 | | `ScalarCPSource` 🆕 | `Im (λ (conj v₁ · v₂)²) = 0` for real `λ, v₁, v₂` |
 | | `InternalU1MixingNoGo` 🆕 | `Even n₃` and `3 n₃ − 2 n₄ = 1` are incompatible |
+| | `SU7WeightChannels` 🆕 | Charge channels of `7`, `28`, `48`, `84` of `SU(7)` from their weights; gauge coefficients of both seeds (shift `Δ(8D) = 9`, `ΔA₄ = 9/2`, `ΔW = 0`); the computed moments `(8D, 2A₄)` of the eight bulk multiplets equal the data of `OddEighths` |
+| | `USp4WeightMoments` 🆕 | The `13`-dimensional contents `5 + 4 + 4` and `1 + 1 + 1 + 5 + 5` of `USp(4)` have equal weight moments up to degree `3` and differ by `(0, 0, 24, 0, 0)` in degree `4`; dimension, second and fourth moments determine the multiplicities |
+| | `HiddenCentreBasis` 🆕 | In the `(1, 5, 4)` basis, dimension, second moment and central action `a + 5b − 4c` determine the multiplicities; the two candidates have central actions `−3`, `13` |
+| | `TorusTwistBasis` 🆕 | `2 · periodic = dim + center` in the `(1, 5, 4)` basis; dimension, second moment and periodic count determine the multiplicities |
+| | `ChargeQuantization` 🆕 | `p A + q B + r C` is integral on the cocharacters of `S(U(2) × U(3))` iff `t ∣ p, q, r`; the transfer coefficients `(16 − 3p, −3q, −3r)` never satisfy `x + y + 2z = 0` (residue `1 mod 3`) |
+| | `WallDeterminants` 🆕 | Rank-one wall determinant `a b x²`; neutral `3 × 3` Gram determinant `a b x² (k + a(1 − d²))` and its sum-of-squares form; rationalized gap `(r + t − z)(r + t + z) = 4rt(1 − c)` |
+| | `AlignmentPolynomials` 🆕 | `9p⁴ + 2p²q² + 9q⁴ = 5(p² + q²)² + 4(p² − q²)²`; descent numerators `4e²(e² − 8)`, `−16e²` |
+| | `EffectivePotentialAlgebra` 🆕 | Coefficients of the potential in `h r`; third and fourth logarithmic derivatives `c − 3ab + 2a³`, `d − 4ac − 3b² + 12a²b − 6a⁴`; `2 × 2` covariance pullback and minors |
+| | `LinearResponseIdentities` 🆕 | The two-pole linear response is independent of the quartic coupling; `(a + b)(a u² + b v²) − (a u + b v)² = a b (u − v)²` |
+| `Physics.Particles.StandardModel.AxionCouplings` | `SpinPeriod` 🆕 | Periods `p a + q b + 2 r c ∈ t ℤ` iff `t ∣ p, q, 2r` (spin) versus `t ∣ p, q, r`; for the `q = 6` row of Choi–Forslund–Lam–Shao the spin condition is `18 K₂ + 24 K₃ + K₁ ≡ 0 (mod 36)` and forces `6 ∣ K₁` |
 | `Physics.Particles.StandardModel.SMEFT` | `AllOrdersSelfCouplings` 🆕 | All orders in `α`: `δκ₄ − 6 δκ₃ = α(3α³ + 30α² + 35α − 4)/(3(α+1)²)`, `δκ₅ − 15 δκ₃`, `δκ₆ − 15 δκ₃` in closed form; dimension-8 breaking at first order; catalog `δκ₇ … δκ₁₂` with `δκ₁₁ = δκ₁₂` |
 | | `TopEdgeCollapse` 🆕 | At the degree-12 edge the 11- and 12-point contributions coincide; the 12-point one is `246400 α⁴/(1 + α)²` |
 | | `HiggsSelfCouplings` 🆕 | Tree-level matching of the Higgs self-couplings: `O_φ = (vh + h²/2)³`; `c_φ` pieces with `δκ₄ = 6 δκ₃`; `δκ₄ − 6 δκ₃ = −(4/3)(v²/Λ²) C_{H,kin}`, so the ratio is `6` iff `C_{H,kin} = 0`; leading order `δκ₅ − 15 δκ₃ = δκ₆ − 15 δκ₃ = −5 (v²/Λ²) C_{H,kin}` |
+| `Physics.Supergravity.AnomalyQuantization` | `U2Example` 🆕 | The `U(2)` form `(2 b₀ (m − n)² + b₁ (m + n)²)/8` of Monnier–Moore–Park is integer-valued iff `2 b₀ + b₁ ≡ 0 (mod 8)`; `4 ∣ b₀ ∧ 8 ∣ b₁` is sufficient, not necessary (`(1, 6)`); two samples decide integrality with rational coefficients |
 | `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
 | | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |
 | | `Hessenberg` | Jakobs' order through the Hessenberg natural sum |
@@ -159,6 +170,10 @@ by name), the file says so and proves it in one line from that lemma.
   six-dimensional `SU(4)` and `SU(7)` gauge-Higgs unification: finite integer checks by `decide`,
   a bialternant over Mathlib's `LaurentPolynomial` (Mathlib has no Schur polynomials), and counts
   over `Finset`; the physical inputs (weights, species vectors, gauge seeds) are data, not derived.
+  `SpinPeriod` and `U2Example` are integrality criteria for quadratic forms on cocharacter and
+  period lattices, for the axion-gauge couplings of Choi, Forslund, Lam and Shao
+  (arXiv:2309.03937) and the anomaly coefficients of Monnier, Moore and Park (arXiv:1711.04777);
+  the dictionary from characteristic classes to these forms is an input.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.
