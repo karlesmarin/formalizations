@@ -34,7 +34,9 @@ The paper's β-function is `β(γ) = −(1 − γ²)/2`. Its formula tables also
 
 Mathlib has `Real.hasDerivAt_sinh`, `Real.hasDerivAt_cosh` and `Real.tanh_eq_sinh_div_cosh`; at
 the pinned commit it has no derivative lemma for `Real.tanh`, so `rg_flow_tanh` uses the quotient
-rule.
+rule. Current Mathlib has none either (checked with Loogle and LeanSearch, October 2026);
+[physlib](https://github.com/leanprover-community/physlib) has one, prepared for Mathlib, in
+`Physlib/Mathematics/ForMathlib/Trigonometry/Tanh.lean`.
 
 ## References
 

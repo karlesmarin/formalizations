@@ -28,7 +28,9 @@ two forms of the Cardy entropy shift:
 
 Mathlib defines `Real.artanh` (with `Real.artanh_eq_half_log`) but, at the pinned commit, has no
 derivative lemma for it; `hasDerivAt_artanh` derives it from `artanh_eq_half_log` and
-`HasDerivAt.log`.
+`HasDerivAt.log`. Current Mathlib has none either (checked with Loogle and LeanSearch, October 2026).
+The same lemma, under the same name, is in
+[TauCeti](https://github.com/TauCetiProject/TauCeti) (`TauCeti/Analysis/SpecialFunctions/Artanh.lean`).
 
 ## References
 

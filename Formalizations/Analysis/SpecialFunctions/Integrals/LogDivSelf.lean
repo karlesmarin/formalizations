@@ -30,7 +30,8 @@ point (see `Formalizations.Analysis.TransformerAttention.HeatCapacity`).
 ## Related
 
 Mathlib has `integral_log`, `integral_inv` and `integral_inv_div_log` in
-`Mathlib.Analysis.SpecialFunctions.Integrals.Basic`, but not this integral.
+`Mathlib.Analysis.SpecialFunctions.Integrals.Basic`, but not this integral, neither at the pinned
+commit nor in current Mathlib (checked with Loogle, LeanSearch and GitHub code search, October 2026).
 -/
 
 @[expose] public section
