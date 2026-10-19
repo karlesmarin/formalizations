@@ -103,6 +103,7 @@ public import Formalizations.MusicTheory.Tiling
 public import Formalizations.MusicTheory.TonnetzCompleteness
 public import Formalizations.MusicTheory.TonnetzSpectrum
 public import Formalizations.MusicTheory.TranslationInvariantEnergy
+public import Formalizations.NumberTheory.DedekindSum
 public import Formalizations.NumberTheory.DirichletCharacter.AbelZero
 public import Formalizations.NumberTheory.FermatQuotient
 public import Formalizations.NumberTheory.MahlerBasis.EvenFunctions
@@ -110,6 +111,16 @@ public import Formalizations.NumberTheory.MahlerBasis.FiniteMahlerBasis
 public import Formalizations.NumberTheory.MahlerBasis.LogarithmChange
 public import Formalizations.NumberTheory.MahlerBasis.ParityAndKernel
 public import Formalizations.NumberTheory.MahlerBasis.RankProfile
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.BiquadraticIdentities
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.BiquadraticModel
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.ConjugatePowers
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.CubicParity
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.CyclicPrimeBezout
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.Discriminant
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.IndexFormula
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.IndexLemmas
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.Saturation
+public import Formalizations.NumberTheory.NumberField.InvariantOrders.TriangularBasis
 public import Formalizations.NumberTheory.NumericalSemigroup.GenusBound
 public import Formalizations.NumberTheory.OrderOfTwo
 public import Formalizations.NumberTheory.PrescribedMoments.Biquanimous

@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 1573 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2176 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -132,7 +132,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `TranslationInvariantEnergy` 🆕 | Difference potentials on finite abelian groups: one scalar controls the complement correction; a hexachord and its complement have equal energy |
 | | `ExtremalityConnections` 🆕 | Homometric sets have equal energies; homometry survives complementation; the pentatonic results from the diatonic by complementation |
 | | `MelodicWord` 🆕 | An odd-step statistic of melodic words is antisymmetric under retrograde and invariant under repeated notes; the pitch-class DFT is order-blind |
-| `NumberTheory` | `FermatQuotient` 🆕 | Shift rule for the Fermat quotient: `q(l + p t) ≡ q(l) − t/l (mod p)` |
+| `NumberTheory` | `DedekindSum` 🆕 | Dedekind sums via the sawtooth: reciprocity `s(h,k) + s(k,h) = (h² + k² + 1)/(12hk) − 1/4`, `s(h⁻¹, k) = s(h, k)`, the distribution relation, and the prime case of the Petersson–Knopp identity |
+| | `FermatQuotient` 🆕 | Shift rule for the Fermat quotient: `q(l + p t) ≡ q(l) − t/l (mod p)` |
 | | `OrderOfTwo` 🆕 | For `p ≥ 5`: some odd `j ≤ p − 4` has `2^j = 1` or some even `j ≤ p − 3` has `2^j = −1` iff `ord_p(2) ≢ 2 (mod 4)` |
 | `NumberTheory.DirichletCharacter` | `AbelZero` 🆕 | For a primitive `χ` modulo odd `N`: `∑_c χ⁻¹(c) U(ζ^c) = 2 τ (1 − χ(2)) B_{1,χ}`, `U(Z) = 2Z/(Z² − 1)`, by finite Fourier analysis |
 | `NumberTheory.MahlerBasis` | `FiniteMahlerBasis` 🆕 | The functions `x ↦ C(x.val, i)`, `i < N`, are a basis of `ZMod N → K` |
@@ -140,6 +141,16 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `LogarithmChange` 🆕 | `q ↦ q ∘ F` and `q ↦ q ∘ F⁻¹`, `F(z) = ((1+p)^z − 1)/p`, are unitriangular in the Mahler basis of `ℤ/p^t → k` |
 | | `EvenFunctions` 🆕 | For an even Mahler expansion and odd `k`: `2 c_k = ∑_{i>k} (−1)^i C(i−1, i−k) c_i` |
 | | `RankProfile` 🆕 | The arithmetic of the rank profile of Mahler matrices modulo `p` (seed rows, `k*`, rank), given the criterion as a hypothesis |
+| `NumberTheory.NumberField.InvariantOrders` | `Saturation` 🆕 | For an order `M ⊇ ℤ[α]` of a quartic field (in coordinates `ℚ⁴`): `ℤ + ℤα + ℤα²` is saturated in `M` iff `M/ℤ[α]` is cyclic |
+| | `TriangularBasis` 🆕 | From a triangular basis `ω_k = (αᵏ + P_k(α))/d_k`: `M/ℤ[α] ≅ ℤ/d₁ × ℤ/d₂ × ℤ/d₃`, `d₂ = [A ∩ V₂ : L₂]`, five equivalent conditions, the clause modulo `p` |
+| | `BiquadraticIdentities` 🆕 | Louboutin's `T, U, V, W` for a biquadratic quartic: factorisation, twelve certificates and Cramer's rule, resolvent, `4 × 4` determinant forms |
+| | `BiquadraticModel` 🆕 | Louboutin's Conjecture 6.1: `ℤ[α]` is Galois-invariant iff `Δ` divides `T, U, V, W`; `gcd(T, U, V, W) = abs θ` |
+| | `CubicParity` 🆕 | `M³ = ±1`, `M ≠ ±1`, `F ∘ M = ±F` for the binary cubic form force `c` and `a + b` odd; a Möbius unit lemma |
+| | `CyclicPrimeBezout` 🆕 | Bézout certificates for `Φ₅`, `Φ₇` against `(1+t)^ℓ ∓ 1` (`11`, `58`, `86`) and the congruence step for cyclic fields of prime degree |
+| | `Discriminant` 🆕 | Biquadratic case: `disc A = g²`, `[A : ℤ[α]] = abs Δ / g`, `d₁ = 1`, the invariant factors `d₂ = m₀/h₀`, `d₃ = I h₀/m₀` |
+| | `IndexLemmas` 🆕 | `det[γ_i(ω_l)] ∈ ℤ`; `det[γ_i(∑ m_lk αᵏ)] = Vand · det m`; the cyclic quartic identities `U² + Y² = N² Q₂` and two discriminant identities |
+| | `ConjugatePowers` 🆕 | Cyclic prime degree: ratios of differences of conjugates are units; `ℤ[conj αᵏ] ≠ ℤ[conj α]` for `k ≥ 2` under a valuation condition; `ℤ[conj εᵏ] = ℤ[ζ₅]` for `5 ∤ k` |
+| | `IndexFormula` 🆕 | For both Galois groups: `[A : ℤ[α]] = J L²/H`, `disc A = D_α (H/(J L²))²`, `d₁ = 1`, `d₂ = LG/H`, `d₃ = JL/G`, `A ∩ (ℚ + ℚα) = ℤ + ℤα` |
 | `NumberTheory.NumericalSemigroup` | `GenusBound` 🆕 | A numerical semigroup generated in degrees `≤ D` has genus `g` with `2g ≤ (D − 1)(D − 2)`, equality only for `⟨D − 1, D⟩` |
 | `NumberTheory.PrescribedMoments` | `Biquanimous` 🆕 | Every 4-part partition of `n ≥ 3` splits into two halves of equal sum iff `n ∈ {3, 4, 6}`; counts of signed zero sums |
 | | `CubicModels` 🆕 | Nodes of the Cayley and Segre cubics; Newton's identities for `e₁ = e₃ = 0`; `(p−1)/2` and `(p−1)(p−3)/8` subsets of `ZMod p` of size 3 and 4 with both moments zero |
@@ -379,6 +390,12 @@ by name), the file says so and proves it in one line from that lemma.
   for odd `χ`; `WeightedHalfSum` takes `B_{1,χ} ≠ 0` as a hypothesis where it is needed. The
   certificates of `NoZeros` are checked by `decide +kernel`, with a proved bridge from the
   computable symbol to `legendreSym`.
+- 🔢 **Orders generated by conjugates.** Mathlib has orders and `AddSubgroup.relIndex` (with
+  `relIndex_eq_natAbs_det`, used for the indices), but no theory of the order generated by the
+  conjugates of an algebraic integer. `InvariantOrders` works in abstract models (a domain with
+  ring endomorphisms permuting the conjugates and "fixed ⇒ integer"; coordinates in `ℚ⁴`); the
+  triangular basis of the order is an explicit hypothesis (`Louboutin.Triang`). Mathlib has no
+  Dedekind sums; `DedekindSum` proves reciprocity directly.
 - 📐 **Mahler bases.** Mathlib has Mahler's theorem for continuous functions on `ℤ_[p]`
   (`NumberTheory.Padics.MahlerBasis`) and forward differences `fwdDiff`; `MahlerBasis` works with the
   finite basis of `ZMod N → K` instead. `AbelZero` uses Mathlib's Gauss sums
