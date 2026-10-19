@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 306 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 343 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
@@ -35,6 +35,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `Pade` 🆕 | The `[2/2]` minus the `[1/1]` Padé approximant of `e^{−z}` is `2z³/((z + 2)(z² + 6z + 12))`; `θ_eff` closed form |
 | | `CayleyMap` 🆕 | Fixed point `z* = (√17 − 3)/2` of `(2 − z)/(2 + z)`, `χ = (5 + √17)/4`, Floquet multiplier `(√17 − 9)/8` with `|μ| < 1` |
 | | `RGFlow` 🆕 | `V = γ − γ³/3` gives `−V' ≠ β = −(1 − γ²)/2` (factor 2); the corrected `V = γ/2 − γ³/6`; `tanh(t/2 + c)` solves `γ' = (1 − γ²)/2` |
+| | `GammaMobius` 🆕 | The Padé exponent `(2θ − T√2)/(2θ + T√2)` is the Möbius transform `(1 − u)/(1 + u)` of `u = T/(θ√2)` (needs `s² = 2`); the horizon `θ√2 (1 − γ)/(1 + γ)` at the Padé exponent equals `T`; `β = −2u/(1 + u)²` |
 | | `HeatCapacity` 🆕 | Erratum to the Hagedorn heat capacity: both derivations give `(log N)²/12`, three times smaller than the published `(log N)²/4` |
 | `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |
 | | `Adjugate` | Diagonal entries of the adjugate are principal minors |
@@ -43,6 +44,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `Charpoly.Jacobi` | Resolvent series and Jacobi's formula for the derivative of the reversed charpoly |
 | | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
 | | `FreeLocusCertificate` | Soundness of the free-locus certificate ("not flip-poly") |
+| `Physics.Particles.StandardModel.SMEFT` | `HiggsSelfCouplings` 🆕 | Tree-level matching of the Higgs self-couplings: `O_φ = (vh + h²/2)³`; `c_φ` pieces with `δκ₄ = 6 δκ₃`; `δκ₄ − 6 δκ₃ = −(4/3)(v²/Λ²) C_{H,kin}`, so the ratio is `6` iff `C_{H,kin} = 0`; leading order `δκ₅ − 15 δκ₃ = δκ₆ − 15 δκ₃ = −5 (v²/Λ²) C_{H,kin}` |
 | `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
 | | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |
 | | `Hessenberg` | Jakobs' order through the Hessenberg natural sum |
@@ -123,6 +125,13 @@ by name), the file says so and proves it in one line from that lemma.
   closed forms are instances of `div_mul_cancel₀` and `one_div_mul_cancel`, proved in one line.
   The files in `Analysis.TransformerAttention` port the repository
   [lean-taf](https://github.com/karlesmarin/lean-taf) (Lean `v4.30.0-rc2`), which stays as published.
+- ⚛️ **Physics.** Mathlib has no physics; the area name follows
+  physlib (`Physlib.Particles.StandardModel`), which formalizes the
+  Higgs field and potential but, as far as we found, not these SMEFT coefficient identities.
+  `HiggsSelfCouplings` is a set of identities in `ℝ`: the field-redefinition pieces are inputs,
+  not derived, and the leading-order identities are consistent with the geometric SMEFT of
+  Helset, Martin and Trott (arXiv:2001.01453) and not claimed as new. It and `GammaMobius` port
+  two more files of lean-taf.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.

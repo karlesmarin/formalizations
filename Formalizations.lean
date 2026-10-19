@@ -5,6 +5,7 @@ public import Formalizations.Analysis.SpecialFunctions.Integrals.LogDivSelf
 public import Formalizations.Analysis.TransformerAttention.CardyPDI
 public import Formalizations.Analysis.TransformerAttention.CayleyMap
 public import Formalizations.Analysis.TransformerAttention.CriticalExponents
+public import Formalizations.Analysis.TransformerAttention.GammaMobius
 public import Formalizations.Analysis.TransformerAttention.HeatCapacity
 public import Formalizations.Analysis.TransformerAttention.Pade
 public import Formalizations.Analysis.TransformerAttention.RGFlow
@@ -15,6 +16,7 @@ public import Formalizations.LinearAlgebra.Matrix.FreeLocus
 public import Formalizations.LinearAlgebra.Matrix.FreeLocusCertificate
 public import Formalizations.LinearAlgebra.Matrix.Rank
 public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
+public import Formalizations.Physics.Particles.StandardModel.SMEFT.HiggsSelfCouplings
 public import Formalizations.RingTheory.DGH.Absorb
 public import Formalizations.RingTheory.DGH.Basic
 public import Formalizations.RingTheory.DGH.Epsilon0
