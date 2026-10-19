@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 1217 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 1272 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -55,7 +55,11 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `RGFlow` 🆕 | `V = γ − γ³/3` gives `−V' ≠ β = −(1 − γ²)/2` (factor 2); the corrected `V = γ/2 − γ³/6`; `tanh(t/2 + c)` solves `γ' = (1 − γ²)/2` |
 | | `GammaMobius` 🆕 | The Padé exponent `(2θ − T√2)/(2θ + T√2)` is the Möbius transform `(1 − u)/(1 + u)` of `u = T/(θ√2)` (needs `s² = 2`); the horizon `θ√2 (1 − γ)/(1 + γ)` at the Padé exponent equals `T`; `β = −2u/(1 + u)²` |
 | | `HeatCapacity` 🆕 | Erratum to the Hagedorn heat capacity: both derivations give `(log N)²/12`, three times smaller than the published `(log N)²/4` |
+| `Combinatorics.Hall` | `Tight` 🆕 | The neighbourhood function of a set system is submodular; under Hall's condition tight sets are closed under union and intersection |
+| `Combinatorics.Matroid` | `Transversal` 🆕 | Partial transversals of a finite set system are the independent sets of a matroid (augmentation through Hall's theorem and tight sets) |
+| | `TransversalObstruction` 🆕 | The largest tight subset of a partial transversal decides every insertion and describes the matroid closure |
 | `Combinatorics.SimpleGraph` | `OrientedIncMatrix` 🆕 | The oriented incidence matrix `N` and the Gram factorization `N Nᵀ = D − A` |
+| `Combinatorics.SimpleGraph.Coloring` | `DeBruijnErdos` 🆕 | De Bruijn–Erdős: a graph is `n`-colorable iff all its finite induced subgraphs are |
 | `Combinatorics.SimpleGraph.Ihara` | `Bass` 🆕 | Bass's formula `(1 − u²)^|V| det(1 − uB) = (1 − u²)^|E| det(1 − uA + u²(D − 1))` for the non-backtracking operator `B` |
 | | `TraceFormula` 🆕 | `tr(Aᵏ)` counts closed walks; Bass's formula in `R[X]` and its derivative; the generating function of `tr(Bᵏ)` from `A` and `D` |
 | | `NbWalkCount` 🆕 | `B` is the `0-1` matrix of the non-backtracking relation; `tr(Bᵏ)` counts closed non-backtracking dart sequences |
@@ -85,6 +89,10 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `ForestRealRooted` 🆕 | `μ(forest) = charpoly(A)`; Heilmann–Lieb: `μ(G)` is real-rooted for every finite graph |
 | | `HeilmannLieb` 🆕 | Interlacing: if `q` alternates at the simple roots of `p`, then `X p − q` is real-rooted and interlaced by `p` |
 | | `HeilmannLiebBound` 🆕 | Weighted Gershgorin (Collatz–Wielandt); Heilmann–Lieb bound: the roots of `μ(G)` lie in `[−2√(Δ−1), 2√(Δ−1)]` for maximum degree `≤ Δ`, `Δ ≥ 2` |
+| `GroupTheory.GroupAction` | `Separation` 🆕 | P. M. Neumann's separation lemma: finite (pretransitive, `#A · #B < #Ω`) and infinite (infinite orbits) versions |
+| | `SeparationDichotomy` 🆕 | Averaging identity `∑_g #(gA ∩ B)`; either some `g` separates `A` from `B` or all intersections have size `1` (exact factorization; tilings of `ℤ/n`) |
+| | `SectionRegular` 🆕 | `(∑_g #(gA ∩ B)) · #Ω = #A · #B · #G` for transitive actions; section-regular partitions have parts of equal size |
+| | `DistinguishingNumber` 🆕 | Distinguishing colorings and numbers; the collineation group of the Fano plane has distinguishing number `4` (by `decide`) |
 | `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |
 | | `Adjugate` | Diagonal entries of the adjugate are principal minors |
 | | `Rank` | `rank (A + B) ≤ rank A + rank B`; nullity under low-rank perturbation; block triangular bounds |
@@ -144,6 +152,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `MandelstamTamm` 🆕 | `L¹` Mandelstam–Tamm bound `1 ≤ D₁ τ` with `D₁` the mean absolute energy deviation |
 | | `AntipodeFloor` 🆕 | `‖∑ wⱼxⱼ/(1 − xⱼz)‖ ≥ ∑ wⱼxⱼ/(1 + xⱼ)` on the unit circle for `wⱼ ≥ 0`, `xⱼ ∈ [0, 1)` |
 | `Physics.Supergravity.AnomalyQuantization` | `U2Example` 🆕 | The `U(2)` form `(2 b₀ (m − n)² + b₁ (m + n)²)/8` of Monnier–Moore–Park is integer-valued iff `2 b₀ + b₁ ≡ 0 (mod 8)`; `4 ∣ b₀ ∧ 8 ∣ b₁` is sufficient, not necessary (`(1, 6)`); two samples decide integrality with rational coefficients |
+| `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
+| | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
 | `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
 | | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |
 | | `Hessenberg` | Jakobs' order through the Hessenberg natural sum |
@@ -173,6 +183,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `Adams` 🆕 | Adams operators `Ψₙ = id^{⋆n}`, `Ψ₋₁ = S`; local nilpotency of `J = id − u∘ε`; the first Eulerian idempotent `e⁽¹⁾ = log_⋆ id` fixes primitives |
 | | `Abelianization` 🆕 | The commutative quotient `H k / ⟨ab − ba⟩` (`RingQuot`) is a `HopfAlgebra` (`instHabHopf`) |
 | | `Eulerian` 🆕 | On the commutative quotient: `Ψⁿ` are algebra maps, `Ψᵖ ∘ Ψ^q = Ψ^{pq}`, `Ψⁱ ∘ e⁽¹⁾ = i e⁽¹⁾`, and `e⁽¹⁾ ∘ e⁽¹⁾ = e⁽¹⁾` (`eulerian1_idem_ab`) |
+| `RingTheory.Polynomial.Chebyshev` | `Docagne` 🆕 | d'Ocagne's identity `S p S (q − 1) − S q S (p − 1) = −S (p − q − 1)` for Mathlib's `Chebyshev.S` |
 | `RingTheory.PowerSeries` | `LogMul` 🆕 | `logOf (f g) = logOf f + logOf g` and `logOf (fⁿ) = n • logOf f` for constant coefficient `1`, by uniqueness of antiderivatives; coefficient form for `(1 + X)ᵖ` |
 | `SetTheory.Ordinal.Gentzen` | `Acc` 🆕 | Well-foundedness below `ε₀` without choice: a syntactic order `slt` (by `ONote.cmp`) and normal form `SNF` on `ONote`; `acc_slt`, `wf_slt`, `ti_syntactic` depend on `propext` only; bridge `slt_iff_lt`, `SNF_iff_NF` to Mathlib's `<` and `NF` |
 | | `TwoPow` 🆕 | `2^α` (`twoPow' (ω·γ + m) = ω^γ · 2^m`) and the cut-elimination inequalities L1–L5 of Gentzen's consistency proof, with their counterexamples at `α = 0, 1`, all on `propext` only; bridge: `twoPow'` denotes `2^α` and equals Mathlib's `ONote.opow` |
@@ -314,6 +325,17 @@ by name), the file says so and proves it in one line from that lemma.
   `Li₂ 1 = π²/6` from `hasSum_zeta_two`. Mathlib has no quantum mechanics; `SpeedLimit` states the
   bounds for a discrete spectral measure with real sums. Eneström–Kakeya and Fejér–Jackson were not
   found in Mathlib.
+- 🧩 **Permutation groups, transversals, colorings.** `Separation` applies Mathlib's B. H. Neumann
+  covering lemma (`Subgroup.exists_index_le_card_of_leftCoset_cover`); `DeBruijnErdos` applies
+  Mathlib's Rado selection principle (`Finset.rado_selection`, whose docstring cites de Bruijn–Erdős)
+  but Mathlib does not state the coloring theorem; `Transversal` builds a Mathlib `Matroid` from
+  `IndepMatroid` and Hall's theorem (`Finset.all_card_le_biUnion_card_iff_existsInjective'`);
+  `Docagne` extends Mathlib's `Chebyshev.S_sq_add_S_sq`. Mathlib has no distinguishing numbers or
+  transversal matroids.
+- 🎲 **Gaussian mixtures.** Mathlib has the Gaussian, exponential and Gamma densities
+  (`gaussianPDFReal`, `exponentialPDFReal`, `gammaPDFReal`), the Gaussian moment generating function
+  and variance, and Fubini's `integral_prod_mul`, all used here; it has no Laplace or Student-t
+  distribution and no mixture identities.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.

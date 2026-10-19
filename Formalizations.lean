@@ -26,6 +26,10 @@ public import Formalizations.Analysis.TransformerAttention.GammaMobius
 public import Formalizations.Analysis.TransformerAttention.HeatCapacity
 public import Formalizations.Analysis.TransformerAttention.Pade
 public import Formalizations.Analysis.TransformerAttention.RGFlow
+public import Formalizations.Combinatorics.Hall.Tight
+public import Formalizations.Combinatorics.Matroid.Transversal
+public import Formalizations.Combinatorics.Matroid.TransversalObstruction
+public import Formalizations.Combinatorics.SimpleGraph.Coloring.DeBruijnErdos
 public import Formalizations.Combinatorics.SimpleGraph.Ihara.Bass
 public import Formalizations.Combinatorics.SimpleGraph.Ihara.GapWindow
 public import Formalizations.Combinatorics.SimpleGraph.Ihara.GodsilMoment
@@ -56,6 +60,10 @@ public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.Basic
 public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.Kirchhoff
 public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.SpanningTreeMinor
 public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
+public import Formalizations.GroupTheory.GroupAction.DistinguishingNumber
+public import Formalizations.GroupTheory.GroupAction.SectionRegular
+public import Formalizations.GroupTheory.GroupAction.Separation
+public import Formalizations.GroupTheory.GroupAction.SeparationDichotomy
 public import Formalizations.LinearAlgebra.Matrix.Adjugate
 public import Formalizations.LinearAlgebra.Matrix.CauchyBinet
 public import Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi
@@ -115,6 +123,8 @@ public import Formalizations.Physics.QuantumMechanics.SpeedLimit.AntipodeFloor
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MandelstamTamm
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin
 public import Formalizations.Physics.Supergravity.AnomalyQuantization.U2Example
+public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
+public import Formalizations.Probability.Distributions.Superstatistics.StudentMixture
 public import Formalizations.RingTheory.DGH.Absorb
 public import Formalizations.RingTheory.DGH.Basic
 public import Formalizations.RingTheory.DGH.Epsilon0
@@ -144,6 +154,7 @@ public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Adams
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Basic
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Coproduct
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Eulerian
+public import Formalizations.RingTheory.Polynomial.Chebyshev.Docagne
 public import Formalizations.RingTheory.PowerSeries.LogMul
 public import Formalizations.SetTheory.Ordinal.Gentzen.Acc
 public import Formalizations.SetTheory.Ordinal.Gentzen.Ordinals
