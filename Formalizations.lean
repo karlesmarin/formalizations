@@ -2,6 +2,13 @@ module
 
 public import Formalizations.Algebra.Ring.Continuant
 public import Formalizations.Analysis.ODE.RungeKutta.OrderConditions
+public import Formalizations.Analysis.Polynomial.RealRoots.BudanFourier
+public import Formalizations.Analysis.Polynomial.RealRoots.Descartes
+public import Formalizations.Analysis.Polynomial.RealRoots.NewtonInequalities
+public import Formalizations.Analysis.Polynomial.RealRoots.RealRooted
+public import Formalizations.Analysis.Polynomial.RealRoots.Sturm
+public import Formalizations.Analysis.Polynomial.RealRoots.VirtualRoots.Basic
+public import Formalizations.Analysis.Polynomial.RealRoots.VirtualRoots.Count
 public import Formalizations.Analysis.SpecialFunctions.Airy.Basic
 public import Formalizations.Analysis.SpecialFunctions.Airy.Perturbation
 public import Formalizations.Analysis.SpecialFunctions.Airy.PowerSeries

@@ -1,0 +1,954 @@
+/-
+Copyright (c) 2026 Carles Marín. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Carles Marín
+-/
+module
+
+public import Formalizations.Analysis.Polynomial.RealRoots.VirtualRoots.Basic
+public import Formalizations.Analysis.Polynomial.RealRoots.BudanFourier
+
+/-!
+# The exact Budan–Fourier count for virtual roots
+
+The number of virtual roots of a nonzero real polynomial `p` in `(a, b]` equals the Budan–Fourier
+drop `V(a) - V(b)` of the derivative tower. This turns the inequality of
+`BudanFourier.budan_fourier` into an equality.
+
+The proof shows `V(x) = #{virtual roots of p greater than x}` by induction down the derivative
+tower; the step `VirtualRoots.count_step` compares the leading sign variation of the tower of `p`
+with the virtual root that the interlacing places above `x`.
+
+## Main definitions
+
+* `VirtualRoots.Brackets lo hi p`: every root of every member of the derivative tower of `p` lies
+  in `(lo, hi)`.
+
+## Main results
+
+* `VirtualRoots.fourierVar_eq_card_vroots_gt`: `fourierVar p x` is the number of virtual roots of
+  `p` greater than `x`, for `x ∈ [lo, hi)`.
+* `VirtualRoots.card_vroots_Ioc_eq_fourierVar`: the number of virtual roots in `(a, b]` is
+  `fourierVar p a - fourierVar p b`.
+
+## References
+
+* M. Coste, T. Lajous-Loaeza, H. Lombardi, M.-F. Roy, *Generalized Budan–Fourier theorem and virtual
+  roots*, J. Complexity 21 (2005) 479–486.
+-/
+
+@[expose] public section
+
+open Polynomial
+
+namespace VirtualRoots
+
+/-- **Bracketing hypothesis.** `[lo,hi]` strictly contains every root of every member of the
+derivative tower of `p`. Then (as the count needs) all virtual roots lie in `(lo,hi)`, `V(lo)` is the
+degree, and `V(hi) = 0`. -/
+public def Brackets (lo hi : ℝ) (p : Polynomial ℝ) : Prop :=
+  ∀ q ∈ BudanFourier.fourierSeq p, ∀ z : ℝ, q.eval z = 0 → z ∈ Set.Ioo lo hi
+
+/-- The derivative tower of `p` is `p` followed by the tower of `p'` (for `deg p ≥ 1`). The structural
+recursion that lets `fourierVar` and `vroots` be compared one degree at a time. -/
+theorem fourierSeq_cons {p : Polynomial ℝ} (hp : 0 < p.natDegree) :
+    BudanFourier.fourierSeq p = p :: BudanFourier.fourierSeq (derivative p) := by
+  have hm : (derivative p).natDegree + 1 = p.natDegree := by
+    rw [natDegree_derivative_eq hp]; omega
+  unfold BudanFourier.fourierSeq
+  rw [List.range_succ_eq_map, List.map_cons, ← hm]
+  simp only [Function.iterate_zero, id_eq]
+  congr 1
+  rw [List.map_map]
+  refine List.map_congr_left (fun k _ => ?_)
+  rw [Function.comp_apply, Function.iterate_succ_apply]
+
+/-- **fourierVar recursion, root case.** Where `p` vanishes, its sign-variation count equals that of
+`p'`: the leading zero is invisible. -/
+theorem fourierVar_succ_root {p : Polynomial ℝ} (hp : 0 < p.natDegree) {x : ℝ}
+    (hx : p.eval x = 0) :
+    BudanFourier.fourierVar p x = BudanFourier.fourierVar (derivative p) x := by
+  rw [BudanFourier.fourierVar_eq_signVarAt, BudanFourier.fourierVar_eq_signVarAt,
+    Sturm.signVarAt_eq_signChanges, Sturm.signVarAt_eq_signChanges, fourierSeq_cons hp,
+    List.map_cons, hx]
+  simp
+
+/-- **fourierVar recursion, non-root case.** Where `p(x) ≠ 0`, prepending its sign to the `p'`-tower
+adds one variation iff that sign disagrees with the first surviving sign `d` of the `p'`-tower. -/
+theorem fourierVar_succ_ne {p : Polynomial ℝ} (hp : 0 < p.natDegree) {x : ℝ}
+    (hx : p.eval x ≠ 0) {d : SignType}
+    (hd : (((BudanFourier.fourierSeq (derivative p)).map (fun q => SignType.sign (q.eval x))).filter
+          (· ≠ 0)).head? = some d) :
+    BudanFourier.fourierVar p x
+      = BudanFourier.fourierVar (derivative p) x
+        + (if SignType.sign (p.eval x) = d then 0 else 1) := by
+  rw [BudanFourier.fourierVar_eq_signVarAt, BudanFourier.fourierVar_eq_signVarAt,
+    Sturm.signVarAt_eq_signChanges, Sturm.signVarAt_eq_signChanges, fourierSeq_cons hp,
+    List.map_cons]
+  exact Sturm.signChanges_cons_of_ne_zero (by rw [ne_eq, sign_eq_zero_iff]; exact hx) hd
+
+/-- **Count-above is monotone under a pointwise `≤`.** If `L[i] ≤ M[i]` entrywise, then at most as many
+of `L` exceed `x` as of `M`. The signless engine of the vroots-side recursion. -/
+theorem countP_gt_le_of_forall₂ (x : ℝ) {L M : List ℝ} (h : List.Forall₂ (· ≤ ·) L M) :
+    L.countP (fun r => decide (x < r)) ≤ M.countP (fun r => decide (x < r)) := by
+  induction h with
+  | nil => simp
+  | @cons a b L M hab _ ih =>
+    rw [List.countP_cons, List.countP_cons]
+    refine Nat.add_le_add ih ?_
+    by_cases h1 : x < a
+    · rw [ite_eq_left (show decide (x < b) = true by simpa using lt_of_lt_of_le h1 hab)]
+      split_ifs <;> omega
+    · rw [ite_eq_right (show ¬ decide (x < a) = true by simpa using h1)]
+      exact Nat.zero_le _
+
+/-- Bridge: the Multiset-card form of `N(x)` equals the `List.countP` form the engine uses. -/
+theorem card_filter_gt_eq_countP (x : ℝ) (L : List ℝ) :
+    ((L : Multiset ℝ).filter (fun r => x < r)).card = L.countP (fun r => decide (x < r)) := by
+  rw [← Multiset.countP_eq_card_filter, Multiset.coe_countP]
+
+/-- The derivative drops the degree by exactly one (characteristic zero), even at degree `0`. -/
+theorem natDegree_derivative_eq' (p : Polynomial ℝ) :
+    (derivative p).natDegree = p.natDegree - 1 := by
+  rcases Nat.eq_zero_or_pos p.natDegree with h | h
+  · have := Polynomial.natDegree_derivative_le p
+    rw [h]; omega
+  · exact natDegree_derivative_eq h
+
+/-- **Lower bound of the vroots-side recursion.** `N_{p'}(x) ≤ N_p(x)`: each virtual root of `p'` above
+`x` is matched by one of `p` above `x` (the right half of the interlacing). -/
+theorem N_deriv_le_N {lo hi : ℝ} (hab : lo ≤ hi) (p : Polynomial ℝ) (x : ℝ) :
+    ((vroots lo hi (derivative p) : Multiset ℝ).filter (fun r => x < r)).card
+      ≤ ((vroots lo hi p : Multiset ℝ).filter (fun r => x < r)).card := by
+  rw [card_filter_gt_eq_countP, card_filter_gt_eq_countP]
+  have hforall : List.Forall₂ (· ≤ ·) (vroots lo hi (derivative p)) ((vroots lo hi p).tail) := by
+    rw [List.forall₂_iff_get]
+    refine ⟨?_, fun i h1 h2 => ?_⟩
+    · rw [List.length_tail, vroots_length, vroots_length, natDegree_derivative_eq']
+    · rw [List.get_eq_getElem, List.get_eq_getElem, List.getElem_tail]
+      have hrp : i + 1 < (vroots lo hi p).length := by
+        rw [List.length_tail] at h2; omega
+      exact (vroots_interlacing lo hi hab p i h1 hrp).2
+  calc (vroots lo hi (derivative p)).countP (fun r => decide (x < r))
+      ≤ ((vroots lo hi p).tail).countP (fun r => decide (x < r)) :=
+        countP_gt_le_of_forall₂ x hforall
+    _ ≤ (vroots lo hi p).countP (fun r => decide (x < r)) :=
+        (List.tail_sublist _).countP_le
+
+/-- **Upper bound of the vroots-side recursion.** `N_p(x) ≤ N_{p'}(x) + 1`: dropping the top virtual
+root of `p`, the rest are dominated by those of `p'` (the left half of the interlacing). -/
+theorem N_le_N_deriv_succ {lo hi : ℝ} (hab : lo ≤ hi) (p : Polynomial ℝ) (x : ℝ) :
+    ((vroots lo hi p : Multiset ℝ).filter (fun r => x < r)).card
+      ≤ ((vroots lo hi (derivative p) : Multiset ℝ).filter (fun r => x < r)).card + 1 := by
+  rw [card_filter_gt_eq_countP, card_filter_gt_eq_countP]
+  have hforall : List.Forall₂ (· ≤ ·) ((vroots lo hi p).dropLast) (vroots lo hi (derivative p)) := by
+    rw [List.forall₂_iff_get]
+    refine ⟨?_, fun i h1 h2 => ?_⟩
+    · rw [List.length_dropLast, vroots_length, vroots_length, natDegree_derivative_eq']
+    · rw [List.get_eq_getElem, List.get_eq_getElem, List.getElem_dropLast]
+      have hrp : i + 1 < (vroots lo hi p).length := by
+        rw [List.length_dropLast] at h1; omega
+      exact (vroots_interlacing lo hi hab p i h2 hrp).1
+  have hdrop : (vroots lo hi p).countP (fun r => decide (x < r))
+      ≤ (vroots lo hi p).dropLast.countP (fun r => decide (x < r)) + 1 := by
+    have hle := (List.dropLast_sublist (vroots lo hi p)).le_countP (fun r => decide (x < r))
+    rw [List.length_dropLast] at hle
+    omega
+  calc (vroots lo hi p).countP (fun r => decide (x < r))
+      ≤ (vroots lo hi p).dropLast.countP (fun r => decide (x < r)) + 1 := hdrop
+    _ ≤ (vroots lo hi (derivative p)).countP (fun r => decide (x < r)) + 1 :=
+        Nat.add_le_add_right (countP_gt_le_of_forall₂ x hforall) 1
+
+/-- Prepending a sign can only add variations: `signChanges` is monotone under `cons`
+(a leading nonzero sign adds `0` or `1`; a leading zero adds nothing). -/
+theorem signChanges_le_cons (c : SignType) (s : List SignType) :
+    Sturm.signChanges s ≤ Sturm.signChanges (c :: s) := by
+  rcases hfilt : s.filter (· ≠ 0) with _ | ⟨a, f'⟩
+  · have h0 : Sturm.signChanges s = 0 := by
+      rw [← Sturm.signChanges_cons_zero s]
+      exact Sturm.signChanges_cons_of_filter_nil hfilt
+    rw [Sturm.signChanges_cons_of_filter_nil hfilt]; omega
+  · rcases eq_or_ne c 0 with hc | hc
+    · subst hc; simp
+    · rw [Sturm.signChanges_cons_of_ne_zero hc
+        (show (s.filter (· ≠ 0)).head? = some a by rw [hfilt]; rfl)]
+      omega
+
+/-- The derivative's Fourier count never exceeds `p`'s: the extra leading derivative `p` contributes
+at most one new sign variation. The monotonicity that makes the count recursion telescope. -/
+theorem fourierVar_deriv_le {p : Polynomial ℝ} (hp : 0 < p.natDegree) (x : ℝ) :
+    BudanFourier.fourierVar (derivative p) x ≤ BudanFourier.fourierVar p x := by
+  rw [BudanFourier.fourierVar_eq_signVarAt, BudanFourier.fourierVar_eq_signVarAt,
+    Sturm.signVarAt_eq_signChanges, Sturm.signVarAt_eq_signChanges, fourierSeq_cons hp,
+    List.map_cons]
+  exact signChanges_le_cons _ _
+
+/-! ### Toward `count_step`: foundational lemmas
+
+The key step needs that `p` is strictly monotone on each `p'`-cell, which needs `p'` to be sign-constant
+there, which needs **Coste's Prop. 2.2**: every actual root of a polynomial is one of its virtual
+roots. These lemmas build toward it: `brackets_ne_zero`, `brackets_derivative` (the bracket hypothesis
+descends the tower), and `exists_deriv_root_between` (Rolle: a root of `q'` between any two roots of
+`q`). -/
+
+/-- A bracketed polynomial is nonzero (`0` would force the right endpoint `hi` into the open interval
+`(lo,hi)`). -/
+theorem brackets_ne_zero {lo hi : ℝ} {q : Polynomial ℝ} (hbr : Brackets lo hi q) : q ≠ 0 := by
+  intro h
+  have hmem : q ∈ BudanFourier.fourierSeq q :=
+    (BudanFourier.fourierSeq_mem q q).mpr ⟨0, Nat.zero_le _, by simp⟩
+  have hz : q.eval hi = 0 := by rw [h]; simp
+  exact lt_irrefl hi (hbr q hmem hi hz).2
+
+/-- The bracket hypothesis descends to the derivative (its Fourier sequence is a tail of `q`'s, for
+`deg q ≥ 1`). -/
+theorem brackets_derivative {lo hi : ℝ} {q : Polynomial ℝ} (hq : 0 < q.natDegree)
+    (hbr : Brackets lo hi q) : Brackets lo hi (derivative q) := fun r hr z hz =>
+  hbr r (by rw [fourierSeq_cons hq]; exact List.mem_cons_of_mem _ hr) z hz
+
+/-- **Rolle for the derivative tower.** Between any two roots of `q` there is a root of `q'`. -/
+theorem exists_deriv_root_between {q : Polynomial ℝ} {z z' : ℝ} (hlt : z < z')
+    (hz : q.eval z = 0) (hz' : q.eval z' = 0) :
+    ∃ y ∈ Set.Ioo z z', (derivative q).eval y = 0 := by
+  have hcont : ContinuousOn (fun x => q.eval x) (Set.Icc z z') := q.continuous.continuousOn
+  obtain ⟨y, hy, hdy⟩ := exists_deriv_eq_zero hlt hcont (by simp [hz, hz'])
+  exact ⟨y, hy, by rwa [Polynomial.deriv] at hdy⟩
+
+/-- **A sorted list has no member strictly between two consecutive entries.** The combinatorial fact
+that pins each `q'`-root (which Coste 2.2 places among the breakpoints) to a breakpoint, never strictly
+inside a cell. -/
+theorem not_mem_between {L : List ℝ} (hL : List.IsChain (· ≤ ·) L) {i : ℕ}
+    (hi : i + 1 < L.length) {y : ℝ} (hy : y ∈ L)
+    (h1 : L[i]'(Nat.lt_of_succ_lt hi) < y) (h2 : y < L[i + 1]'hi) : False := by
+  have hpw := List.pairwise_iff_getElem.mp hL.pairwise
+  obtain ⟨j, hj, hjy⟩ := List.mem_iff_getElem.mp hy
+  subst hjy
+  rcases Nat.lt_trichotomy j i with h | h | h
+  · exact absurd (hpw j i hj (Nat.lt_of_succ_lt hi) h) (not_le.mpr h1)
+  · subst h; exact lt_irrefl _ h1
+  · rcases Nat.lt_trichotomy j (i + 1) with h' | h' | h'
+    · omega
+    · subst h'; exact lt_irrefl _ h2
+    · exact absurd (hpw (i + 1) j hi hj h') (not_le.mpr h2)
+
+/-- **Cell location.** In a sorted list of length `≥ 2` spanning `z` (head `≤ z ≤` last), some
+consecutive pair brackets `z`. Locates the cell of the breakpoint partition that contains a root. -/
+theorem exists_bracket {z : ℝ} (L : List ℝ) (hchain : List.IsChain (· ≤ ·) L) (hne : L ≠ [])
+    (hlo : L.head hne ≤ z) (hhi : z ≤ L.getLast hne) (hlen : 2 ≤ L.length) :
+    ∃ i, ∃ (h : i + 1 < L.length), L[i]'(Nat.lt_of_succ_lt h) ≤ z ∧ z ≤ L[i + 1]'h := by
+  induction L with
+  | nil => exact absurd rfl hne
+  | cons a L' ih =>
+    cases L' with
+    | nil => simp at hlen
+    | cons b rest =>
+      have hchain' : List.IsChain (· ≤ ·) (b :: rest) := (List.isChain_cons_cons.mp hchain).2
+      by_cases hzb : z ≤ b
+      · refine ⟨0, by simp, ?_, ?_⟩
+        · simpa using hlo
+        · simpa using hzb
+      · have hzb' : b < z := not_le.mp hzb
+        have hne' : (b :: rest) ≠ [] := by simp
+        have hlast : (a :: b :: rest).getLast hne = (b :: rest).getLast hne' :=
+          List.getLast_cons hne'
+        have hlo' : (b :: rest).head hne' ≤ z := le_of_lt (by simpa using hzb')
+        have hhi' : z ≤ (b :: rest).getLast hne' := by rw [← hlast]; exact hhi
+        have hlen' : 2 ≤ (b :: rest).length := by
+          cases rest with
+          | nil =>
+            simp only [List.getLast_singleton] at hhi'
+            exact absurd hhi' hzb
+          | cons _ _ => simp
+        obtain ⟨i, hi, hia, hib⟩ := ih hchain' hne' hlo' hhi' hlen'
+        refine ⟨i + 1, by simpa using hi, ?_, ?_⟩
+        · simpa using hia
+        · simpa using hib
+
+/-- **Coste's Proposition 2.2.** Every actual root of `q` (under the bracket hypothesis) is one of its
+virtual roots. The keystone: it makes the breakpoints capture all of `q'`'s roots, so `q'` is
+sign-constant on each cell and `q` is monotone there. Proved by strong induction down the tower:
+locate the root's cell (`exists_bracket`), capture it with `ℛ_d` (`R_eval_eq_zero_of_exists`), and rule
+out a second root by Rolle (`exists_deriv_root_between` gives a `q'`-root in the open cell, which the
+inductive hypothesis places among the breakpoints — impossible by `not_mem_between`). -/
+theorem root_mem_vroots {lo hi : ℝ} (hab : lo ≤ hi) {q : Polynomial ℝ}
+    (hbr : Brackets lo hi q) {z : ℝ} (hz : q.eval z = 0) : z ∈ vroots lo hi q := by
+  suffices H : ∀ n, ∀ q : Polynomial ℝ, q.natDegree = n → Brackets lo hi q →
+      ∀ z, q.eval z = 0 → z ∈ vroots lo hi q from H q.natDegree q rfl hbr z hz
+  intro n
+  induction n using Nat.strong_induction_on with
+  | _ n ih =>
+    intro q hn hbr z hz
+    rcases Nat.eq_zero_or_pos n with h0 | hpos
+    · -- degree `0`: a nonzero constant has no roots
+      subst h0
+      exfalso
+      have hq0 := brackets_ne_zero hbr
+      obtain ⟨c, hc⟩ := Polynomial.natDegree_eq_zero.mp hn
+      rw [← hc, eval_C] at hz
+      rw [← hc, hz, map_zero] at hq0
+      exact hq0 rfl
+    · -- degree `≥ 1`: locate the cell, capture, and use Rolle for uniqueness
+      have hdeg : 0 < q.natDegree := by rw [hn]; exact hpos
+      have hd : q.natDegree ≠ 0 := by omega
+      have hbr' : Brackets lo hi (derivative q) := brackets_derivative hdeg hbr
+      have hdn : (derivative q).natDegree = n - 1 := by rw [natDegree_derivative_eq hdeg, hn]
+      have hzin : z ∈ Set.Ioo lo hi :=
+        hbr q ((BudanFourier.fourierSeq_mem q q).mpr ⟨0, Nat.zero_le _, by simp⟩) z hz
+      set bps := lo :: (vroots lo hi (derivative q) ++ [hi]) with hbps
+      have hchain : List.IsChain (· ≤ ·) bps := vroots_isChain lo hi hab (derivative q)
+      have hbne : bps ≠ [] := by simp [hbps]
+      have hlo : bps.head hbne ≤ z := by simp only [hbps]; simpa using le_of_lt hzin.1
+      have hhi : z ≤ bps.getLast hbne := by
+        simp only [hbps, List.getLast_cons (by simp : vroots lo hi (derivative q) ++ [hi] ≠ []),
+          List.getLast_append_singleton]
+        exact le_of_lt hzin.2
+      have hvl : (vroots lo hi (derivative q)).length = n - 1 := by rw [vroots_length, hdn]
+      have hblen : bps.length = (n - 1) + 2 := by
+        rw [hbps]
+        simp only [List.length_cons, List.length_append, List.length_nil, hvl]
+      have hlen : 2 ≤ bps.length := by rw [hblen]; omega
+      obtain ⟨i, hi1, hbiz, hzbi⟩ := exists_bracket bps hchain hbne hlo hhi hlen
+      have hadj : bps[i]'(Nat.lt_of_succ_lt hi1) ≤ bps[i + 1]'hi1 := le_trans hbiz hzbi
+      have hzmem : z ∈ Set.Icc (bps[i]'(Nat.lt_of_succ_lt hi1)) (bps[i + 1]'hi1) :=
+        Set.mem_Icc.mpr ⟨hbiz, hzbi⟩
+      have hwroot : q.eval (R q (bps[i]'(Nat.lt_of_succ_lt hi1)) (bps[i + 1]'hi1)) = 0 :=
+        R_eval_eq_zero_of_exists hadj ⟨z, hzmem, hz⟩
+      have hwmem := Set.mem_Icc.mp (R_mem (p := q) hadj)
+      have hwz : R q (bps[i]'(Nat.lt_of_succ_lt hi1)) (bps[i + 1]'hi1) = z := by
+        by_contra hne
+        have hbridge : ∀ y, bps[i]'(Nat.lt_of_succ_lt hi1) < y → y < bps[i + 1]'hi1 →
+            (derivative q).eval y = 0 → False := by
+          intro y hy1 hy2 hyroot
+          have hyv : y ∈ vroots lo hi (derivative q) :=
+            ih (n - 1) (by omega) (derivative q) hdn hbr' y hyroot
+          have hymem : y ∈ bps := by
+            rw [hbps]; exact List.mem_cons_of_mem lo (List.mem_append_left _ hyv)
+          exact not_mem_between hchain hi1 hymem hy1 hy2
+        rcases lt_or_gt_of_ne hne with hlt | hlt
+        · obtain ⟨y, hy, hyroot⟩ := exists_deriv_root_between hlt hwroot hz
+          exact hbridge y (lt_of_le_of_lt hwmem.1 hy.1) (lt_of_lt_of_le hy.2 hzbi) hyroot
+        · obtain ⟨y, hy, hyroot⟩ := exists_deriv_root_between hlt hz hwroot
+          exact hbridge y (lt_of_le_of_lt hbiz hy.1) (lt_of_lt_of_le hy.2 hwmem.2) hyroot
+      have hivr : i < (vroots lo hi q).length := by
+        rw [vroots_length, hn]; omega
+      have hvrq : vroots lo hi q
+          = List.zipWith (R q) bps bps.tail := by rw [vroots_eq_zipWith hd, ← hbps]
+      have hidx : (vroots lo hi q)[i]'hivr
+          = R q (bps[i]'(Nat.lt_of_succ_lt hi1)) (bps[i + 1]'hi1) := by
+        simp only [hvrq, List.getElem_zipWith, List.getElem_tail]
+      have : (vroots lo hi q)[i]'hivr = z := by rw [hidx, hwz]
+      exact this ▸ List.getElem_mem hivr
+
+/-! ### (a)+(b): `p` is strictly monotone on each `p'`-cell
+
+Coste 2.2 makes `p'` root-free on each open cell; with the IVT that forces `p'` to keep a constant
+sign there, hence (by the mean-value bedrock) `p` is strictly monotone across the closed cell — even
+though `p'` may vanish at the breakpoint endpoints. -/
+
+/-- **IVT sign-change.** A continuous polynomial with opposite signs at the ends of an interval has a
+root strictly inside. -/
+theorem exists_root_of_sign_change {q : Polynomial ℝ} {c d : ℝ} (hcd : c < d)
+    (hsign : q.eval c * q.eval d < 0) : ∃ e ∈ Set.Ioo c d, q.eval e = 0 := by
+  have hcont : ContinuousOn (fun x => q.eval x) (Set.Icc c d) := q.continuous.continuousOn
+  rcases mul_neg_iff.mp hsign with ⟨hcp, hdn⟩ | ⟨hcn, hdp⟩
+  · obtain ⟨e, he, hee⟩ := intermediate_value_Icc' hcd.le hcont (Set.mem_Icc.mpr ⟨hdn.le, hcp.le⟩)
+    have hee' : q.eval e = 0 := hee
+    refine ⟨e, ⟨lt_of_le_of_ne he.1 (fun h => ?_), lt_of_le_of_ne he.2 (fun h => ?_)⟩, hee'⟩
+    · rw [h, hee'] at hcp; exact lt_irrefl 0 hcp
+    · rw [← h, hee'] at hdn; exact lt_irrefl 0 hdn
+  · obtain ⟨e, he, hee⟩ := intermediate_value_Icc hcd.le hcont (Set.mem_Icc.mpr ⟨hcn.le, hdp.le⟩)
+    have hee' : q.eval e = 0 := hee
+    refine ⟨e, ⟨lt_of_le_of_ne he.1 (fun h => ?_), lt_of_le_of_ne he.2 (fun h => ?_)⟩, hee'⟩
+    · rw [h, hee'] at hcn; exact lt_irrefl 0 hcn
+    · rw [← h, hee'] at hdp; exact lt_irrefl 0 hdp
+
+/-- **(a)+(b): monotone on a root-free cell.** If `p'` has no root on the open interval `(a,b)`, then
+`p` is strictly monotone (one way or the other) on the closed `[a,b]`. -/
+theorem strictMonoOn_or_antiOn_of_no_deriv_root {p : Polynomial ℝ} {a b : ℝ} (hab : a < b)
+    (hno : ∀ y ∈ Set.Ioo a b, (derivative p).eval y ≠ 0) :
+    StrictMonoOn (fun x => p.eval x) (Set.Icc a b)
+      ∨ StrictAntiOn (fun x => p.eval x) (Set.Icc a b) := by
+  have hmid : (a + b) / 2 ∈ Set.Ioo a b := ⟨by linarith, by linarith⟩
+  -- a root-free `(a,b)` keeps `p'` of one sign: any sign disagreement gives a root by the IVT
+  have hsame : ∀ y ∈ Set.Ioo a b, 0 < (derivative p).eval ((a + b) / 2) → 0 < (derivative p).eval y := by
+    intro y hy hposm
+    by_contra hy0
+    have hy0 := not_lt.mp hy0
+    have hyneg : (derivative p).eval y < 0 := lt_of_le_of_ne hy0 (hno y hy)
+    rcases lt_trichotomy y ((a + b) / 2) with hlt | heq | hgt
+    · obtain ⟨e, he, hee⟩ := exists_root_of_sign_change hlt (mul_neg_of_neg_of_pos hyneg hposm)
+      exact hno e ⟨lt_trans hy.1 he.1, lt_trans he.2 hmid.2⟩ hee
+    · rw [heq] at hyneg; exact absurd hposm (not_lt.mpr hyneg.le)
+    · obtain ⟨e, he, hee⟩ := exists_root_of_sign_change hgt (mul_neg_of_pos_of_neg hposm hyneg)
+      exact hno e ⟨lt_trans hmid.1 he.1, lt_trans he.2 hy.2⟩ hee
+  have hsame' : ∀ y ∈ Set.Ioo a b, (derivative p).eval ((a + b) / 2) < 0 →
+      (derivative p).eval y < 0 := by
+    intro y hy hnegm
+    by_contra hy0
+    have hy0 := not_lt.mp hy0
+    have hypos : 0 < (derivative p).eval y := lt_of_le_of_ne hy0 (Ne.symm (hno y hy))
+    rcases lt_trichotomy y ((a + b) / 2) with hlt | heq | hgt
+    · obtain ⟨e, he, hee⟩ := exists_root_of_sign_change hlt (mul_neg_of_pos_of_neg hypos hnegm)
+      exact hno e ⟨lt_trans hy.1 he.1, lt_trans he.2 hmid.2⟩ hee
+    · rw [heq] at hypos; exact absurd hnegm (not_lt.mpr hypos.le)
+    · obtain ⟨e, he, hee⟩ := exists_root_of_sign_change hgt (mul_neg_of_neg_of_pos hnegm hypos)
+      exact hno e ⟨lt_trans hmid.1 he.1, lt_trans he.2 hy.2⟩ hee
+  rcases lt_trichotomy ((derivative p).eval ((a + b) / 2)) 0 with hm | hm | hm
+  · right
+    apply strictAntiOn_of_deriv_neg (convex_Icc a b) p.continuous.continuousOn
+    intro y hy; rw [interior_Icc] at hy; rw [Polynomial.deriv]
+    exact hsame' y hy hm
+  · exact absurd hm (hno _ hmid)
+  · left
+    apply strictMonoOn_of_deriv_pos (convex_Icc a b) p.continuous.continuousOn
+    intro y hy; rw [interior_Icc] at hy; rw [Polynomial.deriv]
+    exact hsame y hy hm
+
+/-! ### (c): the count increment is the cell indicator
+
+With the breakpoints sorted, the virtual roots above `x` are a tail: every cell strictly above `x`
+contributes its root, every cell strictly below contributes nothing, and only the cell containing `x`
+is in question. So `N_p(x) − N_{p'}(x)` is exactly whether the virtual root of `p` in `x`'s cell lies
+above `x`. -/
+
+/-- **Half-open cell location.** In a sorted list of length `≥ 2` with `head ≤ z < last`, some
+consecutive pair half-open-brackets `z` (`L[i] ≤ z < L[i+1]`). -/
+theorem exists_bracket_lt {z : ℝ} (L : List ℝ) (hchain : List.IsChain (· ≤ ·) L) (hne : L ≠ [])
+    (hlo : L.head hne ≤ z) (hhi : z < L.getLast hne) (hlen : 2 ≤ L.length) :
+    ∃ i, ∃ (h : i + 1 < L.length), L[i]'(Nat.lt_of_succ_lt h) ≤ z ∧ z < L[i + 1]'h := by
+  induction L with
+  | nil => exact absurd rfl hne
+  | cons a L' ih =>
+    cases L' with
+    | nil => simp at hlen
+    | cons b rest =>
+      have hchain' : List.IsChain (· ≤ ·) (b :: rest) := (List.isChain_cons_cons.mp hchain).2
+      by_cases hzb : z < b
+      · exact ⟨0, by simp, by simpa using hlo, by simpa using hzb⟩
+      · have hzb' : b ≤ z := not_lt.mp hzb
+        have hne' : (b :: rest) ≠ [] := by simp
+        have hlast : (a :: b :: rest).getLast hne = (b :: rest).getLast hne' :=
+          List.getLast_cons hne'
+        have hlo' : (b :: rest).head hne' ≤ z := by simpa using hzb'
+        have hhi' : z < (b :: rest).getLast hne' := by rw [← hlast]; exact hhi
+        have hlen' : 2 ≤ (b :: rest).length := by
+          cases rest with
+          | nil =>
+            simp only [List.getLast_singleton] at hhi'
+            exact absurd hhi' (not_lt.mpr hzb')
+          | cons _ _ => simp
+        obtain ⟨i, hi, hia, hib⟩ := ih hchain' hne' hlo' hhi' hlen'
+        exact ⟨i + 1, by simpa using hi, by simpa using hia, by simpa using hib⟩
+
+/-- **Threshold count.** If a list splits at index `k` into a `≤ x` prefix and a `> x` suffix, then
+the number of entries exceeding `x` is `length − k`. -/
+theorem countP_gt_of_split (x : ℝ) : ∀ (L : List ℝ) (k : ℕ), k ≤ L.length →
+    (∀ j, (h : j < L.length) → j < k → L[j] ≤ x) →
+    (∀ j, (h : j < L.length) → k ≤ j → x < L[j]) →
+    L.countP (fun r => decide (x < r)) = L.length - k := by
+  intro L
+  induction L with
+  | nil => intro k _ _ _; simp
+  | cons a L' ih =>
+    intro k hk hle hgt
+    rw [List.countP_cons, List.length_cons]
+    rcases Nat.eq_zero_or_pos k with rfl | hkpos
+    · have hxa : x < a := hgt 0 (by simp) le_rfl
+      have hrec : L'.countP (fun r => decide (x < r)) = L'.length := by
+        have h := ih 0 (Nat.zero_le _) (fun j hj hj0 => absurd hj0 (Nat.not_lt_zero j))
+          (fun j hj _ => by
+            have := hgt (j + 1) (by simp only [List.length_cons]; omega) (Nat.zero_le _)
+            simpa [List.getElem_cons_succ] using this)
+        simpa using h
+      rw [hrec]; simp [hxa]
+    · obtain ⟨k', rfl⟩ : ∃ k', k = k' + 1 := ⟨k - 1, by omega⟩
+      have hxa : a ≤ x := hle 0 (by simp) (Nat.succ_pos k')
+      have hrec : L'.countP (fun r => decide (x < r)) = L'.length - k' := by
+        apply ih k' (by simp only [List.length_cons] at hk; omega)
+        · intro j hj hjk
+          have := hle (j + 1) (by simp only [List.length_cons]; omega) (by omega)
+          simpa [List.getElem_cons_succ] using this
+        · intro j hj hjk
+          have := hgt (j + 1) (by simp only [List.length_cons]; omega) (by omega)
+          simpa [List.getElem_cons_succ] using this
+      rw [hrec, ite_eq_right (by simp [not_lt.mpr hxa])]
+      omega
+
+/-- A chain (`≤`-sorted list) is monotone in its index. -/
+theorem chain_getElem_mono {L : List ℝ} (hL : List.IsChain (· ≤ ·) L) {s t : ℕ}
+    (hst : s ≤ t) (ht : t < L.length) :
+    L[s]'(lt_of_le_of_lt hst ht) ≤ L[t]'ht := by
+  rcases eq_or_lt_of_le hst with rfl | hlt
+  · exact le_rfl
+  · exact List.pairwise_iff_getElem.mp hL.pairwise s t (lt_of_le_of_lt hst ht) ht hlt
+
+/-- The `j`-th virtual root of `p'` is the `(j+1)`-th breakpoint of the partition
+`bps = lo :: vroots(p') ++ [hi]`. -/
+theorem deriv_vroot_eq_bps {lo hi : ℝ} {p : Polynomial ℝ} {j : ℕ}
+    (hj : j < (vroots lo hi (derivative p)).length)
+    (hb : j + 1 < (lo :: (vroots lo hi (derivative p) ++ [hi])).length) :
+    (lo :: (vroots lo hi (derivative p) ++ [hi]))[j + 1]'hb
+      = (vroots lo hi (derivative p))[j]'hj := by
+  rw [List.getElem_cons_succ]
+  exact List.getElem_append_left hj
+
+/-- **(c) The count increment is the cell indicator.** With `x` located in the cell
+`[bps[i], bps[i+1]]` of the `p'`-breakpoint partition (`bps = lo :: vroots(p') ++ [hi]`), the number of
+virtual roots of `p` strictly above `x` exceeds that of `p'` by exactly whether the virtual root of `p`
+sitting in that cell lies above `x`. Purely combinatorial: the interlacing forces every cell above `x`
+to contribute a root, every cell below to contribute none, and only `x`'s own cell to be in question. -/
+theorem count_diff_eq_cell {lo hi : ℝ} (hab : lo ≤ hi) {p : Polynomial ℝ} (hp : 0 < p.natDegree)
+    {x : ℝ} {i : ℕ} (hiv : i < (vroots lo hi p).length)
+    (hi1 : i + 1 < (lo :: (vroots lo hi (derivative p) ++ [hi])).length)
+    (hbiz : (lo :: (vroots lo hi (derivative p) ++ [hi]))[i]'(Nat.lt_of_succ_lt hi1) ≤ x)
+    (hzbi : x < (lo :: (vroots lo hi (derivative p) ++ [hi]))[i + 1]'hi1) :
+    (vroots lo hi p).countP (fun r => decide (x < r))
+      = (vroots lo hi (derivative p)).countP (fun r => decide (x < r))
+        + (if x < (vroots lo hi p)[i]'hiv then 1 else 0) := by
+  have hchain : List.IsChain (· ≤ ·) (lo :: (vroots lo hi (derivative p) ++ [hi])) :=
+    vroots_isChain lo hi hab (derivative p)
+  have hm : (vroots lo hi p).length = p.natDegree := vroots_length lo hi p
+  have hmd : (vroots lo hi (derivative p)).length = p.natDegree - 1 := by
+    rw [vroots_length, natDegree_derivative_eq hp]
+  have hbpslen : (lo :: (vroots lo hi (derivative p) ++ [hi])).length = p.natDegree + 1 := by
+    simp only [List.length_cons, List.length_append, List.length_nil, hmd]; omega
+  have hilt : i < p.natDegree := by rw [hbpslen] at hi1; omega
+  -- count for `p'`: split the sorted `vroots(p')` at `i`
+  have hNderiv : (vroots lo hi (derivative p)).countP (fun r => decide (x < r))
+      = (vroots lo hi (derivative p)).length - i := by
+    apply countP_gt_of_split x (vroots lo hi (derivative p)) i (by rw [hmd]; omega)
+    · intro j hj hji
+      have hb1 : j + 1 < (lo :: (vroots lo hi (derivative p) ++ [hi])).length := by
+        rw [hmd] at hj; rw [hbpslen]; omega
+      calc (vroots lo hi (derivative p))[j]
+          = (lo :: (vroots lo hi (derivative p) ++ [hi]))[j + 1]'hb1 :=
+            (deriv_vroot_eq_bps hj hb1).symm
+        _ ≤ (lo :: (vroots lo hi (derivative p) ++ [hi]))[i]'(Nat.lt_of_succ_lt hi1) :=
+            chain_getElem_mono hchain (by omega) (Nat.lt_of_succ_lt hi1)
+        _ ≤ x := hbiz
+    · intro j hj hij
+      have hb1 : j + 1 < (lo :: (vroots lo hi (derivative p) ++ [hi])).length := by
+        rw [hmd] at hj; rw [hbpslen]; omega
+      calc x < (lo :: (vroots lo hi (derivative p) ++ [hi]))[i + 1]'hi1 := hzbi
+        _ ≤ (lo :: (vroots lo hi (derivative p) ++ [hi]))[j + 1]'hb1 :=
+            chain_getElem_mono hchain (by omega) hb1
+        _ = (vroots lo hi (derivative p))[j] := deriv_vroot_eq_bps hj hb1
+  rw [hNderiv]
+  by_cases htrue : x < (vroots lo hi p)[i]'hiv
+  · rw [ite_eq_left htrue]
+    have hNp : (vroots lo hi p).countP (fun r => decide (x < r)) = (vroots lo hi p).length - i := by
+      apply countP_gt_of_split x (vroots lo hi p) i (by rw [hm]; omega)
+      · intro j hj hji
+        have hbj : j + 1 < (lo :: (vroots lo hi (derivative p) ++ [hi])).length := by
+          rw [hm] at hj; rw [hbpslen]; omega
+        calc (vroots lo hi p)[j]
+            ≤ (lo :: (vroots lo hi (derivative p) ++ [hi]))[j + 1]'hbj := (vroots_getElem_mem lo hi hab p j hj hbj).2
+          _ ≤ (lo :: (vroots lo hi (derivative p) ++ [hi]))[i]'(Nat.lt_of_succ_lt hi1) :=
+              chain_getElem_mono hchain (by omega) (Nat.lt_of_succ_lt hi1)
+          _ ≤ x := hbiz
+      · intro j hj hij
+        rcases eq_or_lt_of_le hij with rfl | hlt
+        · exact htrue
+        · have hbj : j + 1 < (lo :: (vroots lo hi (derivative p) ++ [hi])).length := by
+            rw [hm] at hj; rw [hbpslen]; omega
+          calc x < (lo :: (vroots lo hi (derivative p) ++ [hi]))[i + 1]'hi1 := hzbi
+            _ ≤ (lo :: (vroots lo hi (derivative p) ++ [hi]))[j]'(Nat.lt_of_succ_lt hbj) :=
+                chain_getElem_mono hchain (by omega) (Nat.lt_of_succ_lt hbj)
+            _ ≤ (vroots lo hi p)[j] := (vroots_getElem_mem lo hi hab p j hj hbj).1
+    rw [hNp, hm, hmd]; omega
+  · rw [ite_eq_right htrue]
+    have hNp : (vroots lo hi p).countP (fun r => decide (x < r)) = (vroots lo hi p).length - (i + 1) := by
+      apply countP_gt_of_split x (vroots lo hi p) (i + 1) (by rw [hm]; omega)
+      · intro j hj hji
+        rcases Nat.lt_succ_iff_lt_or_eq.mp hji with hlt | rfl
+        · have hbj : j + 1 < (lo :: (vroots lo hi (derivative p) ++ [hi])).length := by
+            rw [hm] at hj; rw [hbpslen]; omega
+          calc (vroots lo hi p)[j]
+              ≤ (lo :: (vroots lo hi (derivative p) ++ [hi]))[j + 1]'hbj := (vroots_getElem_mem lo hi hab p j hj hbj).2
+            _ ≤ (lo :: (vroots lo hi (derivative p) ++ [hi]))[i]'(Nat.lt_of_succ_lt hi1) :=
+                chain_getElem_mono hchain (by omega) (Nat.lt_of_succ_lt hi1)
+            _ ≤ x := hbiz
+        · exact not_lt.mp htrue
+      · intro j hj hij
+        have hbj : j + 1 < (lo :: (vroots lo hi (derivative p) ++ [hi])).length := by
+          rw [hm] at hj; rw [hbpslen]; omega
+        calc x < (lo :: (vroots lo hi (derivative p) ++ [hi]))[i + 1]'hi1 := hzbi
+          _ ≤ (lo :: (vroots lo hi (derivative p) ++ [hi]))[j]'(Nat.lt_of_succ_lt hbj) :=
+              chain_getElem_mono hchain (by omega) (Nat.lt_of_succ_lt hbj)
+          _ ≤ (vroots lo hi p)[j] := (vroots_getElem_mem lo hi hab p j hj hbj).1
+    rw [hNp, hm, hmd]; omega
+
+/-! ### (d) lemmas: the cell is `p'`-root-free and pins `v_i` to the sign of `p(x)` -/
+
+/-- **(d) `p'` is root-free on the open cell.** Any root of `p'` strictly inside a cell would (Coste 2.2)
+be a virtual root of `p'`, i.e. a breakpoint — impossible strictly between two consecutive breakpoints. -/
+theorem deriv_root_free_on_cell {lo hi : ℝ} (hab : lo ≤ hi) {p : Polynomial ℝ} (hp : 0 < p.natDegree)
+    (hbr : Brackets lo hi p) {i : ℕ}
+    (hi1 : i + 1 < (lo :: (vroots lo hi (derivative p) ++ [hi])).length) {y : ℝ}
+    (hy1 : (lo :: (vroots lo hi (derivative p) ++ [hi]))[i]'(Nat.lt_of_succ_lt hi1) < y)
+    (hy2 : y < (lo :: (vroots lo hi (derivative p) ++ [hi]))[i + 1]'hi1) :
+    (derivative p).eval y ≠ 0 := by
+  intro hroot
+  have hbr' : Brackets lo hi (derivative p) := brackets_derivative hp hbr
+  have hyv : y ∈ vroots lo hi (derivative p) := root_mem_vroots hab hbr' hroot
+  have hymem : y ∈ (lo :: (vroots lo hi (derivative p) ++ [hi])) :=
+    List.mem_cons_of_mem lo (List.mem_append_left _ hyv)
+  have hchain : List.IsChain (· ≤ ·) (lo :: (vroots lo hi (derivative p) ++ [hi])) :=
+    vroots_isChain lo hi hab (derivative p)
+  exact not_mem_between hchain hi1 hymem hy1 hy2
+
+/-- **(d) On an increasing cell, `v_i` sits above `x` iff `p(x) < 0`.** The `|p|`-minimiser `ℛ_d` of a
+strictly increasing `p` lies right of `x` exactly when `p` is still negative at `x`. -/
+theorem lt_R_iff_eval_neg {p : Polynomial ℝ} {a b : ℝ} (hab : a ≤ b)
+    (hmono : StrictMonoOn (fun t => p.eval t) (Set.Icc a b)) {x : ℝ} (hx : x ∈ Set.Ico a b) :
+    x < R p a b ↔ p.eval x < 0 := by
+  have hxI : x ∈ Set.Icc a b := ⟨hx.1, le_of_lt hx.2⟩
+  have hvI : R p a b ∈ Set.Icc a b := R_mem hab
+  have hmin : |p.eval (R p a b)| ≤ |p.eval x| := (isMinOn_iff.mp (R_isMinOn hab)) x hxI
+  constructor
+  · intro hlt
+    by_contra hpx
+    push Not at hpx
+    have hpxpv : p.eval x < p.eval (R p a b) := hmono hxI hvI hlt
+    rw [abs_of_nonneg hpx, abs_of_nonneg (le_trans hpx hpxpv.le)] at hmin
+    linarith
+  · intro hpx
+    by_contra hnlt
+    push Not at hnlt
+    rcases lt_or_eq_of_le hnlt with hvx | hvx
+    · have hpvpx : p.eval (R p a b) < p.eval x := hmono hvI hxI hvx
+      rw [abs_of_neg hpx, abs_of_neg (lt_trans hpvpx hpx)] at hmin
+      linarith
+    · exfalso
+      have htx : x < (x + b) / 2 := by have := hx.2; linarith
+      have htb : (x + b) / 2 ≤ b := by have := hx.2; linarith
+      have htI : (x + b) / 2 ∈ Set.Icc a b := ⟨le_trans hx.1 htx.le, htb⟩
+      have hpt : p.eval x < p.eval ((x + b) / 2) := hmono hxI htI htx
+      rcases le_or_gt (p.eval ((x + b) / 2)) 0 with htneg | htpos
+      · have hmin_t : |p.eval (R p a b)| ≤ |p.eval ((x + b) / 2)| :=
+          (isMinOn_iff.mp (R_isMinOn hab)) _ htI
+        rw [hvx, abs_of_neg hpx, abs_of_nonpos htneg] at hmin_t
+        linarith
+      · obtain ⟨r, hr, hpr⟩ := exists_root_of_sign_change htx (mul_neg_of_neg_of_pos hpx htpos)
+        have hrI : r ∈ Set.Icc a b := ⟨le_trans hx.1 hr.1.le, le_trans hr.2.le htb⟩
+        have hmin_r : |p.eval (R p a b)| ≤ |p.eval r| := (isMinOn_iff.mp (R_isMinOn hab)) r hrI
+        rw [hvx, abs_of_neg hpx, hpr, abs_zero] at hmin_r
+        linarith
+
+/-- **(d) On a decreasing cell, `v_i` sits above `x` iff `p(x) > 0`.** The mirror of `lt_R_iff_eval_neg`
+for a strictly decreasing `p`. -/
+theorem lt_R_iff_eval_pos {p : Polynomial ℝ} {a b : ℝ} (hab : a ≤ b)
+    (hanti : StrictAntiOn (fun t => p.eval t) (Set.Icc a b)) {x : ℝ} (hx : x ∈ Set.Ico a b) :
+    x < R p a b ↔ 0 < p.eval x := by
+  have hxI : x ∈ Set.Icc a b := ⟨hx.1, le_of_lt hx.2⟩
+  have hvI : R p a b ∈ Set.Icc a b := R_mem hab
+  have hmin : |p.eval (R p a b)| ≤ |p.eval x| := (isMinOn_iff.mp (R_isMinOn hab)) x hxI
+  constructor
+  · intro hlt
+    by_contra hpx
+    push Not at hpx
+    have hpvpx : p.eval (R p a b) < p.eval x := hanti hxI hvI hlt
+    rw [abs_of_nonpos hpx, abs_of_neg (lt_of_lt_of_le hpvpx hpx)] at hmin
+    linarith
+  · intro hpx
+    by_contra hnlt
+    push Not at hnlt
+    rcases lt_or_eq_of_le hnlt with hvx | hvx
+    · have hpxpv : p.eval x < p.eval (R p a b) := hanti hvI hxI hvx
+      rw [abs_of_pos hpx, abs_of_pos (lt_trans hpx hpxpv)] at hmin
+      linarith
+    · exfalso
+      have htx : x < (x + b) / 2 := by have := hx.2; linarith
+      have htb : (x + b) / 2 ≤ b := by have := hx.2; linarith
+      have htI : (x + b) / 2 ∈ Set.Icc a b := ⟨le_trans hx.1 htx.le, htb⟩
+      have hpt : p.eval ((x + b) / 2) < p.eval x := hanti hxI htI htx
+      rcases le_or_gt 0 (p.eval ((x + b) / 2)) with htpos | htneg
+      · have hmin_t : |p.eval (R p a b)| ≤ |p.eval ((x + b) / 2)| :=
+          (isMinOn_iff.mp (R_isMinOn hab)) _ htI
+        rw [hvx, abs_of_pos hpx, abs_of_nonneg htpos] at hmin_t
+        linarith
+      · obtain ⟨r, hr, hpr⟩ := exists_root_of_sign_change htx (mul_neg_of_pos_of_neg hpx htneg)
+        have hrI : r ∈ Set.Icc a b := ⟨le_trans hx.1 hr.1.le, le_trans hr.2.le htb⟩
+        have hmin_r : |p.eval (R p a b)| ≤ |p.eval r| := (isMinOn_iff.mp (R_isMinOn hab)) r hrI
+        rw [hvx, abs_of_pos hpx, hpr, abs_zero] at hmin_r
+        linarith
+
+/-! ### (d) The right-gap: a point `z` just above `x` avoiding all tower roots
+
+`signs_right_eq_Rseq` needs a point `z > x` at which no member of the derivative tower vanishes on
+`(x, z]`. Such a `z` exists because each (nonzero) tower member has finitely many roots. -/
+
+/-- A single nonzero polynomial has a root-free half-open interval `(x, z]` for some `z ≤ B`. -/
+theorem exists_gap_right_single {q : Polynomial ℝ} (hq : q ≠ 0) {x B : ℝ} (hxB : x < B) :
+    ∃ z, x < z ∧ z ≤ B ∧ ∀ w ∈ Set.Ioc x z, q.eval w ≠ 0 := by
+  classical
+  by_cases hTe : ((q.roots.toFinset).filter (fun r => x < r ∧ r ≤ B)).Nonempty
+  · set m := ((q.roots.toFinset).filter (fun r => x < r ∧ r ≤ B)).min' hTe with hm
+    have hmmem := Finset.min'_mem _ hTe
+    rw [Finset.mem_filter] at hmmem
+    have hxm : x < m := hmmem.2.1
+    have hmB : m ≤ B := hmmem.2.2
+    refine ⟨(x + m) / 2, by linarith, by linarith, ?_⟩
+    intro w hw hroot
+    have hwmem : w ∈ (q.roots.toFinset).filter (fun r => x < r ∧ r ≤ B) := by
+      rw [Finset.mem_filter, Multiset.mem_toFinset, Polynomial.mem_roots hq]
+      exact ⟨hroot, hw.1, by have := hw.2; linarith⟩
+    have hle := Finset.min'_le _ w hwmem
+    have := hw.2
+    linarith
+  · refine ⟨B, hxB, le_rfl, ?_⟩
+    intro w hw hroot
+    exact hTe ⟨w, by
+      rw [Finset.mem_filter, Multiset.mem_toFinset, Polynomial.mem_roots hq]
+      exact ⟨hroot, hw.1, hw.2⟩⟩
+
+/-- **The right-gap for a tower.** For a finite list of nonzero polynomials and `x < B`, some
+`z ∈ (x, B]` has every member root-free on `(x, z]`. -/
+theorem exists_tower_gap_right : ∀ (L : List (Polynomial ℝ)), (∀ q ∈ L, q ≠ 0) →
+    ∀ {x B : ℝ}, x < B → ∃ z, x < z ∧ z ≤ B ∧ ∀ q ∈ L, ∀ w ∈ Set.Ioc x z, q.eval w ≠ 0 := by
+  intro L
+  induction L with
+  | nil => intro _ x B hxB; exact ⟨B, hxB, le_rfl, by simp⟩
+  | cons q rest ih =>
+    intro hL x B hxB
+    obtain ⟨z₁, hz1x, hz1B, hz1⟩ := ih (fun q' hq' => hL q' (List.mem_cons_of_mem q hq')) hxB
+    obtain ⟨z₂, hz2x, hz2z1, hz2⟩ := exists_gap_right_single (hL q (List.mem_cons_self ..)) hz1x
+    refine ⟨z₂, hz2x, le_trans hz2z1 hz1B, ?_⟩
+    intro q' hq' w hw
+    rcases List.mem_cons.mp hq' with h | h
+    · subst h; exact hz2 w hw
+    · exact hz1 q' h w ⟨hw.1, le_trans hw.2 hz2z1⟩
+
+/-- **`p'` keeps a constant sign across a root-free cell.** Two interior points of a `p'`-root-free
+cell give `p'` the same sign (IVT). -/
+theorem deriv_sign_const_on_cell {p : Polynomial ℝ} {a b : ℝ}
+    (hno : ∀ w ∈ Set.Ioo a b, (derivative p).eval w ≠ 0) {w₁ w₂ : ℝ}
+    (h1 : w₁ ∈ Set.Ioo a b) (h2 : w₂ ∈ Set.Ioo a b) :
+    SignType.sign ((derivative p).eval w₁) = SignType.sign ((derivative p).eval w₂) := by
+  rcases le_total w₁ w₂ with hle | hle
+  · apply Sturm.sign_eval_eq_of_no_root hle
+    intro y hy
+    exact hno y ⟨lt_of_lt_of_le h1.1 hy.1, lt_of_le_of_lt hy.2 h2.2⟩
+  · rw [eq_comm]
+    apply Sturm.sign_eval_eq_of_no_root hle
+    intro y hy
+    exact hno y ⟨lt_of_lt_of_le h2.1 hy.1, lt_of_le_of_lt hy.2 h1.2⟩
+
+/-- **(d) The Fourier head `d` is the sign of `p'` just right of `x`.** The first surviving sign of the
+`p'`-tower at `x` equals `sign (p'(z))` for any `z` just above `x` at which no tower member vanishes on
+`(x,z]` — by `signs_right_eq_Rseq` (the pattern at `z` is `Rseq` of the pattern at `x`, whose head is
+the first surviving sign). -/
+theorem fourier_head_right {p : Polynomial ℝ} (hp' : derivative p ≠ 0) {x z : ℝ} (hxz : x < z)
+    (hno : ∀ q ∈ BudanFourier.fourierSeq (derivative p), ∀ w ∈ Set.Ioc x z, q.eval w ≠ 0) :
+    (((BudanFourier.fourierSeq (derivative p)).map
+        (fun q => SignType.sign (q.eval x))).filter (· ≠ 0)).head?
+      = some (SignType.sign ((derivative p).eval z)) := by
+  set L := BudanFourier.fourierSeq (derivative p) with hLdef
+  have hchain : List.IsChain (fun q q' => q' = derivative q) L := BudanFourier.fourierSeq_isChain _
+  have hLne : L ≠ [] := BudanFourier.fourierSeq_ne_nil _
+  have hlast : ∀ h : L ≠ [], ((L.getLast h).eval x) ≠ 0 :=
+    fun h => BudanFourier.fourierSeq_getLast_eval_ne hp' x h
+  have hRseq := BudanFourier.signs_right_eq_Rseq hxz L hchain hlast hno
+  have hlastsign : ∀ h : (L.map (fun q => SignType.sign (q.eval x))) ≠ [],
+      (L.map (fun q => SignType.sign (q.eval x))).getLast h ≠ 0 := by
+    intro h
+    rw [List.getLast_map, Ne, sign_eq_zero_iff]
+    exact BudanFourier.fourierSeq_getLast_eval_ne hp' x hLne
+  obtain ⟨_, hhead, _⟩ := BudanFourier.Rseq_spec (L.map (fun q => SignType.sign (q.eval x))) hlastsign
+  have hL0 : L.head? = some (derivative p) := by
+    obtain ⟨a, t, hcons⟩ := List.exists_cons_of_ne_nil hLne
+    have h := BudanFourier.fourierSeq_getElem? (derivative p) 0 (by omega)
+    simp only [Function.iterate_zero, id_eq, ← hLdef] at h
+    rw [hcons] at h ⊢
+    simp only [List.getElem?_cons_zero] at h
+    simpa using h
+  have hhead_z : (L.map (fun q => SignType.sign (q.eval z))).head?
+      = some (SignType.sign ((derivative p).eval z)) := by
+    rw [List.head?_map, hL0, Option.map_some]
+  calc (((L.map (fun q => SignType.sign (q.eval x))).filter (· ≠ 0))).head?
+      = (BudanFourier.Rseq (L.map (fun q => SignType.sign (q.eval x)))).head? := hhead.symm
+    _ = (L.map (fun q => SignType.sign (q.eval z))).head? := congrArg List.head? hRseq.symm
+    _ = some (SignType.sign ((derivative p).eval z)) := hhead_z
+
+/-- **THE key step (the one remaining analytic fact).** The increment in the count of virtual roots above
+`x` going from `p'` to `p` equals the Fourier increment `V_p − V_{p'}`. Geometrically: the interlacing
+inserts a virtual root of `p` above `x` **iff** the virtual root of `p` in `x`'s own `p'`-cell lies
+above `x`, and that happens exactly when the leading sign of `p` at `x` produces a new Fourier
+variation. Both recursions are pinned to `{0,1}` (the Fourier side by `fourierVar_deriv_le`, the count
+side by `N_deriv_le_N`/`N_le_N_deriv_succ`); this lemma says the two bits agree. -/
+theorem count_step {lo hi : ℝ} {p : Polynomial ℝ} (hp : 0 < p.natDegree)
+    (hbr : Brackets lo hi p) {x : ℝ} (hx : x ∈ Set.Ico lo hi) :
+    (((vroots lo hi p : Multiset ℝ)).filter (fun r => x < r)).card
+      = (((vroots lo hi (derivative p) : Multiset ℝ)).filter (fun r => x < r)).card
+        + (BudanFourier.fourierVar p x - BudanFourier.fourierVar (derivative p) x) := by
+  classical
+  have hab : lo ≤ hi := le_of_lt (lt_of_le_of_lt hx.1 hx.2)
+  have hp' : derivative p ≠ 0 := by
+    intro h
+    have hd := degree_derivative hp.ne'
+    rw [h, degree_zero] at hd
+    simp at hd
+  set bps := lo :: (vroots lo hi (derivative p) ++ [hi]) with hbps
+  have hchain : List.IsChain (· ≤ ·) bps := vroots_isChain lo hi hab (derivative p)
+  have hbne : bps ≠ [] := by simp [hbps]
+  have hmd : (vroots lo hi (derivative p)).length = p.natDegree - 1 := by
+    rw [vroots_length, natDegree_derivative_eq hp]
+  have hbpslen : bps.length = p.natDegree + 1 := by
+    rw [hbps]; simp only [List.length_cons, List.length_append, List.length_nil, hmd]; omega
+  have hlen2 : 2 ≤ bps.length := by rw [hbpslen]; omega
+  have hheadle : bps.head hbne ≤ x := by simp only [hbps]; simpa using hx.1
+  have hlastlt : x < bps.getLast hbne := by
+    simp only [hbps, List.getLast_cons (by simp : vroots lo hi (derivative p) ++ [hi] ≠ []),
+      List.getLast_append_singleton]
+    exact hx.2
+  obtain ⟨i, hi1, hbiz, hzbi⟩ := exists_bracket_lt bps hchain hbne hheadle hlastlt hlen2
+  set a := bps[i]'(Nat.lt_of_succ_lt hi1) with ha
+  set b := bps[i + 1]'hi1 with hb
+  have hab2 : a < b := lt_of_le_of_lt hbiz hzbi
+  have hxIco : x ∈ Set.Ico a b := ⟨hbiz, hzbi⟩
+  have hilt : i < p.natDegree := by rw [hbpslen] at hi1; omega
+  have hiv : i < (vroots lo hi p).length := by rw [vroots_length]; exact hilt
+  have hdne : p.natDegree ≠ 0 := by omega
+  have hvR : (vroots lo hi p)[i]'hiv = R p a b := by
+    simp only [ha, hb, vroots_eq_zipWith hdne, ← hbps, List.getElem_zipWith, List.getElem_tail]
+  have hno : ∀ w ∈ Set.Ioo a b, (derivative p).eval w ≠ 0 := by
+    intro w hw
+    exact deriv_root_free_on_cell hab hp hbr hi1 (ha ▸ hw.1) (hb ▸ hw.2)
+  have hxmid : x < (x + b) / 2 := by have := hzbi; linarith
+  obtain ⟨z, hzx, hzle, hgap⟩ := exists_tower_gap_right (BudanFourier.fourierSeq (derivative p))
+    (BudanFourier.fourierSeq_mem_ne_zero hp') hxmid
+  have hzcell : z ∈ Set.Ioo a b := by
+    refine ⟨lt_of_le_of_lt hbiz hzx, ?_⟩
+    have := hzbi; linarith
+  have hd := fourier_head_right hp' hzx hgap
+  have hp'z : (derivative p).eval z ≠ 0 := hno z hzcell
+  have hVfin : BudanFourier.fourierVar p x
+      = BudanFourier.fourierVar (derivative p) x + (if x < R p a b then 1 else 0) := by
+    rcases lt_or_gt_of_ne hp'z with hzneg | hzpos
+    · have hsign1 : SignType.sign ((derivative p).eval z) = -1 := sign_neg hzneg
+      have hmono : StrictAntiOn (fun t => p.eval t) (Set.Icc a b) := by
+        apply strictAntiOn_of_deriv_neg (convex_Icc a b) p.continuous.continuousOn
+        intro w hw
+        rw [interior_Icc] at hw
+        rw [Polynomial.deriv]
+        have hsw := deriv_sign_const_on_cell hno hw hzcell
+        rw [hsign1] at hsw
+        exact sign_eq_neg_one_iff.mp hsw
+      have hiff := lt_R_iff_eval_pos hab2.le hmono hxIco
+      by_cases hpx0 : p.eval x = 0
+      · have hnlt : ¬ (x < R p a b) := by rw [hiff, hpx0]; exact lt_irrefl 0
+        rw [ite_eq_right hnlt, fourierVar_succ_root hp hpx0, add_zero]
+      · rw [fourierVar_succ_ne hp hpx0 hd, hsign1]
+        congr 1
+        by_cases hlt : x < R p a b
+        · have hpxpos : 0 < p.eval x := hiff.mp hlt
+          rw [ite_eq_left hlt, ite_eq_right (by rw [sign_pos hpxpos]; decide)]
+        · have hpxneg : p.eval x < 0 := by
+            rcases lt_or_gt_of_ne hpx0 with h | h
+            · exact h
+            · exact absurd (hiff.mpr h) hlt
+          rw [ite_eq_right hlt, ite_eq_left (by rw [sign_neg hpxneg])]
+    · have hsign1 : SignType.sign ((derivative p).eval z) = 1 := sign_pos hzpos
+      have hmono : StrictMonoOn (fun t => p.eval t) (Set.Icc a b) := by
+        apply strictMonoOn_of_deriv_pos (convex_Icc a b) p.continuous.continuousOn
+        intro w hw
+        rw [interior_Icc] at hw
+        rw [Polynomial.deriv]
+        have hsw := deriv_sign_const_on_cell hno hw hzcell
+        rw [hsign1] at hsw
+        exact sign_eq_one_iff.mp hsw
+      have hiff := lt_R_iff_eval_neg hab2.le hmono hxIco
+      by_cases hpx0 : p.eval x = 0
+      · have hnlt : ¬ (x < R p a b) := by rw [hiff, hpx0]; exact lt_irrefl 0
+        rw [ite_eq_right hnlt, fourierVar_succ_root hp hpx0, add_zero]
+      · rw [fourierVar_succ_ne hp hpx0 hd, hsign1]
+        congr 1
+        by_cases hlt : x < R p a b
+        · have hpxneg : p.eval x < 0 := hiff.mp hlt
+          rw [ite_eq_left hlt, ite_eq_right (by rw [sign_neg hpxneg]; decide)]
+        · have hpxpos : 0 < p.eval x := by
+            rcases lt_or_gt_of_ne hpx0 with h | h
+            · exact absurd (hiff.mpr h) hlt
+            · exact h
+          rw [ite_eq_right hlt, ite_eq_left (by rw [sign_pos hpxpos])]
+  rw [card_filter_gt_eq_countP, card_filter_gt_eq_countP,
+    count_diff_eq_cell hab hp hiv hi1 hbiz hzbi, hvR]
+  omega
+
+/-- **Core reformulation.** The Budan–Fourier count at `x` equals the number of virtual roots of `p`
+strictly above `x`, by induction down the derivative tower with step `count_step`. -/
+public theorem fourierVar_eq_card_vroots_gt {lo hi : ℝ} {p : Polynomial ℝ} (hp : p ≠ 0)
+    (hbr : Brackets lo hi p) {x : ℝ} (hx : x ∈ Set.Ico lo hi) :
+    BudanFourier.fourierVar p x
+      = (((vroots lo hi p : Multiset ℝ)).filter (fun r => x < r)).card := by
+  suffices H : ∀ n, ∀ q : Polynomial ℝ, q.natDegree = n → q ≠ 0 → Brackets lo hi q →
+      BudanFourier.fourierVar q x
+        = (((vroots lo hi q : Multiset ℝ)).filter (fun r => x < r)).card from
+    H p.natDegree p rfl hp hbr
+  intro n
+  induction n using Nat.strong_induction_on with
+  | _ n ih =>
+    intro p hn hp hbr
+    rcases Nat.eq_zero_or_pos n with h0 | hpos
+    · -- base case: `p` is a nonzero constant; both sides are `0`
+      subst h0
+      have hV : BudanFourier.fourierVar p x = 0 := by
+        rw [BudanFourier.fourierVar_eq_signVarAt, Sturm.signVarAt_eq_signChanges]
+        have hfs : BudanFourier.fourierSeq p = [p] := by
+          rw [BudanFourier.fourierSeq, hn]; simp
+        rw [hfs, List.map_cons, List.map_nil]
+        exact Sturm.signChanges_cons_of_filter_nil (by simp)
+      have hvr : vroots lo hi p = [] := by
+        rw [← List.length_eq_zero_iff, vroots_length]; exact hn
+      rw [hV, hvr]; simp
+    · -- inductive step: peel one derivative
+      have hdeg : 0 < p.natDegree := by rw [hn]; exact hpos
+      have hp' : derivative p ≠ 0 := by
+        intro h
+        have hd := degree_derivative hdeg.ne'
+        rw [h, degree_zero] at hd
+        simp at hd
+      have hbr' : Brackets lo hi (derivative p) := by
+        intro q hq z hz
+        exact hbr q (by rw [fourierSeq_cons hdeg]; exact List.mem_cons_of_mem _ hq) z hz
+      have hdn : (derivative p).natDegree = n - 1 := by rw [natDegree_derivative_eq hdeg, hn]
+      have ihv := ih (n - 1) (by omega) (derivative p) hdn hp' hbr'
+      have hmono := fourierVar_deriv_le hdeg x
+      rw [count_step hdeg hbr hx, ← ihv]
+      omega
+
+/-- **The exact virtual-root count.** The number of virtual roots in `(a,b]` equals the
+Budan–Fourier drop `V(a) − V(b)`, turning the inequality of `BudanFourier.budan_fourier` into an
+equality. -/
+public theorem card_vroots_Ioc_eq_fourierVar {lo hi : ℝ} {p : Polynomial ℝ} (hp : p ≠ 0)
+    (hbr : Brackets lo hi p) {a b : ℝ} (ha : a ∈ Set.Ico lo hi) (hb : b ∈ Set.Ico lo hi)
+    (hab : a ≤ b) :
+    (((vroots lo hi p : Multiset ℝ)).filter (fun r => a < r ∧ r ≤ b)).card
+      = BudanFourier.fourierVar p a - BudanFourier.fourierVar p b := by
+  have ka := fourierVar_eq_card_vroots_gt hp hbr ha
+  have kb := fourierVar_eq_card_vroots_gt hp hbr hb
+  set M := (vroots lo hi p : Multiset ℝ) with hM
+  -- {a < r ≤ b} ⊎ {b < r} = {a < r}, as multisets (using a ≤ b)
+  have hfilt : M.filter (fun r => a < r ∧ r ≤ b) + M.filter (fun r => b < r)
+      = M.filter (fun r => a < r) := by
+    rw [Multiset.filter_add_filter]
+    have e1 : M.filter (fun r => (a < r ∧ r ≤ b) ∨ b < r) = M.filter (fun r => a < r) := by
+      refine Multiset.filter_congr (fun r _ => ?_)
+      constructor
+      · rintro (⟨h, _⟩ | h)
+        · exact h
+        · exact lt_of_le_of_lt hab h
+      · intro h
+        rcases le_or_gt r b with hr | hr
+        · exact Or.inl ⟨h, hr⟩
+        · exact Or.inr hr
+    have e2 : M.filter (fun r => (a < r ∧ r ≤ b) ∧ b < r) = 0 := by
+      rw [Multiset.filter_eq_nil]
+      rintro r _ ⟨⟨_, hrb⟩, hbr'⟩
+      exact absurd hrb (not_le.mpr hbr')
+    rw [e1, e2, add_zero]
+  have hcard := congrArg Multiset.card hfilt
+  rw [Multiset.card_add] at hcard
+  rw [ka, kb]; omega
+
+end VirtualRoots

@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 1021 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 1062 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -31,6 +31,13 @@ Import everything with `import Formalizations`, or a single file, e.g.
 |---|---|---|
 | `Algebra.Ring` | `Continuant` | Euler's continuant; `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹` |
 | `Analysis.ODE.RungeKutta` | `OrderConditions` 🆕 | Butcher order conditions `γ(t) Φ(t) = 1` over planar rooted trees, reduced to a finite catalogue; Euler, Heun, RK4 (order 4, not 5), Dormand–Prince (order 5), Gauss–Legendre `s = 3` (order 4 in `ℚ(√15)`; order 6 in the denominator-cleared form over `ℤ[√15]` by `decide`); `Φ` invariant under permuting children |
+| `Analysis.Polynomial.RealRoots` | `RealRooted` 🆕 | Real-rooted polynomials (`Splits` over `ℝ`): closure, root count; sign alternation at `n + 1` points gives `n` roots; one root per gap of an increasing sequence gives real-rootedness; combinations of interlacing pairs |
+| | `Sturm` 🆕 | Sturm's theorem: for squarefree `p`, the number of distinct roots in `(a, b]` is `V(a) − V(b)` for the Sturm sequence; the chain agrees with Mathlib's `Polynomial.sturmSeq`, and `V` is `List.signVariations` of the values |
+| | `BudanFourier` 🆕 | Budan–Fourier: the number of roots in `(a, b]` with multiplicity is at most the drop of sign variations of `p, p′, p″, …`, with even difference |
+| | `VirtualRoots.Basic` 🆕 | Virtual roots (González-Vega–Lombardi–Mahé): a degree-`d` polynomial has `d` of them, sorted, and they interlace with those of `p′` (Coste et al., Prop. 2.3) |
+| | `VirtualRoots.Count` 🆕 | The number of virtual roots in `(a, b]` equals the Budan–Fourier drop `V(a) − V(b)` |
+| | `Descartes` 🆕 | The Budan–Fourier count at `0` is Mathlib's `Polynomial.signVariations` |
+| | `NewtonInequalities` 🆕 | Newton's inequalities `e_k² C(n,k−1) C(n,k+1) ≥ e_{k−1} e_{k+1} C(n,k)²` for real-rooted polynomials; log-concavity of the normalized means; real-rootedness survives `derivative` and `reverse` |
 | `Analysis.SpecialFunctions.Airy` | `PowerSeries` 🆕 | The Airy recurrence `c_{k+3} = c_k/((k+2)(k+3))` gives `y'' = X y` in `ℚ⟦X⟧` |
 | | `Basic` 🆕 | The real Airy functions are entire and solve `y'' = x y`; zeros unbounded below (Sturm comparison from Rolle and the IVT); dominant solutions do not decay; a recessive solution by reduction of order and an entire one; infinitely many quantum-bouncer levels |
 | | `Perturbation` 🆕 | `w = u²` for `u'' = (x − E) u` satisfies `w''' = 4 (x − E) w' + 2 w` |
@@ -238,6 +245,15 @@ by name), the file says so and proves it in one line from that lemma.
   on a bitmask encoding, with a proved bridge to the `Finset` statements. These files port the
   repository [music-math](https://github.com/karlesmarin/music-math) (Lean `v4.30.0-rc2`), which stays
   as published; there the censuses used `native_decide`.
+- 📉 **Real roots.** Mathlib has Descartes' rule of signs (`Polynomial.signVariations`,
+  `Polynomial.roots_countP_pos_le_signVariations`), sign variations of lists (`List.signVariations`)
+  and the algebra of the Sturm sequence (`Polynomial.sturmSeq`), but not Sturm's theorem, the
+  Budan–Fourier theorem, virtual roots or Newton's inequalities. `Sturm` keeps its own chain and
+  proves that it is `Polynomial.sturmSeq` for `p ≠ 0` (`sturmAux_eq_sturmSeq`) and that its count is
+  `List.signVariations` of the values (`signVarAt_eq_signVariations`). Sturm–Tarski and Budan–Fourier
+  are formalized in Isabelle/HOL by Li and by Li–Paulson. These files port part of the repository
+  [godsil-gutman-lean](https://github.com/karlesmarin/godsil-gutman-lean) (Lean `v4.30.0-rc2`), which
+  stays as published.
 - 📚 **Multisets.** `JakobsOrder` builds on Mathlib's Dershowitz–Manna order
   (`Multiset.IsDershowitzMannaLT`) and characterizes it, on a linear order, as the lexicographic
   order from the largest element.
