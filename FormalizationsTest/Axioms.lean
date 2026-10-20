@@ -12,6 +12,9 @@ import Formalizations
 #print axioms OrbifoldProduct.not_completeIntersection_of_fms
 #print axioms OrbifoldProduct.cut_vertices
 #print axioms OrbifoldProduct.edges_exceed
+#print axioms OrbifoldProduct.sum_oneHot
+#print axioms OrbifoldProduct.not_cone_of_others
+#print axioms OrbifoldProduct.generator_extreme
 #print axioms DGH.D_zero
 #print axioms DGH.D_one
 #print axioms DGH.D_succ

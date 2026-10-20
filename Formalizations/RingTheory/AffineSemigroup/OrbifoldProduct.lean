@@ -7,6 +7,9 @@ module
 
 public import Mathlib.Data.Nat.Choose.Sum
 public import Mathlib.Data.Fintype.BigOperators
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Data.Rat.Defs
 public import Mathlib.Tactic.Linarith
 public import Mathlib.Tactic.Ring
 
@@ -27,6 +30,9 @@ circle) reads one bit per circle. This file proves the counts the paper uses and
 * `not_completeIntersection_of_fms`: Proposition 2 of the paper, with the cited Corollary 3.4 of Fischer, Morris and
   Shapiro (a complete intersection of dimension `d ≥ 2` has at most `2d − 2` extreme rays) as a hypothesis.
 * `cut_vertices`, `edges_exceed`: the count showing that `(S¹/ℤ₂)^k` is not a cut ideal for `k ≥ 3` (equation (5)).
+* `not_cone_of_others`, `generator_extreme`: a one-hot block vector of a family of distinct choices is not a
+  non-negative combination of the others, so every generator of `(S¹/ℤ₂)^k` spans an extreme ray of the cone (the
+  first step of the proof of Proposition 2).
 
 ## References
 
@@ -121,5 +127,63 @@ theorem edges_exceed {k : ℕ} (hk : 3 ≤ k) : k * (2 * k + 1) < 3 ^ k - 1 := b
   | succ k hk ih =>
     rw [pow_succ]
     nlinarith
+
+section Extreme
+
+open Finset
+
+/-- The one-hot block vector of a choice `f : B → P`: in block `b`, a `1` at position `f b`. A generator of the
+semigroup is the one-hot vector of its readouts (one indicator block per fixed point). -/
+def oneHot {B P : Type*} [DecidableEq P] (f : B → P) : B × P → ℚ := fun bp => if f bp.1 = bp.2 then 1 else 0
+
+theorem sum_oneHot {B P : Type*} [Fintype B] [Fintype P] [DecidableEq P] (f : B → P) :
+    ∑ bp, oneHot f bp = Fintype.card B := by
+  rw [Fintype.sum_prod_type]
+  simp [oneHot]
+
+/-- A one-hot block vector is not a non-negative combination of the other ones of a family of distinct choices: it
+spans an extreme ray of their cone. (Summing all coordinates forces the coefficients to add up to `1`; in each block
+a vector with a positive coefficient must have its `1` where `v i` has it, so it is `v i`.) -/
+theorem not_cone_of_others {ι B P : Type*} [Fintype ι] [DecidableEq ι] [Fintype B] [Nonempty B] [Fintype P]
+    [DecidableEq P] (v : ι → B → P) (hv : Function.Injective v) (i : ι) (c : ι → ℚ) (hc : ∀ j, 0 ≤ c j)
+    (h : ∀ bp, ∑ j ∈ univ.erase i, c j * oneHot (v j) bp = oneHot (v i) bp) : False := by
+  set S := ∑ j ∈ univ.erase i, c j with hS
+  have hB : (0 : ℚ) < Fintype.card B := by exact_mod_cast Fintype.card_pos
+  have hsum : S = 1 := by
+    have := congrArg (fun g : B × P → ℚ => ∑ bp, g bp) (funext h)
+    rw [Finset.sum_comm] at this
+    simp only [← Finset.mul_sum, sum_oneHot] at this
+    rw [← Finset.sum_mul] at this
+    have : S * Fintype.card B = 1 * Fintype.card B := by rw [one_mul]; exact this
+    exact mul_right_cancel₀ (ne_of_gt hB) this
+  have hblock : ∀ b, ∀ j ∈ univ.erase i, c j ≠ 0 → v j b = v i b := by
+    intro b
+    have hb := h (b, v i b)
+    simp only [oneHot, ↓reduceIte] at hb
+    have hzero : ∑ j ∈ univ.erase i, c j * (1 - (if v j b = v i b then 1 else 0)) = 0 := by
+      simp only [mul_sub, mul_one, Finset.sum_sub_distrib, hb, ← hS, hsum, sub_self]
+    have hnn : ∀ j ∈ univ.erase i, 0 ≤ c j * (1 - (if v j b = v i b then (1 : ℚ) else 0)) := by
+      intro j _
+      apply mul_nonneg (hc j)
+      split_ifs <;> norm_num
+    intro j hj hcj
+    have := (Finset.sum_eq_zero_iff_of_nonneg hnn).1 hzero j hj
+    by_contra hne
+    simp [hne, hcj] at this
+  have hall : ∀ j ∈ univ.erase i, c j = 0 := by
+    intro j hj
+    by_contra hcj
+    exact (Finset.ne_of_mem_erase hj) (hv (funext fun b => hblock b j hj hcj))
+  have : S = 0 := Finset.sum_eq_zero hall
+  rw [hsum] at this
+  exact one_ne_zero this
+
+/-- **Every generator of `(S¹/ℤ₂)^k` spans an extreme ray**: the one-hot vector of a label's readouts is not a
+non-negative combination of those of the other labels. -/
+theorem generator_extreme (k : ℕ) (t : Label k) (c : Label k → ℚ) (hc : ∀ s, 0 ≤ c s)
+    (h : ∀ bp, ∑ s ∈ univ.erase t, c s * oneHot (marginal s) bp = oneHot (marginal t) bp) : False :=
+  not_cone_of_others marginal (marginal_injective k) t c hc h
+
+end Extreme
 
 end OrbifoldProduct
