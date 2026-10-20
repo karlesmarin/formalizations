@@ -164,6 +164,7 @@ public import Formalizations.Physics.Supergravity.AnomalyQuantization.U2Example
 public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
 public import Formalizations.Probability.Distributions.Superstatistics.StudentMixture
 public import Formalizations.RepresentationTheory.Symplectic.ResidueCapacity
+public import Formalizations.RingTheory.AffineSemigroup.OrbifoldProduct
 public import Formalizations.RingTheory.DGH.Absorb
 public import Formalizations.RingTheory.DGH.Basic
 public import Formalizations.RingTheory.DGH.Epsilon0

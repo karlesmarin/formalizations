@@ -4,6 +4,14 @@ Axiom audit: every main result depends only on the standard axioms
 -/
 import Formalizations
 
+#print axioms OrbifoldProduct.marginal_injective
+#print axioms OrbifoldProduct.card_labels
+#print axioms OrbifoldProduct.sum_choose_mul_two_pow
+#print axioms OrbifoldProduct.fms_bound_met
+#print axioms OrbifoldProduct.fms_bound_violated
+#print axioms OrbifoldProduct.not_completeIntersection_of_fms
+#print axioms OrbifoldProduct.cut_vertices
+#print axioms OrbifoldProduct.edges_exceed
 #print axioms DGH.D_zero
 #print axioms DGH.D_one
 #print axioms DGH.D_succ
