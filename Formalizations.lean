@@ -81,6 +81,7 @@ public import Formalizations.LinearAlgebra.PointwiseProductSpan
 public import Formalizations.MusicTheory.AllPairsEvenness
 public import Formalizations.MusicTheory.CircleOfFifths
 public import Formalizations.MusicTheory.ComplementEnergy
+public import Formalizations.MusicTheory.CRTCharacters
 public import Formalizations.MusicTheory.CycleGraphSpectrum
 public import Formalizations.MusicTheory.CyclicHuddling
 public import Formalizations.MusicTheory.CyclicHuddlingClosedForm

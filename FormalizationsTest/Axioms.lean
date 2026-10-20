@@ -725,6 +725,13 @@ import Formalizations
 #print axioms MusicTheory.CycleGraphSpectrum.cayleyAdj_mulVec_dftChar
 #print axioms MusicTheory.CycleGraphSpectrum.cayleyAdj_eigenvalue
 #print axioms MusicTheory.CycleGraphSpectrum.cayleyAdj_eq_adjMatrix
+#print axioms MusicTheory.CRTCharacters.dftChar_eq_dftChar_iff
+#print axioms MusicTheory.CRTCharacters.factorsThrough_iff
+#print axioms MusicTheory.CRTCharacters.factorsThrough_three_iff
+#print axioms MusicTheory.CRTCharacters.factorsThrough_four_iff
+#print axioms MusicTheory.CRTCharacters.three_axis_eq_multiples_four
+#print axioms MusicTheory.CRTCharacters.four_axis_eq_multiples_three
+#print axioms MusicTheory.CRTCharacters.six_order_two
 #print axioms MusicTheory.CyclicHuddling.Ahat_tpose
 #print axioms MusicTheory.CyclicHuddling.Ahat_eq_dft
 #print axioms MusicTheory.CyclicHuddling.Ahat_compl
