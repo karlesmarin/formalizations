@@ -12,6 +12,8 @@ public import Mathlib.Algebra.Order.BigOperators.Group.Finset
 public import Mathlib.Data.Rat.Defs
 public import Mathlib.Tactic.Linarith
 public import Mathlib.Tactic.Ring
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
 
 /-!
 # The product orbifold `(S¹/ℤ₂)^k`: the counts behind its semigroup
@@ -33,6 +35,9 @@ circle) reads one bit per circle. This file proves the counts the paper uses and
 * `not_cone_of_others`, `generator_extreme`: a one-hot block vector of a family of distinct choices is not a
   non-negative combination of the others, so every generator of `(S¹/ℤ₂)^k` spans an extreme ray of the cone (the
   first step of the proof of Proposition 2).
+* `rank_circle`, `generators_eq`, `rank_generators`: the generator matrix of `(S¹/ℤ₂)^k` is, up to reindexing, the
+  `k`-th Kronecker power of a `4 × 4` matrix of rank `3`, so it has rank `3^k`: `dim S = 3^k` (the rank part of
+  Proposition 2).
 
 ## References
 
@@ -185,5 +190,63 @@ theorem generator_extreme (k : ℕ) (t : Label k) (c : Label k → ℚ) (hc : �
   not_cone_of_others marginal (marginal_injective k) t c hc h
 
 end Extreme
+
+section Rank
+
+open Matrix
+
+/-- One circle: rows are (fixed point, bit read), columns are labels `(t₁, t₂)`. -/
+def circle : Matrix (Bool × Bool) (Bool × Bool) ℚ :=
+  fun cb t => if (if cb.1 then t.2 else t.1) = cb.2 then 1 else 0
+
+/-- Rows `(false, false)`, `(false, true)`, `(true, false)` of `circle`. -/
+def circleRows : Matrix (Fin 3) (Bool × Bool) ℚ :=
+  circle.submatrix ![(false, false), (false, true), (true, false)] id
+
+/-- Coefficients of the rows of `circle` in `circleRows`: row `(true, true)` is the first two minus the third. -/
+def circleCoeffs : Matrix (Bool × Bool) (Fin 3) ℚ := fun cb =>
+  match cb with
+  | (false, false) => ![1, 0, 0]
+  | (false, true) => ![0, 1, 0]
+  | (true, false) => ![0, 0, 1]
+  | (true, true) => ![1, 1, -1]
+
+theorem circle_eq_mul : circle = circleCoeffs * circleRows := by
+  ext ⟨c, b⟩ ⟨t₁, t₂⟩
+  rw [mul_apply, Fin.sum_univ_three]
+  cases c <;> cases b <;> cases t₁ <;> cases t₂ <;> norm_num [circleCoeffs, circleRows, circle]
+
+theorem rank_circle : circle.rank = 3 := by
+  apply le_antisymm
+  · rw [circle_eq_mul]
+    exact (rank_mul_le_left _ _).trans ((rank_le_card_width circleCoeffs).trans (by simp))
+  · let r : Fin 3 → Bool × Bool := ![(false, false), (false, true), (true, false)]
+    let c : Fin 3 → Bool × Bool := ![(false, false), (true, false), (false, true)]
+    have hdet : (circle.submatrix r c).det ≠ 0 := by
+      rw [det_fin_three]
+      simp [r, c, circle]
+    have hu : IsUnit (circle.submatrix r c) := (isUnit_iff_isUnit_det _).2 (isUnit_iff_ne_zero.2 hdet)
+    have := rank_submatrix_le circle r c
+    rwa [rank_of_isUnit _ hu, Fintype.card_fin] at this
+
+/-- The generator matrix of `(S¹/ℤ₂)^k`: column `t` is the one-hot vector of the readouts of label `t`. -/
+def generators (k : ℕ) : Matrix (FixedPoint k × (Fin k → Bool)) (Label k) ℚ :=
+  fun cb t => oneHot (marginal t) cb
+
+theorem generators_eq (k : ℕ) :
+    generators k = (piKronecker k circle).submatrix (Equiv.arrowProdEquivProdArrow (Fin k) (fun _ => Bool) (fun _ => Bool)).symm (Equiv.refl _) := by
+  ext ⟨c, b⟩ t
+  simp only [generators, oneHot, marginal, piKronecker, circle, submatrix_apply]
+  rw [Finset.prod_boole]
+  simp only [funext_iff, Equiv.arrowProdEquivProdArrow, readout, Equiv.coe_fn_symm_mk]
+  congr
+  simp only [Finset.mem_univ, true_imp_iff, Equiv.refl_apply]
+  exact propext (forall_congr' fun i => by rcases Bool.eq_false_or_eq_true (c i) with hc | hc <;> simp [hc])
+
+/-- **`dim S = 3^k`**: the generators of `(S¹/ℤ₂)^k` span a space of dimension `3^k`. -/
+theorem rank_generators (k : ℕ) : (generators k).rank = 3 ^ k := by
+  rw [generators_eq, rank_submatrix _ _ (Equiv.refl _), rank_piKronecker, rank_circle]
+
+end Rank
 
 end OrbifoldProduct

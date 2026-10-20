@@ -10,6 +10,7 @@ public import Mathlib.LinearAlgebra.Matrix.Kronecker
 public import Mathlib.LinearAlgebra.TensorProduct.Matrix
 public import Mathlib.RingTheory.Flat.Basic
 public import Mathlib.LinearAlgebra.Dimension.Constructions
+public import Mathlib.Data.Fin.Tuple.Basic
 
 /-!
 # Rank of Kronecker products
@@ -18,6 +19,8 @@ public import Mathlib.LinearAlgebra.Dimension.Constructions
 
 * `LinearMap.finrank_range_tensorProductMap`: over a field, `dim range (f ⊗ g) = dim range f · dim range g`.
 * `Matrix.rank_kronecker`: `(A ⊗ₖ B).rank = A.rank * B.rank` over a field.
+* `Matrix.rank_piKronecker`: the `k`-th Kronecker power `piKronecker k A` (indexed by `k`-tuples) has rank
+  `A.rank ^ k`.
 * `Matrix.rank_kronecker_one`: `(A ⊗ₖ (1 : Matrix p p K)).rank = Fintype.card p * A.rank`.
 
 The general statement goes through linear maps: with standard bases `A ⊗ₖ B` is the matrix of
@@ -115,5 +118,34 @@ theorem rank_kronecker_one (A : Matrix m n K) :
   omega
 
 end Kronecker
+
+section PiKronecker
+
+/-- The `k`-th Kronecker power of `A`, indexed by tuples: entry `∏ i, A (r i) (c i)`. -/
+def piKronecker {α β R : Type*} [CommMonoid R] (k : ℕ) (A : Matrix α β R) : Matrix (Fin k → α) (Fin k → β) R :=
+  fun r c => ∏ i, A (r i) (c i)
+
+theorem piKronecker_succ {α β R : Type*} [CommMonoid R] (k : ℕ) (A : Matrix α β R) :
+    piKronecker (k + 1) A =
+      (A ⊗ₖ piKronecker k A).submatrix (Fin.consEquiv fun _ => α).symm (Fin.consEquiv fun _ => β).symm := by
+  ext r c
+  simp [piKronecker, Fin.prod_univ_succ, kroneckerMap_apply, Fin.consEquiv, Fin.tail]
+
+theorem rank_piKronecker {α β K : Type*} [Field K] [Fintype α] [Fintype β] [DecidableEq α] [DecidableEq β]
+    (k : ℕ) (A : Matrix α β K) : (piKronecker k A).rank = A.rank ^ k := by
+  induction k with
+  | zero =>
+    have h1 : piKronecker 0 A = (1 : Matrix (Fin 0 → α) (Fin 0 → α) K).submatrix (Equiv.refl _)
+        (Equiv.ofUnique (Fin 0 → β) (Fin 0 → α)) := by
+      ext r c
+      rw [submatrix_apply, Subsingleton.elim ((Equiv.ofUnique (Fin 0 → β) (Fin 0 → α)) c) ((Equiv.refl _) r),
+        one_apply_eq]
+      simp [piKronecker]
+    rw [h1, rank_submatrix _ (Equiv.refl _), rank_one]
+    simp
+  | succ k ih =>
+    rw [piKronecker_succ, rank_submatrix, rank_kronecker, ih, pow_succ, mul_comm]
+
+end PiKronecker
 
 end Matrix

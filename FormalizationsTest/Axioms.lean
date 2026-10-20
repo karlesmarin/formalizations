@@ -15,6 +15,9 @@ import Formalizations
 #print axioms OrbifoldProduct.sum_oneHot
 #print axioms OrbifoldProduct.not_cone_of_others
 #print axioms OrbifoldProduct.generator_extreme
+#print axioms OrbifoldProduct.rank_circle
+#print axioms OrbifoldProduct.generators_eq
+#print axioms OrbifoldProduct.rank_generators
 #print axioms DGH.D_zero
 #print axioms DGH.D_one
 #print axioms DGH.D_succ
@@ -175,6 +178,10 @@ import Formalizations
 #print axioms Matrix.rank_fromBlocks_zero₂₁_le_left
 #print axioms Matrix.rank_fromBlocks_zero₂₁_le_right
 #print axioms Matrix.rank_kronecker_one
+#print axioms LinearMap.finrank_range_tensorProductMap
+#print axioms Matrix.rank_kronecker
+#print axioms Matrix.piKronecker_succ
+#print axioms Matrix.rank_piKronecker
 #print axioms ThreeAxes.InverseIdentities.three_term_inv
 #print axioms ThreeAxes.InverseIdentities.three_term_ne_zero_iff
 #print axioms ThreeAxes.InverseIdentities.one_term_inv
