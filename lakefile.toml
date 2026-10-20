@@ -1,0 +1,23 @@
+# Formalizations: Lean 4 / Mathlib formalizations by Carles Marín, organized like Mathlib (by mathematical area).
+# Build: `lake exe cache get && lake build`. Axiom audit: `scripts/check_axioms.sh`.
+# TOML, not lakefile.lean: leanprover-community/docgen-action (docs.yml) only reads lakefile.toml.
+name = "formalizations"
+defaultTargets = ["Formalizations"]
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+relaxedAutoImplicit = false
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
+
+[[lean_lib]]
+name = "Formalizations"
+globs = ["Formalizations.*"]
+
+[[lean_lib]]
+name = "FormalizationsTest"
+globs = ["FormalizationsTest.+"]
