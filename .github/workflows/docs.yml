@@ -1,0 +1,33 @@
+name: docs
+
+# API documentation of every declaration (doc-gen4), published on GitHub Pages at
+# https://karlesmarin.github.io/formalizations/docs/ — so that each theorem has a page a search engine can find.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: leanprover/lean-action@v1
+        with:
+          use-mathlib-cache: true
+      - uses: leanprover-community/docgen-action@main
+        with:
+          api-docs: true
+          blueprint: false
+          build-page: false

@@ -13,6 +13,9 @@ results.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
 
+📖 **API documentation** of every declaration (doc-gen4, rebuilt on every push):
+<https://karlesmarin.github.io/formalizations/docs/>
+
 ## 🚀 Using it
 
 ```
