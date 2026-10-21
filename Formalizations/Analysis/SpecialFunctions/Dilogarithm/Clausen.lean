@@ -209,11 +209,9 @@ private lemma cl2_partial_abel (θ : ℝ) (N : ℕ) :
     field_simp
     ring
 
-/-- **Positivity of the Clausen function** on `(0, π)`: `0 < Cl₂ θ` — in fact
-`Cl₂ θ ≥ sin θ / 2`. Via Fejér–Jackson positivity and Abel summation; this is the
-analytic heart of "weight-2 zeta states never reach an orthogonal state". -/
-theorem Cl₂_pos {θ : ℝ} (h0 : 0 < θ) (hπ : θ < π) : 0 < Cl₂ θ := by
-  have hsin := Real.sin_pos_of_pos_of_lt_pi h0 hπ
+/-- **The asymptotics-free Clausen bound** on `(0, π)`: `Cl₂ θ ≥ sin θ / 2`. Abel summation writes each
+partial sum through the Fejér–Jackson sums, all positive, and the first term alone is `sin θ / 2`. -/
+theorem sin_div_two_le_Cl₂ {θ : ℝ} (h0 : 0 < θ) (hπ : θ < π) : Real.sin θ / 2 ≤ Cl₂ θ := by
   -- every (N+1)-term partial sum is at least `sin θ / 2`
   have hpartial : ∀ N : ℕ,
       Real.sin θ / 2 ≤ ∑ k ∈ Finset.range (N + 1),
@@ -256,13 +254,17 @@ theorem Cl₂_pos {θ : ℝ} (h0 : 0 < θ) (hπ : θ < π) : 0 < Cl₂ θ := by
       linarith
   -- pass to the limit of partial sums
   have htend := ((summable_Cl₂ θ).hasSum).tendsto_sum_nat
-  have hge : Real.sin θ / 2 ≤ Cl₂ θ := by
-    apply ge_of_tendsto htend
-    filter_upwards [Filter.eventually_ge_atTop 1] with N hN
-    obtain ⟨M, rfl⟩ := Nat.exists_eq_add_of_le hN
-    rw [add_comm 1 M]
-    exact hpartial M
-  linarith
+  apply ge_of_tendsto htend
+  filter_upwards [Filter.eventually_ge_atTop 1] with N hN
+  obtain ⟨M, rfl⟩ := Nat.exists_eq_add_of_le hN
+  rw [add_comm 1 M]
+  exact hpartial M
+
+/-- **Positivity of the Clausen function** on `(0, π)`: `0 < Cl₂ θ`, from `Cl₂ θ ≥ sin θ / 2`; the analytic
+heart of "weight-2 zeta states never reach an orthogonal state". -/
+theorem Cl₂_pos {θ : ℝ} (h0 : 0 < θ) (hπ : θ < π) : 0 < Cl₂ θ := by
+  have hsin := Real.sin_pos_of_pos_of_lt_pi h0 hπ
+  linarith [sin_div_two_le_Cl₂ h0 hπ]
 
 /-! ### The clock that never ticks
 
