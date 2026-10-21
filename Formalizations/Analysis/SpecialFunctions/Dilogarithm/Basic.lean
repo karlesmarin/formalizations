@@ -26,7 +26,7 @@ has no polylogarithm.
 
 ## Main results
 
-* `Dilog.Li₂_one`: `Li₂ 1 = π² / 6`.
+* `Dilog.Li₂_one`: `Li₂ 1 = π² / 6`; `Dilog.Li₂_neg_one`: `Li₂ (-1) = -π² / 12`.
 * `Dilog.hasDerivAt_Li₂`: `Li₂′ x = -log(1 - x) / x` for `0 < |x| < 1`.
 * `Dilog.continuousOn_Li₂`: continuity on `[-1, 1]`.
 * `Dilog.Li₂_add_Li₂_one_sub`: Euler's reflection `Li₂ x + Li₂ (1 - x) = π²/6 - log x · log (1 - x)`.
@@ -463,6 +463,12 @@ The classical special values `Li₂(1/φ²) = π²/15 − log²φ`, `Li₂(1/φ)
 `(1/φ²)/((1/φ²)−1) = −1/φ` (so Landen's identity maps `1/φ²` to `−1/φ`); together with the
 duplication formula at `1/φ` this gives a linear system — no five-term relation is needed.
 -/
+/-- `Li₂(−1) = −π²/12 = −η(2)`: the duplication formula at `x = 1`. -/
+theorem Li₂_neg_one : Li₂ (-1) = -(π ^ 2) / 12 := by
+  have h := Li₂_sq (x := 1) (by norm_num)
+  rw [one_pow, Li₂_one] at h
+  linarith
+
 section GoldenRatio
 
 open scoped goldenRatio
