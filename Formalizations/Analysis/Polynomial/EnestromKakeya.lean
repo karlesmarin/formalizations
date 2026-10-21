@@ -25,6 +25,10 @@ disk. The proof multiplies by `1 - z`, telescopes, and applies the triangle ineq
 * `Dilog.enestrom_kakeya_strict`: strictly decreasing coefficients give no zero in `‖z‖ ≤ 1`.
 * `Dilog.monotoneState_never_orthogonal`: `∑ p_k e^{-ikt} ≠ 0` for every real `t` when
   `p_0 > p_1 > ⋯ > p_n > 0`.
+* `Dilog.enestrom_kakeya_boundary_series`, `Dilog.strictAnti_series_ne_zero`: the same on the circle for
+  summable non-increasing series (no truncation): zeros sit at roots of unity pinned by the descents, and
+  strictly decreasing positive populations never orthogonalize. The proof takes real parts of the
+  telescoped series instead of the equality case of the triangle inequality.
 
 ## References
 
@@ -268,5 +272,76 @@ theorem monotoneState_never_orthogonal {n : ℕ} (p : ℕ → ℝ)
   rw [← Complex.exp_nat_mul]
   congr 1
   ring
+
+/-- `Re w = 1` and `‖w‖ = 1` force `w = 1`. -/
+theorem eq_one_of_re_eq_one {w : ℂ} (hn : ‖w‖ = 1) (hr : w.re = 1) : w = 1 := by
+  have h : w.re * w.re + w.im * w.im = 1 := by
+    rw [← Complex.normSq_apply, Complex.normSq_eq_norm_sq, hn]; norm_num
+  rw [hr] at h
+  have him : w.im = 0 := by nlinarith
+  exact Complex.ext (by simpa using hr) (by simpa using him)
+
+/-- **Eneström–Kakeya on the circle, for series.** Let `p` be summable and non-increasing. If
+`∑ pₖ zᵏ = 0` at a point `‖z‖ = 1`, then `z^{k+1} = 1` at every descent `p_{k+1} < p_k`: the zeros on the
+circle are roots of unity, pinned by where the populations drop (Remark 1 of the paper, for series). -/
+theorem enestrom_kakeya_boundary_series (p : ℕ → ℝ) (hmono : Antitone p)
+    (hsum : Summable p) {z : ℂ} (hz : ‖z‖ = 1) (hS : HasSum (fun k => (p k : ℂ) * z ^ k) 0) :
+    ∀ k, p (k + 1) < p k → z ^ (k + 1) = 1 := by
+  set d : ℕ → ℝ := fun k => p k - p (k + 1) with hd
+  have hd0 : ∀ k, 0 ≤ d k := fun k => sub_nonneg.mpr (hmono (Nat.le_succ k))
+  -- the decrements telescope to `p 0` (summable `p` tends to `0`)
+  have hP := hsum.hasSum
+  have hP1 : HasSum (fun k => p (k + 1)) (∑' k, p k - p 0) := by
+    have := (hasSum_nat_add_iff' 1).mpr hP
+    simpa [Finset.sum_range_one] using this
+  have hdsum : HasSum d (p 0) := by
+    have := hP.sub hP1
+    simpa [hd] using this
+  -- `∑ dₖ z^{k+1} = p 0` when the series vanishes: `z S − (S − p 0)` with `S = 0`
+  have h1 : HasSum (fun k => (p k : ℂ) * z ^ k * z) 0 := by simpa using hS.mul_right z
+  have h2 : HasSum (fun k => (p (k + 1) : ℂ) * z ^ (k + 1)) (0 - (p 0 : ℂ)) := by
+    have := (hasSum_nat_add_iff' 1).mpr hS
+    simpa [Finset.sum_range_one] using this
+  have hdz : HasSum (fun k => ((d k : ℝ) : ℂ) * z ^ (k + 1)) (p 0 : ℂ) := by
+    have := h1.sub h2
+    convert this using 1
+    · funext k; simp only [hd]; push_cast; ring
+    · ring
+  -- real parts: `∑ dₖ Re z^{k+1} = p 0 = ∑ dₖ`, so `∑ dₖ (1 − Re z^{k+1}) = 0` with nonnegative terms
+  have hre : HasSum (fun k => d k * (z ^ (k + 1)).re) (p 0) := by
+    have := Complex.reCLM.hasSum hdz
+    simpa [Complex.re_ofReal_mul] using this
+  have hgap : HasSum (fun k => d k * (1 - (z ^ (k + 1)).re)) 0 := by
+    have := hdsum.sub hre
+    simpa [mul_sub] using this
+  have hnorm : ∀ k : ℕ, ‖z ^ (k + 1)‖ = 1 := fun k => by rw [norm_pow, hz, one_pow]
+  have hle : ∀ k : ℕ, (z ^ (k + 1)).re ≤ 1 := fun k => (Complex.re_le_norm _).trans (hnorm k).le
+  have hterm : ∀ k, 0 ≤ d k * (1 - (z ^ (k + 1)).re) := fun k =>
+    mul_nonneg (hd0 k) (sub_nonneg.mpr (hle k))
+  have hzero := (hasSum_zero_iff_of_nonneg hterm).mp hgap
+  intro k hk
+  have hk' : 0 < d k := sub_pos.mpr hk
+  have h0 : d k * (1 - (z ^ (k + 1)).re) = 0 := congrFun hzero k
+  have hre1 : (z ^ (k + 1)).re = 1 := by
+    rcases mul_eq_zero.mp h0 with h | h
+    · exact absurd h hk'.ne'
+    · linarith
+  exact eq_one_of_re_eq_one (hnorm k) hre1
+
+/-- **Strictly decreasing populations never orthogonalize** (series form): for `p > 0` summable and strictly
+decreasing, `∑ pₖ zᵏ ≠ 0` on the whole unit circle. With `p_n = 6/(π² n²)` this is Theorem 4 again, read
+from the coefficients as Remark 1 says. -/
+theorem strictAnti_series_ne_zero (p : ℕ → ℝ) (hpos : ∀ k, 0 < p k) (hanti : StrictAnti p)
+    (hsum : Summable p) {z : ℂ} (hz : ‖z‖ = 1) : ¬ HasSum (fun k => (p k : ℂ) * z ^ k) 0 := by
+  intro hS
+  have h1 := enestrom_kakeya_boundary_series p hanti.antitone hsum hz hS 0
+    (hanti (Nat.lt_succ_self 0))
+  rw [zero_add, pow_one] at h1
+  subst h1
+  have hR : HasSum (fun k => ((p k : ℝ) : ℂ)) ((∑' k, p k : ℝ) : ℂ) := Complex.ofRealCLM.hasSum hsum.hasSum
+  have hpos' : 0 < ∑' k, p k := hsum.tsum_pos (fun k => (hpos k).le) 0 (hpos 0)
+  have hS' : HasSum (fun k => ((p k : ℝ) : ℂ)) 0 := by simpa using hS
+  have h0 : ((∑' k, p k : ℝ) : ℂ) = 0 := hR.unique hS'
+  exact hpos'.ne' (by exact_mod_cast h0)
 
 end Dilog
