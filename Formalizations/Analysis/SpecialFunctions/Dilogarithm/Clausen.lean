@@ -26,10 +26,13 @@ and the Fejér–Jackson inequality give `Cl₂ θ > 0` on `(0, π)`.
 
 * `Dilog.Cl₂_neg`, `Dilog.Cl₂_two_pi_sub`: symmetries.
 * `Dilog.Cl₂_pi_div_two`: `Cl₂ (π/2) = G`.
+* `Dilog.Cl₂_two_mul`: duplication `Cl₂(2θ) = 2 Cl₂(θ) - 2 Cl₂(π - θ)`; `Dilog.Cl₂_two_pi_div_three`.
 * `Dilog.hasSum_cos_div_sq`: the Bernoulli parabola.
 * `Dilog.Cl₂_pos`: `0 < Cl₂ θ` for `θ ∈ (0, π)`.
 * `Dilog.zetaState_never_orthogonal`: for `θ ∈ (0, 2π)` the two series `∑ cos(nθ)/n²` and
   `∑ sin(nθ)/n²` do not vanish together.
+* `Dilog.zetaState_meanEnergy_not_summable`, `Dilog.zetaState_secondMoment_not_summable`: the
+  populations `6/(π² n²)` on the levels `n` have infinite mean energy and infinite second moment.
 
 ## References
 
@@ -322,5 +325,80 @@ theorem zetaState_never_orthogonal {θ : ℝ} (h0 : 0 < θ) (h2π : θ < 2 * π)
     have h4 := Cl₂_two_pi_sub θ
     rw [him, neg_zero] at h4
     linarith
+
+/-- The weight-2 zeta state has **infinite mean energy**: `∑ₙ pₙ Eₙ` with `pₙ = 6/(π² n²)` and
+`Eₙ = n` is the harmonic series up to the factor `6/π²`. -/
+theorem zetaState_meanEnergy_not_summable :
+    ¬Summable fun n : ℕ => 6 / (π ^ 2 * ((n : ℝ) + 1) ^ 2) * ((n : ℝ) + 1) := by
+  intro h
+  have hπ : π ^ 2 ≠ 0 := by positivity
+  have h2 : Summable fun n : ℕ => 1 / ((n + 1 : ℕ) : ℝ) := by
+    refine (h.mul_left (π ^ 2 / 6)).congr fun n => ?_
+    have hn : ((n : ℝ) + 1) ≠ 0 := by positivity
+    push_cast
+    field_simp
+  exact Real.not_summable_one_div_natCast ((summable_nat_add_iff 1).mp h2)
+
+/-- The weight-2 zeta state has **infinite second moment** `∑ₙ pₙ Eₙ²`, so its energy
+variance is infinite too. -/
+theorem zetaState_secondMoment_not_summable :
+    ¬Summable fun n : ℕ => 6 / (π ^ 2 * ((n : ℝ) + 1) ^ 2) * ((n : ℝ) + 1) ^ 2 := by
+  intro h
+  apply zetaState_meanEnergy_not_summable
+  refine Summable.of_nonneg_of_le (fun n => by positivity) (fun n => ?_) h
+  have h1 : (1 : ℝ) ≤ (n : ℝ) + 1 := by linarith [n.cast_nonneg (α := ℝ)]
+  have hp : 0 ≤ 6 / (π ^ 2 * ((n : ℝ) + 1) ^ 2) * ((n : ℝ) + 1) := by positivity
+  calc 6 / (π ^ 2 * ((n : ℝ) + 1) ^ 2) * ((n : ℝ) + 1)
+      = 6 / (π ^ 2 * ((n : ℝ) + 1) ^ 2) * ((n : ℝ) + 1) * 1 := by ring
+    _ ≤ 6 / (π ^ 2 * ((n : ℝ) + 1) ^ 2) * ((n : ℝ) + 1) * ((n : ℝ) + 1) :=
+        mul_le_mul_of_nonneg_left h1 hp
+    _ = 6 / (π ^ 2 * ((n : ℝ) + 1) ^ 2) * ((n : ℝ) + 1) ^ 2 := by ring
+
+/-- **Duplication of the Clausen function**: `Cl₂(2θ) = 2 Cl₂(θ) − 2 Cl₂(π − θ)`, the circle
+shadow of `Li₂(z²) = 2(Li₂ z + Li₂(−z))` (even indices survive, odd ones cancel). -/
+theorem Cl₂_two_mul (θ : ℝ) : Cl₂ (2 * θ) = 2 * Cl₂ θ - 2 * Cl₂ (π - θ) := by
+  set g : ℕ → ℝ := fun n => Real.sin ((n + 1) * θ) / ((n : ℝ) + 1) ^ 2
+      - Real.sin ((n + 1) * (π - θ)) / ((n : ℝ) + 1) ^ 2 with hg
+  have hgs : Summable g := (summable_Cl₂ θ).sub (summable_Cl₂ (π - θ))
+  have htg : ∑' n, g n = Cl₂ θ - Cl₂ (π - θ) := by
+    rw [hg, (summable_Cl₂ θ).tsum_sub (summable_Cl₂ (π - θ))]
+    rfl
+  -- `n` even: `n + 1` is odd and the two sines agree
+  have heven : ∀ k : ℕ, g (2 * k) = 0 := by
+    intro k
+    simp only [hg]
+    rw [show (((2 * k : ℕ) : ℝ) + 1) * (π - θ)
+        = (π - (((2 * k : ℕ) : ℝ) + 1) * θ) + (k : ℝ) * (2 * π) by push_cast; ring,
+      Real.sin_add_nat_mul_two_pi, Real.sin_pi_sub, sub_self]
+  -- `n` odd: `n + 1 = 2 (k + 1)` and the two sines are opposite
+  have hodd : ∀ k : ℕ,
+      g (2 * k + 1) = Real.sin (((k : ℝ) + 1) * (2 * θ)) / ((k : ℝ) + 1) ^ 2 / 2 := by
+    intro k
+    simp only [hg]
+    rw [show (((2 * k + 1 : ℕ) : ℝ) + 1) * (π - θ)
+        = ((k + 1 : ℕ) : ℝ) * (2 * π) - ((k : ℝ) + 1) * (2 * θ) by push_cast; ring,
+      show (((2 * k + 1 : ℕ) : ℝ) + 1) * θ = ((k : ℝ) + 1) * (2 * θ) by push_cast; ring,
+      Real.sin_nat_mul_two_pi_sub,
+      show ((2 * k + 1 : ℕ) : ℝ) + 1 = 2 * ((k : ℝ) + 1) by push_cast; ring]
+    have hk : (k : ℝ) + 1 ≠ 0 := by positivity
+    field_simp
+    ring
+  have hse : Summable fun k : ℕ => g (2 * k) := by
+    rw [funext heven]
+    exact summable_zero
+  have hso : Summable fun k : ℕ => g (2 * k + 1) :=
+    hgs.comp_injective fun a b h => by simpa using h
+  have hsplit := tsum_even_add_odd hse hso
+  have hodd_sum : ∑' k : ℕ, g (2 * k + 1) = Cl₂ (2 * θ) / 2 := by
+    rw [funext hodd, tsum_div_const, Cl₂]
+  have key : Cl₂ θ - Cl₂ (π - θ) = Cl₂ (2 * θ) / 2 := by
+    rw [← htg, ← hsplit, funext heven, tsum_zero, zero_add, hodd_sum]
+  linarith
+
+/-- `Cl₂(2π/3) = (2/3) Cl₂(π/3)`: duplication at `θ = π/3`. -/
+theorem Cl₂_two_pi_div_three : Cl₂ (2 * π / 3) = 2 / 3 * Cl₂ (π / 3) := by
+  have h := Cl₂_two_mul (π / 3)
+  rw [show 2 * (π / 3) = 2 * π / 3 by ring, show π - π / 3 = 2 * π / 3 by ring] at h
+  linarith
 
 end Dilog

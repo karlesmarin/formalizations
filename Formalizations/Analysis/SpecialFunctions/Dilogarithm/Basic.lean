@@ -35,6 +35,7 @@ has no polylogarithm.
 * `Dilog.Li₂_sq`: the duplication formula `Li₂ (x²) = 2 (Li₂ x + Li₂ (-x))`.
 * `Dilog.Li₂_inv_goldenRatio_sq`, `Dilog.Li₂_inv_goldenRatio`, `Dilog.Li₂_neg_inv_goldenRatio`:
   the values at `φ⁻²`, `φ⁻¹` and `-φ⁻¹`; `Dilog.rogersL_inv_goldenRatio_sq`: `L(φ⁻²) = π²/15`.
+* `Dilog.leeYang_effective_central_charge`: `L(φ⁻²) / L(1) = 2/5`.
 
 ## References
 
@@ -579,6 +580,19 @@ theorem rogersL_inv_goldenRatio : rogersL ((φ : ℝ)⁻¹) = π ^ 2 / 10 := by
 theorem rogersL_gold_sum :
     rogersL ((φ : ℝ)⁻¹) + rogersL (((φ : ℝ)⁻¹) ^ 2) = π ^ 2 / 6 := by
   rw [rogersL_inv_goldenRatio, rogersL_inv_goldenRatio_sq]
+  ring
+
+/-- `L(1) = Li₂(1) = π²/6`: the log-product term vanishes at `x = 1`. -/
+theorem rogersL_one : rogersL 1 = π ^ 2 / 6 := by
+  simp [rogersL, Li₂_one]
+
+/-- **The Lee–Yang effective central charge** `c_eff = L(1/φ²)/L(1) = 2/5`, the simplest
+thermodynamic-Bethe-ansatz dilogarithm identity. -/
+theorem leeYang_effective_central_charge :
+    rogersL (((φ : ℝ)⁻¹) ^ 2) / rogersL 1 = 2 / 5 := by
+  rw [rogersL_inv_goldenRatio_sq, rogersL_one]
+  have hπ : π ^ 2 ≠ 0 := by positivity
+  field_simp
   ring
 
 end GoldenRatio

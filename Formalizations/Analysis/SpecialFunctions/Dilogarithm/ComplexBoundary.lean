@@ -32,6 +32,7 @@ step toward O'Sullivan's localization of the zeros of the branches
 * `Dilog.hasDerivAt_Li₂c`, `Dilog.hasDerivAt_phi`: derivatives inside the disk.
 * `Dilog.exists_Iθ_zero_lt_one`: for `B ≥ 1` and `θ ∈ (0, π)`, `Iθ B θ` vanishes at some radius
   `r ∈ (0, 1)`.
+* `Dilog.Li₂c_I`: `Li₂(i) = -π²/48 + i G`.
 * `Dilog.Li₂c_two_pi_mul`: `Li₂c(e^{2πix}) = π² B₂(x) + i Cl₂(2πx)` for `x ∈ [0, 1]`.
 
 ## References
@@ -359,5 +360,25 @@ theorem Li₂c_two_pi_mul {x : ℝ} (hx0 : 0 ≤ x) (hx1 : x ≤ 1) :
   · simp only [Complex.add_im, Complex.ofReal_im, Complex.mul_im, Complex.ofReal_re,
       Complex.I_re, Complex.I_im, mul_zero, mul_one, zero_add, add_zero]
     rw [Li₂c_exp_im]
+
+/-- **`Li₂(i) = −π²/48 + i G`**: the parabola and Catalan's constant at the quarter circle. -/
+theorem Li₂c_I : Li₂c I = ((-(π ^ 2) / 48 : ℝ) : ℂ) + (catalanConst : ℂ) * I := by
+  have hI : Complex.exp (((π / 2 : ℝ) : ℂ) * I) = I := by
+    rw [show (((π / 2 : ℝ) : ℂ) * I) = (π / 2 : ℂ) * I by push_cast; ring]
+    exact Complex.exp_pi_div_two_mul_I
+  have hπ := Real.pi_pos
+  have hre := Li₂c_exp_re (θ := π / 2) (by positivity) (by linarith)
+  have him := Li₂c_exp_im (π / 2)
+  rw [hI] at hre him
+  rw [Cl₂_pi_div_two] at him
+  apply Complex.ext
+  · simp only [Complex.add_re, Complex.ofReal_re, Complex.mul_re, Complex.ofReal_im, Complex.I_re,
+      Complex.I_im, mul_zero, mul_one, sub_zero, add_zero]
+    rw [hre]
+    ring
+  · simp only [Complex.add_im, Complex.ofReal_im, Complex.mul_im, Complex.ofReal_re, Complex.I_re,
+      Complex.I_im, mul_zero, mul_one, zero_add]
+    rw [him]
+    ring
 
 end Dilog
