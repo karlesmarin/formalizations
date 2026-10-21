@@ -27,6 +27,7 @@ The centered autocorrelation `g(t) = e^{i⟨E⟩t} S(t)` goes from `g(0) = 1` to
 ## Main results
 
 * `QSL.mandelstam_tamm_L1`: `1 ≤ D₁ τ`.
+* `QSL.l1_dev_le_sqrt_variance`, `QSL.mandelstam_tamm_weak`: `D₁ ≤ ΔE`, hence `1 ≤ ΔE τ`.
 
 ## References
 
@@ -134,5 +135,36 @@ theorem mandelstam_tamm_L1 {p E : ℕ → ℝ} {Ebar D1 τ : ℝ}
       simpa [hG0, hGτ] using hineq
     simpa using h1
   rwa [abs_of_nonneg hτ] at hfinal
+
+/-- Cauchy–Schwarz for a probability distribution: the mean absolute deviation is at most the
+standard deviation, `D₁ ≤ √(∑ pₙ (Eₙ − Ē)²)` (from `∑ pₙ (|Eₙ − Ē| − D₁)² ≥ 0`). -/
+theorem l1_dev_le_sqrt_variance {p E : ℕ → ℝ} {Ebar D1 V : ℝ} (hp : ∀ n, 0 ≤ p n) (hsum : HasSum p 1)
+    (hdev : HasSum (fun n => p n * |E n - Ebar|) D1)
+    (hvar : HasSum (fun n => p n * (E n - Ebar) ^ 2) V) :
+    D1 ≤ Real.sqrt V := by
+  have hD1 : 0 ≤ D1 := HasSum.nonneg (fun n => mul_nonneg (hp n) (abs_nonneg _)) hdev
+  have hS : HasSum (fun n => p n * (|E n - Ebar| - D1) ^ 2) (V - 2 * D1 * D1 + D1 ^ 2 * 1) := by
+    have h := (hvar.sub (hdev.mul_left (2 * D1))).add (hsum.mul_left (D1 ^ 2))
+    convert h using 1
+    funext n
+    rw [sub_sq, sq_abs]
+    ring
+  have h0 : 0 ≤ V - 2 * D1 * D1 + D1 ^ 2 * 1 :=
+    HasSum.nonneg (fun n => mul_nonneg (hp n) (sq_nonneg _)) hS
+  rw [← Real.sqrt_sq hD1]
+  exact Real.sqrt_le_sqrt (by nlinarith)
+
+/-- **The textbook weak Mandelstam–Tamm bound** (`ℏ = 1`): `τ ≥ 1/ΔE`, from the `L¹` form and
+`D₁ ≤ ΔE`. -/
+theorem mandelstam_tamm_weak {p E : ℕ → ℝ} {Ebar V τ : ℝ}
+    (hp : ∀ n, 0 ≤ p n) (hτ : 0 ≤ τ) (hsum : HasSum p 1)
+    (hdev : Summable fun n => p n * |E n - Ebar|)
+    (hvar : HasSum (fun n => p n * (E n - Ebar) ^ 2) V)
+    (horth : HasSum
+      (fun n => (p n : ℂ) * Complex.exp ((-(E n * τ) : ℝ) * Complex.I)) 0) :
+    1 ≤ Real.sqrt V * τ := by
+  have h1 := mandelstam_tamm_L1 hp hτ hsum hdev.hasSum horth
+  have h2 := l1_dev_le_sqrt_variance hp hsum hdev.hasSum hvar
+  nlinarith [mul_le_mul_of_nonneg_right h2 hτ]
 
 end QSL

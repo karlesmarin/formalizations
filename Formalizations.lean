@@ -16,6 +16,7 @@ public import Formalizations.Analysis.SpecialFunctions.Airy.Perturbation
 public import Formalizations.Analysis.SpecialFunctions.Airy.PowerSeries
 public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic
 public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.Clausen
+public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.CircleFloor
 public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.ComplexBoundary
 public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.FiveTerm
 public import Formalizations.Analysis.SpecialFunctions.Integrals.LogDivSelf
