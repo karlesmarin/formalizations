@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2201 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2264 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -34,6 +34,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 |---|---|---|
 | `Algebra.Ring` | `Continuant` | Euler's continuant; `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹` |
 | `Analysis.ODE.RungeKutta` | `OrderConditions` 🆕 | Butcher order conditions `γ(t) Φ(t) = 1` over planar rooted trees, reduced to a finite catalogue; Euler, Heun, RK4 (order 4, not 5), Dormand–Prince (order 5), Gauss–Legendre `s = 3` (order 4 in `ℚ(√15)`; order 6 in the denominator-cleared form over `ℤ[√15]` by `decide`); `Φ` invariant under permuting children |
+| | `GaussLegendreOrder` 🆕 | Gauss–Legendre `s = 3` has order exactly 6: the bushy tree with 6 leaves fails, in `ℚ(√15)` and in the denominator-cleared form |
 | `Analysis.Polynomial` | `EnestromKakeya` 🆕 | Eneström–Kakeya: positive non-increasing coefficients give no zero in the open unit disk; zeros on the circle are roots of unity; strictly decreasing coefficients give none in the closed disk |
 | `Analysis.Polynomial.RealRoots` | `RealRooted` 🆕 | Real-rooted polynomials (`Splits` over `ℝ`): closure, root count; sign alternation at `n + 1` points gives `n` roots; one root per gap of an increasing sequence gives real-rootedness; combinations of interlacing pairs |
 | | `Sturm` 🆕 | Sturm's theorem: for squarefree `p`, the number of distinct roots in `(a, b]` is `V(a) − V(b)` for the Sturm sequence; the chain agrees with Mathlib's `Polynomial.sturmSeq`, and `V` is `List.signVariations` of the values |
@@ -121,6 +122,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `NeoRiemannian` 🆕 | `T/I` (`DihedralGroup 12`) acts simply transitively on the 24 triads; the centralizer of the `T/I` group in `Equiv.Perm Triad` is the `PLR` group (Crans–Fiore–Satyendra duality); voice-leading sizes of `P`, `L`, `R` |
 | | `SixThirty` 🆕 | The set class 6-30: orbit of size 12, stabilizer `{T₀, T₆}`, and its dual (centralizer of the induced action) has order 12, acts simply transitively and has a dihedral presentation |
 | | `TonnetzSpectrum` 🆕 | The Tonnetz adjacency matrix is symmetric and bipartite; explicit eigenvectors for `±{3, √5, 2cos(π/12), √3, 1, 2cos(5π/12)}`; `√5 < 2√2` |
+| | `TritoneNormal` 🆕 | `T₆` is the only rotation of order 2 in `D₁₂`; `{T₀, T₆}` is the centre and the only normal subgroup of order 2; the reflections generate non-normal ones |
+| | `TritoneFixedFourier` 🆕 | A pitch-class set is fixed by `T₆` iff its DFT vanishes at every odd frequency (the tritone character is `(−1)ᵗ`) |
 | | `TonnetzCompleteness` 🆕 | The 24 eigenvectors form a basis of `ℂ^(ZMod 12 × Bool)`, so these are all the eigenvalues |
 | | `DiatonicScale` 🆕 | Myhill's property for the diatonic, not for the whole-tone scale; maximal evenness; generation by fifths; the three-gap theorem in `ℤ/12`; well-formedness |
 | | `Temperament` 🆕 | 3-limit regular temperament: the Pythagorean comma generates the kernel of the 12-EDO val; 5- and 7-EDO do not temper it; 12-EDO is meantone; the 5-limit kernel has rank 2 |
@@ -156,8 +159,10 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `ConjugatePowers` 🆕 | Cyclic prime degree: ratios of differences of conjugates are units; `ℤ[conj αᵏ] ≠ ℤ[conj α]` for `k ≥ 2` under a valuation condition; `ℤ[conj εᵏ] = ℤ[ζ₅]` for `5 ∤ k` |
 | | `IndexFormula` 🆕 | For both Galois groups: `[A : ℤ[α]] = J L²/H`, `disc A = D_α (H/(J L²))²`, `d₁ = 1`, `d₂ = LG/H`, `d₃ = JL/G`, `A ∩ (ℚ + ℚα) = ℤ + ℤα` |
 | `NumberTheory.NumericalSemigroup` | `GenusBound` 🆕 | A numerical semigroup generated in degrees `≤ D` has genus `g` with `2g ≤ (D − 1)(D − 2)`, equality only for `⟨D − 1, D⟩` |
+| | `GapBound` 🆕 | The `i`-th gap of a numerical semigroup is at most `2i − 1` (`s ↦ g − s` injects elements below a gap into gaps); every gap is `≤ 2δ − 1`; with the generating rule of Part I, `δ ≥ 2 ↔ M₂ M₃ = 0` |
 | `NumberTheory.PrescribedMoments` | `Biquanimous` 🆕 | Every 4-part partition of `n ≥ 3` splits into two halves of equal sum iff `n ∈ {3, 4, 6}`; counts of signed zero sums |
 | | `CubicModels` 🆕 | Nodes of the Cayley and Segre cubics; Newton's identities for `e₁ = e₃ = 0`; `(p−1)/2` and `(p−1)(p−3)/8` subsets of `ZMod p` of size 3 and 4 with both moments zero |
+| | `DegreeCount` 🆕 | `#{(a, b) ∣ 2a + 3b = k} = ⌊k/6⌋ + 1 − [k ≡ 1 mod 6]`; for `k ≥ 3` it is `1` iff `k ∈ {3, 4, 5, 7}` |
 | `NumberTheory.SymplecticCharacterOrders` | `Arithmetic` 🆕 | When `p ∣ ∑_{j≤m} j²` (`p ≥ 5`, `3`, `2`), the cases `q = p, 25, 27`; half period and doubling of the column lattices |
 | | `Multipliers` 🆕 | The rank of `[½(s(ℓu⁻¹c) − s(u⁻¹c))]` is `d − δ_ℓ`, given the rank of `[s(u⁻¹c)]` |
 | | `Segments` 🆕 | Amiot's lemma (an interval of `ℤ/n` is not stable under a unit `≢ ±1`); `#{j ≤ m : j ≡ ±c}` is stable under a unit `≢ ±1` iff `n` divides `2m`, `2m+1` or `2m+2` |
@@ -185,6 +190,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `AlignmentPolynomials` 🆕 | `9p⁴ + 2p²q² + 9q⁴ = 5(p² + q²)² + 4(p² − q²)²`; descent numerators `4e²(e² − 8)`, `−16e²` |
 | | `EffectivePotentialAlgebra` 🆕 | Coefficients of the potential in `h r`; third and fourth logarithmic derivatives `c − 3ab + 2a³`, `d − 4ac − 3b² + 12a²b − 6a⁴`; `2 × 2` covariance pullback and minors |
 | | `LinearResponseIdentities` 🆕 | The two-pole linear response is independent of the quartic coupling; `(a + b)(a u² + b v²) − (a u + b v)² = a b (u − v)²` |
+| | `SU7ColourParity` 🆕 | `P₆ = diag(+,+,+,−,−,−,−)`: `P₆(i)P₆(j) = −1` iff exactly one index is a colour index; exactly `24` such components |
+| | `SU7RealPairing` 🆕 | With diagonal `±1` parities, `(i, j̄) ↦ (j, ī)` pairs the surviving components of the adjoint with equal chirality and opposite charges: no chiral state; on the paper's data `18/18` and `24/24` paired, controls `Sym² 7`, `Sym³ 7` leave `10` and `34` unpaired |
 | `Physics.Particles.StandardModel.AxionCouplings` | `SpinPeriod` 🆕 | Periods `p a + q b + 2 r c ∈ t ℤ` iff `t ∣ p, q, 2r` (spin) versus `t ∣ p, q, r`; for the `q = 6` row of Choi–Forslund–Lam–Shao the spin condition is `18 K₂ + 24 K₃ + K₁ ≡ 0 (mod 36)` and forces `6 ∣ K₁` |
 | `Physics.Particles.StandardModel.SMEFT` | `AllOrdersSelfCouplings` 🆕 | All orders in `α`: `δκ₄ − 6 δκ₃ = α(3α³ + 30α² + 35α − 4)/(3(α+1)²)`, `δκ₅ − 15 δκ₃`, `δκ₆ − 15 δκ₃` in closed form; dimension-8 breaking at first order; catalog `δκ₇ … δκ₁₂` with `δκ₁₁ = δκ₁₂` |
 | | `TopEdgeCollapse` 🆕 | At the degree-12 edge the 11- and 12-point contributions coincide; the 12-point one is `246400 α⁴/(1 + α)²` |
@@ -218,9 +225,11 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `ChainPencilConditions` 🆕 | The eight rank conditions (EPIC both sides, `𝒦ᵢᴿ = 𝒦ᵢᴸ = 0`) for the chain pencils `Q₃`, `Q₄`, by `decide` certificates |
 | | `ParabolicFamily` 🆕 | The exact arc is the conjugate `Kⁱ U₀ K⁻ⁱ` of an antidiagonal matrix; conjugates of a central square stay central; the parabolic family `N_j = Kʲ N K⁻ʲ = t c_j r_j` with `N_j² = 0` and the cyclic trace law `tr(N_{j₁}⋯N_{j_q}) = t^{2q} ∏ (j_{l+1} − j_l)`; `det (1 + J) = n + 1` |
 | | `ArrowMatrix` 🆕 | Explicit two-sided inverse of the arrow matrix `[[diag d, ω], [α, 0]]` over a division ring; its border corner is `−(Σ α d⁻¹ ω)⁻¹` |
+| | `ArrowInstances` 🆕 | The witnesses `s⁻¹`, `f_k⁻¹`, `e_d = q_d⁻¹`, `φ_r⁻¹` of the three-axes paper as minus the border corner of the inverse of an arrow matrix |
 | | `PhiCompression` 🆕 | Compression of `φ = Σ α d⁻¹ ω + w d₂⁻¹` over a division ring: explicit two-sided inverse of `[[diag d, −ω d₂], [α, w]]` with `φ⁻¹ = d₂ (M⁻¹)_{∞∞}`; scalar Woodbury `φ⁻¹ = c − c (α T ω) c` from a right inverse `T` of `diag d + ω c α`; two-sided block Schur inverse with upper-left pivot over any ring |
 | | `BinomialSizeFamily` 🆕 | Explicit two-sided inverse of `diag Δ + u J` over a division ring with `q = u⁻¹ + Σ Δᵢ⁻¹`, derived from Mathlib's Woodbury identity; `q⁻¹ = u − u (Σ_{i,j} H⁻¹ᵢⱼ) u`; `(yⁱ u y⁻ⁱ + u) yⁱ = yⁱ u + u yⁱ`; `det (diag(0, 1, …, 1) + J) = 1`; at the idempotent point (`U = 1 − E₀₀`, `W = 1`, `Y` the cyclic shift) the `d × d` block matrix `U Yʲ + δᵢⱼ (i = 0 ? W : Yⁱ U)` is invertible for every `d ≥ 1` |
 | | `QuaternionCurve` 🆕 | `t i`, `t j`, `t k` in `ℍ[R]` square to `−t²` and anticommute pairwise |
+| | `QuaternionTheta` 🆕 | The `2 × 2` representation `Θ`: `𝐢 = diag(ι, −ι)`, `𝐣`, `𝐤 = 𝐢𝐣` with `ι² = −1`; `(tq)² = −t² I`, `c ↦ 0`, `det(I + tq) = 1 + t²`, `(I + tq)(I − tq) = (1 + t²) I` |
 | `RingTheory.HopfAlgebra.ConnesKreimer` | `Coproduct` 🆕 | Planar rooted trees and the admissible-cut coproduct through the `B₊` cocycle; coassociativity up to `List.Perm` (`coprod_coassoc`) |
 | | `Basic` 🆕 | The Connes–Kreimer–Foissy algebra `H k = MonoidAlgebra k (FreeMonoid RTree)` is a Mathlib `HopfAlgebra` (`instCKHopf`); both antipode axioms |
 | | `Adams` 🆕 | Adams operators `Ψₙ = id^{⋆n}`, `Ψ₋₁ = S`; local nilpotency of `J = id − u∘ε`; the first Eulerian idempotent `e⁽¹⁾ = log_⋆ id` fixes primitives |

@@ -1,6 +1,7 @@
 module
 
 public import Formalizations.Algebra.Ring.Continuant
+public import Formalizations.Analysis.ODE.RungeKutta.GaussLegendreOrder
 public import Formalizations.Analysis.ODE.RungeKutta.OrderConditions
 public import Formalizations.Analysis.Polynomial.EnestromKakeya
 public import Formalizations.Analysis.Polynomial.RealRoots.BudanFourier
@@ -79,9 +80,9 @@ public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
 public import Formalizations.LinearAlgebra.Matrix.WalkCount
 public import Formalizations.LinearAlgebra.PointwiseProductSpan
 public import Formalizations.MusicTheory.AllPairsEvenness
+public import Formalizations.MusicTheory.CRTCharacters
 public import Formalizations.MusicTheory.CircleOfFifths
 public import Formalizations.MusicTheory.ComplementEnergy
-public import Formalizations.MusicTheory.CRTCharacters
 public import Formalizations.MusicTheory.CycleGraphSpectrum
 public import Formalizations.MusicTheory.CyclicHuddling
 public import Formalizations.MusicTheory.CyclicHuddlingClosedForm
@@ -104,6 +105,8 @@ public import Formalizations.MusicTheory.Tiling
 public import Formalizations.MusicTheory.TonnetzCompleteness
 public import Formalizations.MusicTheory.TonnetzSpectrum
 public import Formalizations.MusicTheory.TranslationInvariantEnergy
+public import Formalizations.MusicTheory.TritoneFixedFourier
+public import Formalizations.MusicTheory.TritoneNormal
 public import Formalizations.NumberTheory.DedekindSum
 public import Formalizations.NumberTheory.DirichletCharacter.AbelZero
 public import Formalizations.NumberTheory.FermatQuotient
@@ -122,10 +125,12 @@ public import Formalizations.NumberTheory.NumberField.InvariantOrders.IndexFormu
 public import Formalizations.NumberTheory.NumberField.InvariantOrders.IndexLemmas
 public import Formalizations.NumberTheory.NumberField.InvariantOrders.Saturation
 public import Formalizations.NumberTheory.NumberField.InvariantOrders.TriangularBasis
+public import Formalizations.NumberTheory.NumericalSemigroup.GapBound
 public import Formalizations.NumberTheory.NumericalSemigroup.GenusBound
 public import Formalizations.NumberTheory.OrderOfTwo
 public import Formalizations.NumberTheory.PrescribedMoments.Biquanimous
 public import Formalizations.NumberTheory.PrescribedMoments.CubicModels
+public import Formalizations.NumberTheory.PrescribedMoments.DegreeCount
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.Arithmetic
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.LinearCoefficient
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.Multipliers
@@ -148,6 +153,8 @@ public import Formalizations.Physics.Particles.GaugeHiggsUnification.NotchCentre
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.OddEighths
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.R60JointExistence
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.R60LocalizedAnomaly
+public import Formalizations.Physics.Particles.GaugeHiggsUnification.SU7ColourParity
+public import Formalizations.Physics.Particles.GaugeHiggsUnification.SU7RealPairing
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.SU7WeightChannels
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.ScalarCPSource
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.TorusTwistBasis
@@ -172,6 +179,7 @@ public import Formalizations.RingTheory.DGH.Finite
 public import Formalizations.RingTheory.DGH.FqLower
 public import Formalizations.RingTheory.DGH.Hessenberg
 public import Formalizations.RingTheory.DGH.JakobsOrder
+public import Formalizations.RingTheory.FreeField.ThreeAxes.ArrowInstances
 public import Formalizations.RingTheory.FreeField.ThreeAxes.ArrowMatrix
 public import Formalizations.RingTheory.FreeField.ThreeAxes.AtomCertificate
 public import Formalizations.RingTheory.FreeField.ThreeAxes.Basic
@@ -186,6 +194,7 @@ public import Formalizations.RingTheory.FreeField.ThreeAxes.ParabolicFamily
 public import Formalizations.RingTheory.FreeField.ThreeAxes.PhiCompression
 public import Formalizations.RingTheory.FreeField.ThreeAxes.QuaternionCurve
 public import Formalizations.RingTheory.FreeField.ThreeAxes.QuaternionResidues
+public import Formalizations.RingTheory.FreeField.ThreeAxes.QuaternionTheta
 public import Formalizations.RingTheory.FreeField.ThreeAxes.SizeChainPencil
 public import Formalizations.RingTheory.FreeField.ThreeAxes.TraceResidue
 public import Formalizations.RingTheory.FreeField.ThreeAxes.WeightedTrinomials
