@@ -12,6 +12,12 @@ results.
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
   relies on. The paper says exactly which statements are formalized and which are not.
+- 📦 Every module opens with `@[expose] public section`: all its declarations are public and all its definitions
+  can be unfolded from other files. This is a deliberate choice, not an oversight. Mathlib asks new files to expose
+  only the definitions whose bodies are needed elsewhere, which pays off in a library with many contributors and
+  dependents (fewer rebuilds when a definition changes). This repository is an archive of results, not a library
+  that others build on daily: its definitions rarely change, proofs are never exposed either way, and correctness
+  does not depend on the choice.
 
 📖 **API documentation** of every declaration (doc-gen4, rebuilt on every push):
 <https://karlesmarin.github.io/formalizations/docs/>
