@@ -80,6 +80,7 @@ public import Formalizations.LinearAlgebra.Matrix.FreeLocusCertificate
 public import Formalizations.LinearAlgebra.Matrix.Rank
 public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
 public import Formalizations.LinearAlgebra.Matrix.WalkCount
+public import Formalizations.LinearAlgebra.JointEigenspaceInvolutions
 public import Formalizations.LinearAlgebra.PointwiseProductSpan
 public import Formalizations.MusicTheory.AllPairsEvenness
 public import Formalizations.MusicTheory.CRTCharacters
