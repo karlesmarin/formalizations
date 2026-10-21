@@ -27,6 +27,7 @@ public import Formalizations.Analysis.TransformerAttention.GammaMobius
 public import Formalizations.Analysis.TransformerAttention.HeatCapacity
 public import Formalizations.Analysis.TransformerAttention.Pade
 public import Formalizations.Analysis.TransformerAttention.RGFlow
+public import Formalizations.Analysis.TransformerAttention.ResidualJacobian
 public import Formalizations.Combinatorics.Additive.AddClosedInterval
 public import Formalizations.Combinatorics.Hall.Tight
 public import Formalizations.Combinatorics.Matroid.Transversal
@@ -158,6 +159,7 @@ public import Formalizations.Physics.Particles.GaugeHiggsUnification.SU7RealPair
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.SU7WeightChannels
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.ScalarCPSource
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.TorusTwistBasis
+public import Formalizations.Physics.Particles.GaugeHiggsUnification.TwoThreeIndependence
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.USp4WeightMoments
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.WallDeterminants
 public import Formalizations.Physics.Particles.StandardModel.AxionCouplings.SpinPeriod
@@ -170,6 +172,7 @@ public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin
 public import Formalizations.Physics.Supergravity.AnomalyQuantization.U2Example
 public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
 public import Formalizations.Probability.Distributions.Superstatistics.StudentMixture
+public import Formalizations.RepresentationTheory.OrbifoldAlphabet.SymplecticBuild
 public import Formalizations.RepresentationTheory.Symplectic.ResidueCapacity
 public import Formalizations.RingTheory.AffineSemigroup.OrbifoldProduct
 public import Formalizations.RingTheory.DGH.Absorb

@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2264 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2269 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -59,6 +59,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `RGFlow` 🆕 | `V = γ − γ³/3` gives `−V' ≠ β = −(1 − γ²)/2` (factor 2); the corrected `V = γ/2 − γ³/6`; `tanh(t/2 + c)` solves `γ' = (1 − γ²)/2` |
 | | `GammaMobius` 🆕 | The Padé exponent `(2θ − T√2)/(2θ + T√2)` is the Möbius transform `(1 − u)/(1 + u)` of `u = T/(θ√2)` (needs `s² = 2`); the horizon `θ√2 (1 − γ)/(1 + γ)` at the Padé exponent equals `T`; `β = −2u/(1 + u)²` |
 | | `HeatCapacity` 🆕 | Erratum to the Hagedorn heat capacity: both derivations give `(log N)²/12`, three times smaller than the published `(log N)²/4` |
+| | `ResidualJacobian` 🆕 | The Jacobian of a residual stream `h ↦ h + w(h)` is the ordered product of the layer Jacobians `I + w′` along the trajectory |
 | `Combinatorics.Additive` | `AddClosedInterval` 🆕 | An additively closed `S ⊆ ℕ` containing `[a, 2a]` contains `[a, ∞)` |
 | `Combinatorics.Hall` | `Tight` 🆕 | The neighbourhood function of a set system is submodular; under Hall's condition tight sets are closed under union and intersection |
 | `Combinatorics.Matroid` | `Transversal` 🆕 | Partial transversals of a finite set system are the independent sets of a matroid (augmentation through Hall's theorem and tight sets) |
@@ -192,6 +193,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `LinearResponseIdentities` 🆕 | The two-pole linear response is independent of the quartic coupling; `(a + b)(a u² + b v²) − (a u + b v)² = a b (u − v)²` |
 | | `SU7ColourParity` 🆕 | `P₆ = diag(+,+,+,−,−,−,−)`: `P₆(i)P₆(j) = −1` iff exactly one index is a colour index; exactly `24` such components |
 | | `SU7RealPairing` 🆕 | With diagonal `±1` parities, `(i, j̄) ↦ (j, ī)` pairs the surviving components of the adjoint with equal chirality and opposite charges: no chiral state; on the paper's data `18/18` and `24/24` paired, controls `Sym² 7`, `Sym³ 7` leave `10` and `34` unpaired |
+| | `TwoThreeIndependence` 🆕 | `2^a 3^b = 1` with integer exponents forces `a = b = 0` (`2`- and `3`-adic valuations) |
 | `Physics.Particles.StandardModel.AxionCouplings` | `SpinPeriod` 🆕 | Periods `p a + q b + 2 r c ∈ t ℤ` iff `t ∣ p, q, 2r` (spin) versus `t ∣ p, q, r`; for the `q = 6` row of Choi–Forslund–Lam–Shao the spin condition is `18 K₂ + 24 K₃ + K₁ ≡ 0 (mod 36)` and forces `6 ∣ K₁` |
 | `Physics.Particles.StandardModel.SMEFT` | `AllOrdersSelfCouplings` 🆕 | All orders in `α`: `δκ₄ − 6 δκ₃ = α(3α³ + 30α² + 35α − 4)/(3(α+1)²)`, `δκ₅ − 15 δκ₃`, `δκ₆ − 15 δκ₃` in closed form; dimension-8 breaking at first order; catalog `δκ₇ … δκ₁₂` with `δκ₁₁ = δκ₁₂` |
 | | `TopEdgeCollapse` 🆕 | At the degree-12 edge the 11- and 12-point contributions coincide; the 12-point one is `246400 α⁴/(1 + α)²` |
@@ -203,6 +205,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
 | | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |
+| `RepresentationTheory.OrbifoldAlphabet` | `SymplecticBuild` 🆕 | Proposition 2 of the orbifold alphabet: `ρ ⊗ I₂` preserves `B ⊗ ε` when `ρᵀBρ = B`; `B ⊗ ε` is antisymmetric for `B` symmetric and `ε` antisymmetric; a unitary `ρ ⊕ ρ̄` preserves `J = [[0, I], [−I, 0]]` |
 | `RingTheory.AffineSemigroup` | `OrbifoldProduct` 🆕 | `(S¹/ℤ₂)^k`: `4^k` distinct generators spanning a space of dimension `3^k` (the generator matrix is the `k`-th Kronecker power of a rank-3 `4 × 4` matrix), `∑ C(k,j)2^j = 3^k`; `4^k > 2·3^k − 2` for `k ≥ 3`, so (with Fischer–Morris–Shapiro's Cor. 3.4 as hypothesis) not a complete intersection; every generator spans an extreme ray (one-hot block vectors of distinct choices); and too many edges to be a cut ideal |
 | `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
 | | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |

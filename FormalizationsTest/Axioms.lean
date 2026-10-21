@@ -2268,3 +2268,8 @@ import Formalizations
 #print axioms GaugeHiggsUnification.SU7RealPairing.sym2_unpaired
 #print axioms GaugeHiggsUnification.SU7RealPairing.sym3_survivors
 #print axioms GaugeHiggsUnification.SU7RealPairing.sym3_unpaired
+#print axioms OrbifoldAlphabet.SymplecticBuild.kronecker_one_preserves
+#print axioms OrbifoldAlphabet.SymplecticBuild.kronecker_transpose_eq_neg
+#print axioms OrbifoldAlphabet.SymplecticBuild.fromBlocks_conj_preserves_J
+#print axioms GaugeHiggsUnification.TwoThreeIndependence.two_zpow_mul_three_zpow_eq_one
+#print axioms TransformerAttention.ResidualJacobian.hasFDerivAt_flow
