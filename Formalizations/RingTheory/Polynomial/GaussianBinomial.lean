@@ -25,6 +25,11 @@ splitting `{1, X, …, X^n} = {1} ∪ X·{1, …, X^{n−1}}` and using `e_{k+1}
 
 * `GaussBinom.esymm_geometric`: the identity above.
 * `GaussBinom.esymm_cons_succ`, `GaussBinom.esymm_map_mul`: the two rules for `Multiset.esymm`.
+
+## References
+
+* C. Marín, *The ring of character values depends only on the segment: SU(n), Sp(2m) and GL(n)
+  at a torsion element*, Zenodo (2026), doi:10.5281/zenodo.22847477, Lemma `lem:gauss`.
 -/
 
 @[expose] public section

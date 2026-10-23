@@ -29,7 +29,9 @@ The hypothesis `A ≠ 0` is implicit in the paper: for `A = 0` protection fails 
 
 ## References
 
-* su7-proton-decay (Carles Marín), Proposition `prop:closed`.
+* C. Marín, *Proton Decay in SU(7) Grand Gauge-Higgs Unification: An Obstruction, Its Minimal
+  Escapes, and the One Row of Their Table 1 That Can Pay for Them (Part VI)*, Zenodo (2026),
+  doi:10.5281/zenodo.22033303, Proposition `prop:closed`.
 -/
 
 @[expose] public section

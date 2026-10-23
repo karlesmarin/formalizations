@@ -28,7 +28,9 @@ physics and is not formalized here.
 
 ## References
 
-* ghu-centre-charge (Carles Marín), Corollary `cor:decoupling` and eq. `(Dstruct)`.
+* C. Marín, *A Centre-Charge Selection Rule for the Wilson-Line Potential: The Fundamental
+  Domain of Gauge-Higgs Unification Is Representation-Dependent (Part III)*, Zenodo (2026),
+  doi:10.5281/zenodo.21466370, Corollary `cor:decoupling` and eq. `(Dstruct)`.
 -/
 
 @[expose] public section

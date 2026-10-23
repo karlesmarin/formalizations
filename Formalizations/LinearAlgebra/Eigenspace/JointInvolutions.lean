@@ -22,6 +22,11 @@ signs `ε₀, ε₁ = ±1`, the operator `¼ (1 + ε₀P₀)(1 + ε₁P₁)` is 
 
 * `LinearMap.isProj_jointProj`: `¼ (1 + ε₀P₀)(1 + ε₁P₁)` projects onto the joint eigenspace.
 * `LinearMap.finrank_joint_eigenspace`: the dimension formula.
+
+## References
+
+* C. Marín, *What the Higgs Potential Cannot See: Bulk Matter That Cannot Help Select a Boundary
+  Condition (Part V)*, Zenodo (2026), doi:10.5281/zenodo.21727095, Proposition `prop:three`.
 -/
 
 @[expose] public section

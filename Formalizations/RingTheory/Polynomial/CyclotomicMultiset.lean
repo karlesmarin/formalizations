@@ -20,6 +20,11 @@ multiplicities downward from the largest element.
 ## Main results
 
 * `CyclotomicMultiset.multiset_eq_of_prod_X_pow_sub_one_eq`: the statement above.
+
+## References
+
+* C. Marín, *Schur polynomials twisted by roots of unity and reciprocal pairs: exactly three
+  factors, and where they vanish*, arXiv:2608.09619 (2026), Proposition `prop:minimal`.
 -/
 
 @[expose] public section
