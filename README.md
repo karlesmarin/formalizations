@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2282 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2297 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -66,6 +66,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `GammaMobius` 🆕 | The Padé exponent `(2θ − T√2)/(2θ + T√2)` is the Möbius transform `(1 − u)/(1 + u)` of `u = T/(θ√2)` (needs `s² = 2`); the horizon `θ√2 (1 − γ)/(1 + γ)` at the Padé exponent equals `T`; `β = −2u/(1 + u)²` |
 | | `HeatCapacity` 🆕 | Erratum to the Hagedorn heat capacity: both derivations give `(log N)²/12`, three times smaller than the published `(log N)²/4` |
 | | `ResidualJacobian` 🆕 | The Jacobian of a residual stream `h ↦ h + w(h)` is the ordered product of the layer Jacobians `I + w′` along the trajectory |
+| | `EntropyBound` 🆕 | Entropy of a distribution on N points is at most log N, with equality iff uniform (area law, part i). |
 | `Combinatorics.Additive` | `AddClosedInterval` 🆕 | An additively closed `S ⊆ ℕ` containing `[a, 2a]` contains `[a, ∞)` |
 | `Combinatorics.Hall` | `Tight` 🆕 | The neighbourhood function of a set system is submodular; under Hall's condition tight sets are closed under union and intersection |
 | `Combinatorics.Matroid` | `Transversal` 🆕 | Partial transversals of a finite set system are the independent sets of a matroid (augmentation through Hall's theorem and tight sets) |
@@ -169,6 +170,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `NumberTheory.NumericalSemigroup` | `GenusBound` 🆕 | A numerical semigroup generated in degrees `≤ D` has genus `g` with `2g ≤ (D − 1)(D − 2)`, equality only for `⟨D − 1, D⟩` |
 | | `GapBound` 🆕 | The `i`-th gap of a numerical semigroup is at most `2i − 1` (`s ↦ g − s` injects elements below a gap into gaps); every gap is `≤ 2δ − 1`; with the generating rule of Part I, `δ ≥ 2 ↔ M₂ M₃ = 0` |
 | | `GenusThree` 🆕 | The numerical semigroups of genus `3` have gap sets `{1,2,3}`, `{1,2,4}`, `{1,2,5}` or `{1,3,5}` (`⟨4,5,6,7⟩`, `⟨3,5,7⟩`, `⟨3,4⟩`, `⟨2,7⟩`) |
+| | `FourMoments` 🆕 | Proposition prop:n4 of Part II: no numerical semigroup S_T from a centred four-element spectrum with trivial stabiliser has genus 2 (Newton cascade M_2 = 0 => M_5 = 0). |
+| | `FamilyMoments` 🆕 | Odd power-sum moments M_3, M_5, M_7 of the half-system T_k in F_p (Part II, prop:familia). |
 | `NumberTheory.PrescribedMoments` | `Biquanimous` 🆕 | Every 4-part partition of `n ≥ 3` splits into two halves of equal sum iff `n ∈ {3, 4, 6}`; counts of signed zero sums |
 | | `CubicModels` 🆕 | Nodes of the Cayley and Segre cubics; Newton's identities for `e₁ = e₃ = 0`; `(p−1)/2` and `(p−1)(p−3)/8` subsets of `ZMod p` of size 3 and 4 with both moments zero |
 | | `DegreeCount` 🆕 | `#{(a, b) ∣ 2a + 3b = k} = ⌊k/6⌋ + 1 − [k ≡ 1 mod 6]`; for `k ≥ 3` it is `1` iff `k ∈ {3, 4, 5, 7}` |
@@ -214,8 +217,10 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `Physics.Supergravity.AnomalyQuantization` | `U2Example` 🆕 | The `U(2)` form `(2 b₀ (m − n)² + b₁ (m + n)²)/8` of Monnier–Moore–Park is integer-valued iff `2 b₀ + b₁ ≡ 0 (mod 8)`; `4 ∣ b₀ ∧ 8 ∣ b₁` is sufficient, not necessary (`(1, 6)`); two samples decide integrality with rational coefficients |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
 | | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
+| `RepresentationTheory` | `G2Counts` 🆕 | Divisibility counts of the six G2 positive-root values at q = 2, 3 (the arithmetic half of a character-vanishing corollary). |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |
 | `RepresentationTheory.OrbifoldAlphabet` | `SymplecticBuild` 🆕 | Proposition 2 of the orbifold alphabet: `ρ ⊗ I₂` preserves `B ⊗ ε` when `ρᵀBρ = B`; `B ⊗ ε` is antisymmetric for `B` symmetric and `ε` antisymmetric; a unitary `ρ ⊕ ρ̄` preserves `J = [[0, I], [−I, 0]]` |
+| `RingTheory` | `KostantAlphabet` 🆕 | Alphabet of the k-th power of the Kostant element: multiset identity A = d.mu_q minus two points, by parity of gcd(k, 2m+2). |
 | `RingTheory.AffineSemigroup` | `OrbifoldProduct` 🆕 | `(S¹/ℤ₂)^k`: `4^k` distinct generators spanning a space of dimension `3^k` (the generator matrix is the `k`-th Kronecker power of a rank-3 `4 × 4` matrix), `∑ C(k,j)2^j = 3^k`; `4^k > 2·3^k − 2` for `k ≥ 3`, so (with Fischer–Morris–Shapiro's Cor. 3.4 as hypothesis) not a complete intersection; every generator spans an extreme ray (one-hot block vectors of distinct choices); and too many edges to be a cut ideal |
 | `RingTheory.DGH` | `Basic` | The Dubrovin–Gräter–Hanke stratification `D : Ordinal → Set R` |
 | | `JakobsOrder` | Jakobs' order = Dershowitz–Manna order |
