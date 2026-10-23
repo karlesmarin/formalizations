@@ -49,7 +49,6 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `VirtualRoots.Count` 🆕 | The number of virtual roots in `(a, b]` equals the Budan–Fourier drop `V(a) − V(b)` |
 | | `Descartes` 🆕 | The Budan–Fourier count at `0` is Mathlib's `Polynomial.signVariations` |
 | | `NewtonInequalities` 🆕 | Newton's inequalities `e_k² C(n,k−1) C(n,k+1) ≥ e_{k−1} e_{k+1} C(n,k)²` for real-rooted polynomials; log-concavity of the normalized means; real-rootedness survives `derivative` and `reverse` |
-| `Analysis.Polynomial.RealRoots.VirtualRoots` | `Count` 🆕 | The exact Budan–Fourier count for virtual roots |
 | `Analysis.SpecialFunctions.Airy` | `PowerSeries` 🆕 | The Airy recurrence `c_{k+3} = c_k/((k+2)(k+3))` gives `y'' = X y` in `ℚ⟦X⟧` |
 | | `Basic` 🆕 | The real Airy functions are entire and solve `y'' = x y`; zeros unbounded below (Sturm comparison from Rolle and the IVT); dominant solutions do not decay; a recessive solution by reduction of order and an entire one; infinitely many quantum-bouncer levels |
 | | `Perturbation` 🆕 | `w = u²` for `u'' = (x − E) u` satisfies `w''' = 4 (x − E) w' + 2 w` |
@@ -122,8 +121,6 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `WalkCount` 🆕 | Powers of the `0-1` matrix of a decidable relation count directed walks; `tr(Mᵏ)` via cyclic products |
 | | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
 | | `FreeLocusCertificate` | Soundness of the free-locus certificate ("not flip-poly") |
-| `LinearAlgebra.Matrix.Charpoly` | `Jacobi` 🆕 | Jacobi's formula and Newton's identity for traces of matrix powers |
-| `LinearAlgebra.Matrix.Rank` | `Kronecker` 🆕 | Rank of Kronecker products |
 | `MusicTheory` | `IntervalVector` 🆕 | The interval vector of a pitch-class set in `ℤ/12` is invariant under transposition and inversion |
 | | `Fourier` 🆕 | The DFT of a pitch-class set as `ZMod.dft` of its indicator: interval vector = inverse transform of `‖Â‖²`, homometry iff equal power spectrum, Babbitt's hexachord theorem, common tones under inversion from `Â²`, the triple correlation separates a homometric pair, `Â` is a complete invariant |
 | | `ParityA6` 🆕 | `Â(6) = #even − #odd` pitch classes, so `Â(6) = 0` iff parity balance; the frequency `m` of `ℤ/(2m)` |
