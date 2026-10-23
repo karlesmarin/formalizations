@@ -154,6 +154,7 @@ public import Formalizations.Physics.Particles.GaugeHiggsUnification.HiddenCentr
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.InternalU1MixingNoGo
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.LinearResponseIdentities
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.NotchCentreCharge
+public import Formalizations.Physics.Particles.GaugeHiggsUnification.NotchDecoupling
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.OddEighths
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.R60JointExistence
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.R60LocalizedAnomaly

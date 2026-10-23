@@ -2282,3 +2282,7 @@ import Formalizations
 #print axioms CyclotomicMultiset.multiset_eq_of_prod_X_pow_sub_one_eq
 #print axioms GaugeHiggsUnification.SU7QPhi.fails_iff
 #print axioms GaugeHiggsUnification.SU7QPhi.isGreatest_failSet
+#print axioms GaugeHiggsUnification.NotchDecoupling.curv_add
+#print axioms GaugeHiggsUnification.NotchDecoupling.curv_eq_zero_of_even
+#print axioms GaugeHiggsUnification.NotchDecoupling.curv_decoupling
+#print axioms GaugeHiggsUnification.NotchDecoupling.curv_range_eq_alternating

@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2278 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2282 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -183,6 +183,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `SubsetSumsAndRows` 🆕 | Growth of intervals of subset sums; `∑_{c≤m} c ε(c) ≡ (n² − 1)/8 (mod 2)` for signs `ε`, so it vanishes only if `(2/n) = 1` |
 | | `NoZeros` 🆕 | `∑_{n≤m} n (n/q) ≠ 0` for all `m ≥ 1` when `q = 179, 227` (the symbol extended completely multiplicatively with `χ(q) = 1`): a finite certificate checked by `decide +kernel` |
 | `Physics.Particles.GaugeHiggsUnification` | `NotchCentreCharge` 🆕 | The bialternant `N = det (yᵢ^{μⱼ})` of `s_λ(1, −1, t, t⁻¹)` over `ℤ[T;T⁻¹]` vanishes iff `Odd b ∧ ((Odd a ∧ Odd c) ∨ a = c)`; `D(−t) = (−1)^{a+2b+3c} D(t)`; degenerate irreps have even centre charge `a + 2b + 3c` |
+| | `NotchDecoupling` 🆕 | The leading curvature `𝒟 = π² (∑_{m ≡ 2 (4)} m² δ(m) − ∑_{m ≡ 0 (4)} m² δ(m))` is linear in `δ` and vanishes when `δ = 0` on even levels, so the fermion sector decouples; on `range (2N)` it is `−4π² ∑ (−1)^{m'} m'² δ(2m')` |
 | | `BlindCount` 🆕 | The blind set in partition coordinates (two branches) equals `N = 0`; `l₁` is odd on it; the shell `l₁ = 2k+1` has `⌈(k+1)²/2⌉` blind partitions |
 | | `CosetCensus` 🆕 | Boundary conditions `[p; q, r; s]` on `S¹/ℤ₂`: the label `(p+q, q+s)` is a complete invariant of the equivalence, `(N+1)²` classes, of which `⌊(N+1)²/2⌋` have a reflection-coset sector |
 | | `OddEighths` 🆕 | `SU(7)` moments: `8D ≡ 2A₄ + 3 (mod 6)` and `2W` odd for every bulk content, for both gauge seeds; `8D` odd if the gauge contribution is odd |
