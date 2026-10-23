@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2297 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2345 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -49,6 +49,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `VirtualRoots.Count` 🆕 | The number of virtual roots in `(a, b]` equals the Budan–Fourier drop `V(a) − V(b)` |
 | | `Descartes` 🆕 | The Budan–Fourier count at `0` is Mathlib's `Polynomial.signVariations` |
 | | `NewtonInequalities` 🆕 | Newton's inequalities `e_k² C(n,k−1) C(n,k+1) ≥ e_{k−1} e_{k+1} C(n,k)²` for real-rooted polynomials; log-concavity of the normalized means; real-rootedness survives `derivative` and `reverse` |
+| `Analysis.Polynomial.RealRoots.VirtualRoots` | `Count` 🆕 | The exact Budan–Fourier count for virtual roots |
 | `Analysis.SpecialFunctions.Airy` | `PowerSeries` 🆕 | The Airy recurrence `c_{k+3} = c_k/((k+2)(k+3))` gives `y'' = X y` in `ℚ⟦X⟧` |
 | | `Basic` 🆕 | The real Airy functions are entire and solve `y'' = x y`; zeros unbounded below (Sturm comparison from Rolle and the IVT); dominant solutions do not decay; a recessive solution by reduction of order and an entire one; infinitely many quantum-bouncer levels |
 | | `Perturbation` 🆕 | `w = u²` for `u'' = (x − E) u` satisfies `w''' = 4 (x − E) w' + 2 w` |
@@ -56,6 +57,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `Clausen` 🆕 | The Clausen function `Cl₂` and Catalan's constant `G = Cl₂(π/2)`; the Bernoulli parabola `∑ cos(nθ)/n²`; `Cl₂ > 0` on `(0, π)`; the two series never vanish together on `(0, 2π)` |
 | | `ComplexBoundary` 🆕 | The complex dilogarithm on the closed disk: boundary values `π²B₂(x) + i Cl₂(2πx)`, no zero on the circle, derivatives of the branches `Li₂ + 4π²A + 2πiB log`; a zero of the imaginary part inside the disk (O'Sullivan) |
 | | `FiveTerm` 🆕 | Abel's five-term relation for the Rogers dilogarithm |
+| | `CircleFloor` 🆕 | The dilogarithm stays away from zero on the unit circle |
 | `Analysis.SpecialFunctions.Integrals` | `LogDivSelf` 🆕 | `∫₁ᴺ log x / x dx = (log N)² / 2` |
 | `Analysis.SpecialFunctions.Trigonometric` | `FejerJackson` 🆕 | The Fejér–Jackson inequality `∑_{k=1}^M sin(kθ)/k > 0` on `(0, π)` |
 | `Analysis.TransformerAttention` | `CriticalExponents` 🆕 | Phase A exponents of the attention decay: `2η² + ηγ_χ + 1 = 0`, `βχ = −1`, `α + χ = 2`, Rushbrooke and Josephson with `d = 1`, the Fisher residual, `η = 2γ` refuted on `(0, 1)`, AM-GM bound `γ_χ ≥ 2√2` |
@@ -120,6 +122,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `WalkCount` 🆕 | Powers of the `0-1` matrix of a decidable relation count directed walks; `tr(Mᵏ)` via cyclic products |
 | | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
 | | `FreeLocusCertificate` | Soundness of the free-locus certificate ("not flip-poly") |
+| `LinearAlgebra.Matrix.Charpoly` | `Jacobi` 🆕 | Jacobi's formula and Newton's identity for traces of matrix powers |
+| `LinearAlgebra.Matrix.Rank` | `Kronecker` 🆕 | Rank of Kronecker products |
 | `MusicTheory` | `IntervalVector` 🆕 | The interval vector of a pitch-class set in `ℤ/12` is invariant under transposition and inversion |
 | | `Fourier` 🆕 | The DFT of a pitch-class set as `ZMod.dft` of its indicator: interval vector = inverse transform of `‖Â‖²`, homometry iff equal power spectrum, Babbitt's hexachord theorem, common tones under inversion from `Â²`, the triple correlation separates a homometric pair, `Â` is a complete invariant |
 | | `ParityA6` 🆕 | `Â(6) = #even − #odd` pitch classes, so `Â(6) = 0` iff parity balance; the frequency `m` of `ℤ/(2m)` |
