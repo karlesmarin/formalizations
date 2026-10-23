@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2269 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2278 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -109,6 +109,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `SectionRegular` 🆕 | `(∑_g #(gA ∩ B)) · #Ω = #A · #B · #G` for transitive actions; section-regular partitions have parts of equal size |
 | | `DistinguishingNumber` 🆕 | Distinguishing colorings and numbers; the collineation group of the Fano plane has distinguishing number `4` (by `decide`) |
 | `LinearAlgebra` | `PointwiseProductSpan` 🆕 | Over an infinite field, if `V`, `W ≤ ι → K` are stable under a transitive group of signed permutations and `dim V + dim W > card ι`, the products `v * w` span `ι → K` |
+| `LinearAlgebra.Eigenspace` | `JointInvolutions` 🆕 | For two commuting involutions `P₀`, `P₁` in characteristic zero, `¼ (1 + ε₀P₀)(1 + ε₁P₁)` projects onto the joint eigenspace, of dimension `¼ [dim + ε₀ tr P₀ + ε₁ tr P₁ + ε₀ε₁ tr P₀P₁]` |
 | `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |
 | | `Adjugate` | Diagonal entries of the adjugate are principal minors |
 | | `Rank` | `rank (A + B) ≤ rank A + rank B`; nullity under low-rank perturbation; block triangular bounds |
@@ -167,6 +168,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `IndexFormula` 🆕 | For both Galois groups: `[A : ℤ[α]] = J L²/H`, `disc A = D_α (H/(J L²))²`, `d₁ = 1`, `d₂ = LG/H`, `d₃ = JL/G`, `A ∩ (ℚ + ℚα) = ℤ + ℤα` |
 | `NumberTheory.NumericalSemigroup` | `GenusBound` 🆕 | A numerical semigroup generated in degrees `≤ D` has genus `g` with `2g ≤ (D − 1)(D − 2)`, equality only for `⟨D − 1, D⟩` |
 | | `GapBound` 🆕 | The `i`-th gap of a numerical semigroup is at most `2i − 1` (`s ↦ g − s` injects elements below a gap into gaps); every gap is `≤ 2δ − 1`; with the generating rule of Part I, `δ ≥ 2 ↔ M₂ M₃ = 0` |
+| | `GenusThree` 🆕 | The numerical semigroups of genus `3` have gap sets `{1,2,3}`, `{1,2,4}`, `{1,2,5}` or `{1,3,5}` (`⟨4,5,6,7⟩`, `⟨3,5,7⟩`, `⟨3,4⟩`, `⟨2,7⟩`) |
 | `NumberTheory.PrescribedMoments` | `Biquanimous` 🆕 | Every 4-part partition of `n ≥ 3` splits into two halves of equal sum iff `n ∈ {3, 4, 6}`; counts of signed zero sums |
 | | `CubicModels` 🆕 | Nodes of the Cayley and Segre cubics; Newton's identities for `e₁ = e₃ = 0`; `(p−1)/2` and `(p−1)(p−3)/8` subsets of `ZMod p` of size 3 and 4 with both moments zero |
 | | `DegreeCount` 🆕 | `#{(a, b) ∣ 2a + 3b = k} = ⌊k/6⌋ + 1 − [k ≡ 1 mod 6]`; for `k ≥ 3` it is `1` iff `k ∈ {3, 4, 5, 7}` |
@@ -198,6 +200,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `EffectivePotentialAlgebra` 🆕 | Coefficients of the potential in `h r`; third and fourth logarithmic derivatives `c − 3ab + 2a³`, `d − 4ac − 3b² + 12a²b − 6a⁴`; `2 × 2` covariance pullback and minors |
 | | `LinearResponseIdentities` 🆕 | The two-pole linear response is independent of the quartic coupling; `(a + b)(a u² + b v²) − (a u + b v)² = a b (u − v)²` |
 | | `SU7ColourParity` 🆕 | `P₆ = diag(+,+,+,−,−,−,−)`: `P₆(i)P₆(j) = −1` iff exactly one index is a colour index; exactly `24` such components |
+| | `SU7QPhiSelection` 🆕 | An operator of charge `A ≠ 0` is unprotected by a vev of charge `q > 0` (`A / q ∈ ℤ`) iff `q = \|A\|/n`, `n ≥ 1`; over finitely many nonzero charges the failure set has maximum `max_j \|A_j\|`, so protection is a half-line |
 | | `SU7RealPairing` 🆕 | With diagonal `±1` parities, `(i, j̄) ↦ (j, ī)` pairs the surviving components of the adjoint with equal chirality and opposite charges: no chiral state; on the paper's data `18/18` and `24/24` paired, controls `Sym² 7`, `Sym³ 7` leave `10` and `34` unpaired |
 | | `TwoThreeIndependence` 🆕 | `2^a 3^b = 1` with integer exponents forces `a = b = 0` (`2`- and `3`-adic valuations) |
 | `Physics.Particles.StandardModel.AxionCouplings` | `SpinPeriod` 🆕 | Periods `p a + q b + 2 r c ∈ t ℤ` iff `t ∣ p, q, 2r` (spin) versus `t ∣ p, q, r`; for the `q = 6` row of Choi–Forslund–Lam–Shao the spin condition is `18 K₂ + 24 K₃ + K₁ ≡ 0 (mod 36)` and forces `6 ∣ K₁` |
@@ -244,6 +247,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `Adams` 🆕 | Adams operators `Ψₙ = id^{⋆n}`, `Ψ₋₁ = S`; local nilpotency of `J = id − u∘ε`; the first Eulerian idempotent `e⁽¹⁾ = log_⋆ id` fixes primitives |
 | | `Abelianization` 🆕 | The commutative quotient `H k / ⟨ab − ba⟩` (`RingQuot`) is a `HopfAlgebra` (`instHabHopf`) |
 | | `Eulerian` 🆕 | On the commutative quotient: `Ψⁿ` are algebra maps, `Ψᵖ ∘ Ψ^q = Ψ^{pq}`, `Ψⁱ ∘ e⁽¹⁾ = i e⁽¹⁾`, and `e⁽¹⁾ ∘ e⁽¹⁾ = e⁽¹⁾` (`eulerian1_idem_ab`) |
+| `RingTheory.Polynomial` | `CyclotomicMultiset` 🆕 | `∏ (X^{dᵢ} − 1) = ∏ (X^{eᵢ} − 1)` over multisets of positive integers forces `{dᵢ} = {eᵢ}` (count the primitive `m`-th roots of unity, then recover the multiset from the divisibility counts) |
+| | `GaussianBinomial` 🆕 | `e_k(1, z, …, z^{n−1}) = z^{k(k−1)/2} [n k]_z`, the Gaussian binomial by the `q`-Pascal rule |
 | `RingTheory.Polynomial.Chebyshev` | `Docagne` 🆕 | d'Ocagne's identity `S p S (q − 1) − S q S (p − 1) = −S (p − q − 1)` for Mathlib's `Chebyshev.S` |
 | `RingTheory.Polynomial.CoefficientRing` | `Division` 🆕 | For monic `F`, `G` with `F G ∈ ℤ[X]`, the subrings generated by the coefficients agree, `A F = A G` |
 | | `Operations` 🆕 | Segment polynomials at a primitive `2q`-th root of unity: `A_SU(2m+1) = A_Sp(2m)`, `A_SU(n) = A_SU(q−n)`, `A_SU(n+q) = A_SU(n)` |

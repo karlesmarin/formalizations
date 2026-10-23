@@ -2273,3 +2273,12 @@ import Formalizations
 #print axioms OrbifoldAlphabet.SymplecticBuild.fromBlocks_conj_preserves_J
 #print axioms GaugeHiggsUnification.TwoThreeIndependence.two_zpow_mul_three_zpow_eq_one
 #print axioms TransformerAttention.ResidualJacobian.hasFDerivAt_flow
+#print axioms LinearMap.isProj_jointProj
+#print axioms LinearMap.finrank_joint_eigenspace
+#print axioms P3a.gaps_of_genus_eq_three
+#print axioms GaussBinom.esymm_geometric
+#print axioms GaussBinom.esymm_cons_succ
+#print axioms GaussBinom.esymm_map_mul
+#print axioms CyclotomicMultiset.multiset_eq_of_prod_X_pow_sub_one_eq
+#print axioms GaugeHiggsUnification.SU7QPhi.fails_iff
+#print axioms GaugeHiggsUnification.SU7QPhi.isGreatest_failSet

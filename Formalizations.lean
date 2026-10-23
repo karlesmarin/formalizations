@@ -158,6 +158,7 @@ public import Formalizations.Physics.Particles.GaugeHiggsUnification.OddEighths
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.R60JointExistence
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.R60LocalizedAnomaly
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.SU7ColourParity
+public import Formalizations.Physics.Particles.GaugeHiggsUnification.SU7QPhiSelection
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.SU7RealPairing
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.SU7WeightChannels
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.ScalarCPSource
@@ -209,6 +210,7 @@ public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Adams
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Basic
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Coproduct
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Eulerian
+public import Formalizations.RingTheory.Polynomial.CyclotomicMultiset
 public import Formalizations.RingTheory.Polynomial.GaussianBinomial
 public import Formalizations.RingTheory.Polynomial.Chebyshev.Docagne
 public import Formalizations.RingTheory.Polynomial.CoefficientRing.Division
