@@ -130,6 +130,7 @@ public import Formalizations.NumberTheory.NumberField.InvariantOrders.Saturation
 public import Formalizations.NumberTheory.NumberField.InvariantOrders.TriangularBasis
 public import Formalizations.NumberTheory.NumericalSemigroup.GapBound
 public import Formalizations.NumberTheory.NumericalSemigroup.GenusBound
+public import Formalizations.NumberTheory.NumericalSemigroup.GenusThree
 public import Formalizations.NumberTheory.OrderOfTwo
 public import Formalizations.NumberTheory.PrescribedMoments.Biquanimous
 public import Formalizations.NumberTheory.PrescribedMoments.CubicModels
@@ -208,6 +209,7 @@ public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Adams
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Basic
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Coproduct
 public import Formalizations.RingTheory.HopfAlgebra.ConnesKreimer.Eulerian
+public import Formalizations.RingTheory.Polynomial.GaussianBinomial
 public import Formalizations.RingTheory.Polynomial.Chebyshev.Docagne
 public import Formalizations.RingTheory.Polynomial.CoefficientRing.Division
 public import Formalizations.RingTheory.Polynomial.CoefficientRing.Operations
