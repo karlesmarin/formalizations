@@ -8,3 +8,5 @@ session Integer_Frieze_Rows = HOL +
     "root.tex"
     "root.bib"
     "triangulations.tex"
+    "roadmap.tex"
+    "insertion.tex"

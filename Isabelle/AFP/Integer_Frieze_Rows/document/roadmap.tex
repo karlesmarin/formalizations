@@ -1,0 +1,33 @@
+% Roadmap of the proof: which lemmas lead to the main theorem (names as in the theory).
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, inner sep=3pt, minimum height=7mm},
+    def/.style={box, fill=blue!6},
+    lem/.style={box, fill=green!8},
+    thm/.style={box, fill=orange!15, very thick},
+    dat/.style={box, fill=gray!12},
+    arr/.style={-{Latex[length=2mm]}, thick}]
+  \node[def] (fr)  at (0,0)      {\texttt{frieze}\\ lattice polygon};
+  \node[lem] (ins) at (0,-1.5)   {\texttt{ins\_frieze}\\ an ear keeps a frieze};
+  \node[lem] (i2)  at (0,-3)     {\texttt{ins2\_frieze}, \texttt{dia\_ins2}\\ antipodal ears, diameters};
+  \node[lem] (dom) at (0,-4.5)   {\texttt{dominated\_ins2}\\ order kept if $S$ is larger};
+  \node[dat] (base) at (5.2,-1.5) {\texttt{A0}, \texttt{B0} ($n = 14$)\\ \texttt{frieze\_A0}, \texttt{dominated\_0}};
+  \node[lem] (fam) at (5.2,-3)   {\texttt{family}, \texttt{S\_family}\\ $S$ is a polynomial in $t$};
+  \node[thm] (main) at (2.6,-6)  {\texttt{strictly\_ordered\_middle\_rows}\\ for every $t$};
+  \node[lem] (cont) at (-3.6,-3) {\texttt{entry\_is\_continuant}\\ entries $=$ continuants};
+  \node[thm] (cor) at (-1.2,-7.4) {\texttt{strictly\_ordered\_middle\_rows\_continuants}};
+  \draw[arr] (fr) -- (ins);
+  \draw[arr] (ins) -- (i2);
+  \draw[arr] (i2) -- (dom);
+  \draw[arr] (base) -- (fam);
+  \draw[arr] (i2.east) -- (fam.west);
+  \draw[arr] (dom) -- (main);
+  \draw[arr] (fam) -- (main);
+  \draw[arr] (fr.west) -| (cont.north);
+  \draw[arr] (main) -- (cor);
+  \draw[arr] (cont.south) |- (cor.west);
+\end{tikzpicture}
+\caption{How the main lemmas lead to the theorem. Blue: the definition of friezes; green: lemmas; grey:
+the two base friezes and their certificates; orange: the main results.}
+\end{figure}

@@ -1,26 +1,15 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 \usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
 \usepackage{isabelle,isabellesym}
 \usepackage{amssymb}
 \usepackage{tikz}
+\usetikzlibrary{calc,arrows.meta}
 \usepackage{float}
-\usepackage[most]{tcolorbox}
 \usepackage{pdfsetup}
 
 \urlstyle{rm}
 \isabellestyle{it}
-
-% One coloured box per kind of declaration (the theory wraps each declaration in one of them).
-\newcommand{\declbox}[4]{%
-  \newtcolorbox{#1}[1]{enhanced, breakable, colback=#2!4, colframe=#2!60!black, boxrule=0.6pt,
-    arc=2mm, left=2mm, right=2mm, top=1mm, bottom=1mm, before skip=2mm, after skip=2mm,
-    fonttitle=\sffamily\bfseries\footnotesize, coltitle=white, colbacktitle=#2!60!black,
-    title={#3\ \texttt{##1}}, #4}}
-\declbox{defbox}{blue}{Definition}{}
-\declbox{lembox}{green!50!black}{Lemma}{}
-\declbox{thmbox}{orange}{Theorem}{}
-\declbox{databox}{gray}{Data / certificate}{}
-\declbox{ctrlbox}{violet}{Negative control}{}
 
 \begin{document}
 
@@ -45,10 +34,9 @@ assistance of the AI system Claude (Opus 5.5, Anthropic), and checked by the aut
 that found the pair for $n = 14$, and the exhaustive check that no smaller width has two integer frieze
 patterns with strictly ordered rows, were done outside Isabelle and are not part of this entry.
 
-\input{triangulations}
-
 \tableofcontents
-\clearpage
+
+\input{triangulations}
 
 \parindent 0pt\parskip 0.5ex
 

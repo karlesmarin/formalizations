@@ -1,0 +1,30 @@
+% Antipodal ear insertion: new vertices u (after j) and u' (after j+h); the new diameter is (u, u').
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.85, every node/.style={font=\footnotesize}]
+  \foreach \k/\lab in {0/{V_j},1/{V_{j+1}},2/{},3/{},4/{},5/{V_{j+h}},6/{V_{j+h+1}},7/{},8/{},9/{}} {
+    \coordinate (P\k) at ({90-36*\k}:2);
+  }
+  \draw[thick] (P0) -- (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- (P6) -- (P7) -- (P8) -- (P9) -- cycle;
+  \coordinate (U)  at ($(P0)!0.5!(P1) + ({72}:0.75)$);
+  \coordinate (U2) at ($(P5)!0.5!(P6) + ({-108}:0.75)$);
+  \draw[thick, orange!80!black] (P0) -- (U) -- (P1);
+  \draw[thick, orange!80!black] (P5) -- (U2) -- (P6);
+  \draw[dashed] (P0) -- (P1);
+  \draw[dashed] (P5) -- (P6);
+  \draw[very thick, red!70!black] (U) -- (U2);
+  \draw[gray] (P0) -- (P5);
+  \draw[gray] (P1) -- (P6);
+  \foreach \k in {0,...,9} \fill (P\k) circle (1.5pt);
+  \fill[orange!80!black] (U) circle (2pt);
+  \fill[orange!80!black] (U2) circle (2pt);
+  \node[above left] at (P0) {$V_j$};
+  \node[right] at (P1) {$V_{j+1}$};
+  \node[below right] at (P5) {$V_{j+h}$};
+  \node[left] at (P6) {$V_{j+h+1}$};
+  \node[above right] at (U) {$u = V_j + V_{j+1}$};
+  \node[below left] at (U2) {$u' = V_{j+h} + V_{j+h+1}$};
+\end{tikzpicture}
+\caption{Antipodal ear insertion. The old diameters (grey: two of them) keep their values; the only new
+diameter is $(u, u')$ (red), of value $S = \det(V_j + V_{j+1}, V_{j+h} + V_{j+h+1})$.}
+\end{figure}
