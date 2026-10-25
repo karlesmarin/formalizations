@@ -3,10 +3,23 @@
 \usepackage{isabelle,isabellesym}
 \usepackage{amssymb}
 \usepackage{tikz}
+\usepackage[most]{tcolorbox}
 \usepackage{pdfsetup}
 
 \urlstyle{rm}
 \isabellestyle{it}
+
+% One coloured box per kind of declaration (the theory wraps each declaration in one of them).
+\newcommand{\declbox}[4]{%
+  \newtcolorbox{#1}[1]{enhanced, breakable, colback=#2!4, colframe=#2!60!black, boxrule=0.6pt,
+    arc=2mm, left=2mm, right=2mm, top=1mm, bottom=1mm, before skip=2mm, after skip=2mm,
+    fonttitle=\sffamily\bfseries\footnotesize, coltitle=white, colbacktitle=#2!60!black,
+    title={#3\ \texttt{##1}}, #4}}
+\declbox{defbox}{blue}{Definition}{}
+\declbox{lembox}{green!50!black}{Lemma}{}
+\declbox{thmbox}{orange}{Theorem}{}
+\declbox{databox}{gray}{Data / certificate}{}
+\declbox{ctrlbox}{violet}{Negative control}{}
 
 \begin{document}
 
@@ -15,13 +28,21 @@
 \maketitle
 
 \begin{abstract}
-% ABSTRACT: TO BE WRITTEN BY THE AUTHOR IN HIS OWN WORDS (also used on the AFP web page).
-% Facts it may state: for every even n >= 14 two integer Conway--Coxeter frieze patterns of width n-3
-% whose middle rows (the diameters of the n-gon) are strictly ordered at every position; this answers
-% negatively, for integer friezes, Problem 1 of Tabachnikov (2018) for the middle row; friezes are modelled
-% as unimodular lattice polygons; ear insertion; entries are continuants of the quiddity.
-Placeholder.
+Tabachnikov asked whether, for two frieze patterns of positive numbers of the same width, the differences
+of the entries of a fixed row must change sign at least four times along the period. Cuntz found a
+counterexample with rational entries, and the case of frieze patterns of positive integers
+(Conway--Coxeter friezes) was left open. We formalize an infinite family of integer counterexamples: for
+every even $n \geq 14$, two Conway--Coxeter frieze patterns of width $n - 3$ whose middle rows are strictly
+ordered at every position, so that their difference has no sign change at all. Frieze patterns are
+represented by unimodular lattice polygons. We prove that inserting an ear preserves them, that their
+entries are continuants of the quiddity, and that inserting ears at two antipodal positions preserves the
+strict order of the middle rows when a polynomial inequality holds, as it does along the family.
 \end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of the AI system Claude (Opus 5.5, Anthropic), and checked by the author. The computer search
+that found the pair for $n = 14$, and the exhaustive check that no smaller width has two integer frieze
+patterns with strictly ordered rows, were done outside Isabelle and are not part of this entry.
 
 \input{triangulations}
 

@@ -19,46 +19,97 @@ theory Integer_Frieze_Rows
   imports Main
 begin
 
-text \<open>Frieze patterns are due to Coxeter \cite{Coxeter1971}; Conway and Coxeter showed that integer frieze
-  patterns correspond to triangulations of polygons \cite{ConwayCoxeter1973,ConwayCoxeter1973b}. The question on sign changes is
-  Problem 1 of Tabachnikov \cite{Tabachnikov2018}. The description of friezes by unimodular sequences of lattice
-  vectors is standard, see Morier-Genoud \cite{MorierGenoud2015}.\<close>
+section \<open>Introduction\<close>
+
+text \<open>Frieze patterns are due to Coxeter \cite{Coxeter1971}; Conway and Coxeter showed that the frieze
+  patterns of positive integers correspond to the triangulations of polygons
+  \cite{ConwayCoxeter1973,ConwayCoxeter1973b}. As an analogue of the four-vertex theorem, Tabachnikov
+  \cite{Tabachnikov2018} asked whether the differences of the entries of a fixed row of two frieze patterns
+  of the same width must change sign at least four times along the period. He proved it for the first two
+  rows and in an infinitesimal version, reported a counterexample of M. Cuntz with positive rational entries
+  (width $5$, middle row), and left open whether the statement holds for frieze patterns of positive
+  integers.
+
+  This entry shows that it fails for integers too, in the strongest form: for every even $n \geq 14$ there
+  are two integer frieze patterns of width $n - 3$ whose middle rows are strictly ordered at every position,
+  so that their difference does not change sign at all. Rows are numbered as in \cite{Tabachnikov2018}, and
+  the middle row is row $\lceil w/2 \rceil$ of a frieze of width $w$. (The range
+  $1 \leq k \leq \lfloor w/2 \rfloor$ printed there would leave out the middle row of odd width, but the
+  example of Cuntz given in the same paper is a middle row as well.)
+
+  The construction starts from a pair for $n = 14$ and, at each step, inserts two ears at antipodal positions
+  of both triangulations. Frieze patterns are represented by unimodular lattice polygons, a standard
+  description \cite{MorierGenoud2015}; in this representation, inserting an ear and computing the new
+  diameter are consequences of the bilinearity of the determinant. Section 4 connects the representation
+  with the usual one: every entry is a continuant of the quiddity.
+
+  The declarations are shown in coloured boxes: definitions in blue, auxiliary lemmas in green, the main
+  theorems in orange, the two base friezes and their certificates in grey, and a negative control in
+  purple.\<close>
 
 section \<open>Lattice vectors\<close>
 
-type_synonym vec = "int \<times> int"
+text \<open>Vectors of $\mathbb{Z}^2$, their sum and the determinant $\det(u, v) = u_1 v_2 - u_2 v_1$, which is
+  bilinear and alternating.\<close>
 
+text_raw \<open>\begin{defbox}{vec}\<close>
+type_synonym vec = "int \<times> int"
+text_raw \<open>\end{defbox}\<close>
+
+text_raw \<open>\begin{defbox}{det}\<close>
 definition det :: "vec \<Rightarrow> vec \<Rightarrow> int" where
   "det u v = fst u * snd v - snd u * fst v"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{defbox}{vadd}\<close>
 definition vadd :: "vec \<Rightarrow> vec \<Rightarrow> vec" where
   "vadd u v = (fst u + fst v, snd u + snd v)"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{lembox}{det\_vadd\_right}\<close>
 lemma det_vadd_right: "det u (vadd v w) = det u v + det u w"
   by (simp add: det_def vadd_def algebra_simps)
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{det\_vadd\_left}\<close>
 lemma det_vadd_left: "det (vadd v w) u = det v u + det w u"
   by (simp add: det_def vadd_def algebra_simps)
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{det\_self}\<close>
 lemma det_self [simp]: "det u u = 0"
   by (simp add: det_def)
+text_raw \<open>\end{lembox}\<close>
 
 section \<open>Friezes as lattice polygons\<close>
 
+text \<open>A frieze pattern of positive integers of width $n - 3$ is represented by a list of $n$ vectors
+  $V_0, \ldots, V_{n-1}$ of $\mathbb{Z}^2$ with $\det(V_i, V_{i+1}) = 1$, $\det(V_0, V_{n-1}) = 1$ and
+  $\det(V_i, V_j) > 0$ for $i < j$: a lattice polygon that turns half a turn. The entries of the frieze are
+  the determinants $\det(V_i, V_j)$. Inserting $V_j + V_{j+1}$ between $V_j$ and $V_{j+1}$ adds an ear to the
+  triangulation, and keeps all three conditions.\<close>
+
+text_raw \<open>\begin{defbox}{frieze}\<close>
 definition frieze :: "vec list \<Rightarrow> bool" where
   "frieze V \<longleftrightarrow> 3 \<le> length V \<and>
      (\<forall>j < length V. \<forall>i < j. 0 < det (V ! i) (V ! j)) \<and>
      (\<forall>i < length V - 1. det (V ! i) (V ! Suc i) = 1) \<and>
      det (V ! 0) (V ! (length V - 1)) = 1"
+text_raw \<open>\end{defbox}\<close>
 
 text \<open>Insert an ear after position \<open>j\<close>.\<close>
 
+text_raw \<open>\begin{defbox}{ins}\<close>
 definition ins :: "vec list \<Rightarrow> nat \<Rightarrow> vec list" where
   "ins V j = take (Suc j) V @ [vadd (V ! j) (V ! Suc j)] @ drop (Suc j) V"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{lembox}{length\_ins}\<close>
 lemma length_ins [simp]: "Suc j < length V \<Longrightarrow> length (ins V j) = Suc (length V)"
   by (simp add: ins_def)
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{nth\_ins}\<close>
 lemma nth_ins:
   assumes "Suc j < length V" "k < Suc (length V)"
   shows "ins V j ! k =
@@ -83,7 +134,9 @@ proof -
     finally show ?thesis using 3 by simp
   qed
 qed
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{ins\_frieze}\<close>
 lemma ins_frieze:
   assumes F: "frieze V" and j: "Suc j < length V"
   shows "frieze (ins V j)"
@@ -161,28 +214,40 @@ proof -
   have O': "\<forall>i < length ?W - 1. det (?W ! i) (?W ! Suc i) = 1" using O len by auto
   show ?thesis using F len P' O' E unfolding frieze_def by simp
 qed
+text_raw \<open>\end{lembox}\<close>
 
 section \<open>Bridge: entries are continuants of the quiddity\<close>
 
 text \<open>The continuant \<open>K(x_1, ..., x_m)\<close> (\<open>K() = 1\<close>, \<open>K(x_1) = x_1\<close>,
   \<open>K(..., x_m) = x_m K(..., x_(m-1)) - K(..., x_(m-2))\<close>); \<open>KP\<close> carries the last two values.\<close>
 
+text_raw \<open>\begin{defbox}{KP}\<close>
 definition KP :: "int list \<Rightarrow> int \<times> int" where
   "KP xs = fold (\<lambda>x (p, q). (q, x * q - p)) xs (0, 1)"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{defbox}{K}\<close>
 definition K :: "int list \<Rightarrow> int" where "K xs = snd (KP xs)"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{lembox}{KP\_Nil}\<close>
 lemma KP_Nil [simp]: "KP [] = (0, 1)"
   by (simp add: KP_def)
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{KP\_snoc}\<close>
 lemma KP_snoc: "KP (xs @ [x]) = (snd (KP xs), x * snd (KP xs) - fst (KP xs))"
   by (simp add: KP_def split_beta)
+text_raw \<open>\end{lembox}\<close>
 
 text \<open>The quiddity of the polygon: \<open>a_k = det (V_(k-1), V_(k+1))\<close>.\<close>
 
+text_raw \<open>\begin{defbox}{quid}\<close>
 definition quid :: "vec list \<Rightarrow> nat \<Rightarrow> int" where
   "quid V k = det (V ! (k - 1)) (V ! Suc k)"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{lembox}{plane\_identity}\<close>
 lemma plane_identity:
   assumes "det u v = 1"
   shows "w = (det u w * fst v - det v w * fst u, det u w * snd v - det v w * snd u)"
@@ -197,7 +262,9 @@ proof -
   then have 2: "(a * f - b * e) * d - (c * f - d * e) * b = f" using h by simp
   show ?thesis by (simp add: u v w det_def 1 2)
 qed
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{det\_recurrence}\<close>
 lemma det_recurrence:
   assumes one: "\<And>k. Suc k < length V \<Longrightarrow> det (V ! k) (V ! Suc k) = 1"
     and k: "0 < k" "Suc k < length V"
@@ -209,7 +276,9 @@ proof -
     using plane_identity[OF u, of "V ! Suc k"] v unfolding quid_def by simp
   show ?thesis by (subst w) (simp add: det_def algebra_simps)
 qed
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{KP\_det}\<close>
 lemma KP_det:
   assumes one: "\<And>k. Suc k < length V \<Longrightarrow> det (V ! k) (V ! Suc k) = 1"
   shows "Suc (i + m) < length V \<Longrightarrow>
@@ -227,7 +296,9 @@ next
   have "[Suc i..<Suc (i + Suc m)] = [Suc i..<Suc (i + m)] @ [Suc (i + m)]" by simp
   then show ?case using IH r by (simp add: KP_snoc)
 qed
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{thmbox}{entry\_is\_continuant}\<close>
 theorem entry_is_continuant:
   assumes F: "frieze V" and ij: "i < j" "j < length V"
   shows "det (V ! i) (V ! j) = K (map (quid V) [Suc i..<j])"
@@ -236,20 +307,33 @@ proof -
   obtain m where m: "j = Suc (i + m)" using ij by (metis less_iff_Suc_add add_Suc_right add.commute)
   show ?thesis using KP_det[OF one, of i m] ij m unfolding K_def by simp
 qed
+text_raw \<open>\end{thmbox}\<close>
 
 section \<open>Antipodal ear insertion and the diameters\<close>
 
+text \<open>For $n = 2h$ the middle row of the frieze is the row of the diameters $\det(V_i, V_{i+h})$, $i < h$.
+  Inserting ears after positions $j$ and $j + h$ keeps the old diameters and creates exactly one new one,
+  $S = \det(V_j + V_{j+1}, V_{j+h} + V_{j+h+1})$. Hence, if one frieze dominates another on the diameters and
+  has the larger value of $S$, the domination survives the insertion.\<close>
+
+text_raw \<open>\begin{defbox}{ins2}\<close>
 definition ins2 :: "vec list \<Rightarrow> nat \<Rightarrow> vec list" where
   "ins2 V j = ins (ins V (j + length V div 2)) j"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{defbox}{dia}\<close>
 definition dia :: "vec list \<Rightarrow> nat \<Rightarrow> int" where
   "dia V i = det (V ! i) (V ! (i + length V div 2))"
+text_raw \<open>\end{defbox}\<close>
 
 text \<open>The value of the new diameter, between the two inserted vectors.\<close>
 
+text_raw \<open>\begin{defbox}{S}\<close>
 definition S :: "vec list \<Rightarrow> nat \<Rightarrow> int" where
   "S V j = det (vadd (V ! j) (V ! Suc j)) (vadd (V ! (j + length V div 2)) (V ! Suc (j + length V div 2)))"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{lembox}{ins2\_facts}\<close>
 lemma ins2_facts:
   assumes "even (length V)" "Suc j < length V div 2"
   defines "h \<equiv> length V div 2"
@@ -281,7 +365,9 @@ proof -
   show "\<And>k. j + h + 2 < k \<Longrightarrow> k < length V + 2 \<Longrightarrow> ins2 V j ! k = V ! (k - 2)"
     using W_nth U_nth n lU jh by (auto simp: numeral_2_eq_2)
 qed
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{ins2\_frieze}\<close>
 lemma ins2_frieze:
   assumes "frieze V" "even (length V)" "Suc j < length V div 2"
   shows "frieze (ins2 V j)"
@@ -291,7 +377,9 @@ proof -
   have "Suc j < length (ins V (j + length V div 2))" using n by simp
   then show ?thesis using F1 unfolding ins2_def by (rule ins_frieze[rotated])
 qed
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{dia\_ins2}\<close>
 lemma dia_ins2:
   assumes ev: "even (length V)" and j: "Suc j < length V div 2" and i: "i < Suc (length V div 2)"
   shows "dia (ins2 V j) i =
@@ -325,10 +413,14 @@ proof -
     then show ?thesis using 3 A B hh unfolding dia_def h_def by simp
   qed
 qed
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{defbox}{dominated}\<close>
 definition dominated :: "vec list \<Rightarrow> vec list \<Rightarrow> bool" where
   "dominated V W \<longleftrightarrow> length V = length W \<and> (\<forall>i < length V div 2. dia V i < dia W i)"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{lembox}{dominated\_ins2}\<close>
 lemma dominated_ins2:
   assumes D: "dominated V W" and ev: "even (length V)" and j: "Suc j < length V div 2"
     and SS: "S V j < S W j"
@@ -348,42 +440,67 @@ proof -
   qed
   then show ?thesis using LV LW by (simp add: dominated_def)
 qed
+text_raw \<open>\end{lembox}\<close>
 
 section \<open>The two base friezes (n = 14) and the family\<close>
+
+text \<open>The two friezes of the $14$-gon of Figure 1 and the family obtained by inserting ears at position $0$
+  and at the antipodal position, $t$ times. Along the family, $V_0$ and $V_h$ stay fixed while $V_1$ and
+  $V_{h+1}$ move by $V_0$ and $V_h$, so the values of $S$ are polynomials in $t$: $6(t+2)^2$ for the lower
+  frieze and $7t^2 + 40t + 40$ for the upper one.\<close>
 
 text \<open>Quiddities (1,2,2,2,2,3,1,3,2,2,2,2,1,11) and (1,5,2,3,1,2,5,4,1,2,2,4,2,2), as lattice polygons
   with \<open>V_0 = (1,0)\<close>, \<open>V_1 = (0,1)\<close> and \<open>V_(i+1) = a_i V_i - V_(i-1)\<close>.\<close>
 
+text_raw \<open>\begin{databox}{A0}\<close>
 definition A0 :: "vec list" where
   "A0 = [(1, 0), (0, 1), (-1, 2), (-2, 3), (-3, 4), (-4, 5), (-9, 11), (-5, 6), (-6, 7), (-7, 8), (-8, 9),
          (-9, 10), (-10, 11), (-1, 1)]"
+text_raw \<open>\end{databox}\<close>
 
+text_raw \<open>\begin{databox}{B0}\<close>
 definition B0 :: "vec list" where
   "B0 = [(1, 0), (0, 1), (-1, 5), (-2, 9), (-5, 22), (-3, 13), (-1, 4), (-2, 7), (-7, 24), (-5, 17), (-3, 10),
          (-1, 3), (-1, 2), (-1, 1)]"
+text_raw \<open>\end{databox}\<close>
 
+text_raw \<open>\begin{databox}{frieze\_A0}\<close>
 lemma frieze_A0: "frieze A0"
   unfolding frieze_def A0_def det_def by code_simp
+text_raw \<open>\end{databox}\<close>
 
+text_raw \<open>\begin{databox}{frieze\_B0}\<close>
 lemma frieze_B0: "frieze B0"
   unfolding frieze_def B0_def det_def by code_simp
+text_raw \<open>\end{databox}\<close>
 
+text_raw \<open>\begin{databox}{dominated\_0}\<close>
 lemma dominated_0: "dominated A0 B0"
   unfolding dominated_def dia_def A0_def B0_def det_def by code_simp
+text_raw \<open>\end{databox}\<close>
 
 text \<open>Negative control: the order is not the other way round.\<close>
 
+text_raw \<open>\begin{ctrlbox}{not\_dominated\_0}\<close>
 lemma not_dominated_0: "\<not> dominated B0 A0"
   unfolding dominated_def dia_def A0_def B0_def det_def by code_simp
+text_raw \<open>\end{ctrlbox}\<close>
 
+text_raw \<open>\begin{defbox}{FA}\<close>
 definition FA :: "nat \<Rightarrow> vec list" where "FA t = ((\<lambda>V. ins2 V 0) ^^ t) A0"
+text_raw \<open>\end{defbox}\<close>
+text_raw \<open>\begin{defbox}{FB}\<close>
 definition FB :: "nat \<Rightarrow> vec list" where "FB t = ((\<lambda>V. ins2 V 0) ^^ t) B0"
+text_raw \<open>\end{defbox}\<close>
 
 text \<open>Invariants of the insertion at \<open>j = 0\<close>: \<open>V_0\<close> and \<open>V_h\<close> stay, \<open>V_1\<close> and \<open>V_(h+1)\<close> move by
   \<open>V_0\<close> and \<open>V_h\<close>.\<close>
 
+text_raw \<open>\begin{defbox}{vsmul}\<close>
 definition vsmul :: "int \<Rightarrow> vec \<Rightarrow> vec" where "vsmul c u = (c * fst u, c * snd u)"
+text_raw \<open>\end{defbox}\<close>
 
+text_raw \<open>\begin{lembox}{family}\<close>
 lemma family:
   assumes F: "frieze V0" and L: "length V0 = 14"
   shows "frieze (((\<lambda>V. ins2 V 0) ^^ t) V0) \<and> length (((\<lambda>V. ins2 V 0) ^^ t) V0) = 14 + 2 * t \<and>
@@ -411,12 +528,16 @@ next
     using fa(5) h Suc.IH by (simp add: vadd_def vsmul_def algebra_simps)
   ultimately show ?case by simp
 qed
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{S\_poly}\<close>
 lemma S_poly:
   "det (vadd x0 (vadd x1 (vsmul s x0))) (vadd y0 (vadd y1 (vsmul s y0))) =
      (s + 1)^2 * det x0 y0 + (s + 1) * (det x0 y1 + det x1 y0) + det x1 y1"
   by (cases x0; cases x1; cases y0; cases y1) (simp add: det_def vadd_def vsmul_def power2_eq_square algebra_simps)
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{lembox}{S\_family}\<close>
 lemma S_family:
   assumes F: "frieze V0" and L: "length V0 = 14"
   shows "S (((\<lambda>V. ins2 V 0) ^^ t) V0) 0 =
@@ -440,7 +561,9 @@ proof -
     by (rule S_poly)
   finally show ?thesis .
 qed
+text_raw \<open>\end{lembox}\<close>
 
+text_raw \<open>\begin{thmbox}{strictly\_ordered\_middle\_rows}\<close>
 theorem strictly_ordered_middle_rows:
   "frieze (FA t) \<and> frieze (FB t) \<and> length (FA t) = 14 + 2 * t \<and> length (FB t) = 14 + 2 * t \<and>
    (\<forall>i < 7 + t. dia (FA t) i < dia (FB t) i)"
@@ -477,10 +600,12 @@ proof -
     using family[OF frieze_A0 LA, of t] family[OF frieze_B0 LB, of t] D
     unfolding FA_def FB_def dominated_def by auto
 qed
+text_raw \<open>\end{thmbox}\<close>
 
 text \<open>The same statement in the usual language of friezes: entries of the middle row as continuants of the
   quiddities.\<close>
 
+text_raw \<open>\begin{thmbox}{strictly\_ordered\_middle\_rows\_continuants}\<close>
 corollary strictly_ordered_middle_rows_continuants:
   "\<forall>i < 7 + t. K (map (quid (FA t)) [Suc i..<i + (7 + t)]) < K (map (quid (FB t)) [Suc i..<i + (7 + t)])"
 proof (intro allI impI)
@@ -494,11 +619,15 @@ proof (intro allI impI)
     using entry_is_continuant[of "FA t" i "i + (7 + t)"] entry_is_continuant[of "FB t" i "i + (7 + t)"] T lt
     unfolding dia_def hA hB by simp
 qed
+text_raw \<open>\end{thmbox}\<close>
 
 section \<open>Main result\<close>
 
-text_raw \<open>\begin{center}\fbox{\begin{minipage}{0.92\textwidth}\<close>
+text \<open>For every $t$, the two frieze patterns \<open>FA t\<close> and \<open>FB t\<close> of width $11 + 2t$ have strictly ordered
+  middle rows, stated with continuants of their quiddities:\<close>
+
+text_raw \<open>\begin{thmbox}{main result}\<close>
 text \<open>@{thm [display] strictly_ordered_middle_rows_continuants}\<close>
-text_raw \<open>\end{minipage}}\end{center}\<close>
+text_raw \<open>\end{thmbox}\<close>
 
 end
