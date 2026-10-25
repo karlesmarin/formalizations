@@ -1,0 +1,9 @@
+chapter AFP
+
+session Integer_Frieze_Rows = HOL +
+  options [timeout = 600]
+  theories
+    Integer_Frieze_Rows
+  document_files
+    "root.tex"
+    "root.bib"
