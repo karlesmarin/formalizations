@@ -157,6 +157,81 @@ proof -
   show ?thesis using F len P' O' E unfolding frieze_def by simp
 qed
 
+section \<open>Bridge: entries are continuants of the quiddity\<close>
+
+text \<open>The continuant \<open>K(x_1, ..., x_m)\<close> (\<open>K() = 1\<close>, \<open>K(x_1) = x_1\<close>,
+  \<open>K(..., x_m) = x_m K(..., x_(m-1)) - K(..., x_(m-2))\<close>); \<open>KP\<close> carries the last two values.\<close>
+
+definition KP :: "int list \<Rightarrow> int \<times> int" where
+  "KP xs = fold (\<lambda>x (p, q). (q, x * q - p)) xs (0, 1)"
+
+definition K :: "int list \<Rightarrow> int" where "K xs = snd (KP xs)"
+
+lemma KP_Nil [simp]: "KP [] = (0, 1)"
+  by (simp add: KP_def)
+
+lemma KP_snoc: "KP (xs @ [x]) = (snd (KP xs), x * snd (KP xs) - fst (KP xs))"
+  by (simp add: KP_def split_beta)
+
+text \<open>The quiddity of the polygon: \<open>a_k = det (V_(k-1), V_(k+1))\<close>.\<close>
+
+definition quid :: "vec list \<Rightarrow> nat \<Rightarrow> int" where
+  "quid V k = det (V ! (k - 1)) (V ! Suc k)"
+
+lemma plane_identity:
+  assumes "det u v = 1"
+  shows "w = (det u w * fst v - det v w * fst u, det u w * snd v - det v w * snd u)"
+proof -
+  obtain a b where u: "u = (a, b)" by (cases u)
+  obtain c d where v: "v = (c, d)" by (cases v)
+  obtain e f where w: "w = (e, f)" by (cases w)
+  have h: "a * d - b * c = 1" using assms by (simp add: det_def u v)
+  have "(a * f - b * e) * c - (c * f - d * e) * a = e * (a * d - b * c)" by (simp add: algebra_simps)
+  then have 1: "(a * f - b * e) * c - (c * f - d * e) * a = e" using h by simp
+  have "(a * f - b * e) * d - (c * f - d * e) * b = f * (a * d - b * c)" by (simp add: algebra_simps)
+  then have 2: "(a * f - b * e) * d - (c * f - d * e) * b = f" using h by simp
+  show ?thesis by (simp add: u v w det_def 1 2)
+qed
+
+lemma det_recurrence:
+  assumes one: "\<And>k. Suc k < length V \<Longrightarrow> det (V ! k) (V ! Suc k) = 1"
+    and k: "0 < k" "Suc k < length V"
+  shows "det x (V ! Suc k) = quid V k * det x (V ! k) - det x (V ! (k - 1))"
+proof -
+  have u: "det (V ! (k - 1)) (V ! k) = 1" using one[of "k - 1"] k by simp
+  have v: "det (V ! k) (V ! Suc k) = 1" using one k by simp
+  have w: "V ! Suc k = (quid V k * fst (V ! k) - fst (V ! (k - 1)), quid V k * snd (V ! k) - snd (V ! (k - 1)))"
+    using plane_identity[OF u, of "V ! Suc k"] v unfolding quid_def by simp
+  show ?thesis by (subst w) (simp add: det_def algebra_simps)
+qed
+
+lemma KP_det:
+  assumes one: "\<And>k. Suc k < length V \<Longrightarrow> det (V ! k) (V ! Suc k) = 1"
+  shows "Suc (i + m) < length V \<Longrightarrow>
+    KP (map (quid V) [Suc i..<Suc (i + m)]) = (det (V ! i) (V ! (i + m)), det (V ! i) (V ! Suc (i + m)))"
+proof (induction m)
+  case 0
+  then show ?case using one[of i] by simp
+next
+  case (Suc m)
+  then have IH: "KP (map (quid V) [Suc i..<Suc (i + m)]) = (det (V ! i) (V ! (i + m)), det (V ! i) (V ! Suc (i + m)))"
+    by simp
+  have r: "det (V ! i) (V ! Suc (Suc (i + m))) =
+      quid V (Suc (i + m)) * det (V ! i) (V ! Suc (i + m)) - det (V ! i) (V ! (i + m))"
+    using det_recurrence[OF one, of "Suc (i + m)" "V ! i"] Suc.prems by simp
+  have "[Suc i..<Suc (i + Suc m)] = [Suc i..<Suc (i + m)] @ [Suc (i + m)]" by simp
+  then show ?case using IH r by (simp add: KP_snoc)
+qed
+
+theorem entry_is_continuant:
+  assumes F: "frieze V" and ij: "i < j" "j < length V"
+  shows "det (V ! i) (V ! j) = K (map (quid V) [Suc i..<j])"
+proof -
+  have one: "\<And>k. Suc k < length V \<Longrightarrow> det (V ! k) (V ! Suc k) = 1" using F by (simp add: frieze_def)
+  obtain m where m: "j = Suc (i + m)" using ij by (metis less_iff_Suc_add add_Suc_right add.commute)
+  show ?thesis using KP_det[OF one, of i m] ij m unfolding K_def by simp
+qed
+
 section \<open>Antipodal ear insertion and the diameters\<close>
 
 definition ins2 :: "vec list \<Rightarrow> nat \<Rightarrow> vec list" where
@@ -396,6 +471,23 @@ proof -
   show ?thesis
     using family[OF frieze_A0 LA, of t] family[OF frieze_B0 LB, of t] D
     unfolding FA_def FB_def dominated_def by auto
+qed
+
+text \<open>The same statement in the usual language of friezes: entries of the middle row as continuants of the
+  quiddities.\<close>
+
+corollary strictly_ordered_middle_rows_continuants:
+  "\<forall>i < 7 + t. K (map (quid (FA t)) [Suc i..<i + (7 + t)]) < K (map (quid (FB t)) [Suc i..<i + (7 + t)])"
+proof (intro allI impI)
+  fix i assume i: "i < 7 + t"
+  have T: "frieze (FA t) \<and> frieze (FB t) \<and> length (FA t) = 14 + 2 * t \<and> length (FB t) = 14 + 2 * t \<and>
+    (\<forall>i < 7 + t. dia (FA t) i < dia (FB t) i)" by (rule strictly_ordered_middle_rows)
+  have lt: "i < i + (7 + t)" "i + (7 + t) < 14 + 2 * t" using i by simp_all
+  have hA: "length (FA t) div 2 = 7 + t" and hB: "length (FB t) div 2 = 7 + t" using T by simp_all
+  have "dia (FA t) i < dia (FB t) i" using T i by blast
+  then show "K (map (quid (FA t)) [Suc i..<i + (7 + t)]) < K (map (quid (FB t)) [Suc i..<i + (7 + t)])"
+    using entry_is_continuant[of "FA t" i "i + (7 + t)"] entry_is_continuant[of "FB t" i "i + (7 + t)"] T lt
+    unfolding dia_def hA hB by simp
 qed
 
 end
