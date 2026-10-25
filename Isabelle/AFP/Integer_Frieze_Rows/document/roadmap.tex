@@ -15,8 +15,8 @@
   \node[dat] (base) at (5.2,-1.5) {\texttt{A0}, \texttt{B0} ($n = 14$)\\ \texttt{frieze\_A0}, \texttt{dominated\_0}};
   \node[lem] (fam) at (5.2,-3)   {\texttt{family}, \texttt{S\_family}\\ $S$ is a polynomial in $t$};
   \node[thm] (main) at (2.6,-6)  {\texttt{strictly\_ordered\_middle\_rows}\\ for every $t$};
-  \node[lem] (cont) at (-3.6,-3) {\texttt{entry\_is\_continuant}\\ entries $=$ continuants};
-  \node[thm] (cor) at (-1.2,-7.4) {\texttt{strictly\_ordered\_middle\_rows\_continuants}};
+  \node[lem] (cont) at (-5.4,-3) {\texttt{entry\_is\_continuant}\\ entries $=$ continuants};
+  \node[thm] (cor) at (0,-7.6) {\texttt{strictly\_ordered\_middle\_rows\_continuants}};
   \draw[arr] (fr) -- (ins);
   \draw[arr] (ins) -- (i2);
   \draw[arr] (i2) -- (dom);
@@ -25,7 +25,7 @@
   \draw[arr] (dom) -- (main);
   \draw[arr] (fam) -- (main);
   \draw[arr] (fr.west) -| (cont.north);
-  \draw[arr] (main) -- (cor);
+  \draw[arr] (main.south) -- (main.south |- cor.north);
   \draw[arr] (cont.south) |- (cor.west);
 \end{tikzpicture}
 \caption{How the main lemmas lead to the theorem. Blue: the definition of friezes; green: lemmas; grey:
