@@ -1,0 +1,10 @@
+chapter Formalizations
+
+session Frieze_Family = HOL +
+  description \<open>
+    For every even n >= 14, two integer Conway-Coxeter friezes of width n - 3 whose middle rows are strictly
+    ordered: an infinite family of integer counterexamples to Tabachnikov's four-sign-change question.
+  \<close>
+  options [timeout = 1200]
+  theories
+    Frieze_Family
