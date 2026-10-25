@@ -1,0 +1,69 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows.meta}
+\usepackage{float}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{The Heilmann--Lieb Theorem: Real Roots of Matching Polynomials}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+The matching polynomial of a finite graph with $n$ vertices is
+$\mu(G, x) = \sum_k (-1)^k m_k(G)\, x^{n-2k}$, where $m_k(G)$ is the number of matchings with $k$ edges.
+Heilmann and Lieb proved in 1972 that all its roots are real. We formalize this theorem. The matching polynomial
+satisfies the vertex recurrence $\mu(G) = x\,\mu(G-v) - \sum_{u \sim v} \mu(G-u-v)$, and the proof is an induction on
+the number of vertices that keeps, besides real-rootedness, an interlacing property: for every vertex $v$,
+$\mu(G-v)$ is a non-negative combination of the polynomials obtained from $\mu(G)$ by removing one linear factor.
+This formulation handles repeated roots without any special treatment. Its analytic core is a lemma on real
+polynomials, proved with the intermediate value theorem and Lagrange interpolation.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of an AI system, and checked by the author.
+
+\tableofcontents
+
+\section*{Introduction}
+
+A matching of a graph is a set of pairwise disjoint edges. The matching polynomial
+$\mu(G, x) = \sum_M (-1)^{|M|} x^{n - 2|M|}$, the sum taken over all matchings $M$, appears in statistical physics as
+the partition function of the monomer--dimer model, and Heilmann and Lieb~\cite{HeilmannLieb1972} proved that all its
+roots are real; physically, the model has no phase transition. Godsil and Gutman~\cite{GodsilGutman1981} and
+Godsil~\cite{Godsil1981} related it to the characteristic polynomial and to walks in graphs; a textbook account is
+in~\cite{Godsil1993}.
+
+We follow the interlacing route. Write $\mathrm{lin}(r_1, \ldots, r_m) = \prod_i (x - r_i)$ and say that a polynomial
+$q$ lies in the \emph{cone} of the list $r_1, \ldots, r_m$ if $q = \sum_i c_i \prod_{j \neq i}(x - r_j)$ with all
+$c_i \geq 0$. The induction (theory \texttt{Heilmann\_Lieb}) proves that $\mu(G) = \mathrm{lin}(r)$ for a list $r$
+of real numbers and that $\mu(G - v)$ lies in the cone of $r$ for every vertex $v$. The step uses the recurrence
+(theory \texttt{Matching\_Polynomial}) and one lemma on real polynomials (theory \texttt{Cone\_Step}): if $S$ lies in
+the cone of $r$, then $x\,\mathrm{lin}(r) - S = \mathrm{lin}(t)$ for a list $t$ one element longer, and
+$\mathrm{lin}(r)$ lies in the cone of $t$. To prove it, repeated roots of $r$ and roots with weight zero are taken
+out as a common factor; for distinct roots $s_1 < \cdots < s_k$ with positive weights, the polynomial changes sign
+between consecutive $s_j$ and at both ends, so the intermediate value theorem gives roots
+$t_0 < s_1 < t_1 < \cdots < s_k < t_k$, and Lagrange interpolation at the $t_l$ writes $\mathrm{lin}(s)$ in their cone
+with positive coefficients. Figure~\ref{fig:example} shows the interlacing for the 5-cycle, and
+Figure~\ref{fig:roadmap} how the lemmas fit together.
+
+\input{interlacing}
+
+\input{roadmap}
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}
