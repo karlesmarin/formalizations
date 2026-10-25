@@ -1,6 +1,10 @@
 chapter AFP
 
 session Heilmann_Lieb = "HOL-Computational_Algebra" +
-  options [timeout = 600]
+  options [timeout = 600, quick_and_dirty]
+  sessions "HOL-Combinatorics"
   theories
     Matching_Polynomial
+    Interlacing
+    Cone_Step
+    Heilmann_Lieb
