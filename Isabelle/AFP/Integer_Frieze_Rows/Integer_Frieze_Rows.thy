@@ -495,4 +495,10 @@ proof (intro allI impI)
     unfolding dia_def hA hB by simp
 qed
 
+section \<open>Main result\<close>
+
+text_raw \<open>\begin{center}\fbox{\begin{minipage}{0.92\textwidth}\<close>
+text \<open>@{thm [display] strictly_ordered_middle_rows_continuants}\<close>
+text_raw \<open>\end{minipage}}\end{center}\<close>
+
 end

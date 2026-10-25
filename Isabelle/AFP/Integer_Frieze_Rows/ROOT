@@ -7,3 +7,4 @@ session Integer_Frieze_Rows = HOL +
   document_files
     "root.tex"
     "root.bib"
+    "triangulations.tex"
