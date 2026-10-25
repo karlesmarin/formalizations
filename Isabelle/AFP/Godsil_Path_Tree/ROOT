@@ -1,6 +1,6 @@
 chapter AFP
 
 session Godsil_Path_Tree = Heilmann_Lieb +
-  options [timeout = 600, quick_and_dirty]
+  options [timeout = 600]
   theories
     Path_Tree
