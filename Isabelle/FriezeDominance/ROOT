@@ -1,0 +1,10 @@
+chapter Formalizations
+
+session Frieze_Dominance = HOL +
+  description \<open>
+    Two integer Conway-Coxeter friezes of width 11 whose middle rows are strictly ordered (Isabelle port of the
+    Lean module Formalizations.Combinatorics.Frieze.IntegerDominance).
+  \<close>
+  options [timeout = 1200]
+  theories
+    Frieze_Dominance
