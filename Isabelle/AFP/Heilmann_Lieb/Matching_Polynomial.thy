@@ -51,6 +51,12 @@ lemma matching_card_le:
 
 section \<open>The matching polynomial\<close>
 
+text \<open>Multiplication by \<open>x\<close> (stated here so as not to depend on the name of the library lemma, which changed
+  between Isabelle versions).\<close>
+
+lemma x_mult: "[:0, 1:] * p = pCons 0 (p :: 'a :: comm_semiring_1 poly)"
+  by (simp add: mult_pCons_left)
+
 definition mu :: "'a set \<Rightarrow> 'a set set \<Rightarrow> real poly" where
   "mu V E = (\<Sum>M\<in>matchings E. (-1) ^ card M * monom 1 (card V - 2 * card M))"
 
@@ -185,7 +191,7 @@ proof -
       have pos: "0 < ?n" using v fV card_gt_0_iff by blast
       have k: "?n - 2 * card M = Suc (card (V - {v}) - 2 * card M)" using le n1 pos by linarith
       show "?f M = [:0, 1:] * ((-1) ^ card M * monom 1 (card (V - {v}) - 2 * card M))"
-        unfolding k by (simp add: monom_Suc pCons_0_as_mult[symmetric] algebra_simps)
+        unfolding k by (simp add: monom_Suc x_mult algebra_simps)
     qed
     then show ?thesis using matchings_avoid by metis
   qed
