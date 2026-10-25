@@ -1,0 +1,10 @@
+chapter Formalizations
+
+session Hausdorff_Floor = "HOL-Analysis" +
+  description \<open>
+    The antipodal floor of moment power series on the unit circle (Isabelle port of the Lean module
+    Formalizations.Analysis.SpecialFunctions.Polylog.HausdorffFloor).
+  \<close>
+  options [timeout = 1200]
+  theories
+    Hausdorff_Floor
