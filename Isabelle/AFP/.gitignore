@@ -1,3 +1,4 @@
 doc_out*/
 *.tar.gz
 _agent*/
+hl_doc/

@@ -349,8 +349,8 @@ proof -
   let ?A = "[:0, 1:] * lin_prod ss"
   let ?B = "(\<Sum>j<length ss. smult (C j) (lin_prod (omit j ss)))"
   have dA: "degree ?A = Suc (length ss)"
-    by (subst degree_mult_eq) simp_all
-  have lA: "lead_coeff ?A = 1" by (simp add: lead_coeff_mult)
+    by (subst degree_mult_eq) (simp_all add: lin_prod_ne_0)
+  have lA: "lead_coeff ?A = 1" by (subst lead_coeff_mult, subst lead_coeff_lin_prod) simp
   have dB: "degree ?B \<le> length ss"
   proof (rule degree_sum_le)
     show "finite {..<length ss}" by simp
@@ -436,7 +436,7 @@ proof -
     using hl_sgn_omit[OF assms(1,3)] .
   have "sgn (poly (simple_Q ss C) (ss ! j)) = - (sgn (C j) * sgn (poly (lin_prod (omit j ss)) (ss ! j)))"
     using hl_poly_Q_at[OF assms(3), of C] by (simp add: sgn_minus sgn_mult)
-  also have "\<dots> = - (-1) ^ (length ss - Suc j)" using c s by simp
+  also have "\<dots> = - ((-1) ^ (length ss - Suc j))" using c s by simp
   also have "\<dots> = (-1) ^ (length ss - j)"
   proof -
     have "length ss - j = Suc (length ss - Suc j)" using assms(3) by simp
@@ -456,10 +456,12 @@ proof -
     have "lead_coeff (pcompose p [:0, -1::real:]) = lead_coeff p * (-1) ^ degree p"
       using lead_coeff_comp[of "[:0, -1::real:]" p] d1 by simp
     then show ?thesis unfolding q_def using assms
-      by (simp add: lead_coeff_smult flip: power_add power2_eq_square power_mult_distrib)
+      by (cases "even n") (simp_all add: lead_coeff_smult)
   qed
-  obtain N where N: "\<forall>x\<ge>N. 1 \<le> poly q x"
-    using poly_pinfty_gt_lc[of q] lq by simp
+  have posq: "0 < lead_coeff q" using lq by simp
+  obtain N where N0: "\<forall>x\<ge>N. lead_coeff q \<le> poly q x"
+    using poly_pinfty_gt_lc[OF posq] by blast
+  have N: "\<forall>x\<ge>N. 1 \<le> poly q x" using N0 by (simp only: lq)
   show ?thesis
   proof (rule exI[where x = "- N"], intro allI impI)
     fix x :: real assume x: "x \<le> - N"
@@ -536,8 +538,10 @@ next
   define Q where "Q = simple_Q ss C"
   have QE: "Q = [:0, 1:] * lin_prod ss - (\<Sum>j<length ss. smult (C j) (lin_prod (omit j ss)))"
     unfolding Q_def simple_Q_def by simp
-  have dQ: "degree Q = Suc k" and lQ: "lead_coeff Q = 1"
-    using hl_simple_Q_deg[of ss C] by (simp_all add: Q_def k_def)
+  have hQ: "degree Q = Suc k \<and> lead_coeff Q = 1"
+    unfolding Q_def k_def by (rule hl_simple_Q_deg)
+  have dQ: "degree Q = Suc k" using hQ by (rule conjunct1)
+  have lQ: "lead_coeff Q = 1" using hQ by (rule conjunct2)
   obtain a where a: "\<forall>x\<le>a. sgn (poly Q x) = (-1) ^ Suc k" using hl_sgn_minfty[OF dQ lQ] by blast
   obtain b where b: "\<forall>x\<ge>b. sgn (poly Q x) = 1" using hl_sgn_pinfty[OF lQ] by blast
   have s0: "0 < length ss" using kpos k_def by simp
@@ -623,7 +627,12 @@ next
     using bchoice[OF roots] by blast
   define ts where "ts = map f [0..<Suc k]"
   have lts: "length ts = Suc k" unfolding ts_def by simp
-  have tsn: "\<And>l. l \<le> k \<Longrightarrow> ts ! l = f l" unfolding ts_def by simp
+  have tsn: "\<And>l. l \<le> k \<Longrightarrow> ts ! l = f l"
+  proof -
+    fix l assume l: "l \<le> k"
+    have l2: "l < Suc k - 0" using l by simp
+    show "ts ! l = f l" unfolding ts_def using nth_map_upt[OF l2, of f] by simp
+  qed
   have mono: "\<forall>j\<le>Suc k. \<forall>i<j. u i < u j" by (rule hl_strict_steps[OF step])
   have fmono: "\<And>i j. i < j \<Longrightarrow> j \<le> k \<Longrightarrow> f i < f j"
   proof -
@@ -654,13 +663,24 @@ next
     have "ts ! j = f j" using tsn jk by simp
     moreover have "ts ! Suc j = f (Suc j)" using tsn jk by simp
     moreover have "f j < u (Suc j)" using f jk by simp
-    moreover have "u (Suc j) < f (Suc j)" using f jk uj[OF jk] by simp
+    moreover have "u (Suc j) < f (Suc j)"
+    proof -
+      have mem: "Suc j \<in> {..k}" using jk by simp
+      show ?thesis using bspec[OF f mem] by simp
+    qed
     ultimately show "ts ! j < ss ! j \<and> ss ! j < ts ! Suc j" using uj[OF jk] by simp
   qed
   have eq: "Q = lin_prod ts"
   proof (rule poly_eqI_degree_lead_coeff[where n = "Suc k" and A = "set ts"])
     show "poly.coeff Q (Suc k) = poly.coeff (lin_prod ts) (Suc k)"
-      using dQ lQ lts by (simp add: coeff_degree_eq_lead_coeff)
+    proof -
+      have a1: "poly.coeff Q (Suc k) = lead_coeff Q" by (simp add: dQ)
+      have dl: "degree (lin_prod ts) = Suc k" using lts by simp
+      have a2: "poly.coeff (lin_prod ts) (Suc k) = lead_coeff (lin_prod ts)"
+        by (simp add: dl lts)
+      have a3: "lead_coeff (lin_prod ts) = 1" by (rule lead_coeff_lin_prod)
+      show ?thesis using a1 a2 a3 lQ by simp
+    qed
     show "Suc k \<le> card (set ts)" using dist lts by (simp add: distinct_card)
     show "degree Q \<le> Suc k" using dQ by simp
     show "degree (lin_prod ts) \<le> Suc k" using lts by simp
@@ -835,6 +855,29 @@ section \<open>The cone step\<close>
 theorem cone_step:
   assumes "in_cone S rs"
   shows "\<exists>ts. length ts = Suc (length rs) \<and> [:0, 1:] * lin_prod rs - S = lin_prod ts \<and> in_cone (lin_prod rs) ts"
-  sorry
+proof -
+  obtain qs ss C where ss: "sorted_wrt (<) ss" and Cpos: "\<forall>j<length ss. 0 < C j"
+    and len: "length qs + length ss = length rs"
+    and P: "lin_prod rs = lin_prod qs * lin_prod ss"
+    and S: "S = lin_prod qs * (\<Sum>j<length ss. smult (C j) (lin_prod (omit j ss)))"
+    using group_roots[OF assms] by blast
+  obtain ts1 where ts1s: "sorted_wrt (<) ts1" and ts1l: "length ts1 = Suc (length ss)"
+    and ts1i: "\<forall>j<length ss. ts1 ! j < ss ! j \<and> ss ! j < ts1 ! Suc j"
+    and ts1q: "[:0, 1:] * lin_prod ss - (\<Sum>j<length ss. smult (C j) (lin_prod (omit j ss))) = lin_prod ts1"
+    using simple_case_roots[OF ss Cpos] by blast
+  have cone1: "in_cone (lin_prod ss) ts1" by (rule simple_case_cone[OF ss ts1s ts1l ts1i])
+  have cone2: "in_cone (lin_prod qs * lin_prod ss) (qs @ ts1)" by (rule in_cone_prepend[OF cone1])
+  have eq: "[:0, 1:] * lin_prod rs - S = lin_prod (qs @ ts1)"
+  proof -
+    have "[:0, 1:] * lin_prod rs - S
+        = lin_prod qs * ([:0, 1:] * lin_prod ss - (\<Sum>j<length ss. smult (C j) (lin_prod (omit j ss))))"
+      unfolding P S by (simp add: algebra_simps)
+    also have "\<dots> = lin_prod qs * lin_prod ts1" by (simp only: ts1q)
+    also have "\<dots> = lin_prod (qs @ ts1)" by (simp only: lin_prod_append)
+    finally show ?thesis .
+  qed
+  show ?thesis
+    by (rule exI[where x = "qs @ ts1"]) (use len ts1l eq cone2 P in simp)
+qed
 
 end

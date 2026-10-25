@@ -7,15 +7,15 @@
     lem/.style={box, fill=green!8},
     thm/.style={box, fill=orange!15, very thick},
     arr/.style={-{Latex[length=2mm]}, thick}]
-  \node[def] (mu)  at (-4.6,0)    {\texttt{mu}\\ matching polynomial};
-  \node[lem] (rec) at (-4.6,-1.6) {\texttt{mu\_recurrence}\\ $\mu(G) = x\,\mu(G-v) - \sum_{u\sim v}\mu(G-u-v)$};
-  \node[def] (cone) at (2.2,0)    {\texttt{lin\_prod}, \texttt{in\_cone}\\ products of linear factors, the cone};
-  \node[lem] (grp) at (-0.6,-1.6) {\texttt{group\_roots}\\ simple roots, positive weights};
-  \node[lem] (scr) at (2.6,-1.6)  {\texttt{simple\_case\_roots}\\ interlacing roots (IVT)};
-  \node[lem] (scc) at (5.9,-1.6)  {\texttt{simple\_case\_cone}\\ Lagrange, signs};
-  \node[thm] (cs)  at (2.6,-3.2)  {\texttt{cone\_step}};
-  \node[thm] (hls) at (-1.2,-4.6) {\texttt{heilmann\_lieb\_strong}\\ induction on the number of vertices};
-  \node[thm] (hl)  at (-1.2,-6.0) {\texttt{heilmann\_lieb}\\ all roots of $\mu(G)$ are real};
+  \node[def] (mu)  at (-5.6,0)    {\texttt{mu}\\ matching polynomial};
+  \node[lem] (rec) at (-5.6,-1.6) {\texttt{mu\_recurrence}\\ vertex recurrence};
+  \node[def] (cone) at (2.6,0)    {\texttt{lin\_prod}, \texttt{in\_cone}\\ products of linear factors, the cone};
+  \node[lem] (grp) at (-1.3,-1.6) {\texttt{group\_roots}\\ simple roots,\\ positive weights};
+  \node[lem] (scr) at (2.6,-1.6)  {\texttt{simple\_case\_roots}\\ interlacing roots\\ (intermediate values)};
+  \node[lem] (scc) at (6.4,-1.6)  {\texttt{simple\_case\_cone}\\ Lagrange interpolation,\\ signs};
+  \node[thm] (cs)  at (2.6,-3.4)  {\texttt{cone\_step}};
+  \node[thm] (hls) at (-1.5,-4.8) {\texttt{heilmann\_lieb\_strong}\\ induction on the number of vertices};
+  \node[thm] (hl)  at (-1.5,-6.2) {\texttt{heilmann\_lieb}\\ all roots of $\mu(G)$ are real};
   \draw[arr] (mu) -- (rec);
   \draw[arr] (cone) -- (grp);
   \draw[arr] (cone) -- (scr);
