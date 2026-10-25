@@ -1,0 +1,6 @@
+chapter AFP
+
+session Heilmann_Lieb = "HOL-Computational_Algebra" +
+  options [timeout = 600]
+  theories
+    Matching_Polynomial
