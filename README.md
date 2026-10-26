@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2345 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2355 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -72,6 +72,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `ResidualJacobian` 🆕 | The Jacobian of a residual stream `h ↦ h + w(h)` is the ordered product of the layer Jacobians `I + w′` along the trajectory |
 | | `EntropyBound` 🆕 | Entropy of a distribution on N points is at most log N, with equality iff uniform (area law, part i). |
 | `Combinatorics.Additive` | `AddClosedInterval` 🆕 | An additively closed `S ⊆ ℕ` containing `[a, 2a]` contains `[a, ∞)` |
+| `Combinatorics.Frieze` | `IntegerDominance` 🆕 | Two integer Conway–Coxeter friezes of width 11 whose middle rows are strictly ordered (no sign change; Tabachnikov's Problem 1, 2018) |
+| | `TwoSignChanges` 🆕 | Two integer Conway–Coxeter friezes of width 12 whose rows 6 = ⌊w/2⌋ differ with no zero and exactly two cyclic sign changes |
 | `Combinatorics.Hall` | `Tight` 🆕 | The neighbourhood function of a set system is submodular; under Hall's condition tight sets are closed under union and intersection |
 | `Combinatorics.Matroid` | `Transversal` 🆕 | Partial transversals of a finite set system are the independent sets of a matroid (augmentation through Hall's theorem and tight sets) |
 | | `TransversalObstruction` 🆕 | The largest tight subset of a partial transversal decides every insertion and describes the matroid closure |

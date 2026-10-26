@@ -2349,3 +2349,13 @@ import Formalizations
 #print axioms ThreeAxes.TraceResidue.det_add_smul
 #print axioms ThreeAxes.TraceResidue.adjugate_add_smul
 #print axioms ThreeAxes.TraceResidue.inv_sub_one_sqzero
+#print axioms Frieze.isQuiddity_lower
+#print axioms Frieze.isQuiddity_upper
+#print axioms Frieze.entry_six_lower_lt_upper
+#print axioms Frieze.exists_strictly_ordered_middle_rows
+#print axioms Frieze.isQuiddity_lower12
+#print axioms Frieze.isQuiddity_upper12
+#print axioms Frieze.rowDiff_six_ne_zero
+#print axioms Frieze.signChanges_six
+#print axioms Frieze.signChanges_five
+#print axioms Frieze.exists_two_sign_changes_width_twelve

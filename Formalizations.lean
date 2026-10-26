@@ -31,6 +31,8 @@ public import Formalizations.Analysis.TransformerAttention.RGFlow
 public import Formalizations.Analysis.TransformerAttention.ResidualJacobian
 public import Formalizations.Analysis.TransformerAttention.EntropyBound
 public import Formalizations.Combinatorics.Additive.AddClosedInterval
+public import Formalizations.Combinatorics.Frieze.IntegerDominance
+public import Formalizations.Combinatorics.Frieze.TwoSignChanges
 public import Formalizations.Combinatorics.Hall.Tight
 public import Formalizations.Combinatorics.Matroid.Transversal
 public import Formalizations.Combinatorics.Matroid.TransversalObstruction
