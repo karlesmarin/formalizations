@@ -1,0 +1,21 @@
+# The concept each Isabelle/HOL theory belongs to: the folder of Formalizations/ where its Lean siblings live.
+# The Atlas (karlesmarin.github.io/blueprints) shows Lean modules and Isabelle theories together, grouped by concept,
+# each file tagged with its proof assistant. A theory missing here is listed under «Not yet placed».
+
+[areas]
+"Isabelle/HausdorffFloor/Hausdorff_Floor.thy" = "Analysis/SpecialFunctions/Polylog"
+"Isabelle/PolylogFloor/Polylog_Floor.thy" = "Analysis/SpecialFunctions/Polylog"
+"Isabelle/AntipodalExamples/Antipodal_Counterexamples.thy" = "Analysis/SpecialFunctions/Polylog"
+"Isabelle/AntipodalExamples/Dominant_Population.thy" = "Physics/QuantumMechanics/SpeedLimit"
+"Isabelle/ZielinskiZych/Zielinski_Zych.thy" = "Physics/QuantumMechanics/SpeedLimit"
+"Isabelle/FriezeDominance/Frieze_Dominance.thy" = "Combinatorics/Frieze"
+"Isabelle/FriezeDominance/Frieze_Two_Sign_Changes.thy" = "Combinatorics/Frieze"
+"Isabelle/FriezeFamily/Frieze_Family.thy" = "Combinatorics/Frieze"
+"Isabelle/AFP/Integer_Frieze_Rows/Integer_Frieze_Rows.thy" = "Combinatorics/Frieze"
+"Isabelle/AFP/Odd_Frieze_Rows/Odd_Frieze_Rows.thy" = "Combinatorics/Frieze"
+"Isabelle/AFP/Godsil_Path_Tree/Path_Tree.thy" = "Combinatorics/SimpleGraph/MatchingPolynomial"
+"Isabelle/AFP/Godsil_Path_Tree/Path_Tree_Dvd.thy" = "Combinatorics/SimpleGraph/MatchingPolynomial"
+"Isabelle/AFP/Heilmann_Lieb/Cone_Step.thy" = "Combinatorics/SimpleGraph/MatchingPolynomial"
+"Isabelle/AFP/Heilmann_Lieb/Heilmann_Lieb.thy" = "Combinatorics/SimpleGraph/MatchingPolynomial"
+"Isabelle/AFP/Heilmann_Lieb/Interlacing.thy" = "Combinatorics/SimpleGraph/MatchingPolynomial"
+"Isabelle/AFP/Heilmann_Lieb/Matching_Polynomial.thy" = "Combinatorics/SimpleGraph/MatchingPolynomial"
