@@ -32,6 +32,9 @@ disk. The proof multiplies by `1 - z`, telescopes, and applies the triangle ineq
 
 ## References
 
+* A. Hurwitz, *Über einen Satz des Herrn Kakeya*, Tôhoku Math. J. 4 (1913) 89–93, §2: the zeros on the
+  unit circle under non-increasing coefficients (roots of unity; coefficients in groups of equal
+  consecutive values), with the converse. `enestrom_kakeya_boundary` is his argument.
 * Q. I. Rahman, G. Schmeisser, *Analytic Theory of Polynomials*, Oxford University Press, 2002.
 -/
 
