@@ -1,0 +1,6 @@
+chapter AFP
+
+session Odd_Frieze_Rows = Integer_Frieze_Rows +
+  options [timeout = 600]
+  theories
+    Odd_Frieze_Rows
