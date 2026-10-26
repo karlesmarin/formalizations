@@ -4,3 +4,4 @@ session Godsil_Path_Tree = Heilmann_Lieb +
   options [timeout = 600]
   theories
     Path_Tree
+    Path_Tree_Dvd
