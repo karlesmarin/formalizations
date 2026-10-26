@@ -16,9 +16,9 @@ For a non-increasing sequence q k ≥ 0 tending to 0 and f(z) = ∑ q k z^k, com
 the minimum of Re f and of |f| on the unit circle at z = −1 (Polylog.le_norm_of_tendsto), and so
 does four times monotonicity (Fejér, 1937). Two exact examples show that weaker shape conditions do
 not: a three times monotone sequence (the coefficients of 6 + 3z + z² + 1/(1 − z/2)) whose real part
-at cos θ = −3/4 is 73/16, below its value 14/3 at z = −1; and a log-convex and convex sequence (1,
-3/4, 9/16, then ratio 7/8) whose real part at e^{2πi/3} is 381/27040 below its value 47/80 at z =
-−1, and whose modulus at z* = (−7 + i√15)/8 is below 47/80 too.
+at cos θ = −3/4 is 73/16, below its value 14/3 at z = −1; and a log-convex (hence convex) sequence
+(q k = (3/4)^k for k ≤ 3, then ratio 7/8) whose real part at e^{2πi/3} is 381/27040 below its value
+47/80 at z = −1, and whose modulus at z* = (−7 + i√15)/8 is below 47/80 too.
 
 ## Main results
 
