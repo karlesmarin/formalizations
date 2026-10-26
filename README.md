@@ -19,6 +19,9 @@ results.
   that others build on daily: its definitions rarely change, proofs are never exposed either way, and correctness
   does not depend on the choice.
 
+🦉 **Isabelle/HOL.** Some results are also formalized in Isabelle (ports of Lean modules, and entries prepared for
+the Archive of Formal Proofs); see [`Isabelle/README.md`](Isabelle/README.md). They are built separately from Lean.
+
 📖 **API documentation** of every declaration (doc-gen4, rebuilt on every push):
 <https://karlesmarin.github.io/formalizations/docs/>
 
