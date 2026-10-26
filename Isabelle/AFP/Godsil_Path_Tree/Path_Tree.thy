@@ -51,7 +51,7 @@ proof -
   show ?thesis unfolding graph_def using fin edges by blast
 qed
 
-section \<open>Matchings under renaming and unions\<close>
+section \<open>Matchings under injective maps\<close>
 
 lemma matching_image:
   assumes inj: "inj_on f V" and sub: "\<forall>e\<in>E. e \<subseteq> V" and m: "matching E M"

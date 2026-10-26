@@ -1,0 +1,74 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows.meta}
+\usepackage{float}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Godsil's Path Tree and the Matching Polynomial}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+The path tree $T(G, u)$ of a finite graph $G$ at a vertex $u$ has one vertex for each simple path of $G$ that starts
+at $u$, and joins each path to its one-step extensions. Godsil proved in 1981 that the matching polynomials of $G$
+and of its path tree satisfy $\mu(G-u)\,\mu(T) = \mu(G)\,\mu(T-u)$, where $T - u$ removes the root, and that
+$\mu(G)$ divides $\mu(T)$ when $G$ is connected. We formalize both statements, the second in the form that holds for
+every graph: the matching polynomial of the connected component of $u$ divides $\mu(T)$. The entry builds on the
+matching polynomial of the entry on the Heilmann--Lieb theorem.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of an AI system, and checked by the author.
+
+\tableofcontents
+
+\section*{Introduction}
+
+The matching polynomial $\mu(G, x) = \sum_M (-1)^{|M|} x^{n - 2|M|}$, the sum taken over all matchings $M$ of a graph
+with $n$ vertices, has all its roots real by the theorem of Heilmann and Lieb~\cite{HeilmannLieb1972}. For a forest,
+it equals the characteristic polynomial of the adjacency matrix~\cite{GodsilGutman1981}. Godsil~\cite{Godsil1981}
+found a tree that carries the matching polynomial of any graph: the path tree. Its vertices are the simple paths that
+start at a fixed vertex $u$, and a path is joined to every path obtained by adding one more vertex at its end
+(Figure~\ref{fig:pathtree}). Godsil's theorem says that
+\[
+  \mu(G - u)\,\mu(T) = \mu(G)\,\mu(T - u), \qquad\text{and}\qquad \mu(G) \mid \mu(T) \text{ if $G$ is connected.}
+\]
+Since $\mu(T)$ is a characteristic polynomial of a symmetric matrix, the divisibility gives a second proof that the
+roots of $\mu(G)$ are real; that consequence is not formalized here. A textbook account is in~\cite{Godsil1993}.
+
+\input{pathtree}
+
+The identity (theory \texttt{Path\_Tree}) is proved by induction on the number of vertices. Below its root, the path
+tree of $G$ at $u$ is the disjoint union, over the neighbours $v$ of $u$, of the path trees of $G - u$ at $v$, up to
+renaming each path by putting $u$ in front. So both sides of the identity can be computed with the vertex recurrence
+of the matching polynomial at the root, the multiplicativity of $\mu$ on disjoint unions, and its invariance under
+renaming.
+
+The divisibility (theory \texttt{Path\_Tree\_Dvd}) needs connected components, which the identity does not see:
+for a disconnected graph, $\mu(G)$ need not divide $\mu(T)$, since $T$ only sees the component of $u$. We define the
+component of $u$ as the set of last vertices of the paths that start at $u$, and prove that the path trees of $G$ and
+of this component at $u$ coincide. Removing $u$ from its component leaves the union of the components of its
+neighbours in $G - u$. By induction, the matching polynomial of each of them divides the polynomial of the
+corresponding branch of the tree, so $\mu(C - u)$ divides $\mu(T - u)$, and the identity applied to the component
+$C$ gives $\mu(C) \mid \mu(T)$ after cancelling $\mu(C - u) \neq 0$. Figure~\ref{fig:roadmap} shows how the lemmas
+fit together.
+
+\input{roadmap}
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

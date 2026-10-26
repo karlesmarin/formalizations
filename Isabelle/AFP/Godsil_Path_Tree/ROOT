@@ -5,3 +5,8 @@ session Godsil_Path_Tree = Heilmann_Lieb +
   theories
     Path_Tree
     Path_Tree_Dvd
+  document_files
+    "root.tex"
+    "root.bib"
+    "pathtree.tex"
+    "roadmap.tex"

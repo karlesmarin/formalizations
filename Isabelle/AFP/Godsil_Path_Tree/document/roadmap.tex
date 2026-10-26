@@ -1,0 +1,29 @@
+% Roadmap of the proof (names as in the theories).
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, inner sep=3pt, minimum height=7mm},
+    def/.style={box, fill=blue!6},
+    lem/.style={box, fill=green!8},
+    thm/.style={box, fill=orange!15, very thick},
+    arr/.style={-{Latex[length=2mm]}, thick}]
+  \node[def] (pt)   at (-4.6,0)    {\texttt{pt\_V}, \texttt{pt\_E}\\ the path tree};
+  \node[lem] (bij)  at (0,0)       {\texttt{mu\_bij}, \texttt{mu\_UNION}\\ renaming, disjoint unions};
+  \node[def] (comp) at (4.6,0)     {\texttt{comp}, \texttt{restr}\\ components};
+  \node[lem] (root) at (-2.3,-1.7) {\texttt{mu\_root\_rest}\\ the tree below its root};
+  \node[thm] (rat)  at (-2.3,-3.4) {\texttt{godsil\_ratio}\\ $\mu(G-u)\,\mu(T) = \mu(G)\,\mu(T-u)$};
+  \node[lem] (cl)   at (4.6,-1.7)  {\texttt{mu\_comp\_split}, \texttt{comp\_minus\_root},\\ \texttt{pt\_comp}, \texttt{mu\_ne\_0}};
+  \node[thm] (dvd)  at (1.2,-5.1)  {\texttt{godsil\_dvd\_comp}\\ $\mu(\text{component of } u) \mid \mu(T)$};
+  \node[thm] (cor)  at (1.2,-6.6)  {\texttt{godsil\_dvd}\\ $G$ connected: $\mu(G) \mid \mu(T)$};
+  \draw[arr] (pt) -- (root);
+  \draw[arr] (bij) -- (root);
+  \draw[arr] (root) -- (rat);
+  \draw[arr] (comp) -- (cl);
+  \draw[arr] (bij) -- (cl);
+  \draw[arr] (rat.south) |- (dvd.west);
+  \draw[arr] (cl.south) |- (dvd.east);
+  \draw[arr] (dvd) -- (cor);
+\end{tikzpicture}
+\caption{How the main lemmas lead to the theorems. Blue: definitions; green: lemmas; orange: the main results.}
+\label{fig:roadmap}
+\end{figure}
