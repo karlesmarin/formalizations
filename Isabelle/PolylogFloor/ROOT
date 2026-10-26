@@ -1,0 +1,10 @@
+chapter Formalizations
+
+session Polylog_Floor = Hausdorff_Floor +
+  description \<open>
+    The antipodal floor of the polylogarithm Li_s on the unit circle and of the zeta states
+    (Isabelle port of Polylog.polylog_circle_floor and Polylog.zetaState_floor).
+  \<close>
+  options [timeout = 1200]
+  theories
+    Polylog_Floor

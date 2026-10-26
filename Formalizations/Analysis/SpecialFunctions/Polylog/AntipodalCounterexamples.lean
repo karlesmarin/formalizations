@@ -32,6 +32,7 @@ at cos θ = −3/4 is 73/16, below its value 14/3 at z = −1; and a log-convex 
 * `Polylog.cexLC_antipode`: its value at z = −1 is 47/80
 * `Polylog.cexLC_re`: its real part at e^{2πi/3} is 47/80 − 381/27040
 * `Polylog.cexLC_normSq`: |f(z*)|² = (47/80)² − 57/42200 at z* = (−7 + i√15)/8
+* `Polylog.cex3_normSq`: |g(z*)|² = (14/3)² − 635/2448 at z* = (−7 + i√15)/8
 
 ## References
 
@@ -313,6 +314,42 @@ theorem cexLC_normSq :
     rw [eq_div_iff hw]
     have hinv : (1 - 7 / 8 * z) * (1 - 7 / 8 * z)⁻¹ = 1 := mul_inv_cancel₀ hw
     linear_combination (27 / 64 * z ^ 3) * hinv
+  rw [hF, map_div₀]
+  simp [Complex.normSq_apply, pow_succ, hza, hzb]
+  have s2 : s ^ 2 = 15 := by rw [pow_two]; exact hs
+  have s4 : s ^ 4 = 225 := by rw [show s ^ 4 = (s ^ 2) ^ 2 by ring, s2]; norm_num
+  have s6 : s ^ 6 = 3375 := by rw [show s ^ 6 = (s ^ 2) ^ 3 by ring, s2]; norm_num
+  rw [div_eq_iff (by nlinarith [sq_nonneg s])]
+  ring_nf
+  simp only [s2, s4, s6]
+  norm_num
+
+/-- The three times monotone example has its modulus below the value at `z = -1` too: at
+`z* = (-7 + i√15)/8`, `|g(z*)|² = (14/3)² - 635/2448`. (At `cos θ = -3/4`, where its real part drops,
+its modulus does not.) -/
+theorem cex3_normSq :
+    ∃ F : ℂ, HasSum (fun k : ℕ => (cex3 k : ℂ) * ((-7 + Real.sqrt 15 * I) / 8) ^ k) F ∧
+      Complex.normSq F = (14 / 3) ^ 2 - 635 / 2448 := by
+  have hs : Real.sqrt 15 * Real.sqrt 15 = 15 := Real.mul_self_sqrt (by norm_num)
+  set s := Real.sqrt 15 with hsdef
+  set z : ℂ := (-7 + s * I) / 8 with hzdef
+  have hn : ‖z‖ = 1 := norm_zstar
+  have hza : z.re = -7 / 8 := by simp [hzdef]
+  have hzb : z.im = s / 8 := by simp [hzdef]
+  have hw : (2 - z : ℂ) ≠ 0 := by
+    intro h
+    have h1 : z = 2 := by linear_combination -h
+    have h2 := congrArg norm h1
+    rw [hn] at h2
+    norm_num at h2
+  have hw' : (1 - z / 2 : ℂ) ≠ 0 := by
+    intro h
+    exact hw (by linear_combination 2 * h)
+  refine ⟨_, cex3_hasSum_complex z (norm_half hn), ?_⟩
+  have hF : (6 + 3 * z + z ^ 2 + (1 - z / 2)⁻¹ : ℂ) = (14 - z ^ 2 - z ^ 3) / (2 - z) := by
+    rw [eq_div_iff hw]
+    have hinv : (1 - z / 2) * (1 - z / 2)⁻¹ = 1 := mul_inv_cancel₀ hw'
+    linear_combination (2 : ℂ) * hinv
   rw [hF, map_div₀]
   simp [Complex.normSq_apply, pow_succ, hza, hzb]
   have s2 : s ^ 2 = 15 := by rw [pow_two]; exact hs

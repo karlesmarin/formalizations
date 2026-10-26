@@ -1,0 +1,4 @@
+session Antipodal_Examples = "HOL-Analysis" +
+  theories
+    Dominant_Population
+    Antipodal_Counterexamples

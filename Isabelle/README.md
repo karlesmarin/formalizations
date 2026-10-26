@@ -14,11 +14,13 @@ Isabelle/HOL versions of some Lean modules of this repository, and entries prepa
 | Session | Port of | What is proved |
 |---|---|---|
 | 📈 `HausdorffFloor/` (`Hausdorff_Floor`) | `Formalizations.Analysis.SpecialFunctions.Polylog.HausdorffFloor` | per-term bound `1/(1+x) ≤ Re (1/(1 − x z))`; a uniform gap `c ≤ |1 − t z|` on `[0,1]` for `z ≠ 1` on the unit circle; for a finite measure and `τ ∈ [0,1)` a.e., the moment series converges at every `z ≠ 1` of the unit circle to `∫ 1/(1 − τ z)`, and its modulus is at least `∫ 1/(1 + τ)` |
+| 📈 `PolylogFloor/` (`Polylog_Floor`, on `Hausdorff_Floor`) | `Formalizations.Analysis.SpecialFunctions.Polylog.HausdorffFloor`, `Formalizations.Physics.QuantumMechanics.SpeedLimit.ZetaStateFloor` | the Gamma-density measure `x^(s−1) e^(−x)/Γ(s)` with `τ = e^(−x)` has moments `(k+1)^(−s)` (`gamma_moment`); `η(s) ≤ |Li_s z|` on the unit circle for real `s > 0`, `z ≠ 1` (`polylog_circle_floor`); `η(s) = (1 − 2^(1−s)) ζ(s)` for `s > 1` (`eta_eq`); the zeta state never gets closer to orthogonality than `1 − 2^(1−s)` (`zeta_state_floor`) |
+| ⚖️ `AntipodalExamples/` (`Antipodal_Examples`) | `Formalizations.Physics.QuantumMechanics.SpeedLimit.DominantPopulation`, `Formalizations.Analysis.SpecialFunctions.Polylog.AntipodalCounterexamples` | a population above 1/2 keeps the autocorrelation at least `2 p j − 1` (`two_mul_sub_one_le_norm_suminf`); the exact examples: three times monotone (`cex3_*`) and log-convex (`cexLC_*`) coefficients whose modulus on the unit circle drops below its value at `z = −1` (`cex3_normSq`, `cexLC_normSq`) |
+| ⏱️ `ZielinskiZych/` (`Zielinski_Zych`) | `Formalizations.Physics.QuantumMechanics.SpeedLimit.ZielinskiZych` | the Zieliński–Zych inequality and bound for `0 < α ≤ 1` (`zz_inequality`, `zielinski_zych`); the fractional moments tend to `1 − p 0` as `α → 0⁺` (`tendsto_fractional_moment`, by Tannery's theorem), and the bound tends to `+∞` or `0` as `p 0` is above or below `1/2` |
 | 🧩 `FriezeDominance/` (`Frieze_Dominance`) | `Formalizations.Combinatorics.Frieze.IntegerDominance`, `…Frieze.TwoSignChanges` | two integer Conway–Coxeter friezes of width 11 (quiddities `lower`, `upper`) whose middle rows are strictly ordered at all 14 positions; two of width 12 whose rows 6 differ with no zero and exactly two cyclic sign changes (`Frieze_Two_Sign_Changes`); finite computations by `code_simp` |
 | 🧩 `FriezeFamily/` (`Frieze_Family`) | — (Isabelle only; the first version of `AFP/Integer_Frieze_Rows`) | friezes as lattice polygons; ear insertion keeps friezes; antipodal ear insertion and the diameters; for every `t`, two integer friezes of width `11 + 2t` whose middle rows (diameters) are strictly ordered (`strictly_ordered_middle_rows`); bridge `entry_is_continuant` (entries are continuants of the quiddity `a_k = det (V_(k-1), V_(k+1))`) and the corollary in that language (`strictly_ordered_middle_rows_continuants`) |
 
-📉 Not ported: the polylogarithm corollary for real `s > 0` (it needs the Gamma-density measure in Isabelle). The proof
-avoids Abel's theorem: the partial sums are integrals of geometric sums and converge by dominated convergence.
+The Isabelle proof of the floor avoids Abel's theorem: the partial sums are integrals of geometric sums and converge by dominated convergence.
 
 ## 🏛️ Entries prepared for the Archive of Formal Proofs (`AFP/`)
 
@@ -37,6 +39,9 @@ With the official Docker image `makarius/isabelle:Isabelle2026` (or `:Isabelle20
 
 ```
 isabelle build -v -d HausdorffFloor Hausdorff_Floor
+isabelle build -v -d HausdorffFloor -d PolylogFloor Polylog_Floor
+isabelle build -v -D AntipodalExamples
+isabelle build -v -D ZielinskiZych
 isabelle build -v -D FriezeDominance
 isabelle build -v -d AFP/Integer_Frieze_Rows -D AFP/Odd_Frieze_Rows
 isabelle build -v -d AFP/Heilmann_Lieb -D AFP/Godsil_Path_Tree

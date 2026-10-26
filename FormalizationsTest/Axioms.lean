@@ -2388,3 +2388,4 @@ import Formalizations
 #print axioms Polylog.cexLC_antipode
 #print axioms Polylog.cexLC_re
 #print axioms Polylog.cexLC_normSq
+#print axioms Polylog.cex3_normSq
