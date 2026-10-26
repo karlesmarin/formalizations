@@ -21,6 +21,8 @@ public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.ComplexBounda
 public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.FiveTerm
 public import Formalizations.Analysis.SpecialFunctions.Integrals.LogDivSelf
 public import Formalizations.Analysis.SpecialFunctions.Trigonometric.FejerJackson
+public import Formalizations.Analysis.SpecialFunctions.Polylog.HausdorffFloor
+public import Formalizations.Analysis.SpecialFunctions.Polylog.AntipodalCounterexamples
 public import Formalizations.Analysis.TransformerAttention.CardyPDI
 public import Formalizations.Analysis.TransformerAttention.CayleyMap
 public import Formalizations.Analysis.TransformerAttention.CriticalExponents
@@ -179,6 +181,9 @@ public import Formalizations.Physics.Particles.StandardModel.SMEFT.TopEdgeCollap
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.AntipodeFloor
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MandelstamTamm
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.DominantPopulation
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.ZielinskiZych
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.ZetaStateFloor
 public import Formalizations.Physics.Supergravity.AnomalyQuantization.U2Example
 public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
 public import Formalizations.Probability.Distributions.Superstatistics.StudentMixture

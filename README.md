@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2355 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2384 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -61,6 +61,8 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `FiveTerm` 🆕 | Abel's five-term relation for the Rogers dilogarithm |
 | | `CircleFloor` 🆕 | The dilogarithm stays away from zero on the unit circle |
 | `Analysis.SpecialFunctions.Integrals` | `LogDivSelf` 🆕 | `∫₁ᴺ log x / x dx = (log N)² / 2` |
+| `Analysis.SpecialFunctions.Polylog` | `HausdorffFloor` 🆕 | The antipodal floor of Hausdorff-moment power series on the unit circle; \|Li_s z\| ≥ η(s) for real s > 0, attained at z = −1 |
+| | `AntipodalCounterexamples` 🆕 | Exact examples: three times monotone, or log-convex and convex, coefficients need not have their minimum on the unit circle at z = −1 |
 | `Analysis.SpecialFunctions.Trigonometric` | `FejerJackson` 🆕 | The Fejér–Jackson inequality `∑_{k=1}^M sin(kθ)/k > 0` on `(0, π)` |
 | `Analysis.TransformerAttention` | `CriticalExponents` 🆕 | Phase A exponents of the attention decay: `2η² + ηγ_χ + 1 = 0`, `βχ = −1`, `α + χ = 2`, Rushbrooke and Josephson with `d = 1`, the Fisher residual, `η = 2γ` refuted on `(0, 1)`, AM-GM bound `γ_χ ≥ 2√2` |
 | | `CardyPDI` 🆕 | `log PDI + ΔH_Cardy = 0` (Phase 7 form), residual `−log 2 / 2` (Phase 8 form); `d/dx artanh x = 1/(1 − x²)` |
@@ -220,6 +222,9 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `Physics.QuantumMechanics.SpeedLimit` | `MargolusLevitin` 🆕 | `1 − (2/π)(x + sin x) ≤ cos x`; Margolus–Levitin: orthogonality at time `τ` forces `π ≤ 2⟨E⟩τ` (`ℏ = 1`) |
 | | `MandelstamTamm` 🆕 | `L¹` Mandelstam–Tamm bound `1 ≤ D₁ τ` with `D₁` the mean absolute energy deviation |
 | | `AntipodeFloor` 🆕 | `‖∑ wⱼxⱼ/(1 − xⱼz)‖ ≥ ∑ wⱼxⱼ/(1 + xⱼ)` on the unit circle for `wⱼ ≥ 0`, `xⱼ ∈ [0, 1)` |
+| | `DominantPopulation` 🆕 | A population larger than 1/2 forbids orthogonality: 2 p j − 1 ≤ \|∑ p k e^{−i E_k t}\| |
+| | `ZielinskiZych` 🆕 | Zieliński–Zych fractional-moment speed limits (0 < α ≤ 1, with the inequality they leave unproved) and their limit α → 0: the dominant-population criterion |
+| | `ZetaStateFloor` 🆕 | The zeta states p n ∝ (n+1)^{−s} never get closer to orthogonality than 1 − 2^{1−s}; η(s) = (1 − 2^{1−s}) ζ(s) |
 | `Physics.Supergravity.AnomalyQuantization` | `U2Example` 🆕 | The `U(2)` form `(2 b₀ (m − n)² + b₁ (m + n)²)/8` of Monnier–Moore–Park is integer-valued iff `2 b₀ + b₁ ≡ 0 (mod 8)`; `4 ∣ b₀ ∧ 8 ∣ b₁` is sufficient, not necessary (`(1, 6)`); two samples decide integrality with rational coefficients |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
 | | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
