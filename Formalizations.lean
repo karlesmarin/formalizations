@@ -72,6 +72,7 @@ public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.Kirchhoff
 public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.SpanningTreeMinor
 public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
 public import Formalizations.Combinatorics.Choose.Singmaster
+public import Formalizations.Combinatorics.SetFamily.Bondy
 public import Formalizations.FieldTheory.Finite.CartierOperator
 public import Formalizations.FieldTheory.Finite.OddPowerVandermonde
 public import Formalizations.GroupTheory.FiniteAbelian.OddCharacter

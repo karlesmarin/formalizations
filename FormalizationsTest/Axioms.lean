@@ -2397,3 +2397,4 @@ import Formalizations
 #print axioms Hlawka.generalised
 #print axioms Wolstenholme.harmonic_sum_eq_zero
 #print axioms Wolstenholme.choose_modEq
+#print axioms Bondy.exists_erase_injOn
