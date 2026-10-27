@@ -27,8 +27,9 @@ For a discrete spectral measure with populations p n ≥ 0, ∑ p n = 1, energie
 fractional moment M_α = ∑ p n (E n − E₀)^α, if the autocorrelation ∑ p n e^{−i E n τ} vanishes at τ
 ≥ 0, then π^α ≤ 2 M_α τ^α, that is τ ≥ π / (2 M_α)^{1/α} (ħ = 1; Zieliński–Zych, Phys. Rev. A 74,
 034301 (2006), Eq. (10)). The inequality x^α − π^α/2 + (π^α/2) cos x + α π^{α−1} sin x ≥ 0 behind
-it, stated without proof by Zieliński and Zych, is proved here for 0 < α ≤ 1 (the case α = 1 is
-Margolus–Levitin); the case α > 1 is not formalized. E₀ only needs to bound from below the energies
+it, stated without proof by Zieliński and Zych (who assert it for all α > 0), is proved here for
+every α > 0 (the case α = 1 is Margolus–Levitin): for 0 < α ≤ 1 by a harmonic-mean bound on t^α,
+for α ≥ 1 by Bernoulli plus the split tan(u) versus 2α/π. E₀ only needs to bound from below the energies
 that carry population. When the lowest populated level E 0 = E₀ carries p 0 and the others lie
 strictly above it, M_α → 1 − p 0 as α → 0⁺, so the bound tends to +∞ when 1/2 < p 0 < 1 and to 0
 when p 0 < 1/2: in that limit the family reduces to the dominant-population criterion.
@@ -38,6 +39,10 @@ when p 0 < 1/2: in that limit the family reduces to the dominant-population crit
 * `QSL.zz_inequality`: x^α − π^α/2 + (π^α/2) cos x + α π^{α−1} sin x ≥ 0 for 0 < α ≤ 1, x ≥ 0
 * `QSL.zielinski_zych`: orthogonality at τ forces π^α ≤ 2 M_α τ^α (0 < α ≤ 1)
 * `QSL.zielinski_zych_time`: the same as τ ≥ π / (2 M_α)^{1/α}
+* `QSL.zz_inequality_of_one_le`: the same inequality for α ≥ 1, x ≥ 0
+* `QSL.zz_inequality_all`: the same inequality for every α > 0, x ≥ 0
+* `QSL.zielinski_zych_all`: π^α ≤ 2 M_α τ^α for every α > 0
+* `QSL.zielinski_zych_time_all`: τ ≥ π / (2 M_α)^{1/α} for every α > 0
 * `QSL.tendsto_fractionalMoment`: M_α → 1 − p 0 as α → 0⁺
 * `QSL.zz_bound_tendsto_atTop`: the bound tends to +∞ as α → 0⁺ when 1/2 < p 0 < 1
 * `QSL.zz_bound_tendsto_zero`: the bound tends to 0 as α → 0⁺ when p 0 < 1/2
@@ -309,6 +314,226 @@ theorem zz_inequality {α x : ℝ} (hα : 0 < α) (hα1 : α ≤ 1) (hx : 0 ≤ 
   have e3 : π ^ α * (t ^ α - (1 - Real.cos (π * t)) / 2 + α / π * Real.sin (π * t))
       = π ^ α * t ^ α - π ^ α / 2 + π ^ α / 2 * Real.cos (π * t)
         + α * (π ^ α / π) * Real.sin (π * t) := by ring
+  linarith
+
+/-! ### The case `α ≥ 1`
+
+Normalising `t = x / π`, the inequality reads `F(t) = t^α - sin²(π t / 2) + (α/π) sin (π t) ≥ 0`.
+For `t ≥ 1` Bernoulli gives `t^α ≥ 1 + α (t - 1)` and `u - sin u ≥ 0`. For `0 ≤ t ≤ 1` put
+`u = π (1 - t) / 2 ∈ [0, π/2]`. If `π cos u ≤ 2 α sin u`, dropping `t^α` leaves
+`cos u (2 α sin u - π cos u) / π ≥ 0`. Otherwise Bernoulli leaves
+`(π sin² u - 2 α (u - sin u cos u)) / π`, which is `≥ 0` because `2 α sin u ≤ π cos u` and
+`u cos u ≤ sin u` (`u ≤ tan u`). -/
+
+/-- `u cos u ≤ sin u` on `[0, π/2]`. -/
+private lemma mul_cos_le_sin {u : ℝ} (h0 : 0 ≤ u) (h1 : u ≤ π / 2) :
+    u * Real.cos u ≤ Real.sin u := by
+  rcases h1.lt_or_eq with h | h
+  · have hc : 0 < Real.cos u := Real.cos_pos_of_mem_Ioo ⟨by linarith [Real.pi_pos], h⟩
+    have ht := Real.le_tan h0 h
+    rw [Real.tan_eq_sin_div_cos, le_div_iff₀ hc] at ht
+    exact ht
+  · subst h
+    simp
+
+/-- The normalized inequality on `[1, ∞)` for `α ≥ 1`. -/
+private lemma zz_aux_ge_one {α t : ℝ} (hα : 1 ≤ α) (ht : 1 ≤ t) :
+    0 ≤ t ^ α - (1 - Real.cos (π * t)) / 2 + α / π * Real.sin (π * t) := by
+  have hπ := Real.pi_pos
+  have hb := one_add_mul_self_le_rpow_one_add (s := t - 1) (by linarith) hα
+  rw [show 1 + (t - 1) = t by ring] at hb
+  obtain ⟨u, hu⟩ : ∃ u, u = π * (t - 1) := ⟨_, rfl⟩
+  have hu0 : 0 ≤ u := by rw [hu]; exact mul_nonneg hπ.le (by linarith)
+  have hπt : π * t = u + π := by rw [hu]; ring
+  rw [hπt, Real.cos_add_pi, Real.sin_add_pi]
+  have h1 : α / π * Real.sin u ≤ α / π * u :=
+    mul_le_mul_of_nonneg_left (Real.sin_le hu0) (by positivity)
+  have e : α / π * u = α * (t - 1) := by rw [hu]; field_simp
+  nlinarith [Real.cos_le_one u]
+
+/-- The normalized inequality on `[0, 1]` for `α ≥ 1`. -/
+private lemma zz_aux_le_one {α t : ℝ} (hα : 1 ≤ α) (ht0 : 0 ≤ t) (ht1 : t ≤ 1) :
+    0 ≤ t ^ α - (1 - Real.cos (π * t)) / 2 + α / π * Real.sin (π * t) := by
+  have hπ := Real.pi_pos
+  have hb := one_add_mul_self_le_rpow_one_add (s := t - 1) (by linarith) hα
+  rw [show 1 + (t - 1) = t by ring] at hb
+  obtain ⟨u, hu⟩ : ∃ u, u = π * (1 - t) / 2 := ⟨_, rfl⟩
+  have hu0 : 0 ≤ u := by
+    rw [hu]
+    have : 0 ≤ π * (1 - t) := mul_nonneg hπ.le (by linarith)
+    linarith
+  have hu1 : u ≤ π / 2 := by rw [hu]; nlinarith
+  have htu : t = 1 - 2 * u / π := by rw [hu]; field_simp; ring
+  have hπt : π * t = π - 2 * u := by rw [hu]; ring
+  have hsu : 0 ≤ Real.sin u := Real.sin_nonneg_of_nonneg_of_le_pi hu0 (by linarith)
+  have hcu : 0 ≤ Real.cos u :=
+    Real.cos_nonneg_of_neg_pi_div_two_le_of_le (by linarith) hu1
+  have hpy : Real.sin u ^ 2 + Real.cos u ^ 2 = 1 := Real.sin_sq_add_cos_sq u
+  have hc : Real.cos (π * t) = 1 - 2 * Real.cos u ^ 2 := by
+    rw [hπt, Real.cos_pi_sub, Real.cos_two_mul]
+    ring
+  have hs : Real.sin (π * t) = 2 * Real.sin u * Real.cos u := by
+    rw [hπt, Real.sin_pi_sub, Real.sin_two_mul]
+  rw [hc, hs]
+  have hD : 0 ≤ u - Real.sin u * Real.cos u := by
+    have h := Real.sin_le (x := 2 * u) (by linarith)
+    rw [Real.sin_two_mul] at h
+    linarith
+  rcases le_total (π * Real.cos u) (2 * α * Real.sin u) with h | h
+  · -- (a): drop `t ^ α`
+    have hr := Real.rpow_nonneg ht0 α
+    have h1 : 0 ≤ Real.cos u * (2 * α * Real.sin u - π * Real.cos u) :=
+      mul_nonneg hcu (by linarith)
+    have h2 : 0 ≤ Real.cos u * (2 * α * Real.sin u - π * Real.cos u) / π :=
+      div_nonneg h1 hπ.le
+    have e : Real.cos u * (2 * α * Real.sin u - π * Real.cos u) / π
+        = α / π * (2 * Real.sin u * Real.cos u) - Real.cos u ^ 2 := by
+      field_simp
+    linarith
+  · -- (b): Bernoulli
+    have hK : 0 ≤ π * Real.sin u ^ 2 - 2 * α * (u - Real.sin u * Real.cos u) := by
+      rcases hu0.eq_or_lt with h0 | h0
+      · rw [← h0]
+        simp
+      · have hsp : 0 < Real.sin u := Real.sin_pos_of_pos_of_lt_pi h0 (by linarith)
+        have h1 : 2 * α * Real.sin u * (u - Real.sin u * Real.cos u)
+            ≤ π * Real.cos u * (u - Real.sin u * Real.cos u) :=
+          mul_le_mul_of_nonneg_right h hD
+        have h2 := mul_cos_le_sin hu0 hu1
+        have e : Real.sin u * (π * Real.sin u ^ 2 - 2 * α * (u - Real.sin u * Real.cos u))
+            = π * (Real.sin u - u * Real.cos u)
+              + (π * Real.cos u * (u - Real.sin u * Real.cos u)
+                - 2 * α * Real.sin u * (u - Real.sin u * Real.cos u)) := by
+          linear_combination (π * Real.sin u) * hpy
+        have h3 : 0 ≤ π * (Real.sin u - u * Real.cos u) :=
+          mul_nonneg hπ.le (sub_nonneg.2 h2)
+        have hm : 0 ≤ Real.sin u *
+            (π * Real.sin u ^ 2 - 2 * α * (u - Real.sin u * Real.cos u)) := by
+          rw [e]
+          linarith
+        exact (mul_nonneg_iff_of_pos_left hsp).1 hm
+    have hK' := div_nonneg hK hπ.le
+    have e2 : (π * Real.sin u ^ 2 - 2 * α * (u - Real.sin u * Real.cos u)) / π
+        = Real.sin u ^ 2 - 2 * α * u / π + α / π * (2 * Real.sin u * Real.cos u) := by
+      field_simp
+      ring
+    have hb' : α * (t - 1) = -(2 * α * u / π) := by
+      rw [htu]
+      ring
+    rw [hb'] at hb
+    rw [e2] at hK'
+    linarith
+
+private lemma zz_aux_one {α t : ℝ} (hα : 1 ≤ α) (ht : 0 ≤ t) :
+    0 ≤ t ^ α - (1 - Real.cos (π * t)) / 2 + α / π * Real.sin (π * t) :=
+  (le_total t 1).elim (zz_aux_le_one hα ht) (zz_aux_ge_one hα)
+
+/-- Unnormalizing: the normalized inequality for all `t ≥ 0` gives the one in `x`. -/
+private lemma zz_of_aux {α x : ℝ} (hx : 0 ≤ x)
+    (h : ∀ t : ℝ, 0 ≤ t →
+      0 ≤ t ^ α - (1 - Real.cos (π * t)) / 2 + α / π * Real.sin (π * t)) :
+    0 ≤ x ^ α - π ^ α / 2 + π ^ α / 2 * Real.cos x + α * π ^ (α - 1) * Real.sin x := by
+  have hπ := Real.pi_pos
+  obtain ⟨t, ht, rfl⟩ : ∃ t, 0 ≤ t ∧ x = π * t :=
+    ⟨x / π, div_nonneg hx hπ.le, by field_simp⟩
+  have hG := h t ht
+  have e1 : (π * t) ^ α = π ^ α * t ^ α := Real.mul_rpow hπ.le ht
+  have e2 : π ^ (α - 1) = π ^ α / π := Real.rpow_sub_one hπ.ne' α
+  rw [e1, e2]
+  have h := mul_nonneg (Real.rpow_nonneg hπ.le α) hG
+  have e3 : π ^ α * (t ^ α - (1 - Real.cos (π * t)) / 2 + α / π * Real.sin (π * t))
+      = π ^ α * t ^ α - π ^ α / 2 + π ^ α / 2 * Real.cos (π * t)
+        + α * (π ^ α / π) * Real.sin (π * t) := by ring
+  linarith
+
+/-- **The Zieliński–Zych inequality for `α ≥ 1`** (asserted without proof in their paper). -/
+theorem zz_inequality_of_one_le {α x : ℝ} (hα : 1 ≤ α) (hx : 0 ≤ x) :
+    0 ≤ x ^ α - π ^ α / 2 + π ^ α / 2 * Real.cos x + α * π ^ (α - 1) * Real.sin x :=
+  zz_of_aux hx (fun _ ht => zz_aux_one hα ht)
+
+/-- **The Zieliński–Zych inequality for every `α > 0`.** -/
+theorem zz_inequality_all {α x : ℝ} (hα : 0 < α) (hx : 0 ≤ x) :
+    0 ≤ x ^ α - π ^ α / 2 + π ^ α / 2 * Real.cos x + α * π ^ (α - 1) * Real.sin x :=
+  (le_total α 1).elim (fun h => zz_inequality hα h hx) (fun h => zz_inequality_of_one_le h hx)
+
+/-- The speed limit from the inequality, for any fixed `α`. -/
+private lemma zz_core {p E : ℕ → ℝ} {E₀ α M τ : ℝ}
+    (hineq : ∀ x : ℝ, 0 ≤ x →
+      0 ≤ x ^ α - π ^ α / 2 + π ^ α / 2 * Real.cos x + α * π ^ (α - 1) * Real.sin x)
+    (hp : ∀ n, 0 ≤ p n) (hE : ∀ n, E₀ ≤ E n) (hτ : 0 ≤ τ)
+    (hsum : HasSum p 1)
+    (hM : HasSum (fun n => p n * (E n - E₀) ^ α) M)
+    (hRe : HasSum (fun n => p n * Real.cos (E n * τ)) 0)
+    (hIm : HasSum (fun n => p n * Real.sin (E n * τ)) 0) :
+    π ^ α ≤ 2 * M * τ ^ α := by
+  have hc : HasSum (fun n => p n * Real.cos (E n * τ - E₀ * τ)) 0 := by
+    have h := (hRe.mul_left (Real.cos (E₀ * τ))).add (hIm.mul_left (Real.sin (E₀ * τ)))
+    rw [mul_zero, mul_zero, add_zero] at h
+    convert h using 1
+    funext n
+    rw [Real.cos_sub]
+    ring
+  have hs : HasSum (fun n => p n * Real.sin (E n * τ - E₀ * τ)) 0 := by
+    have h := (hIm.mul_left (Real.cos (E₀ * τ))).sub (hRe.mul_left (Real.sin (E₀ * τ)))
+    rw [mul_zero, mul_zero, sub_zero] at h
+    convert h using 1
+    funext n
+    rw [Real.sin_sub]
+    ring
+  have hT := (((hM.mul_left (τ ^ α)).sub (hsum.mul_left (π ^ α / 2))).add
+    (hc.mul_left (π ^ α / 2))).add (hs.mul_left (α * π ^ (α - 1)))
+  have hterm : ∀ n, 0 ≤ τ ^ α * (p n * (E n - E₀) ^ α) - π ^ α / 2 * p n
+      + π ^ α / 2 * (p n * Real.cos (E n * τ - E₀ * τ))
+      + α * π ^ (α - 1) * (p n * Real.sin (E n * τ - E₀ * τ)) := by
+    intro n
+    have h := hineq (τ * (E n - E₀)) (mul_nonneg hτ (sub_nonneg.2 (hE n)))
+    rw [Real.mul_rpow hτ (sub_nonneg.2 (hE n)),
+      show τ * (E n - E₀) = E n * τ - E₀ * τ by ring] at h
+    have := mul_nonneg (hp n) h
+    nlinarith [this]
+  have hnn := hasSum_le hterm hasSum_zero hT
+  nlinarith [hnn]
+
+/-- **The Zieliński–Zych speed limit for every `α > 0`** (their Eq. (10), `ℏ = 1`). -/
+theorem zielinski_zych_all {p E : ℕ → ℝ} {E₀ α M τ : ℝ} (hα : 0 < α)
+    (hp : ∀ n, 0 ≤ p n) (hE : ∀ n, E₀ ≤ E n) (hτ : 0 ≤ τ)
+    (hsum : HasSum p 1)
+    (hM : HasSum (fun n => p n * (E n - E₀) ^ α) M)
+    (hRe : HasSum (fun n => p n * Real.cos (E n * τ)) 0)
+    (hIm : HasSum (fun n => p n * Real.sin (E n * τ)) 0) :
+    π ^ α ≤ 2 * M * τ ^ α :=
+  zz_core (fun _ hx => zz_inequality_all hα hx) hp hE hτ hsum hM hRe hIm
+
+/-- The same bound as a lower bound on the time, for every `α > 0`. -/
+theorem zielinski_zych_time_all {p E : ℕ → ℝ} {E₀ α M τ : ℝ} (hα : 0 < α)
+    (hp : ∀ n, 0 ≤ p n) (hE : ∀ n, E₀ ≤ E n) (hτ : 0 ≤ τ)
+    (hsum : HasSum p 1)
+    (hM : HasSum (fun n => p n * (E n - E₀) ^ α) M)
+    (hRe : HasSum (fun n => p n * Real.cos (E n * τ)) 0)
+    (hIm : HasSum (fun n => p n * Real.sin (E n * τ)) 0) :
+    π / (2 * M) ^ (1 / α) ≤ τ := by
+  have hZ := zielinski_zych_all hα hp hE hτ hsum hM hRe hIm
+  have hM0 : 0 ≤ M :=
+    hasSum_le (fun n => mul_nonneg (hp n) (Real.rpow_nonneg (sub_nonneg.2 (hE n)) α))
+      hasSum_zero hM
+  have hπα : 0 < π ^ α := Real.rpow_pos_of_pos Real.pi_pos α
+  have hMpos : 0 < M := by
+    rcases hM0.eq_or_lt with h | h
+    · exfalso
+      rw [← h] at hZ
+      have : 2 * (0 : ℝ) * τ ^ α = 0 := by ring
+      linarith
+    · exact h
+  have h2M : 0 < 2 * M := by positivity
+  have hcpos : 0 < (2 * M) ^ (1 / α) := Real.rpow_pos_of_pos h2M _
+  have hca : ((2 * M) ^ (1 / α)) ^ α = 2 * M := by
+    rw [← Real.rpow_mul h2M.le, one_div_mul_cancel hα.ne', Real.rpow_one]
+  have h1 : π ^ α ≤ ((2 * M) ^ (1 / α) * τ) ^ α := by
+    rw [Real.mul_rpow hcpos.le hτ, hca]
+    exact hZ
+  have h2 : π ≤ (2 * M) ^ (1 / α) * τ :=
+    (Real.rpow_le_rpow_iff Real.pi_pos.le (mul_nonneg hcpos.le hτ) hα).1 h1
+  rw [div_le_iff₀ hcpos]
   linarith
 
 /-- **The Zieliński–Zych speed limit** (their Eq. (10), `ℏ = 1`): if the autocorrelation of a

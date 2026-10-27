@@ -74,6 +74,7 @@ public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
 public import Formalizations.Combinatorics.SimpleGraph.TripartiteTuran
 public import Formalizations.Combinatorics.Choose.Singmaster
 public import Formalizations.Combinatorics.Choose.MiddleBinomialDivisors
+public import Formalizations.Combinatorics.Choose.MiddleBinomialDensity
 public import Formalizations.Combinatorics.SetFamily.Bondy
 public import Formalizations.Combinatorics.Configuration.BruckRyserChowla
 public import Formalizations.Combinatorics.Enumerative.Touchard

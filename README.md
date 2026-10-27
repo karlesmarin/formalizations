@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2430 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2435 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -78,6 +78,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `Combinatorics.Additive` | `AddClosedInterval` 🆕 | An additively closed `S ⊆ ℕ` containing `[a, 2a]` contains `[a, ∞)` |
 | `Combinatorics.Choose` | `Singmaster` 🆕 | Singmaster's bound: `a ≥ 2` occurs at most `2 ⌊log₂ a⌋` times in Pascal's triangle (Singmaster states `2 + 2 ⌊log₂ a⌋`). |
 | | `MiddleBinomialDivisors` 🆕 | Pomerance (Monthly 2015): for `k ≠ 1`, `n + k ∤ C(2n, n)` for infinitely many `n`; `v_p(n + k) ≤ v_p(C(2n, n))` for primes `p ≥ 2k`; `pq ∣ C(2n, n)` for `n = pq + k`, `k < p`, `3p/2 < q < 2p`. |
+| | `MiddleBinomialDensity` 🆕 | Pomerance (Monthly 2015), Theorem 2: for `k ≥ 1`, `n + k ∣ C(2n, n)` for a set of `n` of asymptotic density 1 (counting base-`p` digits `≥ p/2` for the primes `p < 2k`). |
 | `Combinatorics.Configuration` | `BruckRyserChowla` 🆕 | Bruck–Ryser–Chowla: a projective plane of order `n ≡ 1, 2 (mod 4)` forces `n` to be a sum of two squares (no planes of order 6, 14). |
 | `Combinatorics.Enumerative` | `Touchard` 🆕 | Touchard's congruence `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers (umbral calculus in `(ZMod p)[X]`). |
 | | `PrimeCongruences` 🆕 | Congruences at primes: `C(2p, p) ≡ 2`, `Catalan(p) ≡ 2`, `D(p) ≡ -1 (mod p)`. |
@@ -245,7 +246,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `MandelstamTamm` 🆕 | `L¹` Mandelstam–Tamm bound `1 ≤ D₁ τ` with `D₁` the mean absolute energy deviation |
 | | `AntipodeFloor` 🆕 | `‖∑ wⱼxⱼ/(1 − xⱼz)‖ ≥ ∑ wⱼxⱼ/(1 + xⱼ)` on the unit circle for `wⱼ ≥ 0`, `xⱼ ∈ [0, 1)` |
 | | `DominantPopulation` 🆕 | A population larger than 1/2 forbids orthogonality: 2 p j − 1 ≤ \|∑ p k e^{−i E_k t}\| |
-| | `ZielinskiZych` 🆕 | Zieliński–Zych fractional-moment speed limits (0 < α ≤ 1, with the inequality they leave unproved) and their limit α → 0: the dominant-population criterion |
+| | `ZielinskiZych` 🆕 | Zieliński–Zych fractional-moment speed limits for every α > 0 (the inequality they state without proof, proved here for all α; α ≥ 1 added 27-oct-2026) and their limit α → 0: the dominant-population criterion |
 | | `ZetaStateFloor` 🆕 | The zeta states p n ∝ (n+1)^{−s} never get closer to orthogonality than 1 − 2^{1−s}; η(s) = (1 − 2^{1−s}) ζ(s) |
 | `Physics.Supergravity.AnomalyQuantization` | `U2Example` 🆕 | The `U(2)` form `(2 b₀ (m − n)² + b₁ (m + n)²)/8` of Monnier–Moore–Park is integer-valued iff `2 b₀ + b₁ ≡ 0 (mod 8)`; `4 ∣ b₀ ∧ 8 ∣ b₁` is sufficient, not necessary (`(1, 6)`); two samples decide integrality with rational coefficients |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
