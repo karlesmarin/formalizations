@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2448 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2455 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -244,6 +244,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `HiggsSelfCouplings` 🆕 | Tree-level matching of the Higgs self-couplings: `O_φ = (vh + h²/2)³`; `c_φ` pieces with `δκ₄ = 6 δκ₃`; `δκ₄ − 6 δκ₃ = −(4/3)(v²/Λ²) C_{H,kin}`, so the ratio is `6` iff `C_{H,kin} = 0`; leading order `δκ₅ − 15 δκ₃ = δκ₆ − 15 δκ₃ = −5 (v²/Λ²) C_{H,kin}` |
 | `Physics.QuantumMechanics.SpeedLimit` | `MargolusLevitin` 🆕 | `1 − (2/π)(x + sin x) ≤ cos x`; Margolus–Levitin: orthogonality at time `τ` forces `π ≤ 2⟨E⟩τ` (`ℏ = 1`) |
 | | `MandelstamTamm` 🆕 | `L¹` Mandelstam–Tamm bound `1 ≤ D₁ τ` with `D₁` the mean absolute energy deviation |
+| | `FixedAxisSaturation` 🆕 | The Mandelstam–Tamm integral bound `arccos ‖⟨ψ₀, ψ_T⟩‖ ≤ ∫₀ᵀ ΔE` is an EQUALITY for every fixed-axis two-level pulse `H = f σₓ/2`, `f ≥ 0`, `∫f ≤ π`; a π pulse reaches an orthogonal state with `∫ΔE = π/2` whatever the shape `f`; strict for `π < ∫f < 3π`; for continuous `f` the trajectory solves `ψ′ = −iHψ` |
 | | `AntipodeFloor` 🆕 | `‖∑ wⱼxⱼ/(1 − xⱼz)‖ ≥ ∑ wⱼxⱼ/(1 + xⱼ)` on the unit circle for `wⱼ ≥ 0`, `xⱼ ∈ [0, 1)` |
 | | `DominantPopulation` 🆕 | A population larger than 1/2 forbids orthogonality: 2 p j − 1 ≤ \|∑ p k e^{−i E_k t}\| |
 | | `ZielinskiZych` 🆕 | Zieliński–Zych fractional-moment speed limits for every α > 0 (the inequality they state without proof, proved here for all α; α ≥ 1 added 27-oct-2026) and their limit α → 0: the dominant-population criterion |

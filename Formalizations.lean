@@ -199,6 +199,7 @@ public import Formalizations.Physics.Particles.StandardModel.SMEFT.AllOrdersSelf
 public import Formalizations.Physics.Particles.StandardModel.SMEFT.HiggsSelfCouplings
 public import Formalizations.Physics.Particles.StandardModel.SMEFT.TopEdgeCollapse
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.AntipodeFloor
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.FixedAxisSaturation
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MandelstamTamm
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.DominantPopulation

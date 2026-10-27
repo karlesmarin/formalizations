@@ -2452,3 +2452,10 @@ import Formalizations
 #print axioms QSL.Qudit.pi_div_four_le_entangling_time
 #print axioms QSL.Qudit.pi_div_four_le_entangling_time_fin
 #print axioms QSL.Qudit.entangling_time_tight
+#print axioms QSL.FixedAxis.energyStd_qubitState
+#print axioms QSL.FixedAxis.arccos_overlap_qubitState
+#print axioms QSL.FixedAxis.arccos_overlap_lt_of_pi_lt
+#print axioms QSL.FixedAxis.mandelstam_tamm_integral_eq
+#print axioms QSL.FixedAxis.pi_pulse_quantum_speed_limit_ratio
+#print axioms QSL.FixedAxis.hasDerivAt_trajectory
+#print axioms QSL.FixedAxis.mandelstam_tamm_integral_eq_solution
