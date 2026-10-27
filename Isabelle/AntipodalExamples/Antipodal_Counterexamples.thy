@@ -1,5 +1,7 @@
 (*  Title:      Antipodal_Counterexamples.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Where the antipodal floor fails
 

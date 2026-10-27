@@ -1,5 +1,7 @@
 (*  Title:      Zielinski_Zych.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The Zielinski--Zych speed limits and their limit alpha -> 0
 

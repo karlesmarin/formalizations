@@ -1,5 +1,7 @@
 (*  Title:      Frieze_Family.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     A family of integer friezes with strictly ordered middle rows
 

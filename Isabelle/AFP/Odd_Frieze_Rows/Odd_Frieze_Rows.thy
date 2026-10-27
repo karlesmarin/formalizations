@@ -1,5 +1,7 @@
 (*  Title:      Odd_Frieze_Rows.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Integer friezes of odd order with two sign changes
 

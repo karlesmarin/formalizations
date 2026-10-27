@@ -1,5 +1,7 @@
 (*  Title:      Path_Tree_Dvd.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Divisibility of the path tree's matching polynomial
 

@@ -1,5 +1,7 @@
 (*  Title:      Dominant_Population.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     A dominant population keeps a state away from orthogonality
 

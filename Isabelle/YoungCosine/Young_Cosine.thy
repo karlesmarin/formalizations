@@ -1,5 +1,7 @@
 (*  Title:      Young_Cosine.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Young's cosine inequality
 

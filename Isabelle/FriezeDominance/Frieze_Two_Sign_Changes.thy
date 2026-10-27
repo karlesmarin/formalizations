@@ -1,5 +1,7 @@
 (*  Title:      Frieze_Two_Sign_Changes.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Two integer friezes of width 12 with two sign changes
 

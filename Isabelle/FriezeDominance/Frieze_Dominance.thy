@@ -1,5 +1,7 @@
 (*  Title:      Frieze_Dominance.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Two integer friezes of width 11 with strictly ordered middle rows
 

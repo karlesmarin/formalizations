@@ -1,5 +1,7 @@
 (*  Title:      Matrix_Tree.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Kirchhoff's matrix-tree theorem
 

@@ -1,5 +1,7 @@
 (*  Title:      Polylog_Floor.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The antipodal floor of the polylogarithm and of the zeta states
 

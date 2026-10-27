@@ -1,5 +1,7 @@
 (*  Title:      Integer_Frieze_Rows.thy
     Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Integer friezes with strictly ordered middle rows
 
