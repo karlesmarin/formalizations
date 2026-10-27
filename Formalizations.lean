@@ -167,6 +167,7 @@ public import Formalizations.NumberTheory.LegendreSieve
 public import Formalizations.NumberTheory.Willans
 public import Formalizations.NumberTheory.Zsqrtd.GaussianMoatLine
 public import Formalizations.NumberTheory.ArithmeticFunction.DivisorTotient
+public import Formalizations.NumberTheory.ArithmeticFunction.OeisA063880
 public import Formalizations.NumberTheory.Fibonacci.FibLegendre
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.AlignmentPolynomials
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.BlindCount

@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2419 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2423 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -175,6 +175,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `LegendreSieve` 🆕 | Legendre's sieve: `π(x) - π(√x) + 1 = Σ_{d ∣ P(√x)} μ(d) ⌊x/d⌋`, from the exact Möbius count of integers coprime to `P`. |
 | | `Willans` 🆕 | Willans' formula for the `n`-th prime, from Wilson's theorem and Bertrand's postulate. |
 | `NumberTheory.ArithmeticFunction` | `DivisorTotient` 🆕 | The Dirichlet identity `Σ_{d ∣ n} τ(d) φ(n/d) = σ(n)` (`τ ∗ φ = σ`). |
+| | `OeisA063880` 🆕 | A063880 (partial): `σ(n) = 2σ*(n)` forces an odd prime with exponent `≡ 3 (mod 4)`; the open statements (`≡ 108 mod 216`, unique primitive) remain open. |
 | `NumberTheory.DirichletCharacter` | `AbelZero` 🆕 | For a primitive `χ` modulo odd `N`: `∑_c χ⁻¹(c) U(ζ^c) = 2 τ (1 − χ(2)) B_{1,χ}`, `U(Z) = 2Z/(Z² − 1)`, by finite Fourier analysis |
 | `NumberTheory.Euclid` | `Lame` 🆕 | Lamé's theorem: Euclid's algorithm on `(x, y)` takes `n` steps with `F_{n+1} ≤ y`, so at most five per decimal digit of `y`. |
 | `NumberTheory.Fibonacci` | `FibLegendre` 🆕 | Fibonacci numbers at primes: `F(p) ≡ (5/p) (mod p)` (Frobenius on the Fibonacci matrix and Euler's criterion). |

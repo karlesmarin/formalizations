@@ -2423,3 +2423,7 @@ import Formalizations
 #print axioms PrimeCongruences.catalan_prime
 #print axioms PrimeCongruences.numDerangements_prime
 #print axioms Singmaster.ncard_choose_eq_le_two_mul_log
+#print axioms OeisA63880.usigma_mul
+#print axioms OeisA63880.usigma_prime_pow
+#print axioms OeisA63880.exists_odd_prime_factorization_mod_four
+#print axioms OeisA63880.exists_odd_prime_cube_dvd

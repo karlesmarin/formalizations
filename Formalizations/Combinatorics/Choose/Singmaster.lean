@@ -22,6 +22,7 @@ into these by `(n, k) ↦ (n, n - k)`. The proof gives `2 ⌊log₂ a⌋`.
 
 ## Main results
 
+* `Singmaster.ncard_choose_eq_le_two_mul_log`: positions of a >= 2 in Pascal triangle: finite, at most 2 log2 a (sharpened)
 * `Singmaster.ncard_choose_eq_le`: positions of a >= 2 in Pascal triangle: finite, at most 2 + 2 log2 a
 
 ## References
@@ -66,12 +67,12 @@ private lemma choose_inj {n m k : ℕ} (hk : 1 ≤ k) (hn : k ≤ n) (hm : k ≤
   · exact h1
   · exact absurd h (key m n hm h1).ne'
 
-/-- **Singmaster's bound (1971).** An integer `a ≥ 2` occurs at most `2 + 2 ⌊log₂ a⌋` times in
-Pascal's triangle: the positions `(n, k)` with `k ≤ n` and `C(n, k) = a` form a finite set with at
-most that many elements. -/
-theorem ncard_choose_eq_le (a : ℕ) (ha : 2 ≤ a) :
+/-- **Singmaster's bound, sharpened.** An integer `a ≥ 2` occurs at most `2 ⌊log₂ a⌋` times in
+Pascal's triangle (Singmaster 1971 states `2 + 2 log₂ a`): the positions `(n, k)` with `k ≤ n` and
+`C(n, k) = a` form a finite set with at most that many elements. -/
+theorem ncard_choose_eq_le_two_mul_log (a : ℕ) (ha : 2 ≤ a) :
     {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a}.Finite ∧
-    {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a}.ncard ≤ 2 + 2 * Nat.log 2 a := by
+    {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a}.ncard ≤ 2 * Nat.log 2 a := by
   set P : Set (ℕ × ℕ) := {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a} with hP
   set A : Set (ℕ × ℕ) := {p | p ∈ P ∧ 2 * p.2 ≤ p.1} with hA
   set B : Set (ℕ × ℕ) := {p | p ∈ P ∧ ¬ 2 * p.2 ≤ p.1} with hB
@@ -115,5 +116,12 @@ theorem ncard_choose_eq_le (a : ℕ) (ha : 2 ≤ a) :
   rw [hPAB]
   have := Set.ncard_union_le A B
   omega
+
+/-- **Singmaster's bound (1971).** An integer `a ≥ 2` occurs at most `2 + 2 ⌊log₂ a⌋` times in
+Pascal's triangle (the form stated by Singmaster; see `ncard_choose_eq_le_two_mul_log`). -/
+theorem ncard_choose_eq_le (a : ℕ) (ha : 2 ≤ a) :
+    {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a}.Finite ∧
+    {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a}.ncard ≤ 2 + 2 * Nat.log 2 a :=
+  ⟨(ncard_choose_eq_le_two_mul_log a ha).1, by have := (ncard_choose_eq_le_two_mul_log a ha).2; omega⟩
 
 end Singmaster
