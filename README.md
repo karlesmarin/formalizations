@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2385 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2386 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -117,6 +117,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `SeparationDichotomy` 🆕 | Averaging identity `∑_g #(gA ∩ B)`; either some `g` separates `A` from `B` or all intersections have size `1` (exact factorization; tilings of `ℤ/n`) |
 | | `SectionRegular` 🆕 | `(∑_g #(gA ∩ B)) · #Ω = #A · #B · #G` for transitive actions; section-regular partitions have parts of equal size |
 | | `DistinguishingNumber` 🆕 | Distinguishing colorings and numbers; the collineation group of the Fano plane has distinguishing number `4` (by `decide`) |
+| | `FanoOrder` 🆕 | The collineation group of the Fano plane has order `168` (bijection with the non-collinear triples). |
 | `LinearAlgebra` | `PointwiseProductSpan` 🆕 | Over an infinite field, if `V`, `W ≤ ι → K` are stable under a transitive group of signed permutations and `dim V + dim W > card ι`, the products `v * w` span `ι → K` |
 | `LinearAlgebra.Eigenspace` | `JointInvolutions` 🆕 | For two commuting involutions `P₀`, `P₁` in characteristic zero, `¼ (1 + ε₀P₀)(1 + ε₁P₁)` projects onto the joint eigenspace, of dimension `¼ [dim + ε₀ tr P₀ + ε₁ tr P₁ + ε₀ε₁ tr P₀P₁]` |
 | `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |
