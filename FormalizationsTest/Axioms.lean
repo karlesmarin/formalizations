@@ -2465,3 +2465,6 @@ import Formalizations
 #print axioms QSL.FixedAxis.pi_pulse_quantum_speed_limit_ratio
 #print axioms QSL.FixedAxis.hasDerivAt_trajectory
 #print axioms QSL.FixedAxis.mandelstam_tamm_integral_eq_solution
+#print axioms QSL.Gate.fsAngle_le_time_halfWidth
+#print axioms QSL.Gate.gate_time_ge_eigenphase_gap
+#print axioms QSL.Gate.cz_time_ge
