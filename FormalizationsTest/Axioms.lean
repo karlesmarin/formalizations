@@ -2414,3 +2414,5 @@ import Formalizations
 #print axioms Cotes.harmonic_mean_polar
 #print axioms GaussianMoat.exists_far_from_primes_on_line
 #print axioms GaussianMoat.norm_eq_of_dvd_prime
+#print axioms TripartiteTuran.exists_triangle_of_mul_add
+#print axioms TripartiteTuran.exists_triangle
