@@ -8,6 +8,9 @@ module
 public import Mathlib.Analysis.CStarAlgebra.Matrix
 public import Mathlib.LinearAlgebra.Matrix.Kronecker
 public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Analysis.Matrix.Hermitian
+public import Mathlib.Analysis.InnerProductSpace.Rayleigh
+public import Mathlib.Analysis.SpecificLimits.Basic
 
 /-!
 # The exchange operator of two truncated oscillators
@@ -30,9 +33,21 @@ sandwich between the two constants:
 * `QSL.Exchange.exchange_norm_le`: `‖E‖ ≤ 2 (d - 1)`, via `‖a‖ ≤ √(d - 1)`;
 * `QSL.Exchange.ratio_sandwich`: `1 ≤ 2 ‖E‖ / λ² ≤ 4 (d - 1) / λ²`.
 
-Not formalized: that `λ_d` is the *largest* eigenvalue, and the limit `4 (d - 1) / λ_d² → 1`
-(it needs a lower bound `λ_d ≥ 2 √(d - 1) (1 - o(1))` on the top of the spectrum of the Jacobi
-matrix `Q`, i.e. the spectral theorem plus a test vector).
+Asymptotics (the ratio `2κ_d/λ_d²` is the quotient of the CZ-time upper and lower bounds above, so
+`→ 1` says the two bounds agree to leading order):
+
+* `QSL.Exchange.lamMax`: the largest eigenvalue `λ_d` of `Q`, the supremum of the Rayleigh quotient;
+  `quad_form_le_lamMax` is the variational fact `⟪v, Q v⟫ ≤ λ_d ‖v‖²` and
+  `exists_unit_eigenvector` gives a unit eigenvector for `λ_d` (Mathlib's
+  `LinearMap.IsSymmetric.hasEigenvalue_iSup_of_finiteDimensional`);
+* `QSL.Exchange.lamMax_ge`: the uniform test vector on the last `m` levels gives
+  `λ_d ≥ 2 (1 - 1/m) √(d - m)` for `2 ≤ m < d`;
+* `QSL.Exchange.ratio_le_explicit`: `2 ‖E_d‖ / λ_d² ≤ (d - 1) / ((d - m) (1 - 1/m)²)`;
+* `QSL.Exchange.ratio_tendsto_one`: `2 ‖E_d‖ / λ_d² → 1` (take `m = ⌊√d⌋`).
+
+The sharp rate `O(d^{-2/3})` (from the Plancherel–Rotach / Airy asymptotics of the zeros of `He_d`,
+DLMF 18.16.17) is not formalized; the elementary rate obtained here is weaker. The CZ-time bounds
+themselves are not formalized.
 
 ## References
 
@@ -266,6 +281,253 @@ theorem ratio_sandwich (hd : 1 ≤ d) (x : Fin d → ℝ) (hx : ∑ i, x i ^ 2 =
   refine ⟨?_, ?_⟩
   · rw [le_div_iff₀ hl2]; linarith
   · rw [div_le_div_iff_of_pos_right hl2]; linarith
+
+/-! ### The largest eigenvalue and the variational fact -/
+
+section Variational
+
+open scoped InnerProductSpace
+
+/-- The quadrature as a linear map on Euclidean space. -/
+def quadLin (d : ℕ) : EuclideanSpace ℝ (Fin d) →ₗ[ℝ] EuclideanSpace ℝ (Fin d) :=
+  Matrix.toEuclideanLin (quad d)
+
+lemma quad_transpose (d : ℕ) : (quad d)ᵀ = quad d := by
+  simp [quad, Matrix.transpose_add, add_comm]
+
+lemma quadLin_isSymmetric (d : ℕ) : (quadLin d).IsSymmetric := by
+  rw [quadLin, Matrix.isSymmetric_toEuclideanLin_iff, Matrix.IsHermitian,
+    Matrix.conjTranspose_eq_transpose_of_trivial]
+  exact quad_transpose d
+
+/-- The largest eigenvalue of the quadrature `Q_d`, as the supremum of its Rayleigh quotient. -/
+def lamMax (d : ℕ) : ℝ :=
+  ⨆ x : { x : EuclideanSpace ℝ (Fin d) // x ≠ 0 },
+    RCLike.re (inner ℝ (quadLin d x) (x : EuclideanSpace ℝ (Fin d))) /
+      ‖(x : EuclideanSpace ℝ (Fin d))‖ ^ 2
+
+lemma inner_quadLin (x : EuclideanSpace ℝ (Fin d)) :
+    inner ℝ (quadLin d x) x = x.ofLp ⬝ᵥ (quad d *ᵥ x.ofLp) := by
+  simp [quadLin, PiLp.inner_apply, dotProduct, Matrix.mulVec]
+
+lemma norm_sq_euclid (x : EuclideanSpace ℝ (Fin d)) : ‖x‖ ^ 2 = ∑ i, x.ofLp i ^ 2 := by
+  rw [EuclideanSpace.norm_sq_eq]; simp
+
+lemma bddAbove_lamMax (d : ℕ) :
+    BddAbove (Set.range fun x : { x : EuclideanSpace ℝ (Fin d) // x ≠ 0 } =>
+      RCLike.re (inner ℝ (quadLin d x) (x : EuclideanSpace ℝ (Fin d))) /
+        ‖(x : EuclideanSpace ℝ (Fin d))‖ ^ 2) := by
+  let T : EuclideanSpace ℝ (Fin d) →L[ℝ] EuclideanSpace ℝ (Fin d) :=
+    LinearMap.toContinuousLinearMap (quadLin d)
+  refine ⟨‖T‖, ?_⟩
+  rintro _ ⟨x, rfl⟩
+  have := T.rayleighQuotient_le_norm (x : EuclideanSpace ℝ (Fin d))
+  exact (le_abs_self _).trans this
+
+/-- Variational fact: `⟪v, Q v⟫ ≤ λ_d ‖v‖²`. -/
+theorem quad_form_le_lamMax (v : Fin d → ℝ) :
+    v ⬝ᵥ (quad d *ᵥ v) ≤ lamMax d * ∑ i, v i ^ 2 := by
+  by_cases h0 : v = 0
+  · subst h0; simp
+  set x : EuclideanSpace ℝ (Fin d) := WithLp.toLp 2 v with hx
+  have hxne : x ≠ 0 := fun h => h0 (by simpa [hx] using congrArg WithLp.ofLp h)
+  have hn : 0 < ‖x‖ ^ 2 := by positivity
+  have h1 := le_ciSup (bddAbove_lamMax d) (⟨x, hxne⟩ : { x : EuclideanSpace ℝ (Fin d) // x ≠ 0 })
+  have h2 : inner ℝ (quadLin d x) x / ‖x‖ ^ 2 ≤ lamMax d := h1
+  rw [div_le_iff₀ hn, inner_quadLin, norm_sq_euclid] at h2
+  simpa [hx] using h2
+
+/-- There is a unit eigenvector of `Q_d` with eigenvalue `λ_d` (`d ≥ 1`). -/
+theorem exists_unit_eigenvector (hd : 1 ≤ d) :
+    ∃ x : Fin d → ℝ, ∑ i, x i ^ 2 = 1 ∧ quad d *ᵥ x = lamMax d • x := by
+  have : Nontrivial (EuclideanSpace ℝ (Fin d)) := by
+    have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+    infer_instance
+  have hE := (quadLin_isSymmetric d).hasEigenvalue_iSup_of_finiteDimensional
+  obtain ⟨y, hy⟩ := hE.exists_hasEigenvector
+  have hyne : y ≠ 0 := hy.2
+  have hyn : 0 < ‖y‖ := norm_pos_iff.2 hyne
+  refine ⟨((‖y‖⁻¹ : ℝ) • y).ofLp, ?_, ?_⟩
+  · have := norm_sq_euclid ((‖y‖⁻¹ : ℝ) • y)
+    rw [← this, norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ hyn.ne']; norm_num
+  · have hyeq : quadLin d y = lamMax d • y := hy.apply_eq_smul
+    have h3 : quad d *ᵥ y.ofLp = lamMax d • y.ofLp := by
+      simpa [quadLin] using congrArg WithLp.ofLp hyeq
+    rw [WithLp.ofLp_smul, Matrix.mulVec_smul, h3, smul_comm]
+
+end Variational
+
+/-! ### Uniform test vector on the last `m` levels -/
+
+section TestVector
+
+/-- The indicator of the last `m` levels of the `d`-level ladder. -/
+def tail (d m : ℕ) : Fin d → ℝ := fun i => if d - m ≤ (i : ℕ) then 1 else 0
+
+lemma sum_sq_tail {m : ℕ} (hm : m ≤ d) : ∑ i, tail d m i ^ 2 = m := by
+  have e : ∀ i : Fin d, tail d m i ^ 2 =
+      (fun n : ℕ => if d - m ≤ n then (1 : ℝ) else 0) i := by
+    intro i; simp only [tail]; split_ifs <;> simp
+  rw [Finset.sum_congr rfl (fun i _ => e i),
+    Fin.sum_univ_eq_sum_range (fun n : ℕ => if d - m ≤ n then (1 : ℝ) else 0) d,
+    Finset.sum_boole]
+  have : Finset.filter (fun n => d - m ≤ n) (Finset.range d) = Finset.Ico (d - m) d := by
+    ext n; simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_Ico]; omega
+  rw [this, Nat.card_Ico]
+  congr 1
+  omega
+
+lemma tail_term_nonneg {m : ℕ} (i : Fin d) : 0 ≤ tail d m i * (bd d *ᵥ tail d m) i := by
+  rw [bd_mulVec_apply]
+  unfold tail
+  split_ifs <;> positivity
+
+lemma tail_term {m : ℕ} (i : Fin d) :
+    (if d - m ≤ (i : ℕ) ∧ (i : ℕ) + 1 < d then Real.sqrt ((d - m : ℕ) : ℝ) else 0) ≤
+      tail d m i * (bd d *ᵥ tail d m) i := by
+  by_cases h : d - m ≤ (i : ℕ) ∧ (i : ℕ) + 1 < d
+  · obtain ⟨h1, h2⟩ := h
+    have h3 : d - m ≤ (i : ℕ) + 1 := by omega
+    simp only [h1, h2, and_self, ↓reduceIte, bd_mulVec_apply, tail, h3, ↓reduceDIte, one_mul,
+      mul_one]
+    exact Real.sqrt_le_sqrt (by exact_mod_cast h3)
+  · simp only [h, ↓reduceIte]
+    exact tail_term_nonneg i
+
+lemma sum_tail_term {m : ℕ} (hm : 1 ≤ m) (hmd : m ≤ d) :
+    ((m : ℝ) - 1) * Real.sqrt ((d : ℝ) - m) ≤ tail d m ⬝ᵥ (bd d *ᵥ tail d m) := by
+  have hle : ∑ i : Fin d, (if d - m ≤ (i : ℕ) ∧ (i : ℕ) + 1 < d then
+      Real.sqrt ((d - m : ℕ) : ℝ) else 0) ≤ tail d m ⬝ᵥ (bd d *ᵥ tail d m) :=
+    Finset.sum_le_sum fun i _ => tail_term i
+  have e : ∑ i : Fin d, (if d - m ≤ (i : ℕ) ∧ (i : ℕ) + 1 < d then
+      Real.sqrt ((d - m : ℕ) : ℝ) else 0) = ((m : ℝ) - 1) * Real.sqrt ((d : ℝ) - m) := by
+    rw [Fin.sum_univ_eq_sum_range (fun n : ℕ => if d - m ≤ n ∧ n + 1 < d then
+      Real.sqrt ((d - m : ℕ) : ℝ) else 0) d, Finset.sum_ite, Finset.sum_const_zero, add_zero,
+      Finset.sum_const, nsmul_eq_mul]
+    have : Finset.filter (fun n => d - m ≤ n ∧ n + 1 < d) (Finset.range d) =
+        Finset.Ico (d - m) (d - 1) := by
+      ext n; simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_Ico]; omega
+    rw [this, Nat.card_Ico, Nat.cast_sub hmd]
+    have h1 : d - 1 - (d - m) = m - 1 := by omega
+    rw [h1, Nat.cast_sub hm]
+    simp
+  linarith
+
+/-- The quadratic form of `Q` on the test vector is `2 ⟪t, a t⟫`. -/
+lemma tail_quad_form (m : ℕ) :
+    tail d m ⬝ᵥ (quad d *ᵥ tail d m) = 2 * (tail d m ⬝ᵥ (bd d *ᵥ tail d m)) := by
+  rw [quad, Matrix.add_mulVec, dotProduct_add, dot_transpose_mulVec]
+  ring
+
+/-- Lower bound on the top eigenvalue: `λ_d ≥ 2 (1 - 1/m) √(d - m)`, for `2 ≤ m < d`. -/
+theorem lamMax_ge {m : ℕ} (hm : 2 ≤ m) (hmd : m < d) :
+    2 * (1 - 1 / (m : ℝ)) * Real.sqrt ((d : ℝ) - m) ≤ lamMax d := by
+  have hm0 : (0 : ℝ) < m := by exact_mod_cast (by omega : 0 < m)
+  have h1 := quad_form_le_lamMax (tail d m)
+  rw [sum_sq_tail hmd.le, tail_quad_form] at h1
+  have h2 := sum_tail_term (d := d) (by omega : 1 ≤ m) hmd.le
+  have h3 : 2 * (((m : ℝ) - 1) * Real.sqrt ((d : ℝ) - m)) ≤ lamMax d * m := by linarith
+  have e : 2 * (1 - 1 / (m : ℝ)) * Real.sqrt ((d : ℝ) - m) =
+      2 * (((m : ℝ) - 1) * Real.sqrt ((d : ℝ) - m)) / m := by
+    field_simp
+  rw [e, div_le_iff₀ hm0]
+  exact h3
+
+end TestVector
+
+/-! ### Explicit bound and the limit -/
+
+/-- Explicit upper bound of the ratio: `2 ‖E_d‖ / λ_d² ≤ (d - 1) / ((d - m) (1 - 1/m)²)`
+for `2 ≤ m < d`. -/
+theorem ratio_le_explicit {m : ℕ} (hm : 2 ≤ m) (hmd : m < d) :
+    2 * ‖exch d‖ / (lamMax d) ^ 2 ≤
+      ((d : ℝ) - 1) / (((d : ℝ) - m) * (1 - 1 / (m : ℝ)) ^ 2) := by
+  have hm' : (2 : ℝ) ≤ m := by exact_mod_cast hm
+  have hmd' : (m : ℝ) < d := by exact_mod_cast hmd
+  have ha : 0 < 1 - 1 / (m : ℝ) := by
+    have : 1 / (m : ℝ) ≤ 1 / 2 := one_div_le_one_div_of_le (by norm_num) hm'
+    linarith
+  have hb : 0 < (d : ℝ) - m := by linarith
+  have hL := lamMax_ge hm hmd
+  have hLpos : 0 < 2 * (1 - 1 / (m : ℝ)) * Real.sqrt ((d : ℝ) - m) := by positivity
+  have hL2 : (2 * (1 - 1 / (m : ℝ)) * Real.sqrt ((d : ℝ) - m)) ^ 2 =
+      4 * ((1 - 1 / (m : ℝ)) ^ 2 * ((d : ℝ) - m)) := by
+    rw [mul_pow, mul_pow, Real.sq_sqrt hb.le]; ring
+  have hlam2 : 4 * ((1 - 1 / (m : ℝ)) ^ 2 * ((d : ℝ) - m)) ≤ (lamMax d) ^ 2 := by
+    rw [← hL2]; exact pow_le_pow_left₀ hLpos.le hL 2
+  have hpos : 0 < 4 * ((1 - 1 / (m : ℝ)) ^ 2 * ((d : ℝ) - m)) := by positivity
+  have hE := exchange_norm_le (d := d) (by omega)
+  calc 2 * ‖exch d‖ / (lamMax d) ^ 2
+      ≤ 4 * ((d : ℝ) - 1) / (lamMax d) ^ 2 := by
+        apply div_le_div_of_nonneg_right _ (by linarith); linarith
+    _ ≤ 4 * ((d : ℝ) - 1) / (4 * ((1 - 1 / (m : ℝ)) ^ 2 * ((d : ℝ) - m))) := by
+        apply div_le_div_of_nonneg_left _ hpos hlam2
+        have : (1 : ℝ) ≤ d := by exact_mod_cast (by omega : 1 ≤ d)
+        linarith
+    _ = ((d : ℝ) - 1) / (((d : ℝ) - m) * (1 - 1 / (m : ℝ)) ^ 2) := by
+        rw [mul_comm ((d : ℝ) - m)]
+        field_simp
+
+/-- The ratio is `≥ 1` once `d ≥ 3` (so that `λ_d > 0` by `lamMax_ge`). -/
+theorem one_le_ratio (hd : 3 ≤ d) : 1 ≤ 2 * ‖exch d‖ / (lamMax d) ^ 2 := by
+  obtain ⟨x, hx, hQ⟩ := exists_unit_eigenvector (d := d) (by omega)
+  have hL := lamMax_ge (d := d) (m := 2) le_rfl (by omega)
+  have hb : 0 < (d : ℝ) - (2 : ℕ) := by
+    have : (3 : ℝ) ≤ d := by exact_mod_cast hd
+    push_cast; linarith
+  have hs := Real.sqrt_pos.2 hb
+  have h2 : (0 : ℝ) < 2 * (1 - 1 / ((2 : ℕ) : ℝ)) := by norm_num
+  have : 0 < lamMax d := lt_of_lt_of_le (mul_pos h2 hs) hL
+  exact (ratio_sandwich (by omega) x hx _ hQ this).1
+
+/-- **Asymptotics.** `2 ‖E_d‖ / λ_d² → 1`, where `λ_d` is the largest eigenvalue of `Q_d`. -/
+theorem ratio_tendsto_one :
+    Filter.Tendsto (fun d : ℕ => 2 * ‖exch d‖ / (lamMax d) ^ 2) Filter.atTop (nhds 1) := by
+  have hm_top : Filter.Tendsto (fun d : ℕ => (Nat.sqrt d : ℝ)) Filter.atTop Filter.atTop := by
+    refine Filter.tendsto_atTop_atTop.2 fun b => ⟨(⌈b⌉₊) ^ 2, fun d hd => ?_⟩
+    have : ⌈b⌉₊ ≤ Nat.sqrt d := Nat.le_sqrt.2 (by nlinarith)
+    exact (Nat.le_ceil b).trans (by exact_mod_cast this)
+  have hinvm : Filter.Tendsto (fun d : ℕ => 1 / (Nat.sqrt d : ℝ)) Filter.atTop (nhds 0) := by
+    exact (tendsto_inv_atTop_zero.comp hm_top).congr fun d => by simp [one_div]
+  have hmd : Filter.Tendsto (fun d : ℕ => (Nat.sqrt d : ℝ) / d) Filter.atTop (nhds 0) := by
+    refine tendsto_of_tendsto_of_tendsto_of_le_of_le' tendsto_const_nhds hinvm ?_ ?_
+    · exact Filter.Eventually.of_forall fun d => by positivity
+    · filter_upwards [Filter.eventually_ge_atTop 1] with d hd
+      have h1 : 1 ≤ Nat.sqrt d := Nat.le_sqrt.2 (by omega)
+      have h2 : Nat.sqrt d * Nat.sqrt d ≤ d := Nat.sqrt_le d
+      have h1' : (0 : ℝ) < Nat.sqrt d := by exact_mod_cast h1
+      have h3 : (0 : ℝ) < d := by exact_mod_cast hd
+      have h2' : (Nat.sqrt d : ℝ) * Nat.sqrt d ≤ d := by exact_mod_cast h2
+      rw [div_le_div_iff₀ h3 h1']
+      linarith
+  have hid : Filter.Tendsto (fun d : ℕ => 1 / (d : ℝ)) Filter.atTop (nhds 0) :=
+    tendsto_one_div_atTop_nhds_zero_nat
+  have hu : Filter.Tendsto (fun d : ℕ => (1 - 1 / (d : ℝ)) /
+      ((1 - (Nat.sqrt d : ℝ) / d) * (1 - 1 / (Nat.sqrt d : ℝ)) ^ 2)) Filter.atTop (nhds 1) := by
+    have := (tendsto_const_nhds (x := (1 : ℝ)).sub hid).div
+      ((tendsto_const_nhds (x := (1 : ℝ)).sub hmd).mul
+        ((tendsto_const_nhds (x := (1 : ℝ)).sub hinvm).pow 2)) (by norm_num)
+    have h1 : ((1 : ℝ) - 0) / ((1 - 0) * (1 - 0) ^ 2) = 1 := by norm_num
+    rw [h1] at this
+    exact this
+  refine tendsto_of_tendsto_of_tendsto_of_le_of_le' tendsto_const_nhds hu ?_ ?_
+  · filter_upwards [Filter.eventually_ge_atTop 3] with d hd
+    exact one_le_ratio hd
+  · filter_upwards [Filter.eventually_ge_atTop 4] with d hd
+    have hm2 : 2 ≤ Nat.sqrt d := Nat.le_sqrt.2 (by omega)
+    have hmlt : Nat.sqrt d < d := Nat.sqrt_lt_self (by omega)
+    refine (ratio_le_explicit hm2 hmlt).trans (le_of_eq ?_)
+    have hd0 : (d : ℝ) ≠ 0 := by positivity
+    have hm0 : (Nat.sqrt d : ℝ) ≠ 0 := by
+      have : (0 : ℝ) < Nat.sqrt d := by exact_mod_cast (by omega : 0 < Nat.sqrt d)
+      exact this.ne'
+    have hdm : (d : ℝ) - Nat.sqrt d ≠ 0 := by
+      have : (Nat.sqrt d : ℝ) < d := by exact_mod_cast hmlt
+      linarith
+    have hm1 : (Nat.sqrt d : ℝ) - 1 ≠ 0 := by
+      have : (2 : ℝ) ≤ Nat.sqrt d := by exact_mod_cast hm2
+      linarith
+    field_simp
 
 end QSL.Exchange
 

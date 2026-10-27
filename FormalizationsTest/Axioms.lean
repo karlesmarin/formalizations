@@ -2484,3 +2484,9 @@ import Formalizations
 #print axioms QSL.Exchange.exchange_norm_ge
 #print axioms QSL.Exchange.exchange_norm_le
 #print axioms QSL.Exchange.ratio_sandwich
+#print axioms QSL.Exchange.quad_form_le_lamMax
+#print axioms QSL.Exchange.exists_unit_eigenvector
+#print axioms QSL.Exchange.lamMax_ge
+#print axioms QSL.Exchange.ratio_le_explicit
+#print axioms QSL.Exchange.one_le_ratio
+#print axioms QSL.Exchange.ratio_tendsto_one
