@@ -75,6 +75,7 @@ public import Formalizations.Combinatorics.SimpleGraph.TripartiteTuran
 public import Formalizations.Combinatorics.Choose.Singmaster
 public import Formalizations.Combinatorics.SetFamily.Bondy
 public import Formalizations.Combinatorics.Configuration.BruckRyserChowla
+public import Formalizations.Combinatorics.Enumerative.Touchard
 public import Formalizations.FieldTheory.Finite.CartierOperator
 public import Formalizations.FieldTheory.Finite.OddPowerVandermonde
 public import Formalizations.GroupTheory.FiniteAbelian.OddCharacter
@@ -164,6 +165,8 @@ public import Formalizations.NumberTheory.Wolstenholme
 public import Formalizations.NumberTheory.LegendreSieve
 public import Formalizations.NumberTheory.Willans
 public import Formalizations.NumberTheory.Zsqrtd.GaussianMoatLine
+public import Formalizations.NumberTheory.ArithmeticFunction.DivisorTotient
+public import Formalizations.NumberTheory.Fibonacci.FibLegendre
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.AlignmentPolynomials
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.BlindCount
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.ChargeQuantization

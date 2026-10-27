@@ -2416,3 +2416,6 @@ import Formalizations
 #print axioms GaussianMoat.norm_eq_of_dvd_prime
 #print axioms TripartiteTuran.exists_triangle_of_mul_add
 #print axioms TripartiteTuran.exists_triangle
+#print axioms DivisorTotient.sum_card_divisors_mul_totient
+#print axioms Touchard.bell_add_prime
+#print axioms FibLegendre.fib_prime_eq_legendreSym
