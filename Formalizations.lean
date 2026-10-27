@@ -156,6 +156,7 @@ public import Formalizations.NumberTheory.WeightedCharacterSums.DigitRecursion
 public import Formalizations.NumberTheory.WeightedCharacterSums.NoZeros
 public import Formalizations.NumberTheory.WeightedCharacterSums.SubsetSumsAndRows
 public import Formalizations.NumberTheory.WeightedCharacterSums.WeightedHalfSum
+public import Formalizations.NumberTheory.Euclid.Lame
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.AlignmentPolynomials
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.BlindCount
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.ChargeQuantization

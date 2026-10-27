@@ -2393,3 +2393,4 @@ import Formalizations
 #print axioms SimpleGraph.bass_determinant_commRing
 #print axioms Singmaster.ncard_choose_eq_le
 #print axioms Parking.card_isParking
+#print axioms Lame.fib_euclidSteps_le
