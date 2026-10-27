@@ -1,12 +1,19 @@
 (*  Title:      Frieze_Two_Sign_Changes.thy
     Author:     Carles Marín
 
-Two integer Conway-Coxeter frieze patterns of width 12 (quiddities of length 15) whose rows 6 differ, cyclically,
-with no zero and exactly two sign changes. Row 6 = [12/2] lies in the range 1 <= k <= [w/2] of Problem 1 of
-S. Tabachnikov, "A four-vertex theorem for frieze patterns?", Math. Intelligencer 40 (2018), which asks for which k
-the difference must change sign at least four times. All facts are finite computations proved with code_simp.
-Found by an exhaustive search over all 742 900 friezes of width 12 (research/frisos-sturm/contraejemplo_w12.py,
-Curiosity); width 12 is the smallest width with such a pair in the range k <= [w/2].
+    Two integer friezes of width 12 with two sign changes
+
+    Two integer Conway-Coxeter frieze patterns of width 12 (quiddities of length 15) whose rows 6 differ, cyclically,
+    with no zero and exactly two sign changes. Row 6 = [12/2] lies in the range 1 <= k <= [w/2] of Problem 1 of
+    Tabachnikov, which asks for which k the difference must change sign at least four times. All facts are finite
+    computations proved with code_simp. Found by an exhaustive search over all 742 900 friezes of width 12; width 12 is
+    the smallest width with such a pair in the range k <= [w/2].
+
+    Main results:
+    * exists_two_sign_changes_width_12.
+
+    References:
+    * S. Tabachnikov, A four-vertex theorem for frieze patterns?, Math. Intelligencer 40 (2018) 14--18, Problem 1.
 *)
 
 theory Frieze_Two_Sign_Changes

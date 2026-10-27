@@ -1,8 +1,15 @@
 (*  Title:      Antipodal_Counterexamples.thy
-    Author:     Carles Marín, 2026
-    Where the antipodal floor fails: two exact examples.
-    Isabelle port of the Lean module
-    Formalizations.Analysis.SpecialFunctions.Polylog.AntipodalCounterexamples.
+    Author:     Carles Marín
+
+    Where the antipodal floor fails
+
+    Two exact examples of coefficient sequences whose power series has, at some point of the unit circle, a modulus
+    below its value at z = -1: three times monotone coefficients (cex3) and log-convex coefficients (cexLC).
+    Lean counterpart: Formalizations.Analysis.SpecialFunctions.Polylog.AntipodalCounterexamples.
+
+    Main results:
+    * cex3_monotone_three, cex3_not_four, cex3_antipode, cex3_re, cex3_normSq.
+    * cexLC_pos, cexLC_logConvex, cexLC_convex, cexLC_antipode, cexLC_re, cexLC_normSq.
 *)
 
 theory Antipodal_Counterexamples

@@ -1,14 +1,21 @@
 (*  Title:      Odd_Frieze_Rows.thy
     Author:     Carles Marín
 
-For every odd n >= 15, two integer Conway-Coxeter frieze patterns of width w = n - 3 whose rows
-k = floor (w/2) differ, along the period, with no zero and exactly two sign changes. Row floor (w/2) lies in the
-range 1 <= k <= floor (w/2) of Problem 1 of S. Tabachnikov (Math. Intelligencer 40 (2018)), which asks whether
-four sign changes must occur.
+    Integer friezes of odd order with two sign changes
 
-Model as in the entry Integer_Frieze_Rows: lattice polygons V_0, ..., V_(n-1). With n = 2h + 1, the cyclic row
-k = h - 1 has the entries det (V_i, V_(i+h)) for i <= h and, by the glide symmetry V_(i+n) = - V_i,
-det (V_(i-h-1), V_i) for h < i < n.
+    For every odd n >= 15, two integer Conway-Coxeter frieze patterns of width w = n - 3 whose rows
+    k = floor (w/2) differ, along the period, with no zero and exactly two sign changes. Row floor (w/2) lies in the
+    range 1 <= k <= floor (w/2) of Problem 1 of S. Tabachnikov, which asks whether four sign changes must occur.
+
+    Model as in the entry Integer_Frieze_Rows: lattice polygons V_0, ..., V_(n-1). With n = 2h + 1, the cyclic row
+    k = h - 1 has the entries det (V_i, V_(i+h)) for i <= h and, by the glide symmetry V_(i+n) = - V_i,
+    det (V_(i-h-1), V_i) for h < i < n.
+
+    Main results:
+    * two_sign_changes.
+
+    References:
+    * S. Tabachnikov, A four-vertex theorem for frieze patterns?, Math. Intelligencer 40 (2018) 14--18, Problem 1.
 *)
 
 theory Odd_Frieze_Rows

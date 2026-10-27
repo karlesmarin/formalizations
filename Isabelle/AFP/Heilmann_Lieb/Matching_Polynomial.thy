@@ -1,7 +1,16 @@
 (*  Title:      Matching_Polynomial.thy
     Author:     Carles Marín
 
-The matching polynomial of a finite simple graph and its vertex recurrence.
+    The matching polynomial
+
+    The matching polynomial mu G = sum over matchings M of (-1)^|M| x^(n - 2|M|) of a finite simple graph, and its
+    vertex recurrence.
+
+    Main results:
+    * mu_recurrence: mu G = x mu (G - v) - sum over the neighbours u of v of mu (G - u - v).
+
+    References:
+    * C. D. Godsil, I. Gutman, On the theory of the matching polynomial, J. Graph Theory 5 (1981) 137--144.
 *)
 
 theory Matching_Polynomial

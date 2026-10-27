@@ -1,9 +1,19 @@
 (*  Title:      Polylog_Floor.thy
-    Author:     Carles Marín, 2026
-    The antipodal floor of the polylogarithm Li_s on the unit circle, and of the zeta states.
-    Isabelle port of the Lean modules Formalizations.Analysis.SpecialFunctions.Polylog.HausdorffFloor
-    (gammaMeasure, polylog_circle_floor) and
-    Formalizations.Physics.QuantumMechanics.SpeedLimit.ZetaStateFloor.
+    Author:     Carles Marín
+
+    The antipodal floor of the polylogarithm and of the zeta states
+
+    The Gamma-density measure x^(s-1) e^(-x) / Gamma s with tau = e^(-x) has moments (k+1)^(-s); with the floor of
+    Hausdorff_Floor this gives eta s <= |Li_s z| on the unit circle for real s > 0, z /= 1, and the zeta state never
+    gets closer to orthogonality than 1 - 2^(1-s).
+    Lean counterparts: Formalizations.Analysis.SpecialFunctions.Polylog.HausdorffFloor (gammaMeasure,
+    polylog_circle_floor) and Formalizations.Physics.QuantumMechanics.SpeedLimit.ZetaStateFloor.
+
+    Main results:
+    * gamma_moment: the moments of the Gamma-density measure.
+    * polylog_circle_exists, polylog_circle_floor: eta s <= |Li_s z|.
+    * eta_eq: eta s = (1 - 2^(1-s)) zeta s for s > 1.
+    * zeta_state_floor.
 *)
 
 theory Polylog_Floor

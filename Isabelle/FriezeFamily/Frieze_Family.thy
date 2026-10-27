@@ -1,18 +1,22 @@
 (*  Title:      Frieze_Family.thy
     Author:     Carles Marín
 
-For every even n >= 14, two integer Conway-Coxeter frieze patterns of width n - 3 whose middle rows (the
-diameters of the n-gon) are strictly ordered at every position.
+    A family of integer friezes with strictly ordered middle rows
 
-Model. An integer Conway-Coxeter frieze of width n - 3 is the same as a list of lattice vectors
-V_0, ..., V_(n-1) in Z^2 with det (V_i, V_(i+1)) = 1, det (V_0, V_(n-1)) = 1 and det (V_i, V_j) > 0 for
-i < j (a lattice polygon turning half a turn); its entries are m (i, j) = det (V_i, V_j) and its quiddity is
-a_i = det (V_(i-1), V_(i+1)). Inserting V_j + V_(j+1) between V_j and V_(j+1) is inserting an ear in the
-triangulation. With n = 2h, the middle row is the row of the diameters det (V_i, V_(i+h)), i < h.
+    For every even n >= 14, two integer Conway-Coxeter frieze patterns of width n - 3 whose middle rows (the
+    diameters of the n-gon) are strictly ordered at every position. First version of the entry Integer_Frieze_Rows.
 
-S. Tabachnikov (Math. Intelligencer 40 (2018), Problem 1) asks whether the cyclic sequence of differences of a
-row of two friezes must change sign at least four times; M. Cuntz gave a rational counterexample (width 5,
-middle row) and the integer case was left open. Here the differences have no sign change at all.
+    Model. An integer Conway-Coxeter frieze of width n - 3 is the same as a list of lattice vectors
+    V_0, ..., V_(n-1) in Z^2 with det (V_i, V_(i+1)) = 1, det (V_0, V_(n-1)) = 1 and det (V_i, V_j) > 0 for
+    i < j (a lattice polygon turning half a turn); its entries are m (i, j) = det (V_i, V_j) and its quiddity is
+    a_i = det (V_(i-1), V_(i+1)). Inserting V_j + V_(j+1) between V_j and V_(j+1) is inserting an ear in the
+    triangulation. With n = 2h, the middle row is the row of the diameters det (V_i, V_(i+h)), i < h.
+
+    Main results:
+    * entry_is_continuant, strictly_ordered_middle_rows, strictly_ordered_middle_rows_continuants.
+
+    References:
+    * S. Tabachnikov, A four-vertex theorem for frieze patterns?, Math. Intelligencer 40 (2018) 14--18, Problem 1.
 *)
 
 theory Frieze_Family

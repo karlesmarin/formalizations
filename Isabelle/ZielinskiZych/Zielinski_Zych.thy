@@ -1,13 +1,21 @@
 (*  Title:      Zielinski_Zych.thy
-    Author:     Carles Marin, 2026
-    The Zielinski--Zych speed limits and their limit alpha -> 0.
-    Isabelle port of the Lean module
-    Formalizations.Physics.QuantumMechanics.SpeedLimit.ZielinskiZych.
+    Author:     Carles Marín
 
-    For a discrete spectral measure with populations p n >= 0, sum p n = 1, energies E n >= E0
-    and fractional moment M_a = sum p n (E n - E0)^a, if the autocorrelation vanishes at tau >= 0
-    then pi^a <= 2 M_a tau^a (Zielinski--Zych, Phys. Rev. A 74, 034301 (2006), Eq. (10)),
-    proved here for 0 < a <= 1 (a = 1 is Margolus--Levitin).
+    The Zielinski--Zych speed limits and their limit alpha -> 0
+
+    For a discrete spectral measure with populations p n >= 0, sum p n = 1, energies E n >= E0 and fractional moment
+    M_a = sum p n (E n - E0)^a, if the autocorrelation vanishes at tau >= 0 then pi^a <= 2 M_a tau^a, proved here for
+    0 < a <= 1 (a = 1 is Margolus--Levitin). As a -> 0+ the fractional moments tend to 1 - p 0 (Tannery's theorem), and
+    the bound tends to +infinity or 0 as p 0 is above or below 1/2.
+    Lean counterpart: Formalizations.Physics.QuantumMechanics.SpeedLimit.ZielinskiZych.
+
+    Main results:
+    * zz_inequality, zielinski_zych: the inequality and the bound for 0 < a <= 1.
+    * tendsto_fractional_moment: M_a -> 1 - p 0 as a -> 0+.
+    * zz_bound_tendsto_at_top, zz_bound_tendsto_zero.
+
+    References:
+    * Zielinski--Zych, Phys. Rev. A 74, 034301 (2006), Eq. (10).
 *)
 
 theory Zielinski_Zych

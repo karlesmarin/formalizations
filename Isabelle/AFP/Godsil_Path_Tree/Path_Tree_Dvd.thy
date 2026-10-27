@@ -1,8 +1,17 @@
 (*  Title:      Path_Tree_Dvd.thy
     Author:     Carles Marín
 
-The matching polynomial of the connected component of u divides that of the path tree at u; in particular, for a
-connected graph, mu G divides mu T.
+    Divisibility of the path tree's matching polynomial
+
+    The matching polynomial of the connected component of u divides that of the path tree at u; for a connected graph,
+    mu G divides mu T. For a disconnected graph mu G need not divide mu T, since T only sees the component of u.
+
+    Main results:
+    * godsil_dvd_comp: the matching polynomial of the component of u divides mu T.
+    * godsil_dvd: for a connected graph, mu G divides mu T.
+
+    References:
+    * C. D. Godsil, Matchings and walks in graphs, J. Graph Theory 5 (1981) 285--297.
 *)
 
 theory Path_Tree_Dvd

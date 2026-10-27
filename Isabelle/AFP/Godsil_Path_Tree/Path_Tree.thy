@@ -1,8 +1,16 @@
 (*  Title:      Path_Tree.thy
     Author:     Carles Marín
 
-Godsil's path tree: the matching polynomial of a graph and of its path tree are related by
-mu (G - u) * mu T = mu G * mu (T - root).
+    Godsil's path tree
+
+    The path tree T of a finite graph G at a vertex u has one vertex for each simple path of G starting at u, and joins
+    each path to its one-step extensions. Its matching polynomial and that of G are related by Godsil's identity.
+
+    Main results:
+    * godsil_ratio: mu (G - u) * mu T = mu G * mu (T - root).
+
+    References:
+    * C. D. Godsil, Matchings and walks in graphs, J. Graph Theory 5 (1981) 285--297.
 *)
 
 theory Path_Tree

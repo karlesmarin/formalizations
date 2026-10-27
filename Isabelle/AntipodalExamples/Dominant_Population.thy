@@ -1,9 +1,17 @@
 (*  Title:      Dominant_Population.thy
-    Author:     Carles Marín, 2026
-    A dominant population keeps a state away from orthogonality.
-    Cut-off inequality of Uffink, in the form of M. Andrews, Phys. Rev. A 75, 062112 (2007), Eq. (21).
-    Isabelle port of the Lean module
-    Formalizations.Physics.QuantumMechanics.SpeedLimit.DominantPopulation.
+    Author:     Carles Marín
+
+    A dominant population keeps a state away from orthogonality
+
+    Cut-off inequality of Uffink: a population p_j > 1/2 keeps the autocorrelation at least 2 p_j - 1.
+    Lean counterpart: Formalizations.Physics.QuantumMechanics.SpeedLimit.DominantPopulation.
+
+    Main results:
+    * two_mul_sub_one_le_norm_suminf: 2 p_j - 1 <= |sum p_k u_k| for p_k >= 0, sum p_k = 1, |u_k| = 1.
+    * suminf_ne_zero_of_half_lt: that sum never vanishes when some p_j > 1/2.
+
+    References:
+    * M. Andrews, Phys. Rev. A 75, 062112 (2007), Eq. (21).
 *)
 
 theory Dominant_Population

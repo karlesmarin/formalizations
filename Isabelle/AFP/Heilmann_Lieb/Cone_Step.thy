@@ -1,9 +1,14 @@
 (*  Title:      Cone_Step.thy
     Author:     Carles Marín
 
-The analytic core of the Heilmann--Lieb theorem: subtracting an element of the cone from x times a product of
-real linear factors gives again a product of real linear factors, which interlaces the first one.
-Plan: PLAN_cone_step.md.
+    The cone step
+
+    The analytic core of the Heilmann--Lieb theorem: subtracting an element of the cone of interlacing polynomials from
+    x times a product of real linear factors gives again a product of real linear factors, which interlaces the first
+    one. Plan: PLAN_cone_step.md.
+
+    Main results:
+    * cone_step.
 *)
 
 theory Cone_Step

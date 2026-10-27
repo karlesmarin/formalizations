@@ -1,9 +1,19 @@
 (*  Title:      Hausdorff_Floor.thy
-    Author:     Carles Marín, 2026
-    The antipodal floor of moment power series on the unit circle.
-    Classical: Fejér, Acta Sci. Math. (Szeged) 8 (1937) 89--115, p. 104; for Li_2 stated in
-    Boyer--Parry, arXiv:2111.12226, Appendix A, Lemma 8.  Isabelle port of the Lean module
-    Formalizations.Analysis.SpecialFunctions.Polylog.HausdorffFloor.
+    Author:     Carles Marín
+
+    The antipodal floor of moment power series on the unit circle
+
+    For a finite measure and tau in [0, 1) almost everywhere, the moment series converges at every z /= 1 of the unit
+    circle to the integral of 1/(1 - tau z), and its modulus is at least the integral of 1/(1 + tau). The proof avoids
+    Abel's theorem: the partial sums are integrals of geometric sums and converge by dominated convergence.
+    Lean counterpart: Formalizations.Analysis.SpecialFunctions.Polylog.HausdorffFloor.
+
+    Main results:
+    * moment_series_floor.
+
+    References:
+    * L. Fejér, Acta Sci. Math. (Szeged) 8 (1937) 89--115, p. 104.
+    * Boyer--Parry, arXiv:2111.12226, Appendix A, Lemma 8 (for Li_2).
 *)
 
 theory Hausdorff_Floor

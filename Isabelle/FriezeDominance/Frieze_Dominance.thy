@@ -1,12 +1,19 @@
 (*  Title:      Frieze_Dominance.thy
     Author:     Carles Marín
 
-Two integer Conway-Coxeter frieze patterns of width 11 (quiddities of length 14) whose middle rows
-(row 6, the diameters of the 14-gon) are strictly ordered at all 14 positions: a counterexample, for
-friezes of positive integers, to the four-sign-change question of S. Tabachnikov, "A four-vertex theorem
-for frieze patterns?", Math. Intelligencer 40 (2018), Problem 1. Port of the Lean module
-Formalizations.Combinatorics.Frieze.IntegerDominance. All facts are finite computations proved with
-code_simp (the simplifier, proof-producing; no eval, no code generator oracle).
+    Two integer friezes of width 11 with strictly ordered middle rows
+
+    Two integer Conway-Coxeter frieze patterns of width 11 (quiddities of length 14) whose middle rows (row 6, the
+    diameters of the 14-gon) are strictly ordered at all 14 positions: a counterexample, for friezes of positive
+    integers, to the four-sign-change question of Tabachnikov. All facts are finite computations proved with code_simp
+    (the simplifier, proof-producing; no eval, no code generator oracle).
+    Lean counterpart: Formalizations.Combinatorics.Frieze.IntegerDominance.
+
+    Main results:
+    * exists_strictly_ordered_middle_rows.
+
+    References:
+    * S. Tabachnikov, A four-vertex theorem for frieze patterns?, Math. Intelligencer 40 (2018) 14--18, Problem 1.
 *)
 
 theory Frieze_Dominance

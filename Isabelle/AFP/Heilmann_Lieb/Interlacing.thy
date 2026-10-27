@@ -1,7 +1,9 @@
 (*  Title:      Interlacing.thy
     Author:     Carles Marín
 
-Products of real linear factors and the cone of interlacing polynomials.
+    Interlacing
+
+    Products of real linear factors and the cone of polynomials that interlace a given one.
 *)
 
 theory Interlacing

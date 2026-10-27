@@ -1,9 +1,22 @@
 (*  Title:      Matrix_Tree.thy
     Author:     Carles Marín
-    Kirchhoff's matrix-tree theorem for finite simple graphs: the determinant of the reduced Laplacian (row and
-    column of a root deleted) is the number of spanning trees.
-    Port of Formalizations/Combinatorics/SimpleGraph/MatrixTree (Lean 4, github.com/karlesmarin/formalizations).
+
+    Kirchhoff's matrix-tree theorem
+
+    For a finite simple graph and a root r, the determinant of the reduced Laplacian (the row and the column of r
+    deleted) is the number of spanning trees. The Laplacian factors as N N^T through the reduced oriented incidence
+    matrix N; by Cauchy--Binet its determinant is the sum of the squared maximal minors of N, which are 0 or +-1 as the
+    chosen edges do or do not form a spanning tree.
+    Lean counterpart: Formalizations.Combinatorics.SimpleGraph.MatrixTree.
+
+    Main results:
+    * matrix_tree: det lap = card {T. spanning_tree V E T}.
+
+    References:
+    * G. Kirchhoff, Ueber die Aufloesung der Gleichungen, auf welche man bei der Untersuchung der linearen
+      Vertheilung galvanischer Stroeme gefuehrt wird, Ann. Phys. Chem. 72 (1847) 497--508.
 *)
+
 theory Matrix_Tree
   imports
     "Smith_Normal_Form.Cauchy_Binet"

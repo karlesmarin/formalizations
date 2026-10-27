@@ -1,7 +1,17 @@
 (*  Title:      Heilmann_Lieb.thy
     Author:     Carles Marín
 
-The Heilmann--Lieb theorem: the matching polynomial of a finite graph has only real roots.
+    The Heilmann--Lieb theorem
+
+    The matching polynomial of a finite graph has only real roots, proved by induction on the vertices with the vertex
+    recurrence and interlacing.
+
+    Main results:
+    * heilmann_lieb_strong: mu G is a product of card V real linear factors, and every mu (G - v) lies in their cone.
+    * heilmann_lieb: the matching polynomial of a finite graph has only real roots.
+
+    References:
+    * O. J. Heilmann, E. H. Lieb, Theory of monomer-dimer systems, Comm. Math. Phys. 25 (1972) 190--232.
 *)
 
 theory Heilmann_Lieb
