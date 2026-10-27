@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2401 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2402 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -284,6 +284,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `StableIntervals` 🆕 | An affine bijection of `ZMod n` fixing a block of `k` consecutive residues, `2 ≤ k ≤ n − 2`, has `u = ±1`; two Laurent identities for `a1`, `a2` of the spectrum `t^(L−1−2j)` |
 | | `Recentering` 🆕 | With `ι μ = μ⁻¹`, a unit `μ^k a ∈ B` (`ι a = a`, `gcd(2k, n) = 1`) puts `μ` in `B`, and `(R[μ])^ι = R` |
 | | `Residues` 🆕 | The two top coefficients of `(X − 1)(X^r − 1)^N` and `(X^r − 1)^N /ₘ (X − 1)`; `τ₊, τ₋ ∈ A` from units of `A` |
+| `RingTheory.Polynomial.Cyclotomic` | `Migotti` 🆕 | Migotti's theorem: the coefficients of `Φ_{pq}` lie in `{-1, 0, 1}` for distinct primes `p, q` (Lam–Leung decomposition). |
 | `RingTheory.PowerSeries` | `LogMul` 🆕 | `logOf (f g) = logOf f + logOf g` and `logOf (fⁿ) = n • logOf f` for constant coefficient `1`, by uniqueness of antiderivatives; coefficient form for `(1 + X)ᵖ` |
 | `SetTheory.Ordinal.Gentzen` | `Acc` 🆕 | Well-foundedness below `ε₀` without choice: a syntactic order `slt` (by `ONote.cmp`) and normal form `SNF` on `ONote`; `acc_slt`, `wf_slt`, `ti_syntactic` depend on `propext` only; bridge `slt_iff_lt`, `SNF_iff_NF` to Mathlib's `<` and `NF` |
 | | `TwoPow` 🆕 | `2^α` (`twoPow' (ω·γ + m) = ω^γ · 2^m`) and the cut-elimination inequalities L1–L5 of Gentzen's consistency proof, with their counterexamples at `α = 0, 1`, all on `propext` only; bridge: `twoPow'` denotes `2^α` and equals Mathlib's `ONote.opow` |

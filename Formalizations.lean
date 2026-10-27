@@ -240,6 +240,7 @@ public import Formalizations.RingTheory.Polynomial.CoefficientRing.Recentering
 public import Formalizations.RingTheory.Polynomial.CoefficientRing.Residues
 public import Formalizations.RingTheory.Polynomial.CoefficientRing.StableFamilies
 public import Formalizations.RingTheory.Polynomial.CoefficientRing.StableIntervals
+public import Formalizations.RingTheory.Polynomial.Cyclotomic.Migotti
 public import Formalizations.RingTheory.PowerSeries.LogMul
 public import Formalizations.RingTheory.KostantAlphabet
 public import Formalizations.SetTheory.Ordinal.Gentzen.Acc
