@@ -2400,3 +2400,4 @@ import Formalizations
 #print axioms Bondy.exists_erase_injOn
 #print axioms WolstenholmeInequality.sub_eq_sq_add_sq
 #print axioms WolstenholmeInequality.cos_le
+#print axioms PappusGuldin.volume_revolution
