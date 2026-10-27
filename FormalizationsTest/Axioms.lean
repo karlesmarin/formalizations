@@ -2419,3 +2419,7 @@ import Formalizations
 #print axioms DivisorTotient.sum_card_divisors_mul_totient
 #print axioms Touchard.bell_add_prime
 #print axioms FibLegendre.fib_prime_eq_legendreSym
+#print axioms PrimeCongruences.centralBinom_prime
+#print axioms PrimeCongruences.catalan_prime
+#print axioms PrimeCongruences.numDerangements_prime
+#print axioms Singmaster.ncard_choose_eq_le_two_mul_log

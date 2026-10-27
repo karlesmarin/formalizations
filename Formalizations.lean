@@ -76,6 +76,7 @@ public import Formalizations.Combinatorics.Choose.Singmaster
 public import Formalizations.Combinatorics.SetFamily.Bondy
 public import Formalizations.Combinatorics.Configuration.BruckRyserChowla
 public import Formalizations.Combinatorics.Enumerative.Touchard
+public import Formalizations.Combinatorics.Enumerative.PrimeCongruences
 public import Formalizations.FieldTheory.Finite.CartierOperator
 public import Formalizations.FieldTheory.Finite.OddPowerVandermonde
 public import Formalizations.GroupTheory.FiniteAbelian.OddCharacter
