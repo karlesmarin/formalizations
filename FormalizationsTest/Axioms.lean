@@ -2390,3 +2390,6 @@ import Formalizations
 #print axioms Polylog.cexLC_normSq
 #print axioms Polylog.cex3_normSq
 #print axioms TotD.fanoGroup_card
+#print axioms SimpleGraph.bass_determinant_commRing
+#print axioms Singmaster.ncard_choose_eq_le
+#print axioms Parking.card_isParking

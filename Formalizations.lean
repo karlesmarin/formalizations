@@ -52,6 +52,7 @@ public import Formalizations.Combinatorics.SimpleGraph.Ihara.PowerSumLogDeriv
 public import Formalizations.Combinatorics.SimpleGraph.Ihara.ResolventDiag
 public import Formalizations.Combinatorics.SimpleGraph.Ihara.TraceFormula
 public import Formalizations.Combinatorics.SimpleGraph.Ihara.TreeLikeWalks
+public import Formalizations.Combinatorics.SimpleGraph.Ihara.BassCommRing
 public import Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Basic
 public import Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Divisibility
 public import Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.ExpectedCharpoly
@@ -69,6 +70,8 @@ public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.Basic
 public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.Kirchhoff
 public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.SpanningTreeMinor
 public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
+public import Formalizations.Combinatorics.Choose.Singmaster
+public import Formalizations.Combinatorics.Enumerative.ParkingFunctions
 public import Formalizations.FieldTheory.Finite.CartierOperator
 public import Formalizations.FieldTheory.Finite.OddPowerVandermonde
 public import Formalizations.GroupTheory.FiniteAbelian.OddCharacter
