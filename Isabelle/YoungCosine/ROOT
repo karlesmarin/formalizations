@@ -1,0 +1,4 @@
+session Young_Cosine = "HOL-Analysis" +
+  options [timeout = 600]
+  theories
+    Young_Cosine

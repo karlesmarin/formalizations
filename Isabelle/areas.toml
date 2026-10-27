@@ -20,3 +20,4 @@
 "Isabelle/AFP/Heilmann_Lieb/Interlacing.thy" = "Combinatorics/SimpleGraph/MatchingPolynomial"
 "Isabelle/AFP/Heilmann_Lieb/Matching_Polynomial.thy" = "Combinatorics/SimpleGraph/MatchingPolynomial"
 "Isabelle/AFP/Kirchhoff_Matrix_Tree/Matrix_Tree.thy" = "Combinatorics/SimpleGraph/MatrixTree"
+"Isabelle/YoungCosine/Young_Cosine.thy" = "Analysis/SpecialFunctions/Trigonometric"
