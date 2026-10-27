@@ -2455,6 +2455,9 @@ import Formalizations
 #print axioms QSL.Qudit.arccos_le_entangling_time_shift
 #print axioms QSL.Qudit.arccos_le_entangling_time_halfWidth
 #print axioms QSL.Qudit.pi_div_four_le_entangling_time_shift
+#print axioms QSL.Qudit.norm_inner_act_kronecker_prodVec_le
+#print axioms QSL.Qudit.pi_div_four_le_entangling_time_local
+#print axioms QSL.Qudit.pi_div_four_le_entangling_time_shift_local
 #print axioms QSL.Qudit.heisenberg_isHermitian
 #print axioms QSL.Qudit.heisenberg_shift_norm
 #print axioms QSL.Qudit.pi_div_eight_le_heisenberg_time

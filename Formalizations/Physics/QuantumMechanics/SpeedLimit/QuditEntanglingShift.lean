@@ -26,6 +26,9 @@ this time is *achievable* is their result and is **not** formalized here.
 * `QSL.Qudit.arccos_le_entangling_time_shift`: `arccos λ ≤ J · ∑ τₖ` whenever `‖H − c • 1‖ ≤ J`
 * `QSL.Qudit.arccos_le_entangling_time_halfWidth`: the spectral half-width version
 * `QSL.Qudit.pi_div_four_le_entangling_time_shift`: Bell vector, `π / 4 ≤ J · ∑ τₖ`
+* `QSL.Qudit.pi_div_four_le_entangling_time_local`,
+  `QSL.Qudit.pi_div_four_le_entangling_time_shift_local`: the same when the target is
+  `(P ⊗ Q) · bellPair` with `P, Q` unitary (any gate locally equivalent to CNOT, e.g. IBM's ECR)
 * `QSL.Qudit.heisenberg_shift_norm`: `‖heisenberg − (−1) • 1‖ = 2`
 * `QSL.Qudit.pi_div_eight_le_heisenberg_time`: Bell vector under the Heisenberg interaction needs
   `∑ τₖ ≥ π / 8`
@@ -145,6 +148,91 @@ theorem pi_div_four_le_entangling_time_shift (H : Matrix (ι × κ) (ι × κ) �
     fun x y hx hy => norm_inner_bellPair_prodVec_le hi hj x y hx hy
 
 end Shift
+
+/-! ### Targets locally equivalent to the Bell vector -/
+
+section Local
+
+variable {ι κ : Type*} [Fintype ι] [DecidableEq ι] [Fintype κ] [DecidableEq κ]
+
+private lemma kronecker_mem_unitaryGroup {P : Matrix ι ι ℂ} {Q : Matrix κ κ ℂ}
+    (hP : P ∈ Matrix.unitaryGroup ι ℂ) (hQ : Q ∈ Matrix.unitaryGroup κ ℂ) :
+    P ⊗ₖ Q ∈ Matrix.unitaryGroup (ι × κ) ℂ := by
+  rw [Matrix.mem_unitaryGroup_iff] at *
+  rw [Matrix.star_eq_conjTranspose, Matrix.conjTranspose_kronecker,
+    ← Matrix.mul_kronecker_mul]
+  rw [Matrix.star_eq_conjTranspose] at hP hQ
+  rw [hP, hQ, Matrix.one_kronecker_one]
+
+private lemma act_conjTranspose_self {n : Type*} [Fintype n] [DecidableEq n] {U : Matrix n n ℂ}
+    (hU : U ∈ Matrix.unitaryGroup n ℂ) (v : EuclideanSpace ℂ n) : act U (act Uᴴ v) = v := by
+  have h := Matrix.mem_unitaryGroup_iff.1 hU
+  rw [Matrix.star_eq_conjTranspose] at h
+  rw [← act_mul, h, act_one]
+
+private lemma conjTranspose_mem {n : Type*} [Fintype n] [DecidableEq n] {U : Matrix n n ℂ}
+    (hU : U ∈ Matrix.unitaryGroup n ℂ) : Uᴴ ∈ Matrix.unitaryGroup n ℂ := by
+  have := Unitary.star_mem hU
+  rwa [Matrix.star_eq_conjTranspose] at this
+
+/-- Local unitaries do not change the overlap bound with unit product vectors: if every unit
+product vector has overlap at most `lam` with `Φ`, the same holds for `(P ⊗ Q) Φ`. -/
+theorem norm_inner_act_kronecker_prodVec_le {P : Matrix ι ι ℂ} {Q : Matrix κ κ ℂ}
+    (hP : P ∈ Matrix.unitaryGroup ι ℂ) (hQ : Q ∈ Matrix.unitaryGroup κ ℂ)
+    (Φ : EuclideanSpace ℂ (ι × κ)) (lam : ℝ)
+    (hlam : ∀ (x : EuclideanSpace ℂ ι) (y : EuclideanSpace ℂ κ), ‖x‖ = 1 → ‖y‖ = 1 →
+        ‖inner ℂ Φ (prodVec x y)‖ ≤ lam)
+    (x : EuclideanSpace ℂ ι) (y : EuclideanSpace ℂ κ) (hx : ‖x‖ = 1) (hy : ‖y‖ = 1) :
+    ‖inner ℂ (act (P ⊗ₖ Q) Φ) (prodVec x y)‖ ≤ lam := by
+  have e : prodVec x y = act (P ⊗ₖ Q) (prodVec (act Pᴴ x) (act Qᴴ y)) := by
+    rw [act_kronecker_prodVec, act_conjTranspose_self hP, act_conjTranspose_self hQ]
+  rw [e, inner_act_act (kronecker_mem_unitaryGroup hP hQ)]
+  exact hlam _ _ ((norm_act_of_mem (conjTranspose_mem hP) x).trans hx)
+    ((norm_act_of_mem (conjTranspose_mem hQ) y).trans hy)
+
+/-- (D, local) Bell vector up to local unitaries: if the evolution maps a unit product vector to
+`(P ⊗ Q) · bellPair` with `P, Q` unitary, then `π / 4 ≤ J · ∑ τₖ`.
+
+This applies to every two-qubit gate locally equivalent to CNOT on the qubit subspace, e.g. IBM's
+echoed cross-resonance gate `ECR = (local) · CNOT · (local)`: such a gate maps some product state
+to a local unitary applied to a Bell state, hence needs `J · T ≥ π / 4`. (The ECR matrix itself is
+not formalized.) -/
+theorem pi_div_four_le_entangling_time_local (H : Matrix (ι × κ) (ι × κ) ℂ) (hH : H.IsHermitian)
+    (J : ℝ) (hJ : ‖H‖ ≤ J) (steps : List (ℝ × Matrix ι ι ℂ × Matrix κ κ ℂ))
+    (hτ : ∀ s ∈ steps, 0 ≤ s.1) (hA : ∀ s ∈ steps, s.2.1.IsHermitian)
+    (hB : ∀ s ∈ steps, s.2.2.IsHermitian) (a : EuclideanSpace ℂ ι) (b : EuclideanSpace ℂ κ)
+    (ha : ‖a‖ = 1) (hb : ‖b‖ = 1) {i₀ i₁ : ι} {j₀ j₁ : κ} (hi : i₀ ≠ i₁) (hj : j₀ ≠ j₁)
+    {P : Matrix ι ι ℂ} {Q : Matrix κ κ ℂ} (hP : P ∈ Matrix.unitaryGroup ι ℂ)
+    (hQ : Q ∈ Matrix.unitaryGroup κ ℂ)
+    (hU : act (steps.map fun s => exp ((-(s.1 : ℂ) * Complex.I) •
+        (s.2.1 ⊗ₖ (1 : Matrix κ κ ℂ) + (1 : Matrix ι ι ℂ) ⊗ₖ s.2.2 + H))).prod
+        (prodVec a b) = act (P ⊗ₖ Q) (bellPair i₀ i₁ j₀ j₁)) :
+    Real.pi / 4 ≤ J * (steps.map Prod.fst).sum := by
+  rw [← arccos_inv_sqrt_two]
+  exact arccos_le_entangling_time H hH J hJ steps hτ hA hB a b ha hb _ hU _
+    (norm_inner_act_kronecker_prodVec_le hP hQ _ _
+      fun x y hx hy => norm_inner_bellPair_prodVec_le hi hj x y hx hy)
+
+/-- (D, local, shifted) As `pi_div_four_le_entangling_time_local`, with `‖H − c • 1‖ ≤ J`. -/
+theorem pi_div_four_le_entangling_time_shift_local (H : Matrix (ι × κ) (ι × κ) ℂ)
+    (hH : H.IsHermitian) (c : ℝ) (J : ℝ)
+    (hJ : ‖H - (c : ℂ) • (1 : Matrix (ι × κ) (ι × κ) ℂ)‖ ≤ J)
+    (steps : List (ℝ × Matrix ι ι ℂ × Matrix κ κ ℂ))
+    (hτ : ∀ s ∈ steps, 0 ≤ s.1) (hA : ∀ s ∈ steps, s.2.1.IsHermitian)
+    (hB : ∀ s ∈ steps, s.2.2.IsHermitian) (a : EuclideanSpace ℂ ι) (b : EuclideanSpace ℂ κ)
+    (ha : ‖a‖ = 1) (hb : ‖b‖ = 1) {i₀ i₁ : ι} {j₀ j₁ : κ} (hi : i₀ ≠ i₁) (hj : j₀ ≠ j₁)
+    {P : Matrix ι ι ℂ} {Q : Matrix κ κ ℂ} (hP : P ∈ Matrix.unitaryGroup ι ℂ)
+    (hQ : Q ∈ Matrix.unitaryGroup κ ℂ)
+    (hU : act (steps.map fun s => exp ((-(s.1 : ℂ) * Complex.I) •
+        (s.2.1 ⊗ₖ (1 : Matrix κ κ ℂ) + (1 : Matrix ι ι ℂ) ⊗ₖ s.2.2 + H))).prod
+        (prodVec a b) = act (P ⊗ₖ Q) (bellPair i₀ i₁ j₀ j₁)) :
+    Real.pi / 4 ≤ J * (steps.map Prod.fst).sum := by
+  rw [← arccos_inv_sqrt_two]
+  exact arccos_le_entangling_time_shift H hH c J hJ steps hτ hA hB a b ha hb _ hU _
+    (norm_inner_act_kronecker_prodVec_le hP hQ _ _
+      fun x y hx hy => norm_inner_bellPair_prodVec_le hi hj x y hx hy)
+
+end Local
 
 /-! ### The two-qubit Heisenberg interaction -/
 
