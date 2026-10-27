@@ -2490,3 +2490,8 @@ import Formalizations
 #print axioms QSL.Exchange.ratio_le_explicit
 #print axioms QSL.Exchange.one_le_ratio
 #print axioms QSL.Exchange.ratio_tendsto_one
+#print axioms QSL.Exchange.exchC_sq_apply
+#print axioms QSL.Exchange.trace_expand
+#print axioms QSL.Exchange.scalar_ineq
+#print axioms QSL.Exchange.refined_cz_lemma
+#print axioms QSL.Exchange.refined_cz_equality
