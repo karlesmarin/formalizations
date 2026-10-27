@@ -2478,3 +2478,6 @@ import Formalizations
 #print axioms QSL.Gate.abs_le_of_eigen
 #print axioms QSL.Gate.spectral_arc_le_time
 #print axioms QSL.Gate.u4d_time_ge
+#print axioms QSL.Qudit.pi_div_four_sub_le_entangling_time_approx
+#print axioms QSL.Qudit.pi_div_four_sub_le_entangling_time_shift_approx
+#print axioms QSL.Gate.two_arccos_sqrt_le_time_approx

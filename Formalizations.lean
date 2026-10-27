@@ -208,6 +208,7 @@ public import Formalizations.Physics.QuantumMechanics.SpeedLimit.TwoQubitEntangl
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.QuditEntangling
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.QuditEntanglingShift
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.GateEigenphases
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.ApproxSpeedLimits
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.SpectralArc
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.ZetaStateFloor
 public import Formalizations.Physics.Supergravity.AnomalyQuantization.U2Example
