@@ -204,6 +204,7 @@ public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.DominantPopulation
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.ZielinskiZych
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.TwoQubitEntangling
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.QuditEntangling
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.ZetaStateFloor
 public import Formalizations.Physics.Supergravity.AnomalyQuantization.U2Example
 public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
