@@ -4,7 +4,8 @@ Isabelle/HOL versions of some Lean modules of this repository, and entries prepa
 [Archive of Formal Proofs](https://www.isa-afp.org). They are independent of the Lean build (`lake` only builds
 `Formalizations.*`).
 
-- 🔧 Isabelle2026; the `AFP/` sessions also build with Isabelle2025-2, the version the AFP uses.
+- 🔧 Isabelle2026; the `AFP/` sessions on HOL alone also build with Isabelle2025-2. `Kirchhoff_Matrix_Tree` needs
+  other AFP entries, and the current AFP release (2026-10-26) is for Isabelle2026.
 - ✅ No `sorry`, no `quick_and_dirty`, no external provers (no `smt`); finite facts by `code_simp` (the simplifier),
   never `eval`.
 - 🔗 Each port names the Lean module it follows; the AFP entries go further than the Lean (statements for every `n`).
@@ -32,6 +33,7 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🧩 `Odd_Frieze_Rows` | `Integer_Frieze_Rows` | for every odd `n ≥ 15`, two integer friezes whose rows `⌊w/2⌋` differ with no zero and exactly two sign changes (`two_sign_changes`) | ⏳ not submitted |
 | 🔗 `Heilmann_Lieb` | HOL-Computational_Algebra | the matching polynomial of a finite graph has only real roots, by interlacing | 📤 submitted |
 | 🌳 `Godsil_Path_Tree` | `Heilmann_Lieb` | Godsil's path tree: `μ(G−u) μ(T) = μ(G) μ(T−u)`, and the matching polynomial of the component of `u` divides `μ(T)` | ⏳ not submitted |
+| 🌲 `Kirchhoff_Matrix_Tree` | `Smith_Normal_Form` (Cauchy–Binet), `Tree_Enumeration` | Kirchhoff's matrix-tree theorem: for a finite simple graph and a root `r`, the determinant of the reduced Laplacian is the number of spanning trees (`matrix_tree`); port of `Formalizations.Combinatorics.SimpleGraph.MatrixTree` | ⏳ not submitted |
 
 ## 🚀 Building
 
@@ -45,6 +47,7 @@ isabelle build -v -D ZielinskiZych
 isabelle build -v -D FriezeDominance
 isabelle build -v -d AFP/Integer_Frieze_Rows -D AFP/Odd_Frieze_Rows
 isabelle build -v -d AFP/Heilmann_Lieb -D AFP/Godsil_Path_Tree
+isabelle build -v -d <afp>/thys -D AFP/Kirchhoff_Matrix_Tree
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions

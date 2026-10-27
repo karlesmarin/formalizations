@@ -96,7 +96,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `GapWindow` 🆕 | The gap law `tr(Aᵏ) − p_k = tr(Bᵏ)` for `1 ≤ k ≤ girth + 1` |
 | `Combinatorics.SimpleGraph.MatrixTree` | `Basic` 🆕 | Reduced Laplacian `L₀ = N₀ N₀ᵀ`; `det L₀` as a sum of squared maximal minors (Cauchy–Binet) |
 | | `SpanningTreeMinor` 🆕 | A squared maximal minor of `N₀` is `1` iff its edges span a connected subgraph, else `0` |
-| | `Kirchhoff` 🆕 | Kirchhoff's matrix-tree theorem: `det L₀` = number of spanning trees, over any integral domain |
+| | `Kirchhoff` 🆕 | Kirchhoff's matrix-tree theorem: `det L₀` = number of spanning trees, over any integral domain; 🦉 also in Isabelle (`Isabelle/AFP/Kirchhoff_Matrix_Tree`) |
 | `Combinatorics.SimpleGraph.MatchingPolynomial` | `Basic` 🆕 | The matching polynomial `μ(G) = ∑ (−1)^k m_k X^(n−2k)`: monic of degree `n`, isomorphism invariant, vertex-deletion recurrences for `m_k`, the partition function and `μ` |
 | | `RamanujanBound` 🆕 | The bound `2√(k−1)` and the Ramanujan predicate; `2√(k−1) ≤ k` |
 | | `Signing` 🆕 | Signed adjacency matrices |

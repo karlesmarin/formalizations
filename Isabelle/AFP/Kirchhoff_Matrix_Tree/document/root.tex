@@ -1,0 +1,52 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Kirchhoff's Matrix-Tree Theorem}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+For a finite simple graph and any vertex $r$, the determinant of the reduced Laplacian, the Laplacian with the row
+and the column of $r$ deleted, is the number of spanning trees of the graph. We formalize this theorem of
+Kirchhoff~\cite{Kirchhoff1847} for the graphs of the entry \emph{Verified Enumeration of Trees}~\cite{AFP-Trees},
+using the Cauchy--Binet formula of the entry on the Smith normal form~\cite{AFP-SNF}.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of an AI system, and checked by the author.
+
+\tableofcontents
+
+\section*{Introduction}
+
+Number the vertices other than the root $r$ and the edges, and orient each edge from its smaller to its larger end.
+The reduced oriented incidence matrix $N$ has a row for each vertex $v \neq r$ and a column for each edge $e$, with
+entry $1$ if $v$ is the smaller end of $e$, $-1$ if it is the larger end, and $0$ otherwise. The reduced Laplacian
+$L$ (degrees on the diagonal, $-1$ for each edge) is defined directly, and the proof goes in four steps:
+\begin{enumerate}
+\item $L = N N^{T}$, entry by entry.
+\item By the Cauchy--Binet formula, $\det L$ is the sum of the squares of the maximal minors of $N$, one for each
+  set of $|V| - 1$ edges.
+\item A minor vanishes if its edges do not connect the graph: some component avoids $r$, and the rows of its
+  vertices add up to zero. If its edges form a tree, the square of the minor is $1$, by induction on the tree: a
+  leaf contributes a single entry $\pm 1$ to its row or to the column of its edge.
+\item A connected set of $|V| - 1$ edges is a spanning tree, and edge sets correspond to sets of column indices.
+\end{enumerate}
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

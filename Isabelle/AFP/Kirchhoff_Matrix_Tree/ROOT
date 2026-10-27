@@ -1,0 +1,11 @@
+chapter AFP
+
+session Kirchhoff_Matrix_Tree = Smith_Normal_Form +
+  options [timeout = 1200]
+  sessions
+    Tree_Enumeration
+  theories
+    Matrix_Tree
+  document_files
+    "root.tex"
+    "root.bib"
