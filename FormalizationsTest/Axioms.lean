@@ -2410,3 +2410,5 @@ import Formalizations
 #print axioms LegendreSieve.primeCounting_sub_add_one
 #print axioms Willans.floor_cos_sq_eq
 #print axioms Willans.nth_prime_eq
+#print axioms Cotes.sum_inv_roots_eq
+#print axioms Cotes.harmonic_mean_polar
