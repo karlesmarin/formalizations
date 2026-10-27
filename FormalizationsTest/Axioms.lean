@@ -2452,6 +2452,12 @@ import Formalizations
 #print axioms QSL.Qudit.pi_div_four_le_entangling_time
 #print axioms QSL.Qudit.pi_div_four_le_entangling_time_fin
 #print axioms QSL.Qudit.entangling_time_tight
+#print axioms QSL.Qudit.arccos_le_entangling_time_shift
+#print axioms QSL.Qudit.arccos_le_entangling_time_halfWidth
+#print axioms QSL.Qudit.pi_div_four_le_entangling_time_shift
+#print axioms QSL.Qudit.heisenberg_isHermitian
+#print axioms QSL.Qudit.heisenberg_shift_norm
+#print axioms QSL.Qudit.pi_div_eight_le_heisenberg_time
 #print axioms QSL.FixedAxis.energyStd_qubitState
 #print axioms QSL.FixedAxis.arccos_overlap_qubitState
 #print axioms QSL.FixedAxis.arccos_overlap_lt_of_pi_lt
