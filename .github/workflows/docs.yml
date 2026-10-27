@@ -37,6 +37,12 @@ jobs:
           sudo mkswap /swapfile_docs
           sudo swapon /swapfile_docs
           free -h
+      # the swap alone did not help: every srcUri task fails in the same second with 15 GB RAM + 11 GB swap free, i.e.
+      # ENOMEM when spawning a child of a process with a large virtual reservation (heuristic overcommit refuses it)
+      - name: Allow memory overcommit
+        run: |
+          sudo sysctl -w vm.overcommit_memory=1
+          ulimit -a
       - uses: leanprover-community/docgen-action@main
         with:
           api-docs: true
