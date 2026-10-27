@@ -2401,3 +2401,7 @@ import Formalizations
 #print axioms WolstenholmeInequality.sub_eq_sq_add_sq
 #print axioms WolstenholmeInequality.cos_le
 #print axioms PappusGuldin.volume_revolution
+#print axioms BruckRyserChowla.exists_sq_add_sq
+#print axioms BruckRyserChowla.exists_isometry
+#print axioms BruckRyserChowla.exists_orthogonal_vector
+#print axioms BruckRyserChowla.exists_sq_add_sq_of_rat
