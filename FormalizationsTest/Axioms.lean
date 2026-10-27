@@ -2439,3 +2439,8 @@ import Formalizations
 #print axioms QSL.zz_inequality_all
 #print axioms QSL.zielinski_zych_all
 #print axioms QSL.zielinski_zych_time_all
+#print axioms QSL.TwoQubit.norm_inner_bell_prodVec_le
+#print axioms QSL.TwoQubit.sqrt_two_sub_sqrt_two_le_norm_bell_sub_prodVec
+#print axioms QSL.TwoQubit.sqrt_two_sub_sqrt_two_le_norm_sub_kronecker
+#print axioms QSL.TwoQubit.norm_exp_add_sub_exp_le
+#print axioms QSL.TwoQubit.entangling_time_lower_bound

@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2435 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2440 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -247,6 +247,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `AntipodeFloor` 🆕 | `‖∑ wⱼxⱼ/(1 − xⱼz)‖ ≥ ∑ wⱼxⱼ/(1 + xⱼ)` on the unit circle for `wⱼ ≥ 0`, `xⱼ ∈ [0, 1)` |
 | | `DominantPopulation` 🆕 | A population larger than 1/2 forbids orthogonality: 2 p j − 1 ≤ \|∑ p k e^{−i E_k t}\| |
 | | `ZielinskiZych` 🆕 | Zieliński–Zych fractional-moment speed limits for every α > 0 (the inequality they state without proof, proved here for all α; α ≥ 1 added 27-oct-2026) and their limit α → 0: the dominant-population criterion |
+| | `TwoQubitEntangling` 🆕 | Certified speed limit for entangling two qubits with arbitrary local control: if piecewise evolutions `exp(−iτ(A⊗1 + 1⊗B + H))` with `‖H‖ ≤ J` take a product state to a Bell state, then `J Σ τ ≥ √(2 − √2)` (2.6 % below the optimum `π/4` for an exchange coupling); a Bell state is at distance `≥ √(2 − √2)` from every product state; Duhamel `‖e^(X+Y) − e^X‖ ≤ ‖Y‖` for skew-Hermitian matrices. |
 | | `ZetaStateFloor` 🆕 | The zeta states p n ∝ (n+1)^{−s} never get closer to orthogonality than 1 − 2^{1−s}; η(s) = (1 − 2^{1−s}) ζ(s) |
 | `Physics.Supergravity.AnomalyQuantization` | `U2Example` 🆕 | The `U(2)` form `(2 b₀ (m − n)² + b₁ (m + n)²)/8` of Monnier–Moore–Park is integer-valued iff `2 b₀ + b₁ ≡ 0 (mod 8)`; `4 ∣ b₀ ∧ 8 ∣ b₁` is sufficient, not necessary (`(1, 6)`); two samples decide integrality with rational coefficients |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
