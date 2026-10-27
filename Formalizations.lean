@@ -160,6 +160,8 @@ public import Formalizations.NumberTheory.WeightedCharacterSums.SubsetSumsAndRow
 public import Formalizations.NumberTheory.WeightedCharacterSums.WeightedHalfSum
 public import Formalizations.NumberTheory.Euclid.Lame
 public import Formalizations.NumberTheory.Wolstenholme
+public import Formalizations.NumberTheory.LegendreSieve
+public import Formalizations.NumberTheory.Willans
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.AlignmentPolynomials
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.BlindCount
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.ChargeQuantization

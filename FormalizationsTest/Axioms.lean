@@ -2406,3 +2406,7 @@ import Formalizations
 #print axioms BruckRyserChowla.exists_orthogonal_vector
 #print axioms BruckRyserChowla.exists_sq_add_sq_of_rat
 #print axioms Migotti.coeff_cyclotomic_mul_mem
+#print axioms LegendreSieve.card_coprime_eq_sum_moebius
+#print axioms LegendreSieve.primeCounting_sub_add_one
+#print axioms Willans.floor_cos_sq_eq
+#print axioms Willans.nth_prime_eq
