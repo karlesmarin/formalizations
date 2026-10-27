@@ -2468,3 +2468,10 @@ import Formalizations
 #print axioms QSL.Gate.fsAngle_le_time_halfWidth
 #print axioms QSL.Gate.gate_time_ge_eigenphase_gap
 #print axioms QSL.Gate.cz_time_ge
+#print axioms QSL.Gate.sAngle_le_sAngle_add_sAngle
+#print axioms QSL.Gate.sAngle_act_act
+#print axioms QSL.Gate.sAngle_exp_le
+#print axioms QSL.Gate.sAngle_centred_le_time
+#print axioms QSL.Gate.abs_le_of_eigen
+#print axioms QSL.Gate.spectral_arc_le_time
+#print axioms QSL.Gate.u4d_time_ge

@@ -21,7 +21,8 @@ Nelson and Barnes, *How fast can a quantum gate be? Exact speed limits from geom
 arXiv:2604.23031 (2026), eq. (3), state the general bound `T ≥ Δφ⋆ / Ω_max`. This file gives an
 elementary proof via the shifted Mandelstam–Tamm bound (Duhamel estimate of
 `QSL.Qudit.fsAngle_exp_add_exp_le` plus the triangle inequality of the Fubini–Study angle), and
-only for gaps `Δφ ≤ π`. Nothing is claimed here about gaps larger than `π`.
+only for gaps `Δφ ≤ π`. Nothing is claimed here about gaps larger than `π`; the full range is in
+`Formalizations.Physics.QuantumMechanics.SpeedLimit.SpectralArc` (sphere angle, spectral arc).
 
 For the two-qubit controlled-Z gate `diag (1, 1, 1, −1)` the eigenphases `0` and `π` give
 `T ≥ π / Ω`, matching `T⋆ (CZ) = π / Ω` of Nelson–Barnes (Table I).
@@ -35,7 +36,7 @@ For the two-qubit controlled-Z gate `diag (1, 1, 1, −1)` the eigenphases `0` a
 
 ## References
 
-* J. Nelson, E. Barnes, *How fast can a quantum gate be? Exact speed limits from geometry*,
+* H. Nelson, E. Barnes, *How fast can a quantum gate be? Exact speed limits from geometry*,
   arXiv:2604.23031 (2026).
 -/
 
