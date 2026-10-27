@@ -244,3 +244,4 @@ public import Formalizations.RingTheory.KostantAlphabet
 public import Formalizations.SetTheory.Ordinal.Gentzen.Acc
 public import Formalizations.SetTheory.Ordinal.Gentzen.Ordinals
 public import Formalizations.SetTheory.Ordinal.Gentzen.TwoPow
+public import Formalizations.Geometry.Euclidean.WolstenholmeInequality

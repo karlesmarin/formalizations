@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2394 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2396 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -116,6 +116,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `HeilmannLiebBound` 🆕 | Weighted Gershgorin (Collatz–Wielandt); Heilmann–Lieb bound: the roots of `μ(G)` lie in `[−2√(Δ−1), 2√(Δ−1)]` for maximum degree `≤ Δ`, `Δ ≥ 2` |
 | `FieldTheory.Finite` | `CartierOperator` 🆕 | Over `ZMod p`, `(X d/dX)^[p−1]` kills the monomials with exponent divisible by `p` and fixes the others |
 | | `OddPowerVandermonde` 🆕 | `k^(p−1)` as an indicator; residue classes in `[−m, m]` biject onto `ZMod p`; Vandermonde weights isolating a monomial; `det [l^e]_{l ≤ (p−1)/2, e odd} ≠ 0` |
+| `Geometry.Euclidean` | `WolstenholmeInequality` 🆕 | Wolstenholme's inequality `2yz cos A + 2zx cos B + 2xy cos C ≤ x² + y² + z²` when `A + B + C = π`, with the defect as a sum of two squares. |
 | `GroupTheory.FiniteAbelian` | `OddCharacter` 🆕 | In a finite commutative group, a character `χ` with `χ s = −1` (`s² = 1`) trivial on `H` exists iff `s ∉ H`; odd characters of `(ZMod N)ˣ` trivial on `⟨u⟩` |
 | `GroupTheory.GroupAction` | `Separation` 🆕 | P. M. Neumann's separation lemma: finite (pretransitive, `#A · #B < #Ω`) and infinite (infinite orbits) versions |
 | | `SeparationDichotomy` 🆕 | Averaging identity `∑_g #(gA ∩ B)`; either some `g` separates `A` from `B` or all intersections have size `1` (exact factorization; tilings of `ℤ/n`) |

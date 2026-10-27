@@ -2398,3 +2398,5 @@ import Formalizations
 #print axioms Wolstenholme.harmonic_sum_eq_zero
 #print axioms Wolstenholme.choose_modEq
 #print axioms Bondy.exists_erase_injOn
+#print axioms WolstenholmeInequality.sub_eq_sq_add_sq
+#print axioms WolstenholmeInequality.cos_le
