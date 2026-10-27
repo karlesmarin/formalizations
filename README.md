@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2391 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2393 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -163,6 +163,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `NumberTheory` | `DedekindSum` 🆕 | Dedekind sums via the sawtooth: reciprocity `s(h,k) + s(k,h) = (h² + k² + 1)/(12hk) − 1/4`, `s(h⁻¹, k) = s(h, k)`, the distribution relation, and the prime case of the Petersson–Knopp identity |
 | | `FermatQuotient` 🆕 | Shift rule for the Fermat quotient: `q(l + p t) ≡ q(l) − t/l (mod p)` |
 | | `OrderOfTwo` 🆕 | For `p ≥ 5`: some odd `j ≤ p − 4` has `2^j = 1` or some even `j ≤ p − 3` has `2^j = −1` iff `ord_p(2) ≢ 2 (mod 4)` |
+| | `Wolstenholme` 🆕 | Wolstenholme's theorem: `C(2p - 1, p - 1) ≡ 1 (mod p³)` for primes `p ≥ 5`, with the harmonic lemma in `ZMod (p²)`. |
 | `NumberTheory.DirichletCharacter` | `AbelZero` 🆕 | For a primitive `χ` modulo odd `N`: `∑_c χ⁻¹(c) U(ζ^c) = 2 τ (1 − χ(2)) B_{1,χ}`, `U(Z) = 2Z/(Z² − 1)`, by finite Fourier analysis |
 | `NumberTheory.Euclid` | `Lame` 🆕 | Lamé's theorem: Euclid's algorithm on `(x, y)` takes `n` steps with `F_{n+1} ≤ y`, so at most five per decimal digit of `y`. |
 | `NumberTheory.MahlerBasis` | `FiniteMahlerBasis` 🆕 | The functions `x ↦ C(x.val, i)`, `i < N`, are a basis of `ZMod N → K` |

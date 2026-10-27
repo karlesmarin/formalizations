@@ -2395,3 +2395,5 @@ import Formalizations
 #print axioms Lame.fib_euclidSteps_le
 #print axioms Hlawka.norm_add_add_le
 #print axioms Hlawka.generalised
+#print axioms Wolstenholme.harmonic_sum_eq_zero
+#print axioms Wolstenholme.choose_modEq
