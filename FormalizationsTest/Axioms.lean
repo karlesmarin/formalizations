@@ -2412,3 +2412,5 @@ import Formalizations
 #print axioms Willans.nth_prime_eq
 #print axioms Cotes.sum_inv_roots_eq
 #print axioms Cotes.harmonic_mean_polar
+#print axioms GaussianMoat.exists_far_from_primes_on_line
+#print axioms GaussianMoat.norm_eq_of_dvd_prime
