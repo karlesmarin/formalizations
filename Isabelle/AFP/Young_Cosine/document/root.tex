@@ -1,0 +1,55 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Young's Inequality for Cosine Sums}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+W.\,H.~Young proved in 1913 that the partial sums of the cosine series $\sum_{k \geq 1} \cos(kx)/k$ are bounded
+below by $-1$~\cite{Young1913}. We formalize this inequality: for every $n$ and every real $x$,
+$\sum_{k=1}^{n} \cos(kx)/k \geq -1$. The proof takes a global minimum of the sum on $[0, 2\pi]$ and, at an
+interior critical point, uses either the induction hypothesis or a double Abel summation with convex
+coefficients.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\section*{Introduction}
+
+Write $c_n(x) = \sum_{k=1}^{n} \cos(kx)/k$. The bound is attained: $c_1(\pi) = -1$. Young's inequality is
+the starting point of a series of sharper results on positive trigonometric sums; Brown and Koumandos sharpened
+and unified several of them~\cite{BrownKoumandos1997}. The proof formalized here is by induction on $n$ and goes
+in three steps.
+\begin{enumerate}
+\item By periodicity it is enough to bound $c_n$ on $[0, 2\pi]$, where it attains a minimum at some $s$. At
+  $s = 0$ and $s = 2\pi$ the sum is nonnegative.
+\item At an interior minimum the derivative $-\sum_{k=1}^{n} \sin(ks)$ vanishes. Multiplying by $2\sin(s/2)$
+  and telescoping gives $\sin(ns/2)\,\sin((n+1)s/2) = 0$.
+\item If $\sin(ns/2) = 0$, then $\cos(ns) = 1$ and $c_n(s) = c_{n-1}(s) + 1/n \geq -1$ by induction. If
+  $\sin((n+1)s/2) = 0$, write $1 + c_n(s) = \sum_{k=0}^{n} a_k u_k$ with $a_0 = 2$, $a_k = 1/k$, $u_0 = 1/2$ and
+  $u_k = \cos(ks)$, and sum by parts twice. The second differences of $a$ are nonnegative, the second partial
+  sums of $u$ are $(1 - \cos((k+1)s)) / (4 \sin^2(s/2)) \geq 0$, and at the critical point the boundary terms
+  are explicit, which gives $1 + c_n(s) \geq 0$.
+\end{enumerate}
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

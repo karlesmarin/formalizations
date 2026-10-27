@@ -76,7 +76,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `ResidualJacobian` 🆕 | The Jacobian of a residual stream `h ↦ h + w(h)` is the ordered product of the layer Jacobians `I + w′` along the trajectory |
 | | `EntropyBound` 🆕 | Entropy of a distribution on N points is at most log N, with equality iff uniform (area law, part i). |
 | `Combinatorics.Additive` | `AddClosedInterval` 🆕 | An additively closed `S ⊆ ℕ` containing `[a, 2a]` contains `[a, ∞)` |
-| `Combinatorics.Choose` | `Singmaster` 🆕 | Singmaster's bound: `a ≥ 2` occurs at most `2 + 2 ⌊log₂ a⌋` times in Pascal's triangle. |
+| `Combinatorics.Choose` | `Singmaster` 🆕 | Singmaster's bound: `a ≥ 2` occurs at most `2 ⌊log₂ a⌋` times in Pascal's triangle (Singmaster states `2 + 2 ⌊log₂ a⌋`). |
 | `Combinatorics.Configuration` | `BruckRyserChowla` 🆕 | Bruck–Ryser–Chowla: a projective plane of order `n ≡ 1, 2 (mod 4)` forces `n` to be a sum of two squares (no planes of order 6, 14). |
 | `Combinatorics.Enumerative` | `Touchard` 🆕 | Touchard's congruence `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers (umbral calculus in `(ZMod p)[X]`). |
 | | `PrimeCongruences` 🆕 | Congruences at primes: `C(2p, p) ≡ 2`, `Catalan(p) ≡ 2`, `D(p) ≡ -1 (mod p)`. |

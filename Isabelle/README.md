@@ -34,7 +34,8 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🧩 `Odd_Frieze_Rows` | `Integer_Frieze_Rows` | for every odd `n ≥ 15`, two integer friezes whose rows `⌊w/2⌋` differ with no zero and exactly two sign changes (`two_sign_changes`) | ⏳ not submitted |
 | 🔗 `Heilmann_Lieb` | HOL-Computational_Algebra | the matching polynomial of a finite graph has only real roots, by interlacing | 📤 submitted |
 | 🌳 `Godsil_Path_Tree` | `Heilmann_Lieb` | Godsil's path tree: `μ(G−u) μ(T) = μ(G) μ(T−u)`, and the matching polynomial of the component of `u` divides `μ(T)` | ⏳ not submitted |
-| 🌲 `Kirchhoff_Matrix_Tree` | `Smith_Normal_Form` (Cauchy–Binet), `Tree_Enumeration` | Kirchhoff's matrix-tree theorem: for a finite simple graph and a root `r`, the determinant of the reduced Laplacian is the number of spanning trees (`matrix_tree`); port of `Formalizations.Combinatorics.SimpleGraph.MatrixTree` | ⏳ not submitted |
+| 🌲 `Kirchhoff_Matrix_Tree` | `Smith_Normal_Form` (Cauchy–Binet), `Tree_Enumeration` | Kirchhoff's matrix-tree theorem: for a finite simple graph and a root `r`, the determinant of the reduced Laplacian is the number of spanning trees (`matrix_tree`); port of `Formalizations.Combinatorics.SimpleGraph.MatrixTree` | 📤 submitted |
+| 〰️ `Young_Cosine` | HOL-Analysis | Young's inequality (1913): `−1 ≤ Σ_{k=1}^{n} cos (k x) / k` for every `n` and real `x` (`young_cosine`); the AFP version of `YoungCosine/` | ⏳ not submitted |
 
 ## 🚀 Building
 
@@ -50,6 +51,7 @@ isabelle build -v -D YoungCosine
 isabelle build -v -d AFP/Integer_Frieze_Rows -D AFP/Odd_Frieze_Rows
 isabelle build -v -d AFP/Heilmann_Lieb -D AFP/Godsil_Path_Tree
 isabelle build -v -d <afp>/thys -D AFP/Kirchhoff_Matrix_Tree
+isabelle build -v -D AFP/Young_Cosine
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions

@@ -1,0 +1,9 @@
+chapter AFP
+
+session Young_Cosine = "HOL-Analysis" +
+  options [timeout = 600]
+  theories
+    Young_Cosine
+  document_files
+    "root.tex"
+    "root.bib"
