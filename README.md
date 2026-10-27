@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2389 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2391 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -42,6 +42,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | Area | File | Main result |
 |---|---|---|
 | `Algebra.Ring` | `Continuant` | Euler's continuant; `a⁻¹ + r + b⁻¹ = a⁻¹ K(a,r,b) b⁻¹` |
+| `Analysis.InnerProductSpace` | `Hlawka` 🆕 | Hlawka's inequality and Djoković's generalisation `d_2 + ⋯ + d_{n-1} ≤ (2^(n-2) - 1)(d_1 + d_n)` in real inner product spaces. |
 | `Analysis.ODE.RungeKutta` | `OrderConditions` 🆕 | Butcher order conditions `γ(t) Φ(t) = 1` over planar rooted trees, reduced to a finite catalogue; Euler, Heun, RK4 (order 4, not 5), Dormand–Prince (order 5), Gauss–Legendre `s = 3` (order 4 in `ℚ(√15)`; order 6 in the denominator-cleared form over `ℤ[√15]` by `decide`); `Φ` invariant under permuting children |
 | | `GaussLegendreOrder` 🆕 | Gauss–Legendre `s = 3` has order exactly 6: the bushy tree with 6 leaves fails, in `ℚ(√15)` and in the denominator-cleared form |
 | `Analysis.Polynomial` | `EnestromKakeya` 🆕 | Eneström–Kakeya: positive non-increasing coefficients give no zero in the open unit disk; zeros on the circle are roots of unity; strictly decreasing coefficients give none in the closed disk |

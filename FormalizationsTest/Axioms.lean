@@ -2393,3 +2393,5 @@ import Formalizations
 #print axioms SimpleGraph.bass_determinant_commRing
 #print axioms Singmaster.ncard_choose_eq_le
 #print axioms Lame.fib_euclidSteps_le
+#print axioms Hlawka.norm_add_add_le
+#print axioms Hlawka.generalised
