@@ -2481,3 +2481,6 @@ import Formalizations
 #print axioms QSL.Qudit.pi_div_four_sub_le_entangling_time_approx
 #print axioms QSL.Qudit.pi_div_four_sub_le_entangling_time_shift_approx
 #print axioms QSL.Gate.two_arccos_sqrt_le_time_approx
+#print axioms QSL.Exchange.exchange_norm_ge
+#print axioms QSL.Exchange.exchange_norm_le
+#print axioms QSL.Exchange.ratio_sandwich
