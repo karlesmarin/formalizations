@@ -27,6 +27,16 @@ jobs:
       - uses: leanprover/lean-action@v1
         with:
           use-mathlib-cache: true
+      # since 2026-10-27 the srcUri step of doc-gen runs out of memory on the hosted runner ("resource exhausted,
+      # not enough memory"): give it swap space
+      - name: Add swap space
+        run: |
+          sudo swapoff -a || true
+          sudo fallocate -l 12G /swapfile_docs
+          sudo chmod 600 /swapfile_docs
+          sudo mkswap /swapfile_docs
+          sudo swapon /swapfile_docs
+          free -h
       - uses: leanprover-community/docgen-action@main
         with:
           api-docs: true
