@@ -2501,3 +2501,6 @@ import Formalizations
 #print axioms PolynomialCoprimality.card_monic_natDegree
 #print axioms PolynomialCoprimality.card_coprime_tuples
 #print axioms PolynomialCoprimality.card_not_coprime_equal_degree
+#print axioms PolyaRedfield.sum_fixed_weight
+#print axioms PolyaRedfield.card_mul_sum_orbit_weight
+#print axioms PolyaRedfield.card_mul_card_orbits
