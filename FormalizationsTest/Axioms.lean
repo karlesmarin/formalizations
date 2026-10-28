@@ -2504,3 +2504,7 @@ import Formalizations
 #print axioms PolyaRedfield.sum_fixed_weight
 #print axioms PolyaRedfield.card_mul_sum_orbit_weight
 #print axioms PolyaRedfield.card_mul_card_orbits
+#print axioms Pisano.dvd_fib_iff
+#print axioms Pisano.exists_period
+#print axioms Pisano.even_of_period
+#print axioms Pisano.fib_mod_periodicity
