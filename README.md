@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2543 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2544 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -76,6 +76,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `HeatCapacity` 🆕 | Erratum to the Hagedorn heat capacity: both derivations give `(log N)²/12`, three times smaller than the published `(log N)²/4` |
 | | `ResidualJacobian` 🆕 | The Jacobian of a residual stream `h ↦ h + w(h)` is the ordered product of the layer Jacobians `I + w′` along the trajectory |
 | | `EntropyBound` 🆕 | Entropy of a distribution on N points is at most log N, with equality iff uniform (area law, part i). |
+| | `MaxEnt` 🆕 | Part I, Thm 6.2 (corrected): the MaxEnt distribution under `E[log d] = λ` is the power law, with a unique `γ > 0` iff `0 < λ < log(N!)/N`. |
 | `Combinatorics.Additive` | `AddClosedInterval` 🆕 | An additively closed `S ⊆ ℕ` containing `[a, 2a]` contains `[a, ∞)` |
 | `Combinatorics.Choose` | `Singmaster` 🆕 | Singmaster's bound: `a ≥ 2` occurs at most `2 ⌊log₂ a⌋` times in Pascal's triangle (Singmaster states `2 + 2 ⌊log₂ a⌋`). |
 | | `MiddleBinomialDivisors` 🆕 | Pomerance (Monthly 2015): for `k ≠ 1`, `n + k ∤ C(2n, n)` for infinitely many `n`; `v_p(n + k) ≤ v_p(C(2n, n))` for primes `p ≥ 2k`; `pq ∣ C(2n, n)` for `n = pq + k`, `k < p`, `3p/2 < q < 2p`. |

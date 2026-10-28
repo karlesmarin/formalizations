@@ -33,6 +33,7 @@ public import Formalizations.Analysis.TransformerAttention.Pade
 public import Formalizations.Analysis.TransformerAttention.RGFlow
 public import Formalizations.Analysis.TransformerAttention.ResidualJacobian
 public import Formalizations.Analysis.TransformerAttention.EntropyBound
+public import Formalizations.Analysis.TransformerAttention.MaxEnt
 public import Formalizations.Analysis.InnerProductSpace.Hlawka
 public import Formalizations.Combinatorics.Additive.AddClosedInterval
 public import Formalizations.Combinatorics.Frieze.IntegerDominance

@@ -2547,3 +2547,4 @@ import Formalizations
 #print axioms FibonacciSumDivisibility.flynn_connolly
 #print axioms ReLUDepth.max_eq_M
 #print axioms ReLUDepth.max5_two_hidden_layers
+#print axioms MaxEntPowerLaw.maxent_power_law
