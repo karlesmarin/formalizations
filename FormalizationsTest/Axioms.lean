@@ -2537,3 +2537,5 @@ import Formalizations
 #print axioms Chan.exists_blue
 #print axioms Praeger.card_support_le
 #print axioms Praeger.bounded_movement
+#print axioms ACP.internal_of_coprime
+#print axioms ACP.classification

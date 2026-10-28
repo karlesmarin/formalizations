@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2533 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2535 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -189,6 +189,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `Wolstenholme` 🆕 | Wolstenholme's theorem: `C(2p - 1, p - 1) ≡ 1 (mod p³)` for primes `p ≥ 5`, with the harmonic lemma in `ZMod (p²)`. |
 | | `LegendreSieve` 🆕 | Legendre's sieve: `π(x) - π(√x) + 1 = Σ_{d ∣ P(√x)} μ(d) ⌊x/d⌋`, from the exact Möbius count of integers coprime to `P`. |
 | | `Willans` 🆕 | Willans' formula for the `n`-th prime, from Wilson's theorem and Bertrand's postulate. |
+| | `UnitsArithmeticProgression` 🆕 | Anderson–Cameron–Preece: `(ℤ/p)ˣ = ⟨x⟩ × ⟨x+k⟩ × ⟨x+2k⟩` with orders `{2, 3, m}` (`p = 6m+1`) iff `m ≡ 1, 5 (mod 6)` and a root of `X² + 3X + 3` satisfies one of three order conditions. |
 | `NumberTheory.ArithmeticFunction` | `DivisorTotient` 🆕 | The Dirichlet identity `Σ_{d ∣ n} τ(d) φ(n/d) = σ(n)` (`τ ∗ φ = σ`). |
 | | `OeisA063880` 🆕 | A063880 (partial): `σ(n) = 2σ*(n)` forces an odd prime with exponent `≡ 3 (mod 4)`; the open statements (`≡ 108 mod 216`, unique primitive) remain open. |
 | | `Untouchable` 🆕 | 2 and 5 are untouchable (no `n` has aliquot sum 2 or 5); hence `σ(x) mod x = 5` forces `σ(x) ≥ 2x + 5` (the case `σ(x) = x + 5` of the open OEIS A076495 `a(5) = 0`). |
