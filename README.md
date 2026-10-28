@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2538 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2541 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -199,6 +199,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `NumberTheory.Euclid` | `Lame` 🆕 | Lamé's theorem: Euclid's algorithm on `(x, y)` takes `n` steps with `F_{n+1} ≤ y`, so at most five per decimal digit of `y`. |
 | `NumberTheory.Fibonacci` | `FibLegendre` 🆕 | Fibonacci numbers at primes: `F(p) ≡ (5/p) (mod p)` (Frobenius on the Fibonacci matrix and Euler's criterion). |
 | | `Pisano` 🆕 | Fibonacci modulo `m`: the zeros recur with period `d(m)` (`m ∣ Fₙ ↔ d ∣ n`), the sequence is periodic, and every period is even for `m > 2`. |
+| | `SumDivisibility` 🆕 | Flynn-Connolly (2025): infinitely many odd `k` divide `F_1 + ⋯ + F_k` (closes two `theorem_wanted` of atlas-lean). |
 | `NumberTheory.MahlerBasis` | `FiniteMahlerBasis` 🆕 | The functions `x ↦ C(x.val, i)`, `i < N`, are a basis of `ZMod N → K` |
 | | `ParityAndKernel` 🆕 | An even Mahler expansion with vanishing even coefficients is zero; the kernel of `Δ^r` on `ZMod (p^b) → K` (`char K = p`) is spanned by `C(x, i)`, `i < r` |
 | | `LogarithmChange` 🆕 | `q ↦ q ∘ F` and `q ↦ q ∘ F⁻¹`, `F(z) = ((1+p)^z − 1)/p`, are unitriangular in the Mahler basis of `ℤ/p^t → k` |

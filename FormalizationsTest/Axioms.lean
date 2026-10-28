@@ -2542,3 +2542,6 @@ import Formalizations
 #print axioms Bailey.quasiComplete_iff
 #print axioms SuffixPrefixAvoidance.zakharov_sharp
 #print axioms SuffixPrefixAvoidance.zakharov_bound
+#print axioms FibonacciSumDivisibility.period_fib_even
+#print axioms FibonacciSumDivisibility.fib_succ_prime_dvd
+#print axioms FibonacciSumDivisibility.flynn_connolly
