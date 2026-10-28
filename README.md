@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2521 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2524 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -178,6 +178,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `TranslationInvariantEnergy` 🆕 | Difference potentials on finite abelian groups: one scalar controls the complement correction; a hexachord and its complement have equal energy |
 | | `ExtremalityConnections` 🆕 | Homometric sets have equal energies; homometry survives complementation; the pentatonic results from the diatonic by complementation |
 | | `MelodicWord` 🆕 | An odd-step statistic of melodic words is antisymmetric under retrograde and invariant under repeated notes; the pitch-class DFT is order-blind |
+| | `GeneralisedHexachord` 🆕 | Babbitt's common-tone theorem and the generalised hexachord theorem over `ℤ_n`: `icv(Sᶜ) − icv(S) = n − 2\|S\|` (`n/2 − \|S\|` at the tritone), for every `n`. |
 | `NumberTheory` | `DedekindSum` 🆕 | Dedekind sums via the sawtooth: reciprocity `s(h,k) + s(k,h) = (h² + k² + 1)/(12hk) − 1/4`, `s(h⁻¹, k) = s(h, k)`, the distribution relation, and the prime case of the Petersson–Knopp identity |
 | | `FermatQuotient` 🆕 | Shift rule for the Fermat quotient: `q(l + p t) ≡ q(l) − t/l (mod p)` |
 | | `OrderOfTwo` 🆕 | For `p ≥ 5`: some odd `j ≤ p − 4` has `2^j = 1` or some even `j ≤ p − 3` has `2^j = −1` iff `ord_p(2) ≢ 2 (mod 4)` |

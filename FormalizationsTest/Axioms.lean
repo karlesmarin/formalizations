@@ -2525,3 +2525,6 @@ import Formalizations
 #print axioms SchurCommuting.finrank_le
 #print axioms SchurCommuting.exists_finrank_eq
 #print axioms SchurCommuting.finrank_le_and_attained
+#print axioms Hexachord.card_inter_image_add
+#print axioms Hexachord.icv_compl
+#print axioms Hexachord.babbitt_and_hexachord

@@ -132,6 +132,7 @@ public import Formalizations.MusicTheory.TonnetzSpectrum
 public import Formalizations.MusicTheory.TranslationInvariantEnergy
 public import Formalizations.MusicTheory.TritoneFixedFourier
 public import Formalizations.MusicTheory.TritoneNormal
+public import Formalizations.MusicTheory.GeneralisedHexachord
 public import Formalizations.NumberTheory.DedekindSum
 public import Formalizations.NumberTheory.DirichletCharacter.AbelZero
 public import Formalizations.NumberTheory.FermatQuotient
