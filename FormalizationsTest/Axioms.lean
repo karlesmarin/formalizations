@@ -2528,3 +2528,5 @@ import Formalizations
 #print axioms Hexachord.card_inter_image_add
 #print axioms Hexachord.icv_compl
 #print axioms Hexachord.babbitt_and_hexachord
+#print axioms Bregman.log_bound
+#print axioms Bregman.permanent_le

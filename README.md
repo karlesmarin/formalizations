@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2524 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2526 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -89,6 +89,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `Combinatorics.Hall` | `Tight` 🆕 | The neighbourhood function of a set system is submodular; under Hall's condition tight sets are closed under union and intersection |
 | `Combinatorics.Matroid` | `Transversal` 🆕 | Partial transversals of a finite set system are the independent sets of a matroid (augmentation through Hall's theorem and tight sets) |
 | | `TransversalObstruction` 🆕 | The largest tight subset of a partial transversal decides every insertion and describes the matroid closure |
+| `Combinatorics.Permanent` | `Bregman` 🆕 | Brégman's theorem: a `(0,1)`-matrix with non-zero row sums `rᵢ` has `per A ≤ ∏ᵢ (rᵢ!)^(1/rᵢ)` (Schrijver's proof). |
 | `Combinatorics.SetFamily` | `Bondy` 🆕 | Bondy's theorem: at most `\|X\|` distinct sets stay distinct after deleting some `x ∈ X` (rank argument over `ZMod 2`). |
 | `Combinatorics.SimpleGraph` | `OrientedIncMatrix` 🆕 | The oriented incidence matrix `N` and the Gram factorization `N Nᵀ = D − A` |
 | | `TripartiteTuran` 🆕 | Tripartite Turán theorem (Bondy–Shen–Thomassé–Thomassen): densities `αβ + γ > 1` (cyclically), e.g. all `> 1/φ`, force a triangle across the parts. |
