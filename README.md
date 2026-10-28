@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2491 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2497 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -47,6 +47,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `Analysis.ODE.RungeKutta` | `OrderConditions` 🆕 | Butcher order conditions `γ(t) Φ(t) = 1` over planar rooted trees, reduced to a finite catalogue; Euler, Heun, RK4 (order 4, not 5), Dormand–Prince (order 5), Gauss–Legendre `s = 3` (order 4 in `ℚ(√15)`; order 6 in the denominator-cleared form over `ℤ[√15]` by `decide`); `Φ` invariant under permuting children |
 | | `GaussLegendreOrder` 🆕 | Gauss–Legendre `s = 3` has order exactly 6: the bushy tree with 6 leaves fails, in `ℚ(√15)` and in the denominator-cleared form |
 | `Analysis.Polynomial` | `EnestromKakeya` 🆕 | Eneström–Kakeya: positive non-increasing coefficients give no zero in the open unit disk; zeros on the circle are roots of unity; strictly decreasing coefficients give none in the closed disk |
+| | `McMullin` 🆕 | Lin McMullin's theorem: the line through the two inflection points of a real quartic meets it again at `φa − b/φ` and `φb − a/φ`; the gaps are in the golden ratio. |
 | `Analysis.Polynomial.RealRoots` | `RealRooted` 🆕 | Real-rooted polynomials (`Splits` over `ℝ`): closure, root count; sign alternation at `n + 1` points gives `n` roots; one root per gap of an increasing sequence gives real-rootedness; combinations of interlacing pairs |
 | | `Sturm` 🆕 | Sturm's theorem: for squarefree `p`, the number of distinct roots in `(a, b]` is `V(a) − V(b)` for the Sturm sequence; the chain agrees with Mathlib's `Polynomial.sturmSeq`, and `V` is `List.signVariations` of the values |
 | | `BudanFourier` 🆕 | Budan–Fourier: the number of roots in `(a, b]` with multiplicity is at most the drop of sign variations of `p, p′, p″, …`, with even difference |
@@ -123,6 +124,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `HeilmannLiebBound` 🆕 | Weighted Gershgorin (Collatz–Wielandt); Heilmann–Lieb bound: the roots of `μ(G)` lie in `[−2√(Δ−1), 2√(Δ−1)]` for maximum degree `≤ Δ`, `Δ ≥ 2` |
 | `FieldTheory.Finite` | `CartierOperator` 🆕 | Over `ZMod p`, `(X d/dX)^[p−1]` kills the monomials with exponent divisible by `p` and fixes the others |
 | | `OddPowerVandermonde` 🆕 | `k^(p−1)` as an indicator; residue classes in `[−m, m]` biject onto `ZMod p`; Vandermonde weights isolating a monomial; `det [l^e]_{l ≤ (p−1)/2, e odd} ≠ 0` |
+| | `PolynomialCoprimality` 🆕 | The polynomial coprimality theorem: over `𝔽_q`, coprime `m`-tuples of monic polynomials of degrees `nᵢ ≥ 1` number `q^N − q^(N−m+1)`. |
 | `Geometry.Euclidean` | `WolstenholmeInequality` 🆕 | Wolstenholme's inequality `2yz cos A + 2zx cos B + 2xy cos C ≤ x² + y² + z²` when `A + B + C = π`, with the defect as a sum of two squares. |
 | `GroupTheory.FiniteAbelian` | `OddCharacter` 🆕 | In a finite commutative group, a character `χ` with `χ s = −1` (`s² = 1`) trivial on `H` exists iff `s ∉ H`; odd characters of `(ZMod N)ˣ` trivial on `⟨u⟩` |
 | `GroupTheory.GroupAction` | `Separation` 🆕 | P. M. Neumann's separation lemma: finite (pretransitive, `#A · #B < #Ω`) and infinite (infinite orbits) versions |

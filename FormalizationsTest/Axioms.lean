@@ -2495,3 +2495,9 @@ import Formalizations
 #print axioms QSL.Exchange.scalar_ineq
 #print axioms QSL.Exchange.refined_cz_lemma
 #print axioms QSL.Exchange.refined_cz_equality
+#print axioms McMullin.line_inter_iff
+#print axioms McMullin.order
+#print axioms McMullin.golden_ratio_gaps
+#print axioms PolynomialCoprimality.card_monic_natDegree
+#print axioms PolynomialCoprimality.card_coprime_tuples
+#print axioms PolynomialCoprimality.card_not_coprime_equal_degree

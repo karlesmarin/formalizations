@@ -11,6 +11,7 @@ public import Formalizations.Analysis.Polynomial.RealRoots.RealRooted
 public import Formalizations.Analysis.Polynomial.RealRoots.Sturm
 public import Formalizations.Analysis.Polynomial.RealRoots.VirtualRoots.Basic
 public import Formalizations.Analysis.Polynomial.RealRoots.VirtualRoots.Count
+public import Formalizations.Analysis.Polynomial.McMullin
 public import Formalizations.Analysis.SpecialFunctions.Airy.Basic
 public import Formalizations.Analysis.SpecialFunctions.Airy.Perturbation
 public import Formalizations.Analysis.SpecialFunctions.Airy.PowerSeries
@@ -81,6 +82,7 @@ public import Formalizations.Combinatorics.Enumerative.Touchard
 public import Formalizations.Combinatorics.Enumerative.PrimeCongruences
 public import Formalizations.FieldTheory.Finite.CartierOperator
 public import Formalizations.FieldTheory.Finite.OddPowerVandermonde
+public import Formalizations.FieldTheory.Finite.PolynomialCoprimality
 public import Formalizations.GroupTheory.FiniteAbelian.OddCharacter
 public import Formalizations.GroupTheory.GroupAction.DistinguishingNumber
 public import Formalizations.GroupTheory.GroupAction.SectionRegular
