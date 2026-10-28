@@ -2508,3 +2508,7 @@ import Formalizations
 #print axioms Pisano.exists_period
 #print axioms Pisano.even_of_period
 #print axioms Pisano.fib_mod_periodicity
+#print axioms Torricelli.volume_trumpet
+#print axioms Torricelli.volume_trumpet_union_cylinder
+#print axioms Torricelli.volume_section_eq_top
+#print axioms Torricelli.not_integrableOn_surface
