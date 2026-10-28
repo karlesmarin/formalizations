@@ -2539,3 +2539,4 @@ import Formalizations
 #print axioms Praeger.bounded_movement
 #print axioms ACP.internal_of_coprime
 #print axioms ACP.classification
+#print axioms Bailey.quasiComplete_iff
