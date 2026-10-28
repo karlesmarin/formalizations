@@ -2512,3 +2512,6 @@ import Formalizations
 #print axioms Torricelli.volume_trumpet_union_cylinder
 #print axioms Torricelli.volume_section_eq_top
 #print axioms Torricelli.not_integrableOn_surface
+#print axioms LocalMaxima.card_image_windowMax
+#print axioms LocalMaxima.card_argmax_end
+#print axioms LocalMaxima.sum_card_windowMax
