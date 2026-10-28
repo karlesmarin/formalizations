@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2544 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2547 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -225,6 +225,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `NumberTheory.PrescribedMoments` | `Biquanimous` 🆕 | Every 4-part partition of `n ≥ 3` splits into two halves of equal sum iff `n ∈ {3, 4, 6}`; counts of signed zero sums |
 | | `CubicModels` 🆕 | Nodes of the Cayley and Segre cubics; Newton's identities for `e₁ = e₃ = 0`; `(p−1)/2` and `(p−1)(p−3)/8` subsets of `ZMod p` of size 3 and 4 with both moments zero |
 | | `DegreeCount` 🆕 | `#{(a, b) ∣ 2a + 3b = k} = ⌊k/6⌋ + 1 − [k ≡ 1 mod 6]`; for `k ≥ 3` it is `1` iff `k ∈ {3, 4, 5, 7}` |
+| `NumberTheory.Residues` | `ConsecutiveQuadratic` 🆕 | Erdős Problem 436: `Λ(2, 2) = 9`, runs of two quadratic residues (Lehmer–Lehmer 1962; closes a `sorry` of formal-conjectures). |
 | `NumberTheory.SymplecticCharacterOrders` | `Arithmetic` 🆕 | When `p ∣ ∑_{j≤m} j²` (`p ≥ 5`, `3`, `2`), the cases `q = p, 25, 27`; half period and doubling of the column lattices |
 | | `Multipliers` 🆕 | The rank of `[½(s(ℓu⁻¹c) − s(u⁻¹c))]` is `d − δ_ℓ`, given the rank of `[s(u⁻¹c)]` |
 | | `Segments` 🆕 | Amiot's lemma (an interval of `ℤ/n` is not stable under a unit `≢ ±1`); `#{j ≤ m : j ≡ ±c}` is stable under a unit `≢ ±1` iff `n` divides `2m`, `2m+1` or `2m+2` |

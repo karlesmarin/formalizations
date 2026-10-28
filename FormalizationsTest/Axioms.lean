@@ -2548,3 +2548,6 @@ import Formalizations
 #print axioms ReLUDepth.max_eq_M
 #print axioms ReLUDepth.max5_two_hidden_layers
 #print axioms MaxEntPowerLaw.maxent_power_law
+#print axioms Erdos436.r_le_nine
+#print axioms Erdos436.r_eq_nine
+#print axioms Erdos436.erdos_436.variants.two_two
