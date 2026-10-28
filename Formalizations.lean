@@ -275,6 +275,7 @@ public import Formalizations.SetTheory.Ordinal.Gentzen.Acc
 public import Formalizations.SetTheory.Ordinal.Gentzen.Ordinals
 public import Formalizations.SetTheory.Ordinal.Gentzen.TwoPow
 public import Formalizations.Geometry.Euclidean.WolstenholmeInequality
+public import Formalizations.Geometry.Projective.Pappus
 public import Formalizations.MeasureTheory.PappusGuldin
 public import Formalizations.MeasureTheory.Torricelli
 public import Formalizations.AlgebraicGeometry.PlaneCurve.Cotes

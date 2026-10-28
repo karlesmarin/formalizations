@@ -2521,3 +2521,4 @@ import Formalizations
 #print axioms Kemeny.kac
 #print axioms Kemeny.harmonic
 #print axioms Kemeny.exists_const
+#print axioms Pappus.pappus
