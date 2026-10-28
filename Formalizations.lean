@@ -84,6 +84,7 @@ public import Formalizations.Combinatorics.Enumerative.PrimeCongruences
 public import Formalizations.Combinatorics.Enumerative.LocalMaxima
 public import Formalizations.Combinatorics.Permanent.Bregman
 public import Formalizations.Combinatorics.LatinSquare.Terrace
+public import Formalizations.Combinatorics.Words.SuffixPrefixAvoidance
 public import Formalizations.FieldTheory.Finite.CartierOperator
 public import Formalizations.FieldTheory.Finite.OddPowerVandermonde
 public import Formalizations.FieldTheory.Finite.PolynomialCoprimality

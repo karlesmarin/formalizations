@@ -2540,3 +2540,5 @@ import Formalizations
 #print axioms ACP.internal_of_coprime
 #print axioms ACP.classification
 #print axioms Bailey.quasiComplete_iff
+#print axioms SuffixPrefixAvoidance.zakharov_sharp
+#print axioms SuffixPrefixAvoidance.zakharov_bound

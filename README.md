@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2536 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2538 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -126,6 +126,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `ForestRealRooted` 🆕 | `μ(forest) = charpoly(A)`; Heilmann–Lieb: `μ(G)` is real-rooted for every finite graph |
 | | `HeilmannLieb` 🆕 | Interlacing: if `q` alternates at the simple roots of `p`, then `X p − q` is real-rooted and interlaced by `p` |
 | | `HeilmannLiebBound` 🆕 | Weighted Gershgorin (Collatz–Wielandt); Heilmann–Lieb bound: the roots of `μ(G)` lie in `[−2√(Δ−1), 2√(Δ−1)]` for maximum degree `≤ Δ`, `Δ ≥ 2` |
+| `Combinatorics.Words` | `SuffixPrefixAvoidance` 🆕 | Zakharov (2026): suffix-prefix avoiding word sets satisfy `\|A\|·\|B\| ≤ q^(2n)/(e n)` (closes `suffix_prefix_avoidance_bound` of formal-conjectures). |
 | `FieldTheory.Finite` | `CartierOperator` 🆕 | Over `ZMod p`, `(X d/dX)^[p−1]` kills the monomials with exponent divisible by `p` and fixes the others |
 | | `OddPowerVandermonde` 🆕 | `k^(p−1)` as an indicator; residue classes in `[−m, m]` biject onto `ZMod p`; Vandermonde weights isolating a monomial; `det [l^e]_{l ≤ (p−1)/2, e odd} ≠ 0` |
 | | `PolynomialCoprimality` 🆕 | The polynomial coprimality theorem: over `𝔽_q`, coprime `m`-tuples of monic polynomials of degrees `nᵢ ≥ 1` number `q^N − q^(N−m+1)`. |
