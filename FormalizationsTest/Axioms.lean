@@ -2545,3 +2545,5 @@ import Formalizations
 #print axioms FibonacciSumDivisibility.period_fib_even
 #print axioms FibonacciSumDivisibility.fib_succ_prime_dvd
 #print axioms FibonacciSumDivisibility.flynn_connolly
+#print axioms ReLUDepth.max_eq_M
+#print axioms ReLUDepth.max5_two_hidden_layers
