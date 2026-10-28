@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2518 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2521 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -147,6 +147,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `WalkCount` 🆕 | Powers of the `0-1` matrix of a decidable relation count directed walks; `tr(Mᵏ)` via cyclic products |
 | | `FreeLocus` | Rank and corank lemmas for block and low-rank perturbations |
 | | `FreeLocusCertificate` | Soundness of the free-locus certificate ("not flip-poly") |
+| | `SchurCommuting` 🆕 | Schur's bound: commuting subspaces of `n × n` matrices over any field have dimension `≤ ⌊n²/4⌋ + 1`, attained for `n ≥ 1`. |
 | `MeasureTheory` | `PappusGuldin` 🆕 | Pappus–Guldin: the solid of revolution of a measurable region `R` has volume `2π ∫_R r` (via polar coordinates). |
 | | `Torricelli` 🆕 | Torricelli's trumpet: volume `π`, and with the unit cylinder the volume of the cylinder of radius `√2`; infinite cross-section and surface (on our Pappus–Guldin). |
 | `MusicTheory` | `IntervalVector` 🆕 | The interval vector of a pitch-class set in `ℤ/12` is invariant under transposition and inversion |

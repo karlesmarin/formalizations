@@ -101,6 +101,7 @@ public import Formalizations.LinearAlgebra.Matrix.FreeLocusCertificate
 public import Formalizations.LinearAlgebra.Matrix.Rank
 public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
 public import Formalizations.LinearAlgebra.Matrix.WalkCount
+public import Formalizations.LinearAlgebra.Matrix.SchurCommuting
 public import Formalizations.LinearAlgebra.Eigenspace.JointInvolutions
 public import Formalizations.LinearAlgebra.PointwiseProductSpan
 public import Formalizations.MusicTheory.AllPairsEvenness

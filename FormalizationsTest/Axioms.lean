@@ -2522,3 +2522,6 @@ import Formalizations
 #print axioms Kemeny.harmonic
 #print axioms Kemeny.exists_const
 #print axioms Pappus.pappus
+#print axioms SchurCommuting.finrank_le
+#print axioms SchurCommuting.exists_finrank_eq
+#print axioms SchurCommuting.finrank_le_and_attained
