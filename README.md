@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2529 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2531 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -138,6 +138,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `FanoOrder` 🆕 | The collineation group of the Fano plane has order `168` (bijection with the non-collinear triples). |
 | | `PolyaRedfield` 🆕 | Pólya–Redfield: `\|G\|` times the weighted count of colourings up to symmetry is the cycle index evaluated at the power sums `p_k = Σ_c w(c)^k`. |
 | | `IBIS` 🆕 | The Cameron–Fon-Der-Flaass IBIS theorem: equal sizes ⟺ invariance under re-ordering ⟺ the irredundant bases form a matroid. |
+| | `ChanGL` 🆕 | Melody Chan's theorem: for `F` infinite or `\|F\| > n + 1`, a two-colouring of `Fⁿ` that no non-identity invertible matrix preserves. |
 | `LinearAlgebra` | `PointwiseProductSpan` 🆕 | Over an infinite field, if `V`, `W ≤ ι → K` are stable under a transitive group of signed permutations and `dim V + dim W > card ι`, the products `v * w` span `ι → K` |
 | `LinearAlgebra.Eigenspace` | `JointInvolutions` 🆕 | For two commuting involutions `P₀`, `P₁` in characteristic zero, `¼ (1 + ε₀P₀)(1 + ε₁P₁)` projects onto the joint eigenspace, of dimension `¼ [dim + ε₀ tr P₀ + ε₁ tr P₁ + ε₀ε₁ tr P₀P₁]` |
 | `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |

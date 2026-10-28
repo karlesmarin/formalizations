@@ -2533,3 +2533,5 @@ import Formalizations
 #print axioms IBIS.one_point_completion
 #print axioms IBIS.exchange
 #print axioms IBIS.tfae
+#print axioms Chan.blue_stable_eq_one
+#print axioms Chan.exists_blue
