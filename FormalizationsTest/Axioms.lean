@@ -2530,3 +2530,6 @@ import Formalizations
 #print axioms Hexachord.babbitt_and_hexachord
 #print axioms Bregman.log_bound
 #print axioms Bregman.permanent_le
+#print axioms IBIS.one_point_completion
+#print axioms IBIS.exchange
+#print axioms IBIS.tfae

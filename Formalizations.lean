@@ -93,6 +93,7 @@ public import Formalizations.GroupTheory.GroupAction.Separation
 public import Formalizations.GroupTheory.GroupAction.SeparationDichotomy
 public import Formalizations.GroupTheory.GroupAction.FanoOrder
 public import Formalizations.GroupTheory.GroupAction.PolyaRedfield
+public import Formalizations.GroupTheory.GroupAction.IBIS
 public import Formalizations.LinearAlgebra.Matrix.Adjugate
 public import Formalizations.LinearAlgebra.Matrix.CauchyBinet
 public import Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi
