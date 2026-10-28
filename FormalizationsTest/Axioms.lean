@@ -2518,3 +2518,6 @@ import Formalizations
 #print axioms Panarboreal.exists_caterpillar
 #print axioms Panarboreal.sum_le_sum_degrees
 #print axioms Panarboreal.sum_ceil_le_two_mul_card_edges
+#print axioms Kemeny.kac
+#print axioms Kemeny.harmonic
+#print axioms Kemeny.exists_const
