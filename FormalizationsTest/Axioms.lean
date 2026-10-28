@@ -2535,3 +2535,5 @@ import Formalizations
 #print axioms IBIS.tfae
 #print axioms Chan.blue_stable_eq_one
 #print axioms Chan.exists_blue
+#print axioms Praeger.card_support_le
+#print axioms Praeger.bounded_movement
