@@ -2515,3 +2515,6 @@ import Formalizations
 #print axioms LocalMaxima.card_image_windowMax
 #print axioms LocalMaxima.card_argmax_end
 #print axioms LocalMaxima.sum_card_windowMax
+#print axioms Panarboreal.exists_caterpillar
+#print axioms Panarboreal.sum_le_sum_degrees
+#print axioms Panarboreal.sum_ceil_le_two_mul_card_edges
