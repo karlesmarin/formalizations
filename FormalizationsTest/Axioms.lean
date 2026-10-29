@@ -2551,3 +2551,5 @@ import Formalizations
 #print axioms Erdos436.r_le_nine
 #print axioms Erdos436.r_eq_nine
 #print axioms Erdos436.erdos_436.variants.two_two
+#print axioms ZL.z_three
+#print axioms ZL.zL_three
