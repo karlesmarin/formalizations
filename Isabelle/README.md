@@ -36,6 +36,7 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🌳 `Godsil_Path_Tree` | `Heilmann_Lieb` | Godsil's path tree: `μ(G−u) μ(T) = μ(G) μ(T−u)`, and the matching polynomial of the component of `u` divides `μ(T)` | ⏳ not submitted |
 | 🌲 `Kirchhoff_Matrix_Tree` | `Smith_Normal_Form` (Cauchy–Binet), `Tree_Enumeration` | Kirchhoff's matrix-tree theorem: for a finite simple graph and a root `r`, the determinant of the reduced Laplacian is the number of spanning trees (`matrix_tree`); port of `Formalizations.Combinatorics.SimpleGraph.MatrixTree` | 📤 submitted |
 | 〰️ `Young_Cosine` | HOL-Analysis | Young's inequality (1913): `−1 ≤ Σ_{k=1}^{n} cos (k x) / k` for every `n` and real `x` (`young_cosine`); the AFP version of `YoungCosine/` | 📤 submitted |
+| 🔺 `Limited_Augmented_Zarankiewicz` | HOL | admissibility lemmas for the limited augmented Zarankiewicz number of Qi, Cui and Xu, for every width: the label lemma (`label_admissible`), the three-block lemma (`blocks_admissible`), vertical pairs (`vertical_pair`), at most one full row (`at_most_one_full_row`), (C2)–(C3) as distance ≥ 3 in the rectangle graph (`C2_iff_not_adj`, `C3_iff_no_common_neighbour`), the endpoint bound `2 \|E₂\| ≤ (n − 2) m − n(n−1)/2 + 1` (`endpoint_bound`) and the weak-gap arithmetic (`weak_gap_arith`); companion of `Formalizations.Combinatorics.Zarankiewicz.LimitedAugmentedThree` | 📤 submitted |
 
 ## 🚀 Building
 
@@ -52,6 +53,7 @@ isabelle build -v -d AFP/Integer_Frieze_Rows -D AFP/Odd_Frieze_Rows
 isabelle build -v -d AFP/Heilmann_Lieb -D AFP/Godsil_Path_Tree
 isabelle build -v -d <afp>/thys -D AFP/Kirchhoff_Matrix_Tree
 isabelle build -v -D AFP/Young_Cosine
+isabelle build -v -D AFP/Limited_Augmented_Zarankiewicz
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions
