@@ -1,0 +1,52 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Admissibility Lemmas for the Limited Augmented Zarankiewicz Number}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+The limited augmented Zarankiewicz number of Qi, Cui and Xu~\cite{QCX-BSR,QCX-L} counts the cells of a maximum
+$C_4$-free set in an $m\times n$ grid together with pairs of further cells that satisfy two local conditions, (C2)
+and (C3). We formalize the combinatorial lemmas that make constructions and upper bounds work: a \emph{label lemma}
+(if every occupied support lies in a label, any three occupied columns of a row form a triple of a given shadow, and
+the pair is compatible with the labels, then the pair is admissible), the \emph{blocks lemma} (pairs arranged
+around a triangle of three column blocks whose face stays empty are admissible), the lemma on vertical pairs and the
+lemma that at most one row is full for maximum bases with $m\ge\binom n2$, for every $n$; the reformulation of (C2)
+and (C3) as distance at least three in the graph of occupied rectangles; the bound $2|E_2|\le(n-2)m-\binom n2+1$ on
+the number of pairs; and the arithmetic of the linear gap between the weak and the original numbers in three columns.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\section*{Introduction}
+
+A \emph{base} is a $C_4$-free set $E_1$ of cells of maximum size $z(m,n)$; a family $E_2$ of disjoint pairs of
+further cells is admissible when every pair satisfies (C2), its two opposite cells are not both occupied, and (C3),
+no further row and column close the five-cell pattern with the pair. The theory \texttt{ZL\_Labels} proves the label
+lemma, the blocks lemma, which is Lebedev's three-block mechanism~\cite{Leb} in the form needed for a fixed number of
+columns, and, in a locale describing maximum bases in the regime $m\ge\binom n2$, the lemmas on vertical pairs and on
+full rows. The theory \texttt{ZL\_Counts} proves that (C2) and (C3) together say that the two cells of a pair are at
+distance at least three in the graph whose edges are the opposite corners of occupied rectangles, the endpoint bound,
+and the arithmetic of the weak gap.
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

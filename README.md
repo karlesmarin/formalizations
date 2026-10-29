@@ -128,7 +128,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `HeilmannLieb` 🆕 | Interlacing: if `q` alternates at the simple roots of `p`, then `X p − q` is real-rooted and interlaced by `p` |
 | | `HeilmannLiebBound` 🆕 | Weighted Gershgorin (Collatz–Wielandt); Heilmann–Lieb bound: the roots of `μ(G)` lie in `[−2√(Δ−1), 2√(Δ−1)]` for maximum degree `≤ Δ`, `Δ ≥ 2` |
 | `Combinatorics.Words` | `SuffixPrefixAvoidance` 🆕 | Zakharov (2026): suffix-prefix avoiding word sets satisfy `\|A\|·\|B\| ≤ q^(2n)/(e n)` (closes `suffix_prefix_avoidance_bound` of formal-conjectures). |
-| `Combinatorics.Zarankiewicz` | `LimitedAugmentedThree` 🆕 | Limited augmented Zarankiewicz number: `z_L(m, 3) = m + 3 + ⌊(m − 2)/2⌋` for all m ≥ 3 (answers Open Problem 1 of arXiv:2608.06050). |
+| `Combinatorics.Zarankiewicz` | `LimitedAugmentedThree` 🆕 | Limited augmented Zarankiewicz number: `z_L(m, 3) = m + 3 + ⌊(m − 2)/2⌋` for all m ≥ 3 (answers Open Problem 1 of arXiv:2608.06050); 🦉 the admissibility lemmas for every width (label lemma, blocks lemma, vertical pairs, one full row, distance form, endpoint bound) in Isabelle (`Isabelle/AFP/Limited_Augmented_Zarankiewicz`, submitted to the AFP). |
 | `FieldTheory.Finite` | `CartierOperator` 🆕 | Over `ZMod p`, `(X d/dX)^[p−1]` kills the monomials with exponent divisible by `p` and fixes the others |
 | | `OddPowerVandermonde` 🆕 | `k^(p−1)` as an indicator; residue classes in `[−m, m]` biject onto `ZMod p`; Vandermonde weights isolating a monomial; `det [l^e]_{l ≤ (p−1)/2, e odd} ≠ 0` |
 | | `PolynomialCoprimality` 🆕 | The polynomial coprimality theorem: over `𝔽_q`, coprime `m`-tuples of monic polynomials of degrees `nᵢ ≥ 1` number `q^N − q^(N−m+1)`. |

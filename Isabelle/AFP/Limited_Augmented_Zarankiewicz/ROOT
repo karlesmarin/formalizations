@@ -1,0 +1,10 @@
+chapter AFP
+
+session Limited_Augmented_Zarankiewicz = HOL +
+  options [timeout = 600]
+  theories
+    ZL_Labels
+    ZL_Counts
+  document_files
+    "root.tex"
+    "root.bib"
