@@ -1,0 +1,54 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{The Antipodal Floor of the Polylogarithm on the Unit Circle, Zeta States, and Exact Counterexamples}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+We prove that the modulus of the polylogarithm on the unit circle is bounded below by its value at the antipode:
+$\eta(s)\le|\mathrm{Li}_s(z)|$ for every real $s>0$ and every $z\ne1$ with $|z|=1$, where $\eta(s)=\sum_{k\ge1}(-1)^{k-1}k^{-s}$
+is the Dirichlet eta function, and we prove $\eta(s)=(1-2^{1-s})\,\zeta(s)$ for $s>1$. As a consequence, the
+zeta state, with populations proportional to $n^{-s}$, never comes closer to orthogonality than $1-2^{1-s}$.
+The floor holds more generally for moment power series $\sum_k(\int\tau^k\,d\mu)z^k$ of a finite measure with
+$\tau\in[0,1)$ almost everywhere (a consequence of Fej\'er's theorem~\cite{Fejer37}; the case $s=2$ appears
+in~\cite{BP21}); the proof avoids Abel's theorem. We also prove that a population $p_j>1/2$ keeps the autocorrelation
+at least $2p_j-1$ in modulus~\cite{And07}, and we give two exact counterexamples that show where the floor fails: three times
+monotone coefficients, and log-convex coefficients, whose power series has at a point of the unit circle a modulus below
+its value at $z=-1$ (the moduli are computed exactly).
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\section*{Introduction}
+
+For a measure $\mu$ and $\tau\in[0,1)$ the moment series $\sum_k q_kz^k$ with $q_k=\int\tau^k\,d\mu$ converges at every
+$z\ne1$ of the unit circle, and the theory \texttt{Hausdorff\_Floor} shows that its modulus is at least
+$\int\frac{1}{1+\tau}\,d\mu$, the sum of the alternating series at $z=-1$. The theory \texttt{Polylog\_Floor}
+applies this to the Gamma-density measure $x^{s-1}e^{-x}/\Gamma(s)$ with $\tau=e^{-x}$, whose moments are $(k+1)^{-s}$,
+and derives the floors of $\mathrm{Li}_s$ and of the zeta states. The theory \texttt{Dominant\_Population} proves the
+cut-off bound for a dominant population, and \texttt{Antipodal\_Counterexamples} the exact examples where
+the antipodal floor fails under weaker monotonicity hypotheses. The Lean~4 versions and the context are described
+in~\cite{Marin26}. The integer-order polylogarithm itself is the subject of the AFP entry \emph{Polylog}; here the order $s$
+is real and the point is the behaviour on the unit circle.
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

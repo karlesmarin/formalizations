@@ -1,0 +1,12 @@
+chapter AFP
+
+session Polylog_Antipodal_Floor = "HOL-Analysis" +
+  options [timeout = 1200]
+  theories
+    Hausdorff_Floor
+    Polylog_Floor
+    Dominant_Population
+    Antipodal_Counterexamples
+  document_files
+    "root.tex"
+    "root.bib"
