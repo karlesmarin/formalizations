@@ -2553,3 +2553,4 @@ import Formalizations
 #print axioms Erdos436.erdos_436.variants.two_two
 #print axioms ZL.z_three
 #print axioms ZL.zL_three
+#print axioms QSL.Exchange.re_crossZ_le
