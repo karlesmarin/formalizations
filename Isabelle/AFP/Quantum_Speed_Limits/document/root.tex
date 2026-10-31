@@ -21,7 +21,9 @@ together with its limit $a\to 0$. For the relay qubit--bus--qubit with couplings
 the transfer time satisfies $GT\ge\pi/\sqrt2$, by means of an explicit calibration function; we prove the dephasing
 excess $\tfrac23 q(1-q)$ over the additive budget and the exact integrals of the optimal protocol, $3\pi/8$,
 $\pi/4$ and their corrected values; and we prove the lower bound $(1-\varepsilon)/(G^2T)$ on the integrated
-occupation of the bus for any control, and the time--occupation frontier $2u\le G^2T\int p$. The trajectories
+occupation of the bus for any control, and the time--occupation frontier $2u\le G^2T\int p$. With a lossy bus
+(excess loss rate $\delta$) we prove the exact error floor $P(T)\le e^{-\gamma T}/(1+\delta/(G^2T))$ for any
+control and any duration, and the time--occupation frontier for partial transfer, whose constant tends to~2. The trajectories
 are continuous and differentiable outside a countable set of times.
 \end{abstract}
 
@@ -38,7 +40,8 @@ a qubit~A is coupled to a bus mode and the mode to a qubit~B, with coupling modu
 $z=|a_B|$ be the moduli of the amplitudes of the two qubits; then $1-x^2-z^2$ is the occupation of the bus.
 \texttt{Relay\_Minimal\_Time} gives the minimal transfer time, \texttt{Relay\_Dephasing} the dephasing excess and
 the exact integrals of the optimal protocol, and \texttt{Relay\_Occupation} the lower bound on the integrated
-occupation and the frontier. For time-optimal control of three-level systems see~\cite{BCC05}; for STIRAP-based
+occupation and the frontier. The theory \texttt{Relay\_Loss\_Floor} adds a lossy bus: the exact error floor
+$P(T)\le e^{-\gamma T}/(1+\delta/(G^2T))$ and the time--occupation frontier for partial transfer. For time-optimal control of three-level systems see~\cite{BCC05}; for STIRAP-based
 state transfer through a bus under dissipation see~\cite{WYC17}; for the experimental context
 see~\cite{SUN26,MAR26}.
 
