@@ -11,6 +11,8 @@ session Quantum_Speed_Limits = "HOL-Analysis" +
     Relay_Endpoints
     Relay_Windows
     Relay_Extensions
+    Relay_Ramp_Time
+    Relay_Asymptotic
   document_files
     "root.tex"
     "root.bib"
