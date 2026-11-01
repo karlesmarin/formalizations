@@ -23,7 +23,10 @@ the pair is compatible with the labels, then the pair is admissible), the \emph{
 around a triangle of three column blocks whose face stays empty are admissible), the lemma on vertical pairs and the
 lemma that at most one row is full for maximum bases with $m\ge\binom n2$, for every $n$; the reformulation of (C2)
 and (C3) as distance at least three in the graph of occupied rectangles; the bound $2|E_2|\le(n-2)m-\binom n2+1$ on
-the number of pairs; and the arithmetic of the linear gap between the weak and the original numbers in three columns.
+the number of pairs; and the arithmetic of the linear gap between the weak and the original numbers in three columns. For the slope of
+the canonical base we also prove the bound on the critical threshold of graphical simple games due to Hof~\cite{HofMSc,HKKP2018}: every
+graph on $k$ vertices has a fractional vertex cover $p$ with $p(I)\le\lfloor k^2/4\rfloor/k$ for every independent
+set $I$, attained by the balanced complete bipartite graph.
 \end{abstract}
 
 \paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
@@ -41,6 +44,7 @@ columns, and, in a locale describing maximum bases in the regime $m\ge\binom n2$
 full rows. The theory \texttt{ZL\_Counts} proves that (C2) and (C3) together say that the two cells of a pair are at
 distance at least three in the graph whose edges are the opposite corners of occupied rectangles, the endpoint bound,
 and the arithmetic of the weak gap.
+\texttt{Graph\_Threshold} proves the bound of Hof on the critical threshold of graphical simple games, by the minimal-norm point of the set of fractional vertex covers.
 
 \parindent 0pt\parskip 0.5ex
 
