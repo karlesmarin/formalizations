@@ -31,7 +31,9 @@ $S^2T^3/12$ or $G^2T-4G^3/(3S)$; it implies $1-P\ge1-(1+\sqrt{\gamma\delta}/G)^{
 excess rate per element we prove the bus term $\int y^2\ge z(T)^2/(G^2J_B(T))$, $J_B=(1-e^{-d_BT})/d_B$, and
 the norm balance with three rates. The minimal transfer time extends to a time-dependent coupling bound $m(t)$, $\pi/\sqrt2\le\int m$, which
 for ramped couplings gives the minimal time $2\sqrt{A/S}$ or $A/G+G/S$, $A=\pi/\sqrt2$; and the final chain of
-the asymptotic floor gives $1-P\ge s_0(1-s_0/2)$, $s_0=2\sqrt{(2-\eta)\gamma\delta}/G$, from the frontier bound. The trajectories
+the asymptotic floor gives $1-P\ge s_0(1-s_0/2)$, $s_0=2\sqrt{(2-\eta)\gamma\delta}/G$, from the frontier bound. For the channel at the receiver we prove the six-state average fidelity $(3+P+2c)/6$, that it bounds the
+global one, and $c^2\le P$; and that under amplitude damping and pure dephasing the coherence with the vacuum
+obeys the no-jump dynamics with rates $1/T_1+2\gamma_\varphi=2/T_2$. The trajectories
 are continuous and differentiable outside a countable set of times, except in the endpoint theorem, which
 allows a negligible set.
 \end{abstract}
@@ -63,7 +65,9 @@ qubits decay faster than the bus. \texttt{Relay\_Extensions} proves the floor wi
 (ramped couplings), a closed-form estimate valid at every duration, the bus term with an excess rate of the
 receiver, and the norm balance with an excess rate per element. \texttt{Relay\_Ramp\_Time} proves the minimal time with a time-dependent coupling bound and with ramped
 couplings, and \texttt{Relay\_Asymptotic} the final chain of the asymptotic floor and the arithmetic of the protocol
-that attains it.
+that attains it. \texttt{Relay\_Fidelity} relates the fidelity of the channel to the population and the coherence at the
+receiver, and \texttt{Relay\_Coherence} shows that the coherence with the vacuum is an amplitude of the
+no-jump dynamics.
 
 \input{session}
 
