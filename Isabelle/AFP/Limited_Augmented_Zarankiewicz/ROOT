@@ -6,6 +6,7 @@ session Limited_Augmented_Zarankiewicz = "HOL-Analysis" +
     ZL_Labels
     ZL_Counts
     Graph_Threshold
+    ZL_Canonical
   document_files
     "root.tex"
     "root.bib"

@@ -26,7 +26,11 @@ and (C3) as distance at least three in the graph of occupied rectangles; the bou
 the number of pairs; and the arithmetic of the linear gap between the weak and the original numbers in three columns. For the slope of
 the canonical base we also prove the bound on the critical threshold of graphical simple games due to Hof~\cite{HofMSc,HKKP2018}: every
 graph on $k$ vertices has a fractional vertex cover $p$ with $p(I)\le\lfloor k^2/4\rfloor/k$ for every independent
-set $I$, attained by the balanced complete bipartite graph.
+set $I$, attained by the balanced complete bipartite graph. With it we prove the
+combinatorial steps of the slope $\lfloor (n-1)^2/4\rfloor/(n-1)$ of the canonical base: the
+number of pairs is at most the number of rows times this bound when every label is independent
+in the graph of the pairs, two (C3) witnesses make the frequent labels independent, and a module
+attaining the slope is admissible.
 \end{abstract}
 
 \paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
@@ -45,6 +49,7 @@ full rows. The theory \texttt{ZL\_Counts} proves that (C2) and (C3) together say
 distance at least three in the graph whose edges are the opposite corners of occupied rectangles, the endpoint bound,
 and the arithmetic of the weak gap.
 \texttt{Graph\_Threshold} proves the bound of Hof on the critical threshold of graphical simple games, by the minimal-norm point of the set of fractional vertex covers.
+\texttt{ZL\_Canonical} proves the combinatorial steps of the slope of the canonical base, whose ones of the singleton rows all lie in one column: the counting step through the bound of Hof, the two (C3) witnesses, and the admissibility of the module that attains the slope, as a corollary of the blocks lemma. The asymptotic bookkeeping is not formalized.
 
 \parindent 0pt\parskip 0.5ex
 
