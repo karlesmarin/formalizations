@@ -404,13 +404,15 @@ proof -
   have amgm: "(1 + p * q)\<^sup>2 \<le> (1 + p\<^sup>2) * (1 + q\<^sup>2)"
   proof -
     have "(1 + p\<^sup>2) * (1 + q\<^sup>2) - (1 + p * q)\<^sup>2 = (p - q)\<^sup>2" by (simp add: power2_eq_square algebra_simps)
-    thus ?thesis by (smt (verit) zero_le_power2)
+    moreover have "0 \<le> (p - q)\<^sup>2" by simp
+    ultimately show ?thesis by linarith
   qed
   have pos1: "0 < 1 + \<delta> / (G\<^sup>2 * T)" using d G T by (simp add: add_pos_nonneg)
   have pos2: "0 < (1 + p * q)\<^sup>2"
   proof -
     have "0 \<le> p * q" unfolding pq using g d G by simp
-    thus ?thesis by (smt (verit) zero_less_power2)
+    hence "0 < 1 + p * q" by linarith
+    thus ?thesis by simp
   qed
   have "exp (- \<gamma> * T) / (1 + \<delta> / (G\<^sup>2 * T)) \<le> (1 / (1 + \<gamma> * T)) / (1 + \<delta> / (G\<^sup>2 * T))"
     by (rule divide_right_mono[OF e less_imp_le[OF pos1]])
@@ -425,7 +427,7 @@ qed
 
 section \<open>The receiver's bus term with an excess rate\<close>
 
-text \<open>J_B(T) = (1 - exp(-d T))/d (and T when d = 0) is the integral of exp(-d (T - t)) over [0, T].\<close>
+text \<open>JB(T) = (1 - exp(-d T))/d (and T when d = 0) is the integral of exp(-d (T - t)) over [0, T].\<close>
 
 definition JB :: "real \<Rightarrow> real \<Rightarrow> real" where
   "JB d T = (if d = 0 then T else (1 - exp (- d * T)) / d)"
@@ -508,7 +510,7 @@ proof -
   finally show ?thesis .
 qed
 
-text \<open>The bus term: (z T)\<^latex>\<open>\textsuperscript{2}\<close> <= G\<^latex>\<open>\textsuperscript{2}\<close> J_B(T) int y\<^latex>\<open>\textsuperscript{2}\<close>, that is, int y\<^latex>\<open>\textsuperscript{2}\<close> >= z(T)\<^latex>\<open>\textsuperscript{2}\<close> / (G\<^latex>\<open>\textsuperscript{2}\<close> J_B(T)).\<close>
+text \<open>The bus term: (z T)\<^latex>\<open>\textsuperscript{2}\<close> <= G\<^latex>\<open>\textsuperscript{2}\<close> JB(T) int y\<^latex>\<open>\textsuperscript{2}\<close>, that is, int y\<^latex>\<open>\textsuperscript{2}\<close> >= z(T)\<^latex>\<open>\textsuperscript{2}\<close> / (G\<^latex>\<open>\textsuperscript{2}\<close> JB(T)).\<close>
 
 theorem bus_term:
   fixes z z' y :: "real \<Rightarrow> real" and G d T :: real and S :: "real set"
@@ -541,11 +543,11 @@ qed
 
 section \<open>The norm balance with an excess rate per element\<close>
 
-text \<open>With excess rates d_A, d_C, d_B >= 0 of the emitter, the bus and the receiver, the norm obeys
-n' <= -d_A x\<^latex>\<open>\textsuperscript{2}\<close> - d_C y\<^latex>\<open>\textsuperscript{2}\<close> - d_B z\<^latex>\<open>\textsuperscript{2}\<close> and the receiver z' <= G y - (d_B/2) z. For any
+text \<open>With excess rates dA, dC, dB >= 0 of the emitter, the bus and the receiver, the norm obeys
+n' <= -dA x\<^latex>\<open>\textsuperscript{2}\<close> - dC y\<^latex>\<open>\textsuperscript{2}\<close> - dB z\<^latex>\<open>\textsuperscript{2}\<close> and the receiver z' <= G y - (dB/2) z. For any
 lower bounds a <= int x\<^latex>\<open>\textsuperscript{2}\<close>, b <= int z\<^latex>\<open>\textsuperscript{2}\<close> (the emitter and receiver windows) and any
 0 <= f <= x(T), the delivered amplitude zeta = z(T) satisfies
-zeta\<^latex>\<open>\textsuperscript{2}\<close> + f\<^latex>\<open>\textsuperscript{2}\<close> + d_A a + d_B b + d_C zeta\<^latex>\<open>\textsuperscript{2}\<close> / (G\<^latex>\<open>\textsuperscript{2}\<close> J_B(T)) <= 1.\<close>
+zeta\<^latex>\<open>\textsuperscript{2}\<close> + f\<^latex>\<open>\textsuperscript{2}\<close> + dA a + dB b + dC zeta\<^latex>\<open>\textsuperscript{2}\<close> / (G\<^latex>\<open>\textsuperscript{2}\<close> JB(T)) <= 1.\<close>
 
 theorem windows_balance:
   fixes n x y z n' z' :: "real \<Rightarrow> real" and G T dA dB dC f a b :: real and S :: "real set"
