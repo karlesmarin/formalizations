@@ -191,6 +191,7 @@ public import Formalizations.NumberTheory.Fibonacci.Pisano
 public import Formalizations.NumberTheory.Fibonacci.SumDivisibility
 public import Formalizations.NumberTheory.UnitsArithmeticProgression
 public import Formalizations.NumberTheory.Residues.ConsecutiveQuadratic
+public import Formalizations.NumberTheory.Cyclotomic.ParityBounds
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.AlignmentPolynomials
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.BlindCount
 public import Formalizations.Physics.Particles.GaugeHiggsUnification.ChargeQuantization

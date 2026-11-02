@@ -2554,3 +2554,9 @@ import Formalizations
 #print axioms ZL.z_three
 #print axioms ZL.zL_three
 #print axioms QSL.Exchange.re_crossZ_le
+#print axioms CycloParity.cyclotomic_eval_parity
+#print axioms CycloParity.cyclotomic_eval_lt_one_of_even
+#print axioms CycloParity.one_lt_cyclotomic_eval_of_odd
+#print axioms CycloParity.reverse_cyclotomic
+#print axioms CycloParity.cyclotomic_eval_reciprocal
+#print axioms CycloParity.cyclotomic_eval_parity_ge_two
