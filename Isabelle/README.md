@@ -21,6 +21,7 @@ Isabelle/HOL versions of some Lean modules of this repository, and entries prepa
 | 🧩 `FriezeDominance/` (`Frieze_Dominance`) | `Formalizations.Combinatorics.Frieze.IntegerDominance`, `…Frieze.TwoSignChanges` | two integer Conway–Coxeter friezes of width 11 (quiddities `lower`, `upper`) whose middle rows are strictly ordered at all 14 positions; two of width 12 whose rows 6 differ with no zero and exactly two cyclic sign changes (`Frieze_Two_Sign_Changes`); finite computations by `code_simp` |
 | 〰️ `YoungCosine/` (`Young_Cosine`) | — (Isabelle only; the companion Fejér–Jackson inequality is in Lean: `Formalizations.Analysis.SpecialFunctions.Trigonometric.FejerJackson`) | Young's inequality (1913): `−1 ≤ Σ_{k=1}^{n} cos (k x) / k` for every `n` and real `x` (`young_cosine`), by a global minimum on `[0, 2π]` and a double Abel summation at the critical points |
 | 🧩 `FriezeFamily/` (`Frieze_Family`) | — (Isabelle only; the first version of `AFP/Integer_Frieze_Rows`) | friezes as lattice polygons; ear insertion keeps friezes; antipodal ear insertion and the diameters; for every `t`, two integer friezes of width `11 + 2t` whose middle rows (diameters) are strictly ordered (`strictly_ordered_middle_rows`); bridge `entry_is_continuant` (entries are continuants of the quiddity `a_k = det (V_(k-1), V_(k+1))`) and the corollary in that language (`strictly_ordered_middle_rows_continuants`) |
+| 🔺 `ZLThreeBlockFamily/` (`ZL_Three_Block_Family`) | — (Isabelle only) | the algebraic part of Proposition 6.3 of *Why three blocks?* (doi:10.5281/zenodo.23778502): the two closed forms of the deficit `n/3 − 1/2 − M` of the three-block family (`identity_case1`, `identity_case2`) and its non-negativity for block sizes `x ≥ y ≥ z ≥ 1` (`deficit_case1`, `deficit_case2`); the construction behind `M` and the maximizers are on paper |
 
 The Isabelle proof of the floor avoids Abel's theorem: the partial sums are integrals of geometric sums and converge by dominated convergence.
 
@@ -39,6 +40,8 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🔺 `Limited_Augmented_Zarankiewicz` | HOL | admissibility lemmas for the limited augmented Zarankiewicz number of Qi, Cui and Xu, for every width: the label lemma (`label_admissible`), the three-block lemma (`blocks_admissible`), vertical pairs (`vertical_pair`), at most one full row (`at_most_one_full_row`), (C2)–(C3) as distance ≥ 3 in the rectangle graph (`C2_iff_not_adj`, `C3_iff_no_common_neighbour`), the endpoint bound `2 \|E₂\| ≤ (n − 2) m − n(n−1)/2 + 1` (`endpoint_bound`) and the weak-gap arithmetic (`weak_gap_arith`); companion of `Formalizations.Combinatorics.Zarankiewicz.LimitedAugmentedThree` | 📤 submitted |
 | ⏱️ `Quantum_Speed_Limits` | HOL-Analysis | the Zieliński–Zych bound `π^a ≤ 2 M_a τ^a` for `0 < a ≤ 1` and its limit `a → 0` (`zielinski_zych`, `zz_bound_tendsto_*`); for the qubit–bus–qubit relay with couplings bounded by `G`: the minimal time `π/√2 ≤ G T` by a calibration function (`relay_minimal_time`), the dephasing excess `(2/3) q (1−q)` and the exact integrals of the optimal protocol (`dephasing_excess`, `optimal_protocol_integrals`), the lower bound `(1−ε)/(G² T)` on the integrated bus occupation (`occupation_lower_bound`) and the time–occupation frontier (`occupation_frontier`); with a lossy bus, the exact error floor `P(T) ≤ e^{−γT}/(1 + δ/(G² T))` for any control (`loss_floor`) and the frontier for partial transfer (`partial_frontier`); companion of the paper doi:10.5281/zenodo.23783382 (version 2) | 📤 submitted |
 | 🌀 `Polylog_Antipodal_Floor` | HOL-Analysis | the floors of `Hausdorff_Floor`, `Polylog_Floor` and `AntipodalExamples` above in one AFP entry: `η(s) ≤ \|Li_s z\|` on the unit circle for real `s > 0`, `η(s) = (1 − 2^(1−s)) ζ(s)`, the zeta-state floor `1 − 2^(1−s)`, the bound `2 p − 1` of a dominant population and the two exact counterexamples; companion of doi:10.5281/zenodo.20675271 | 📤 submitted |
+| ➖ `Perfect_Difference_Sets` | HOL | Erdős problem 1194: a perfect difference set of positive integers exists (`perfect_difference_set_exists`, Lev's greedy construction), and the greedy construction with the least admissible new element has `a_n ≤ 70 n³` (`greedy_upper_bound`); statements as in `erdos_1194.variants` of google-deepmind/formal-conjectures | 📤 submitted |
+| ➗ `Sandor_Subset_Sum_Antichain` | HOL | Erdős problem 882: for `m ≥ 1`, no two distinct nonempty subsets of `{2^i + m 2^m : i < m}` have sums dividing one another (`sandor_antichain`); the statement of `erdos_882.variants.sandor` of google-deepmind/formal-conjectures | 📤 submitted |
 
 ## 🚀 Building
 
@@ -58,6 +61,9 @@ isabelle build -v -D AFP/Young_Cosine
 isabelle build -v -D AFP/Limited_Augmented_Zarankiewicz
 isabelle build -v -D AFP/Quantum_Speed_Limits
 isabelle build -v -D AFP/Polylog_Antipodal_Floor
+isabelle build -v -D AFP/Perfect_Difference_Sets
+isabelle build -v -D AFP/Sandor_Subset_Sum_Antichain
+isabelle build -v -D ZLThreeBlockFamily
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions

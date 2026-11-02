@@ -1,0 +1,10 @@
+chapter Formalizations
+
+session ZL_Three_Block_Family = HOL +
+  description \<open>
+    The algebraic part of Proposition 6.3 of "Why three blocks?": the two closed forms of the deficit
+    n/3 - 1/2 - M of the three-block family and their non-negativity.
+  \<close>
+  options [timeout = 600]
+  theories
+    ZL_Three_Block_Family
