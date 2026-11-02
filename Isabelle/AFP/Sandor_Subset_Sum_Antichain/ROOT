@@ -1,0 +1,9 @@
+chapter AFP
+
+session Sandor_Subset_Sum_Antichain = HOL +
+  options [timeout = 600]
+  theories
+    Sandor_Antichain
+  document_files
+    "root.tex"
+    "root.bib"

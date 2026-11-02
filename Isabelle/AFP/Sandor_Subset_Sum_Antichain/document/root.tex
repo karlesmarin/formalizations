@@ -1,0 +1,40 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{S\'andor's Subset-Sum Antichain}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+A finite set of positive integers is a subset-sum antichain if no two distinct nonempty subsets have sums
+dividing one another. Erd\H{o}s~\cite{Er98} reports a construction of S\'andor: for $m\ge 1$ the set
+$\{2^i+m\,2^m : 0\le i<m\}$ is such an antichain, which gives antichains of size $(1-o(1))\log_2 n$ in
+$\{1,\dots,n\}$ (Erd\H{o}s problem 882). We formalize this. A subset sum of $t$ elements is $tK+b$ with
+$K=m\,2^m$ and $b<2^m$ a sum of distinct powers of two; a divisibility $q(tK+b)=t'K+b'$ with $q\ge 2$ forces
+$t'=qt$ and $b'=qb$, which is impossible because the number of ones in binary of $qb$ is at most that of $q$
+times that of $b$, and that of $q$ is less than $q$. The statement is the one of the Formal Conjectures
+project~\cite{FC}.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}
