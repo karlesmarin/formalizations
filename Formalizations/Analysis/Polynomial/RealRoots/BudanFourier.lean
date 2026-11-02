@@ -941,4 +941,32 @@ public theorem budan_fourier (p : Polynomial ℝ) (hp : p ≠ 0) {a b : ℝ} (ha
     have hpsplit := rootCount_split p.roots had hdb
     exact ⟨e1 + e2, by omega⟩
 
+/-- The derivative tower is not a Sturm chain. An abstract Sturm chain (Eisermann, Def. 3.10)
+asks that whenever an interior member vanishes at a point, its two neighbours there have product
+`< 0`. At a root `r` of multiplicity at least `2`, the member `p'` (index `1` of `fourierSeq p`)
+is interior, since the tower has at least three members, and vanishes at `r`; yet the product of
+its neighbours `p (r) * p'' (r)` is `0`, because `p` vanishes at `r` too. -/
+public theorem not_sturm_at_multiple_root {p : Polynomial ℝ} {r : ℝ}
+    (hr : 1 < p.rootMultiplicity r) :
+    2 < (fourierSeq p).length ∧ (derivative p).eval r = 0 ∧
+      p.eval r * ((derivative^[2]) p).eval r = 0 := by
+  classical
+  refine ⟨?_, ?_, ?_⟩
+  · have hle : p.rootMultiplicity r ≤ p.natDegree := by
+      rw [← count_roots]; exact (Multiset.count_le_card _ _).trans (card_roots' p)
+    rw [fourierSeq_length]; omega
+  · simpa using isRoot_iterate_derivative_of_lt_rootMultiplicity (n := 1) hr
+  · have h0 : p.eval r = 0 := by
+      simpa using isRoot_iterate_derivative_of_lt_rootMultiplicity (n := 0) (by omega)
+    simp [h0]
+
+/-- The paper's witness: for `p_A = (x - 1)^2 (x + 1)`, the interior member `p_A'` vanishes at
+`x = 1` and `p_A (1) * p_A'' (1) = 0`, so the antipodal axiom fails there. -/
+public theorem not_sturm_example :
+    (derivative ((X - C 1) ^ 2 * (X + C 1) : Polynomial ℝ)).eval 1 = 0 ∧
+      ((X - C 1) ^ 2 * (X + C 1) : Polynomial ℝ).eval 1 *
+        ((derivative^[2]) ((X - C 1) ^ 2 * (X + C 1) : Polynomial ℝ)).eval 1 = 0 := by
+  refine ⟨?_, by simp⟩
+  simp [derivative_mul, derivative_pow]
+
 end BudanFourier
