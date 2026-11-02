@@ -1,0 +1,10 @@
+chapter AFP
+
+session Perfect_Difference_Sets = HOL +
+  options [timeout = 600]
+  theories
+    Perfect_Difference_Set
+    Perfect_Difference_Bound
+  document_files
+    "root.tex"
+    "root.bib"

@@ -1,0 +1,41 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Perfect Difference Sets of Positive Integers}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+A set $A$ of positive integers is a perfect difference set if every nonzero integer is $a-b$ for exactly one
+pair $(a,b)$ of distinct elements of $A$. Erd\H{o}s remarked that such sets are easy to construct~\cite{Er80},
+and Lev gave a greedy construction~\cite{Lev04}: at each step add $z$ and $z+d$, where $d$ is the least positive
+integer that is not yet a difference. We formalize the existence of a perfect difference set, with an explicit
+choice of the new element, and the bound $a_n\le 70\,n^3$ for the greedy construction that takes the least
+admissible new element, where $a_n$ is the larger element of the representation of $n$. Admissibility is phrased
+through sums (the Sidon property), so that the forbidden values of the new element are at most $8m^3$ functions of
+triples of the $m$ elements already chosen. Both results are stated as in the Formal Conjectures
+project~\cite{FC} (Erd\H{o}s problem 1194).
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}
