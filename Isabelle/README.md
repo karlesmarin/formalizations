@@ -45,6 +45,7 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🔣 `Sylvester_Catalecticant` | HOL-Computational_Algebra | Sylvester's catalecticant theorem: a binary form is a sum of `r` `n`-th powers of pairwise non-proportional linear forms iff a nonzero form vanishing at their points annihilates the catalecticant (Hankel) matrix; necessity over any commutative ring (`catalecticant_necessary`), sufficiency over any field, affine and with a point at infinity (`catalecticant_converse_projective_full`) | 📤 submitted |
 | 🌀 `Migotti_Cyclotomic` | HOL-Computational_Algebra | Migotti (1883): for distinct primes `p, q` the coefficients of `Φ_pq = (1 − X^(pq))(1 − X)/((1 − X^p)(1 − X^q))` lie in `{−1, 0, 1}` (`migotti`); for coprime `p, q > 0` the quotient is exact (`migotti_exact`). The identification of this quotient with the cyclotomic polynomial is classical and not formalized | ⏳ not submitted |
 | 🔺 `Dunn_Pretty_Deltoid` | HOL-Analysis | the core of Dunn and Pretty's triangle-halving deltoid in the reference triangle: a line through two legs halves the area iff it is tangent to `xy = 1/8` (`bisects_iff_tangent`); cusps, the three segment integrals `3/32 − (ln 2)/8` and the value `(3/4 ln 2 − 1/2)` times the area. Not formalized: the affine reduction and that the deltoid region is the cusp triangle minus the three segments | ⏳ not submitted |
+| 🧮 `Unsolvable_Prime_Degree` | HOL-Analysis + AFP `Unsolvable_Quintic` | an irreducible polynomial over `ℚ` of prime degree `p ≥ 5` with exactly two non-real roots has a non-solvable Galois group, hence is not solvable by radicals; and for every prime `p ≥ 5` an explicit such polynomial, `x (x² + 2(k+1)³) ∏_{i=1}^{k} (x² − 4i²) − 2` with `k = (p−3)/2` (Eisenstein at 2; real roots by sign changes; not all roots real by Vieta) | 📤 submitted |
 
 ## 🚀 Building
 
@@ -70,6 +71,7 @@ isabelle build -v -D ZLThreeBlockFamily
 isabelle build -v -D AFP/Sylvester_Catalecticant
 isabelle build -v -D AFP/Migotti_Cyclotomic
 isabelle build -v -D AFP/Dunn_Pretty_Deltoid
+isabelle build -v -d <afp>/thys -D AFP/Unsolvable_Prime_Degree
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions
