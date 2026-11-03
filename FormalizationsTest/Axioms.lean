@@ -2564,3 +2564,5 @@ import Formalizations
 #print axioms Erdos963.card_span_le
 #print axioms Erdos963.addDissociated_insert
 #print axioms Erdos963.exists_dissociated
+#print axioms Erdos835.indepNum_johnson_le_johnsonBound
+#print axioms Erdos835.card_le_johnsonBound

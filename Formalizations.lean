@@ -76,6 +76,7 @@ public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.SpanningTreeMi
 public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
 public import Formalizations.Combinatorics.SimpleGraph.TripartiteTuran
 public import Formalizations.Combinatorics.SimpleGraph.Panarboreal
+public import Formalizations.Combinatorics.SimpleGraph.JohnsonBound
 public import Formalizations.Combinatorics.Choose.Singmaster
 public import Formalizations.Combinatorics.Choose.MiddleBinomialDivisors
 public import Formalizations.Combinatorics.Choose.MiddleBinomialDensity
