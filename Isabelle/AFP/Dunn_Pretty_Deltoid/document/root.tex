@@ -1,0 +1,38 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{The Core of Dunn and Pretty's Triangle-Halving Deltoid}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+Dunn and Pretty~\cite{DunnPretty1972} showed that the lines halving the area of a triangle envelope a
+deltoid bounded by three hyperbola arcs, of area $(\frac34\ln 2-\frac12)$ times that of the triangle. In the reference
+triangle we formalize the core: a line through the two legs at a vertex halves the area iff it is tangent to the
+hyperbola $xy=1/8$; the cusps; the integrals of the three curved segments ($\frac{3}{32}-\frac{\ln 2}{8}$ each); and
+the final value. The affine reduction and the identification of the deltoid region with the cusp triangle minus the
+three segments are explained but not formalized.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

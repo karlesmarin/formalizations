@@ -1,0 +1,11 @@
+chapter AFP
+
+session Sylvester_Catalecticant = "HOL-Computational_Algebra" +
+  options [timeout = 900]
+  theories
+    Catalecticant
+    Catalecticant_Converse
+    Catalecticant_Infinity
+  document_files
+    "root.tex"
+    "root.bib"

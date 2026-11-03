@@ -1,0 +1,10 @@
+chapter AFP
+
+session Dunn_Pretty_Deltoid = "HOL-Analysis" +
+  options [timeout = 900]
+  theories
+    Dunn_Pretty
+    Dunn_Pretty_Area
+  document_files
+    "root.tex"
+    "root.bib"

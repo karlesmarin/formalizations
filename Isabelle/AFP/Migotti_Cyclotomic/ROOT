@@ -1,0 +1,9 @@
+chapter AFP
+
+session Migotti_Cyclotomic = "HOL-Computational_Algebra" +
+  options [timeout = 900]
+  theories
+    Migotti
+  document_files
+    "root.tex"
+    "root.bib"

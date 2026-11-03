@@ -1,0 +1,38 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Migotti's Theorem on the Coefficients of the Cyclotomic Polynomial \(\Phi_{pq}\)}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+Migotti (1883)~\cite{Migotti1883} proved that for distinct primes $p$ and $q$ every coefficient of the
+cyclotomic polynomial $\Phi_{pq}$ is $-1$, $0$ or $1$. We formalize this for the polynomial
+$\Phi_{pq} = (1-X^{pq})(1-X)/((1-X^p)(1-X^q))$, which equals the cyclotomic polynomial when $p\neq q$ are primes
+(the identification is classical and is not formalized here). More generally, for coprime $p,q>0$ the quotient is
+exact and has coefficients in $\{-1,0,1\}$. The proof writes $\Phi_{pq}=1-(1-X)B$, where $B$ is a sum of distinct
+monomials $X^{pa+qb-pq}$, using that $(a,b)\mapsto (pa+qb)\bmod pq$ is a bijection.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}
