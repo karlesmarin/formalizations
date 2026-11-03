@@ -2560,3 +2560,7 @@ import Formalizations
 #print axioms CycloParity.reverse_cyclotomic
 #print axioms CycloParity.cyclotomic_eval_reciprocal
 #print axioms CycloParity.cyclotomic_eval_parity_ge_two
+#print axioms Erdos963.erdos_963.variants.greedy
+#print axioms Erdos963.card_span_le
+#print axioms Erdos963.addDissociated_insert
+#print axioms Erdos963.exists_dissociated

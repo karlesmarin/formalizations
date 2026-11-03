@@ -36,6 +36,7 @@ public import Formalizations.Analysis.TransformerAttention.EntropyBound
 public import Formalizations.Analysis.TransformerAttention.MaxEnt
 public import Formalizations.Analysis.InnerProductSpace.Hlawka
 public import Formalizations.Combinatorics.Additive.AddClosedInterval
+public import Formalizations.Combinatorics.Additive.DissociatedGreedy
 public import Formalizations.Combinatorics.Frieze.IntegerDominance
 public import Formalizations.Combinatorics.Frieze.TwoSignChanges
 public import Formalizations.Combinatorics.Hall.Tight
