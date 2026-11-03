@@ -1,0 +1,12 @@
+chapter AFP
+
+session Unsolvable_Prime_Degree = "HOL-Analysis" +
+  options [timeout = 2400]
+  sessions
+    "Unsolvable_Quintic"
+  theories
+    Prime_Degree_Criterion
+    Prime_Degree_Family
+  document_files
+    "root.tex"
+    "root.bib"
