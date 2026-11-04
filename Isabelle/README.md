@@ -46,6 +46,8 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🌀 `Migotti_Cyclotomic` | HOL-Computational_Algebra | Migotti (1883): for distinct primes `p, q` the coefficients of `Φ_pq = (1 − X^(pq))(1 − X)/((1 − X^p)(1 − X^q))` lie in `{−1, 0, 1}` (`migotti`); for coprime `p, q > 0` the quotient is exact (`migotti_exact`). The identification of this quotient with the cyclotomic polynomial is classical and not formalized | ⏳ not submitted |
 | 🔺 `Dunn_Pretty_Deltoid` | HOL-Analysis | the core of Dunn and Pretty's triangle-halving deltoid in the reference triangle: a line through two legs halves the area iff it is tangent to `xy = 1/8` (`bisects_iff_tangent`); cusps, the three segment integrals `3/32 − (ln 2)/8` and the value `(3/4 ln 2 − 1/2)` times the area. Not formalized: the affine reduction and that the deltoid region is the cusp triangle minus the three segments | ⏳ not submitted |
 | 🧮 `Unsolvable_Prime_Degree` | HOL-Analysis + AFP `Unsolvable_Quintic` | an irreducible polynomial over `ℚ` of prime degree `p ≥ 5` with exactly two non-real roots has a non-solvable Galois group, hence is not solvable by radicals; and for every prime `p ≥ 5` an explicit such polynomial, `x (x² + 2(k+1)³) ∏_{i=1}^{k} (x² − 4i²) − 2` with `k = (p−3)/2` (Eisenstein at 2; real roots by sign changes; not all roots real by Vieta) | 📤 submitted |
+| 🌳 `Chvatal_Tree_Ramsey` | HOL-Library | Chvátal (1977): for every tree `T` with `n` vertices, `R(K₃, T) = 2n − 1` (`chvatal`); upper bound by leaf induction, lower bound by `K_{n−1,n−1}`; corollary: every connected graph with `n` vertices and at most `n − 1` edges has `R(K₃, G) = 2n − 1` (`connected_le_pred_edges_triangle_good`); the statements of `erdos_1182.variants.chvatal` and `F_ge_pred` of google-deepmind/formal-conjectures | ⏳ not submitted |
+| 🎨 `Erdos_Rubin_Taylor_Choosability` | HOL-Library + AFP `Marriage` | Erdős–Rubin–Taylor: the least bipartite graph that is not 2-choosable has 6 vertices (`ert_n_two`: `K_{3,3}` is not, every bipartite graph on ≤ 5 vertices is), and `K_{2,…,2}` with `k` parts is `k`-choosable (`ert_multipartite`, Hall's theorem); `erdos_629.variants.n_two` and `ohba_conjecture.variants.erdos_rubin_taylor` of formal-conjectures | ⏳ not submitted |
 
 ## 🚀 Building
 
@@ -72,6 +74,8 @@ isabelle build -v -D AFP/Sylvester_Catalecticant
 isabelle build -v -D AFP/Migotti_Cyclotomic
 isabelle build -v -D AFP/Dunn_Pretty_Deltoid
 isabelle build -v -d <afp>/thys -D AFP/Unsolvable_Prime_Degree
+isabelle build -v -D AFP/Chvatal_Tree_Ramsey
+isabelle build -v -d <afp>/thys -D AFP/Erdos_Rubin_Taylor_Choosability
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions

@@ -1,0 +1,11 @@
+chapter AFP
+
+session Chvatal_Tree_Ramsey = HOL +
+  options [timeout = 1200]
+  sessions
+    "HOL-Library"
+  theories
+    Chvatal_Tree_Ramsey
+  document_files
+    "root.tex"
+    "root.bib"

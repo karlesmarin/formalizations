@@ -1,0 +1,13 @@
+chapter AFP
+
+session Erdos_Rubin_Taylor_Choosability = HOL +
+  options [timeout = 1200]
+  sessions
+    "HOL-Library"
+    Marriage
+  theories
+    ERT_Choosability
+    ERT_Multipartite
+  document_files
+    "root.tex"
+    "root.bib"

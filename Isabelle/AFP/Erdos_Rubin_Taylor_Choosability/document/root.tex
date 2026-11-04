@@ -1,0 +1,33 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Two Theorems of Erd\H{o}s, Rubin and Taylor on Choosability}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+We formalize two results of Erd\H{o}s, Rubin and Taylor~\cite{ERT1980} on list colourings. First, the least number of vertices of a bipartite graph that is not $2$-choosable is $6$: $K_{3,3}$ is not $2$-choosable, and every bipartite graph with at most five vertices is. Second, the complete multipartite graph $K_{2,\dots,2}$ with $k$ parts of size two is $k$-choosable, by induction on $k$ and Hall's theorem from the entry on the marriage theorem. The statements follow Erd\H{o}s problem 629 and the Erd\H{o}s--Rubin--Taylor variant of Ohba's conjecture in the formal-conjectures repository.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}
