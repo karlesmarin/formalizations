@@ -1,0 +1,33 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Dirac's Dense 6-Critical Graphs}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+A graph is $k$-critical if its chromatic number is $k$ and deleting any vertex or edge lowers it. We formalize Dirac's construction~\cite{Dirac1952}: the join of two odd cycles of length $2n+1$ is $6$-critical, has $4n+2$ vertices and $4n^2+8n+3$ edges, so the largest number $f_6(4n+2)$ of edges of a $6$-critical graph on $4n+2$ vertices is at least $4n^2+8n+3$. The statement follows the variant of Erd\H{o}s problem 917 in the formal-conjectures repository.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

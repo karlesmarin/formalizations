@@ -1,0 +1,33 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{A Lower Bound for the Maximum Number of Minimal Cuts}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+A minimal cut of a graph is an inclusion-minimal set of vertices whose removal disconnects it, and $c(n)$ is the largest number of minimal cuts of a graph on $n$ vertices. We formalize Seymour's observation, recorded with Erd\H{o}s problem 150~\cite{EP150,Erdos1988}, that $c(3m+2)\ge 3^m$: in the graph made of $m$ internally disjoint paths of length four between two vertices, choosing one inner vertex on each path gives $3^m$ distinct minimal cuts. The statement follows the variant of Erd\H{o}s problem 150 in the formal-conjectures repository.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

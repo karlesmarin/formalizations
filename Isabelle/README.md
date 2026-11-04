@@ -48,6 +48,8 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🧮 `Unsolvable_Prime_Degree` | HOL-Analysis + AFP `Unsolvable_Quintic` | an irreducible polynomial over `ℚ` of prime degree `p ≥ 5` with exactly two non-real roots has a non-solvable Galois group, hence is not solvable by radicals; and for every prime `p ≥ 5` an explicit such polynomial, `x (x² + 2(k+1)³) ∏_{i=1}^{k} (x² − 4i²) − 2` with `k = (p−3)/2` (Eisenstein at 2; real roots by sign changes; not all roots real by Vieta) | 📤 submitted |
 | 🌳 `Chvatal_Tree_Ramsey` | HOL-Library | Chvátal (1977): for every tree `T` with `n` vertices, `R(K₃, T) = 2n − 1` (`chvatal`); upper bound by leaf induction, lower bound by `K_{n−1,n−1}`; corollary: every connected graph with `n` vertices and at most `n − 1` edges has `R(K₃, G) = 2n − 1` (`connected_le_pred_edges_triangle_good`); the statements of `erdos_1182.variants.chvatal` and `F_ge_pred` of google-deepmind/formal-conjectures | ⏳ not submitted |
 | 🎨 `Erdos_Rubin_Taylor_Choosability` | HOL-Library + AFP `Marriage` | Erdős–Rubin–Taylor: the least bipartite graph that is not 2-choosable has 6 vertices (`ert_n_two`: `K_{3,3}` is not, every bipartite graph on ≤ 5 vertices is), and `K_{2,…,2}` with `k` parts is `k`-choosable (`ert_multipartite`, Hall's theorem); `erdos_629.variants.n_two` and `ohba_conjecture.variants.erdos_rubin_taylor` of formal-conjectures | ⏳ not submitted |
+| ✂️ `Seymour_Minimal_Cuts` | HOL-Library | Seymour's observation `c(3m+2) ≥ 3^m` for the maximum number of minimal vertex cuts (`seymour`): `m` internally disjoint paths of length 4 between two vertices; `erdos_150.variants.seymour` of formal-conjectures | ⏳ not submitted |
+| 🎯 `Dirac_Critical_Graphs` | HOL-Library | Dirac (1952): the join of two odd cycles `C_{2n+1}` is 6-critical with `4n² + 8n + 3` edges, so `f_6(4n+2) ≥ 4n² + 8n + 3` (`dirac_bound`); `erdos_917.variants.dirac` of formal-conjectures | ⏳ not submitted |
 
 ## 🚀 Building
 
@@ -76,6 +78,8 @@ isabelle build -v -D AFP/Dunn_Pretty_Deltoid
 isabelle build -v -d <afp>/thys -D AFP/Unsolvable_Prime_Degree
 isabelle build -v -D AFP/Chvatal_Tree_Ramsey
 isabelle build -v -d <afp>/thys -D AFP/Erdos_Rubin_Taylor_Choosability
+isabelle build -v -D AFP/Seymour_Minimal_Cuts
+isabelle build -v -D AFP/Dirac_Critical_Graphs
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions

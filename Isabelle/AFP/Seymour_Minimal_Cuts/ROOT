@@ -1,0 +1,11 @@
+chapter AFP
+
+session Seymour_Minimal_Cuts = HOL +
+  options [timeout = 1200]
+  sessions
+    "HOL-Library"
+  theories
+    Seymour_Cuts
+  document_files
+    "root.tex"
+    "root.bib"
