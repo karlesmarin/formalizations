@@ -195,8 +195,7 @@ proof
         qed
         hence fk1: "1 \<le> f k" by simp
         have "y \<in> {vv i q | i q. i < m \<and> 1 \<le> q \<and> q \<le> f i}"
-          by (rule CollectI, rule exI[of _ k], rule exI[of _ 1], intro conjI,
-            rule \<open>y = vv k 1\<close>, rule 1(1), simp, rule fk1)
+          using \<open>y = vv k 1\<close> 1(1) fk1 by blast
         thus ?thesis by (rule insertI2)
       next
         case (2 k j)
