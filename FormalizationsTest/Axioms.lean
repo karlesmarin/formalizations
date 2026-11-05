@@ -2,6 +2,8 @@
 Axiom audit: every main result depends only on the standard axioms
 (`propext`, `Classical.choice`, `Quot.sound`). `scripts/check_axioms.sh` fails on `sorryAx`.
 -/
+module
+
 import Formalizations
 
 #print axioms OrbifoldProduct.marginal_injective
