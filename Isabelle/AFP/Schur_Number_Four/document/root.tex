@@ -1,0 +1,29 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{isabelle,isabellesym}
+\usepackage{pdfsetup}
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{The Schur Number $S(4) = 44$, via Kernel Replay of LRAT Proofs}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+We prove in Isabelle/HOL that the Schur number $S(4)$ is 44: $\{1,\dots,44\}$ has a 4-colouring without
+monochromatic solutions of $a+b=c$, and $\{1,\dots,45\}$ has none. The statement is about colourings. A colour
+symmetry, proved in HOL, reduces the upper bound to four cases; each is encoded by explicit instances of three
+facts about the colouring, refuted by a SAT solver, and its LRAT proof is replayed by the Isabelle kernel. The
+replay method is part of the entry: it accepts RUP steps only, turns each into a resolution chain and replays
+them forwards, dropping every clause theorem after its last use. No oracle is used.
+\end{abstract}
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\end{document}

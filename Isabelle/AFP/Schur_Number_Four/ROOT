@@ -1,0 +1,9 @@
+chapter AFP
+
+session Schur_Number_Four = HOL +
+  options [timeout = 600]
+  theories
+    LRAT_Replay
+    Schur_Number_Four
+  document_files
+    "root.tex"
