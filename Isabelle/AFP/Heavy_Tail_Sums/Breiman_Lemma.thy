@@ -43,8 +43,9 @@ proof -
     and P: "\<And>x y. x0 \<le> x \<Longrightarrow> x0 \<le> y \<Longrightarrow>
       U y / U x \<le> 2 * max ((y / x) powr (- \<alpha> + d)) ((y / x) powr (- \<alpha> - d))"
     using Potter_bounds[OF rv A2 d(1)] by blast
+  have two: "(0::real) < 2" by simp
   show ?thesis
-  proof (intro exI[of _ x0] exI[of _ 2] conjI x0, simp, intro allI impI)
+  proof (rule exI[of _ x0], intro conjI x0, rule exI[of _ 2], intro conjI two allI impI)
     fix x z :: real
     assume x: "x0 \<le> x" and z: "0 < z" and y: "x0 \<le> x / z"
     have xp: "0 < x" using x x0 by simp

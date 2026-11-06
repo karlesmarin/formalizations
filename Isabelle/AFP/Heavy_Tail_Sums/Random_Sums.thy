@@ -79,7 +79,7 @@ proof -
     qed
   qed
   have fin: "\<forall>x\<ge>T. \<forall>z\<ge>1. U (x / z) / U x \<le> K * z powr (\<alpha> + \<delta>)" using main by blast
-  show ?thesis by (rule exI[of _ T], rule conjI, rule T, rule exI[of _ K], rule conjI, rule K, rule fin)
+  show ?thesis using T K fin by blast
 qed
 
 subsection \<open>Sums with a random number of terms\<close>
