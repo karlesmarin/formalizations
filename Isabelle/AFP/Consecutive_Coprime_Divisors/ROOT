@@ -1,0 +1,9 @@
+chapter AFP
+
+session Consecutive_Coprime_Divisors = "HOL-Computational_Algebra" +
+  options [timeout = 600]
+  theories
+    Consecutive_Coprime_Divisors
+  document_files
+    "root.tex"
+    "root.bib"

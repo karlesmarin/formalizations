@@ -1,0 +1,15 @@
+chapter AFP
+
+session Heavy_Tail_Sums = Extreme_Value_Theory +
+  options [timeout = 1500]
+  sessions
+    Regular_Variation
+  theories
+    Regular_Variation_Sums
+    Breiman_Lemma
+    Heavy_Tail_Relations
+    Heavy_Tail_Examples
+    Random_Sums
+  document_files
+    "root.tex"
+    "root.bib"

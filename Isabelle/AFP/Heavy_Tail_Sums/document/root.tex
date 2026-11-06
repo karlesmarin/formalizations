@@ -1,0 +1,44 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Tails of Sums, Products and Random Sums of Regularly Varying Random Variables}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+Building on the AFP entries on regular variation and extreme value theory, we formalize the basic tail calculus of
+heavy-tailed random variables~\cite{BinghamGoldieTeugels1987,EmbrechtsKluppelbergMikosch1997}. For independent $X$ and $Y$, if
+$P(X>x)$ is regularly varying and $P(Y>x)/P(X>x)\to c$, then $P(X+Y>x)/P(X>x)\to 1+c$. Breiman's lemma~\cite{Breiman1965}: if $X\ge 0$ has a regularly varying
+tail of index $-\alpha$, $Z\ge 0$ is independent of $X$ and $E\,Z^{\alpha+\varepsilon}<\infty$, then
+$P(XZ>x)\sim E[Z^\alpha]\,P(X>x)$. We deduce closure of the Fr\'echet domain of attraction under these operations, the
+big-jump principle $P(S_n>x)\sim P(\max_i X_i>x)\sim n\,P(X_1>x)$, and an explicit Pareto example showing that independence
+cannot be dropped. For a random number $N$ of summands, independent of the sequence, with
+$E\,N^{1+\alpha+\delta}<\infty$, we prove $P(S_N>x)\sim E[N]\,P(X_1>x)$, in particular for geometric $N$. Finally, for a
+service time $B$ with regularly varying tail of index $-\alpha$, $\alpha>1$, we prove the regular variation of the integrated tail
+and, \emph{assuming} the Pollaczek--Khinchine representation of the stationary waiting time $W$ as a geometric sum, the
+classical asymptotics $P(W>x)\sim \frac{\rho}{1-\rho}\,\overline{B}_I(x)$~\cite{Pakes1975}. The queue itself is not constructed:
+that representation is a hypothesis of the theorem.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}
