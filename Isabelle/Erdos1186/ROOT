@@ -1,0 +1,6 @@
+session Erdos_1186_Probabilistic = HOL +
+  options [timeout = 600]
+  sessions
+    "HOL-Library"
+  theories
+    Erdos_1186_Probabilistic

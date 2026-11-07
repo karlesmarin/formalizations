@@ -50,7 +50,14 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🎨 `Erdos_Rubin_Taylor_Choosability` | HOL-Library + AFP `Marriage` | Erdős–Rubin–Taylor: the least bipartite graph that is not 2-choosable has 6 vertices (`ert_n_two`: `K_{3,3}` is not, every bipartite graph on ≤ 5 vertices is), and `K_{2,…,2}` with `k` parts is `k`-choosable (`ert_multipartite`, Hall's theorem); `erdos_629.variants.n_two` and `ohba_conjecture.variants.erdos_rubin_taylor` of formal-conjectures | 📤 submitted |
 | ✂️ `Seymour_Minimal_Cuts` | HOL-Library | Seymour's observation `c(3m+2) ≥ 3^m` for the maximum number of minimal vertex cuts (`seymour`): `m` internally disjoint paths of length 4 between two vertices; `erdos_150.variants.seymour` of formal-conjectures | 📤 submitted |
 | 🎯 `Dirac_Critical_Graphs` | HOL-Library | Dirac (1952): the join of two odd cycles `C_{2n+1}` is 6-critical with `4n² + 8n + 3` edges, so `f_6(4n+2) ≥ 4n² + 8n + 3` (`dirac_bound`); `erdos_917.variants.dirac` of formal-conjectures | 📤 submitted |
+| 🔢 `Biquadratic_SOS_Length` | HOL-Analysis | sums of squares of bilinear forms attached to a symmetric matrix `H`: representations as pairs of isometries, the determinant of the pencil, rings and chains, a cyclic vector bound, integer coefficients, paired levels, witnesses for `(J − I)/(n − 1)` with `n = 5, 7`, and the Bailey–Craigen orthogonal matrix from a doubly regular tournament |
 | 🎨 `Schur_Number_Four` | HOL | the Schur number `S(4) = 44` (`schur4`): `{1..44}` has a Schur-free 4-colouring (witness checked by `code_simp`) and `{1..45}` has none; the colour symmetry is broken in HOL (first appearance of the colours in the order 0, 1, 2, 3, four cases) and each case is refuted by an LRAT proof replayed by the kernel with the method `lrat` of the entry (RUP steps, forward, clause theorems released after their last use; certificates XZ-compressed, 3.8 MB; no oracle) | 📤 submitted |
+
+Further sessions, not submitted to the AFP:
+
+- `RationalGap`: exact witnesses for rational lengths of biquadratic forms; 3 is not a sum of two rational squares; no orthogonal vectors of norms 1, 1, 7 in `ℚ⁵`.
+- `BSRRational`: on a `C₄`-free support the coefficient vectors of a sum of squares of bilinear forms are orthogonal.
+- `Erdos1186`: `erdos_1186.variants.probabilistic` of formal-conjectures, `δ_k ≤ 1/((k − 1) 2^k)` (`erdos_1186_probabilistic`).
 
 ## 🚀 Building
 
@@ -81,6 +88,10 @@ isabelle build -v -D AFP/Chvatal_Tree_Ramsey
 isabelle build -v -d <afp>/thys -D AFP/Erdos_Rubin_Taylor_Choosability
 isabelle build -v -D AFP/Seymour_Minimal_Cuts
 isabelle build -v -D AFP/Dirac_Critical_Graphs
+isabelle build -v -D AFP/Biquadratic_SOS_Length
+isabelle build -v -D RationalGap
+isabelle build -v -D BSRRational
+isabelle build -v -D Erdos1186
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions
