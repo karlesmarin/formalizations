@@ -2,3 +2,5 @@ session Segre_Width3 = HOL +
   options [timeout = 600]
   theories
     Segre_Width3
+    Zarankiewicz_Cells
+    BSR_Upper

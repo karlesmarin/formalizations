@@ -54,3 +54,5 @@
 "Isabelle/BSRRational/BSR_Union.thy" = "Combinatorics/Zarankiewicz"
 "Isabelle/Erdos1186/Erdos_1186_Probabilistic.thy" = "Combinatorics/Zarankiewicz"
 "Isabelle/SegrePersistence/Segre_Width3.thy" = "AlgebraicGeometry/SegrePersistence"
+"Isabelle/SegrePersistence/Zarankiewicz_Cells.thy" = "Combinatorics/Zarankiewicz"
+"Isabelle/SegrePersistence/BSR_Upper.thy" = "AlgebraicGeometry/SegrePersistence"

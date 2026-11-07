@@ -57,7 +57,7 @@ Further sessions, not submitted to the AFP:
 
 - `RationalGap`: exact witnesses for rational lengths of biquadratic forms; 3 is not a sum of two rational squares; no orthogonal vectors of norms 1, 1, 7 in `ℚ⁵`.
 - `BSRRational`: on a `C₄`-free support the coefficient vectors of a sum of squares of bilinear forms are orthogonal; orthonormal vectors and one of norm 7 force three more coordinates over `ℚ` (`seven_embedding`), so a `C₄`-free form with one weight 7 needs at least `|E| + 3` rational squares (`bsr_rational_lower`).
-- `SegrePersistence`: the quadratic persistence of `ℙ^{m-1} × ℙ²` is at most `m`, in coordinates: antisymmetric `3 × 3` blocks killing two independent vectors vanish (`segre_width3_upper`), and the count `d − g(m−1) = m − 1` of the lower bound (`segre_width3_count`).
+- `SegrePersistence`: the quadratic persistence of `ℙ^{m-1} × ℙ²` is at most `m`, in coordinates: antisymmetric `3 × 3` blocks killing two independent vectors vanish (`segre_width3_upper`), and the count `d − g(m−1) = m − 1` of the lower bound (`segre_width3_count`); a `C₄`-free support has at most `m + C(n,2)` cells (`c4_free_card_le`), and `⌊8m/3⌋ > ⌊(5m+6)/2⌋` for `m ≥ 23` (`gap_pos`); and `BSR(m,n) ≤ mn − max(m,n) + 1` (`bsr_upper`), with the `m × 2` case of Blekherman–Sinn–Smith–Velasco Theorem 1.4 as an explicit hypothesis, so `BSR(4,3) ≤ 9` (`bsr_upper_4_3`).
 - `Erdos1186`: `erdos_1186.variants.probabilistic` of formal-conjectures, `δ_k ≤ 1/((k − 1) 2^k)` (`erdos_1186_probabilistic`).
 
 ## 🚀 Building
