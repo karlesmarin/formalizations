@@ -57,6 +57,7 @@ Further sessions, not submitted to the AFP:
 
 - `RationalGap`: exact witnesses for rational lengths of biquadratic forms; 3 is not a sum of two rational squares; no orthogonal vectors of norms 1, 1, 7 in `ℚ⁵`.
 - `BSRRational`: on a `C₄`-free support the coefficient vectors of a sum of squares of bilinear forms are orthogonal; orthonormal vectors and one of norm 7 force three more coordinates over `ℚ` (`seven_embedding`), so a `C₄`-free form with one weight 7 needs at least `|E| + 3` rational squares (`bsr_rational_lower`).
+- `SegrePersistence`: the quadratic persistence of `ℙ^{m-1} × ℙ²` is at most `m`, in coordinates: antisymmetric `3 × 3` blocks killing two independent vectors vanish (`segre_width3_upper`), and the count `d − g(m−1) = m − 1` of the lower bound (`segre_width3_count`).
 - `Erdos1186`: `erdos_1186.variants.probabilistic` of formal-conjectures, `δ_k ≤ 1/((k − 1) 2^k)` (`erdos_1186_probabilistic`).
 
 ## 🚀 Building
@@ -92,6 +93,7 @@ isabelle build -v -D AFP/Biquadratic_SOS_Length
 isabelle build -v -D RationalGap
 isabelle build -v -D BSRRational
 isabelle build -v -D Erdos1186
+isabelle build -v -D SegrePersistence
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions
