@@ -1,0 +1,33 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Sums of Squares of Bilinear Forms Attached to a Symmetric Matrix}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+For a real symmetric matrix $H$ consider the biquadratic form $(x_1^2+x_2^2)|y|^2+2x_1x_2\,y^{T}Hy$ and the least number of squares of bilinear forms with this sum~\cite{HanselkaSinn2019}. We formalize the reformulation of such a representation as a pair of isometries, the fact that a representation by $n$ squares makes the determinant of the pencil $(1+t^2)I+2tH$ a square, the identities for rings and chains, and the resulting lower bound for paths, both by the determinant and by a cyclic vector argument. Paired eigenvalues give $n$ squares by rotation blocks. For integer coefficients, the matrix $2H$ has at most two nonzero entries in each row. For the normalized complete graph $(J-I)/(n-1)$ we give exact witnesses with $8$ squares for $n=5$ and $12$ squares for $n=7$, the determinant lemmas for planes in sums of two and four squares, the fact that an integer congruent to $7$ modulo $8$ is not a sum of three rational squares, and the orthogonal matrix built from a doubly regular tournament by Bailey and Craigen~\cite{BaileyCraigen2019}.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

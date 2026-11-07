@@ -1,0 +1,13 @@
+chapter AFP
+
+session Biquadratic_SOS_Length = "HOL-Analysis" +
+  options [timeout = 1800]
+  sessions
+    "HOL-Computational_Algebra"
+  theories
+    Huckel_SOS
+    Kn_Witness
+    Tournament_Orthogonal
+  document_files
+    "root.tex"
+    "root.bib"
