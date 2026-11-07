@@ -298,4 +298,5 @@ public import Formalizations.AlgebraicGeometry.PlaneCurve.Cotes
 public import Formalizations.AlgebraicGeometry.SegrePersistence.GramUnique
 public import Formalizations.AlgebraicGeometry.SegrePersistence.SegreBSR
 public import Formalizations.AlgebraicGeometry.SegrePersistence.PluckerLower
+public import Formalizations.AlgebraicGeometry.SegrePersistence.BlockBound
 public import Formalizations.MachineLearning.ReLU.MaxFive
