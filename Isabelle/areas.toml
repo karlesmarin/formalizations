@@ -50,4 +50,6 @@
 "Isabelle/AFP/Biquadratic_SOS_Length/Tournament_Orthogonal.thy" = "Combinatorics/Zarankiewicz"
 "Isabelle/RationalGap/Rational_Gap.thy" = "Combinatorics/Zarankiewicz"
 "Isabelle/BSRRational/BSR_Rational.thy" = "Combinatorics/Zarankiewicz"
+"Isabelle/BSRRational/Seven_Embedding.thy" = "Combinatorics/Zarankiewicz"
+"Isabelle/BSRRational/BSR_Union.thy" = "Combinatorics/Zarankiewicz"
 "Isabelle/Erdos1186/Erdos_1186_Probabilistic.thy" = "Combinatorics/Zarankiewicz"

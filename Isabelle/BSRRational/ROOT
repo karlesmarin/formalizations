@@ -2,3 +2,5 @@ session BSR_Rational = "HOL-Analysis" +
   options [timeout = 1200]
   theories
     BSR_Rational
+    Seven_Embedding
+    BSR_Union

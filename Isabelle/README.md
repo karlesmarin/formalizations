@@ -56,7 +56,7 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 Further sessions, not submitted to the AFP:
 
 - `RationalGap`: exact witnesses for rational lengths of biquadratic forms; 3 is not a sum of two rational squares; no orthogonal vectors of norms 1, 1, 7 in `ℚ⁵`.
-- `BSRRational`: on a `C₄`-free support the coefficient vectors of a sum of squares of bilinear forms are orthogonal.
+- `BSRRational`: on a `C₄`-free support the coefficient vectors of a sum of squares of bilinear forms are orthogonal; orthonormal vectors and one of norm 7 force three more coordinates over `ℚ` (`seven_embedding`), so a `C₄`-free form with one weight 7 needs at least `|E| + 3` rational squares (`bsr_rational_lower`).
 - `Erdos1186`: `erdos_1186.variants.probabilistic` of formal-conjectures, `δ_k ≤ 1/((k − 1) 2^k)` (`erdos_1186_probabilistic`).
 
 ## 🚀 Building
