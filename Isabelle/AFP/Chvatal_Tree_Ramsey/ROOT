@@ -1,9 +1,9 @@
 chapter AFP
 
-session Chvatal_Tree_Ramsey = HOL +
+session Chvatal_Tree_Ramsey = Ramsey_Bounds +
   options [timeout = 1200]
   sessions
-    "HOL-Library"
+    Tree_Enumeration
   theories
     Chvatal_Tree_Ramsey
   document_files

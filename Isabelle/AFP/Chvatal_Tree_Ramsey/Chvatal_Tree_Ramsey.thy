@@ -1,660 +1,380 @@
 theory Chvatal_Tree_Ramsey
-  imports Main "HOL-Library.FuncSet"
+  imports "Ramsey_Bounds.Ramsey_Bounds" "Tree_Enumeration.Tree_Graph"
 begin
 
 section \<open>Chv\'atal's theorem: the Ramsey number of a triangle versus a tree\<close>
 
-text \<open>Graphs on the vertex set $\{0,\dots,n-1\}$ are adjacency relations. This mirrors the statement
-  the variant \<open>chvatal\<close> of Erdős problem 1182 in the formal-conjectures repository of
-  google-deepmind (file ErdosProblems/1182.lean):
-  for a tree $T$ on $n$ vertices, $R(K_3,T) = 2n-1$, where $R(G,H)$ is the least $N$ such that every
-  graph on $N$ vertices contains $G$ or its complement contains $H$ (\<open>graphRamsey\<close>), and containment
-  is an injective homomorphism (Mathlib's \<open>IsContained\<close>). A tree is a connected graph with $n-1$
-  edges; Mathlib's \<open>SimpleGraph.isTree_iff_connected_and_card\<close> shows this agrees with
-  connected and acyclic.\<close>
+text \<open>The host graphs and Ramsey numbers follow the AFP entry \<open>Ramsey_Bounds\<close>: a graph on a finite
+  set \<open>W\<close> is a set of edges, cliques and independent sets are those of \<open>HOL-Library.Ramsey\<close>, and
+  the definition below has the shape of \<open>is_clique_RN\<close>.  Trees are those of the AFP entry
+  \<open>Tree_Enumeration\<close> (locale \<open>tree\<close>: a finite connected undirected graph without cycles).  A copy of
+  a tree $(V_T, E_T)$ in the complement of a graph is an injective map of $V_T$ into \<open>W\<close> sending
+  every edge of the tree to a non-edge of the graph.\<close>
 
-definition simple :: "nat \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> bool" where
-  "simple n G \<longleftrightarrow> (\<forall>i<n. \<forall>j<n. G i j \<longleftrightarrow> G j i) \<and> (\<forall>i<n. \<not> G i i)"
+definition compl_copy :: "'a set \<Rightarrow> 'a set set \<Rightarrow> 'b set \<Rightarrow> 'b set set \<Rightarrow> bool" where
+  "compl_copy VT ET W E \<longleftrightarrow>
+     (\<exists>f. inj_on f VT \<and> f ` VT \<subseteq> W \<and> (\<forall>u v. {u, v} \<in> ET \<longrightarrow> {f u, f v} \<notin> E))"
 
-definition compl :: "(nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> nat \<Rightarrow> nat \<Rightarrow> bool" where
-  "compl C i j \<longleftrightarrow> i \<noteq> j \<and> \<not> C i j"
+definition is_triangle_tree_RN where
+  "is_triangle_tree_RN \<equiv> \<lambda>U::'b itself. \<lambda>VT ET r.
+     (\<forall>W::'b set. \<forall>E. finite W \<longrightarrow> card W \<ge> r \<longrightarrow>
+        (\<exists>K\<subseteq>W. card K = 3 \<and> clique K E) \<or> compl_copy VT ET W E)"
 
-text \<open>$G$ on $\{0..<n\}$ is contained in $C$ on $\{0..<N\}$.\<close>
-definition contains :: "nat \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> nat \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> bool" where
-  "contains n G N C \<longleftrightarrow> (\<exists>f. inj_on f {..<n} \<and> f ` {..<n} \<subseteq> {..<N} \<and>
-      (\<forall>i<n. \<forall>j<n. G i j \<longrightarrow> C (f i) (f j)))"
+text \<open>The Ramsey number $R(K_3, T)$, with vertex sets of natural numbers as in \<open>RN\<close>.\<close>
 
-definition triangle :: "nat \<Rightarrow> nat \<Rightarrow> bool" where
-  "triangle i j \<longleftrightarrow> i < 3 \<and> j < 3 \<and> i \<noteq> j"
+definition triangle_tree_RN :: "'a set \<Rightarrow> 'a set set \<Rightarrow> nat" where
+  "triangle_tree_RN VT ET = (LEAST r. is_triangle_tree_RN TYPE(nat) VT ET r)"
 
-definition edges :: "nat \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> nat set set" where
-  "edges n G = {{i, j} | i j. i < n \<and> j < n \<and> G i j}"
-
-definition connected :: "nat \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> bool" where
-  "connected n G \<longleftrightarrow> 0 < n \<and>
-     (\<forall>i<n. \<forall>j<n. (\<lambda>a b. a < n \<and> b < n \<and> G a b)\<^sup>*\<^sup>* i j)"
-
-definition is_tree :: "nat \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> bool" where
-  "is_tree n T \<longleftrightarrow> simple n T \<and> connected n T \<and> card (edges n T) + 1 = n"
-
-text \<open>The Ramsey number $R(K_3, T)$, as \<open>graphRamsey (\<top> : SimpleGraph (Fin 3)) T\<close>.\<close>
-definition ramsey_triangle :: "nat \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> nat" where
-  "ramsey_triangle n T = Inf {N. \<forall>C. simple N C \<longrightarrow> contains 3 triangle N C \<or> contains n T N (compl C)}"
-
-section \<open>Trees on an arbitrary finite vertex set\<close>
-
-definition Eset :: "nat set \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> nat set set" where
-  "Eset S G = {{i, j} | i j. i \<in> S \<and> j \<in> S \<and> G i j}"
-
-definition RS :: "nat set \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> nat \<Rightarrow> nat \<Rightarrow> bool" where
-  "RS S G a b \<longleftrightarrow> a \<in> S \<and> b \<in> S \<and> G a b"
-
-definition tree_on :: "nat set \<Rightarrow> (nat \<Rightarrow> nat \<Rightarrow> bool) \<Rightarrow> bool" where
-  "tree_on S T \<longleftrightarrow> finite S \<and> S \<noteq> {} \<and> (\<forall>i\<in>S. \<forall>j\<in>S. T i j = T j i) \<and> (\<forall>i\<in>S. \<not> T i i)
-     \<and> (\<forall>i\<in>S. \<forall>j\<in>S. (RS S T)\<^sup>*\<^sup>* i j) \<and> card (Eset S T) + 1 = card S"
-
-lemma finite_Eset: "finite S \<Longrightarrow> finite (Eset S G)"
-  by (rule finite_subset[where B = "Pow S"]) (fastforce simp: Eset_def)+
-
-lemma card_pos_tree: "tree_on S T \<Longrightarrow> 1 \<le> card S"
-  unfolding tree_on_def by (auto simp: Suc_le_eq card_gt_0_iff)
-
-text \<open>Degree sum: the number of ordered adjacent pairs is at most twice the number of edges.\<close>
-lemma pairs_le_twice_edges:
-  assumes fin: "finite S" and irr: "\<forall>i\<in>S. \<not> T i i"
-  shows "card (Sigma S (\<lambda>v. {w \<in> S. T v w})) \<le> 2 * card (Eset S T)"
-proof -
-  let ?g = "\<lambda>p::nat \<times> nat. ({fst p, snd p}, fst p < snd p)"
-  have "card (Sigma S (\<lambda>v. {w \<in> S. T v w})) \<le> card (Eset S T \<times> (UNIV :: bool set))"
-  proof (rule card_inj_on_le)
-    show "inj_on ?g (Sigma S (\<lambda>v. {w \<in> S. T v w}))"
-    proof (rule inj_onI)
-      fix p q assume "p \<in> Sigma S (\<lambda>v. {w \<in> S. T v w})" "q \<in> Sigma S (\<lambda>v. {w \<in> S. T v w})"
-        and "?g p = ?g q"
-      then obtain v w v' w' where pq: "p = (v, w)" "q = (v', w')" and "v \<in> S" "w \<in> S" "T v w"
-        "v' \<in> S" "w' \<in> S" "T v' w'" by (cases p; cases q) auto
-      with irr have ne: "v \<noteq> w" "v' \<noteq> w'" by auto
-      from \<open>?g p = ?g q\<close> pq have e: "{v, w} = {v', w'}" and b: "(v < w) = (v' < w')" by auto
-      from e have "(v = v' \<and> w = w') \<or> (v = w' \<and> w = v')" by (simp add: doubleton_eq_iff)
-      then show "p = q"
-      proof
-        assume "v = v' \<and> w = w'" then show ?thesis using pq by simp
-      next
-        assume "v = w' \<and> w = v'"
-        with b ne have False by auto
-        then show ?thesis ..
-      qed
-    qed
-    show "?g ` Sigma S (\<lambda>v. {w \<in> S. T v w}) \<subseteq> Eset S T \<times> (UNIV :: bool set)"
-    proof
-      fix y assume "y \<in> ?g ` Sigma S (\<lambda>v. {w \<in> S. T v w})"
-      then obtain v w where "v \<in> S" "w \<in> S" "T v w" "y = ({v, w}, v < w)" by auto
-      then show "y \<in> Eset S T \<times> (UNIV :: bool set)" unfolding Eset_def by blast
-    qed
-    show "finite (Eset S T \<times> (UNIV :: bool set))" using finite_Eset[OF fin] by simp
-  qed
-  also have "\<dots> = 2 * card (Eset S T)" by (simp add: card_cartesian_product)
-  finally show ?thesis .
-qed
-
-lemma has_neighbour:
-  assumes tr: "tree_on S T" and c2: "2 \<le> card S" and v: "v \<in> S"
-  shows "\<exists>u\<in>S. T v u"
-proof -
-  have "\<not> S \<subseteq> {v}"
-  proof
-    assume sub: "S \<subseteq> {v}"
-    have "card S \<le> card {v}" using card_mono[of "{v}" S] sub by simp
-    with c2 show False by simp
-  qed
-  then obtain j where j: "j \<in> S" "j \<noteq> v" by auto
-  from tr j v have "(RS S T)\<^sup>*\<^sup>* v j" unfolding tree_on_def by auto
-  then show ?thesis
-  proof (cases rule: converse_rtranclpE)
-    case base then show ?thesis using j by simp
-  next
-    case (step y)
-    then show ?thesis unfolding RS_def by auto
-  qed
-qed
-
-lemma tree_has_leaf:
-  assumes tr: "tree_on S T" and c2: "2 \<le> card S"
-  shows "\<exists>v\<in>S. \<exists>u\<in>S. T v u \<and> (\<forall>w\<in>S. T v w \<longrightarrow> w = u)"
-proof (rule ccontr)
-  assume H: "\<not> ?thesis"
-  have fin: "finite S" and irr: "\<forall>i\<in>S. \<not> T i i" and cE: "card (Eset S T) + 1 = card S"
-    using tr unfolding tree_on_def by auto
-  have deg2: "\<forall>v\<in>S. 2 \<le> card {w \<in> S. T v w}"
-  proof
-    fix v assume v: "v \<in> S"
-    from has_neighbour[OF tr c2 v] obtain u where u: "u \<in> S" "T v u" by auto
-    from H v u obtain w where w: "w \<in> S" "T v w" "w \<noteq> u" by blast
-    have "card {u, w} \<le> card {w \<in> S. T v w}"
-      by (rule card_mono) (use fin u w in auto)
-    moreover have "card {u, w} = 2" using w by simp
-    ultimately show "2 \<le> card {w \<in> S. T v w}" by simp
-  qed
-  have "card S * 2 = (\<Sum>v\<in>S. 2)" by simp
-  also have "\<dots> \<le> (\<Sum>v\<in>S. card {w \<in> S. T v w})" by (rule sum_mono) (use deg2 in auto)
-  also have "\<dots> = card (Sigma S (\<lambda>v. {w \<in> S. T v w}))"
-    by (rule card_SigmaI[symmetric]) (use fin in auto)
-  also have "\<dots> \<le> 2 * card (Eset S T)" using pairs_le_twice_edges[where S = S and T = T] fin irr by blast
-  finally show False using cE c2 by simp
-qed
-
-lemma tree_remove_leaf:
-  assumes tr: "tree_on S T" and c2: "2 \<le> card S" and vS: "v \<in> S" and uS: "u \<in> S" and vu: "T v u"
-    and leaf: "\<forall>w\<in>S. T v w \<longrightarrow> w = u"
-  shows "tree_on (S - {v}) T"
-proof -
-  have fin: "finite S" and sym: "\<forall>i\<in>S. \<forall>j\<in>S. T i j = T j i" and irr: "\<forall>i\<in>S. \<not> T i i"
-    and con: "\<forall>i\<in>S. \<forall>j\<in>S. (RS S T)\<^sup>*\<^sup>* i j" and cE: "card (Eset S T) + 1 = card S"
-    using tr unfolding tree_on_def by auto
-  have uv: "u \<noteq> v" using irr vS vu by auto
-  have cS': "card (S - {v}) = card S - 1" using vS fin by (simp add: card_Diff_singleton)
-  have key: "\<And>i j. i \<in> S - {v} \<Longrightarrow> (RS S T)\<^sup>*\<^sup>* i j \<Longrightarrow>
-      (j \<noteq> v \<longrightarrow> (RS (S - {v}) T)\<^sup>*\<^sup>* i j) \<and> (j = v \<longrightarrow> (RS (S - {v}) T)\<^sup>*\<^sup>* i u)"
-  proof -
-    fix i j assume i: "i \<in> S - {v}" and p: "(RS S T)\<^sup>*\<^sup>* i j"
-    from p show "(j \<noteq> v \<longrightarrow> (RS (S - {v}) T)\<^sup>*\<^sup>* i j) \<and> (j = v \<longrightarrow> (RS (S - {v}) T)\<^sup>*\<^sup>* i u)"
-    proof (induction rule: rtranclp_induct)
-      case base then show ?case using i by auto
-    next
-      case (step b c)
-      from step(2) have bS: "b \<in> S" and cS: "c \<in> S" and Tbc: "T b c" unfolding RS_def by auto
-      show ?case
-      proof (cases "b = v")
-        case True
-        with step(3) have R: "(RS (S - {v}) T)\<^sup>*\<^sup>* i u" by simp
-        from True Tbc have "T v c" by simp
-        with leaf cS have cu: "c = u" by simp
-        with R uv show ?thesis by simp
-      next
-        case False
-        with step(3) have R: "(RS (S - {v}) T)\<^sup>*\<^sup>* i b" by simp
-        show ?thesis
-        proof (cases "c = v")
-          case True
-          from Tbc True have "T b v" by simp
-          with sym bS vS have "T v b" by blast
-          with leaf bS have "b = u" by simp
-          with R True show ?thesis by simp
-        next
-          case False2: False
-          have "RS (S - {v}) T b c" using bS cS Tbc \<open>b \<noteq> v\<close> False2 unfolding RS_def by auto
-          with R show ?thesis using False2 by (auto intro: rtranclp.rtrancl_into_rtrancl)
-        qed
-      qed
-    qed
-  qed
-  have Eeq: "Eset S T = insert {v, u} (Eset (S - {v}) T)"
-  proof (rule set_eqI)
-    fix x
-    show "x \<in> Eset S T \<longleftrightarrow> x \<in> insert {v, u} (Eset (S - {v}) T)"
-    proof
-      assume "x \<in> Eset S T"
-      then obtain i j where x: "x = {i, j}" and ij: "i \<in> S" "j \<in> S" "T i j" unfolding Eset_def by auto
-      show "x \<in> insert {v, u} (Eset (S - {v}) T)"
-      proof (cases "i = v")
-        case True
-        with leaf ij have "j = u" by simp
-        with True x show ?thesis by simp
-      next
-        case F1: False
-        show ?thesis
-        proof (cases "j = v")
-          case True
-          with ij sym vS have "T v i" by blast
-          with leaf ij have "i = u" by simp
-          with True x show ?thesis by (auto simp: insert_commute)
-        next
-          case F2: False
-          have "x \<in> Eset (S - {v}) T" unfolding Eset_def using x ij F1 F2 by auto
-          then show ?thesis by simp
-        qed
-      qed
-    next
-      assume "x \<in> insert {v, u} (Eset (S - {v}) T)"
-      then show "x \<in> Eset S T"
-      proof
-        assume "x = {v, u}"
-        then show ?thesis unfolding Eset_def using vS uS vu by auto
-      next
-        assume "x \<in> Eset (S - {v}) T"
-        then show ?thesis unfolding Eset_def by auto
-      qed
-    qed
-  qed
-  have notin: "{v, u} \<notin> Eset (S - {v}) T"
-  proof
-    assume "{v, u} \<in> Eset (S - {v}) T"
-    then obtain i j where "{v, u} = {i, j}" "i \<in> S - {v}" "j \<in> S - {v}" unfolding Eset_def by auto
-    then show False by (auto simp: doubleton_eq_iff)
-  qed
-  have finE: "finite (Eset (S - {v}) T)" using finite_Eset[of "S - {v}"] fin by simp
-  have "card (Eset S T) = Suc (card (Eset (S - {v}) T))" using Eeq notin finE by simp
-  with cE cS' c2 have cE': "card (Eset (S - {v}) T) + 1 = card (S - {v})" by simp
-  have "S - {v} \<noteq> {}"
-  proof
-    assume "S - {v} = {}"
-    then have "card (S - {v}) = 0" by (simp only: card.empty)
-    with cS' c2 show False by simp
-  qed
-  moreover have "\<forall>i\<in>S - {v}. \<forall>j\<in>S - {v}. (RS (S - {v}) T)\<^sup>*\<^sup>* i j"
-  proof (intro ballI)
-    fix i j assume i: "i \<in> S - {v}" and j: "j \<in> S - {v}"
-    from con i j have "(RS S T)\<^sup>*\<^sup>* i j" by auto
-    from key[OF i this] j show "(RS (S - {v}) T)\<^sup>*\<^sup>* i j" by auto
-  qed
-  ultimately show ?thesis using fin sym irr cE' unfolding tree_on_def by auto
-qed
+lemma is_triangle_tree_RN_mono:
+  assumes "is_triangle_tree_RN U VT ET r" and "r \<le> s"
+  shows "is_triangle_tree_RN U VT ET s"
+  using assms unfolding is_triangle_tree_RN_def by (meson order_trans)
 
 section \<open>The upper bound\<close>
 
-lemma upper:
-  fixes N :: nat and C :: "nat \<Rightarrow> nat \<Rightarrow> bool" and T :: "nat \<Rightarrow> nat \<Rightarrow> bool"
-  assumes csym: "\<forall>i<N. \<forall>j<N. C i j = C j i"
-    and notri: "\<forall>a<N. \<forall>b<N. \<forall>c<N. \<not> (C a b \<and> C b c \<and> C a c)"
-  shows "\<forall>S. tree_on S T \<longrightarrow> card S = n \<longrightarrow> 2 * n - 1 \<le> N \<longrightarrow>
-    (\<exists>f. inj_on f S \<and> f ` S \<subseteq> {..<N} \<and> (\<forall>i\<in>S. \<forall>j\<in>S. T i j \<longrightarrow> compl C (f i) (f j)))"
-proof (induction n)
-  case 0
-  show ?case
-  proof (intro allI impI)
-    fix S assume "tree_on S T" "card S = 0"
-    with card_pos_tree[of S T] show "\<exists>f. inj_on f S \<and> f ` S \<subseteq> {..<N} \<and>
-      (\<forall>i\<in>S. \<forall>j\<in>S. T i j \<longrightarrow> compl C (f i) (f j))" by simp
-  qed
-next
-  case (Suc n)
-  show ?case
-  proof (intro allI impI)
-    fix S assume tr: "tree_on S T" and cn: "card S = Suc n" and Nb: "2 * Suc n - 1 \<le> N"
-    have fin: "finite S" and sym: "\<forall>i\<in>S. \<forall>j\<in>S. T i j = T j i" and irr: "\<forall>i\<in>S. \<not> T i i"
-      using tr unfolding tree_on_def by auto
-    show "\<exists>f. inj_on f S \<and> f ` S \<subseteq> {..<N} \<and> (\<forall>i\<in>S. \<forall>j\<in>S. T i j \<longrightarrow> compl C (f i) (f j))"
-    proof (cases "n = 0")
-      case True
-      with cn obtain s where S: "S = {s}" by (auto simp: card_1_singleton_iff)
-      with irr have "\<not> T s s" by simp
-      with S Nb True show ?thesis by (intro exI[where x = "\<lambda>_. 0"]) auto
-    next
-      case False
-      with cn have c2: "2 \<le> card S" by simp
-      from tree_has_leaf[OF tr c2] obtain v u where vS: "v \<in> S" and uS: "u \<in> S" and vu: "T v u"
-        and leaf: "\<forall>w\<in>S. T v w \<longrightarrow> w = u" by blast
-      have uv: "u \<noteq> v" using irr vS vu by auto
-      let ?S' = "S - {v}"
-      have tr': "tree_on ?S' T" by (rule tree_remove_leaf[OF tr c2 vS uS vu leaf])
-      have cS': "card ?S' = n" using cn vS fin by (simp add: card_Diff_singleton)
-      from Suc.IH tr' cS' Nb obtain f' where f1: "inj_on f' ?S'" and f2: "f' ` ?S' \<subseteq> {..<N}"
-        and f3: "\<forall>i\<in>?S'. \<forall>j\<in>?S'. T i j \<longrightarrow> compl C (f' i) (f' j)" by fastforce
-      have uS': "u \<in> ?S'" using uS uv by auto
-      let ?R = "{..<N} - f' ` ?S'"
-      have cR: "card ?R = N - n"
-      proof -
-        have h1: "card ?R = card {..<N} - card (f' ` ?S')"
-          by (rule card_Diff_subset) (use f2 fin in \<open>auto intro: finite_imageI\<close>)
-        have h2: "card (f' ` ?S') = n" using card_image[OF f1] cS' by simp
-        show ?thesis using h1 h2 by simp
-      qed
-      have cRge: "Suc n \<le> card ?R" using cR Nb by simp
-      show ?thesis
-      proof (cases "\<exists>w\<in>?R. compl C (f' u) w")
+text \<open>Induction on the tree, adding a leaf \<open>l\<close> at \<open>v\<close>.  Let \<open>R\<close> be the part of \<open>W\<close> not used by the
+  copy of the smaller tree.  If some vertex of \<open>R\<close> is not adjacent to the image of \<open>v\<close>, it receives
+  \<open>l\<close>.  Otherwise \<open>R\<close> lies in the neighbourhood of that image, so it is independent because there is
+  no triangle, and it is large enough to hold the whole tree.\<close>
+
+lemma chvatal_upper_aux:
+  fixes W :: "'b set" and H :: "'b set set"
+  assumes tr: "tree VT ET" and finW: "finite W"
+    and noK: "\<not> (\<exists>K\<subseteq>W. card K = 3 \<and> clique K H)" and big: "2 * card VT - 1 \<le> card W"
+  shows "compl_copy VT ET W H"
+proof -
+  have "2 * card VT - 1 \<le> card W \<longrightarrow> compl_copy VT ET W H"
+  proof (rule tree_induct[where P = "\<lambda>V E. 2 * card V - 1 \<le> card W \<longrightarrow> compl_copy V E W H", OF tr])
+    fix v :: 'a
+    show "2 * card {v} - 1 \<le> card W \<longrightarrow> compl_copy {v} {} W H"
+    proof
+      assume "2 * card {v} - 1 \<le> card W"
+      then have "W \<noteq> {}" by auto
+      then obtain w where "w \<in> W" by blast
+      then show "compl_copy {v} {} W H"
+        unfolding compl_copy_def by (intro exI[where x = "\<lambda>_. w"]) auto
+    qed
+  next
+    fix l v :: 'a and V' :: "'a set" and E' :: "'a set set"
+    assume tr': "tree V' E'" and IH: "2 * card V' - 1 \<le> card W \<longrightarrow> compl_copy V' E' W H"
+      and lV: "l \<notin> V'" and vV: "v \<in> V'"
+    show "2 * card (insert l V') - 1 \<le> card W \<longrightarrow> compl_copy (insert l V') (insert {l, v} E') W H"
+    proof
+      assume big': "2 * card (insert l V') - 1 \<le> card W"
+      interpret t: tree V' E' by (rule tr')
+      have finV: "finite V'" by (rule t.finV)
+      have c: "card (insert l V') = Suc (card V')" using finV lV by simp
+      have "2 * card V' - 1 \<le> card W" using big' c by arith
+      with IH have "compl_copy V' E' W H" by blast
+      then obtain f where fi: "inj_on f V'" and fW: "f ` V' \<subseteq> W"
+        and fe: "\<forall>a b. {a, b} \<in> E' \<longrightarrow> {f a, f b} \<notin> H"
+        unfolding compl_copy_def by blast
+      let ?R = "W - f ` V'"
+      have finR: "finite ?R" using finW by simp
+      have cfV: "card (f ` V') = card V'" by (rule card_image[OF fi])
+      have cR: "card ?R = card W - card V'"
+        using card_Diff_subset[OF finite_imageI[OF finV] fW] cfV by simp
+      have cRge: "card (insert l V') \<le> card ?R" using cR big' c by arith
+      show "compl_copy (insert l V') (insert {l, v} E') W H"
+      proof (cases "\<exists>w\<in>?R. {f v, w} \<notin> H")
         case True
-        then obtain w where wR: "w \<in> ?R" and cw: "compl C (f' u) w" by auto
-        let ?f = "\<lambda>x. if x = v then w else f' x"
-        have wN: "w < N" and wnot: "w \<notin> f' ` ?S'" using wR by auto
-        have fuN: "f' u < N" using f2 uS' by auto
-        have cw': "compl C w (f' u)"
-          using cw csym wN fuN unfolding compl_def by auto
-        have inj: "inj_on ?f S"
-        proof (rule inj_onI)
-          fix x y assume xS: "x \<in> S" and yS: "y \<in> S" and e: "?f x = ?f y"
-          show "x = y"
-          proof (cases "x = v")
+        then obtain w where wR: "w \<in> ?R" and nw: "{f v, w} \<notin> H" by blast
+        have nw': "{w, f v} \<notin> H" using nw by (simp add: insert_commute)
+        define g where "g = (\<lambda>x. if x = l then w else f x)"
+        have gV: "\<And>x. x \<in> V' \<Longrightarrow> g x = f x" using lV by (auto simp: g_def)
+        have gl: "g l = w" by (simp add: g_def)
+        have giV: "inj_on g V'" by (rule iffD2[OF inj_on_cong[OF gV] fi])
+        have wn: "g l \<notin> g ` V'" using wR gl gV by force
+        have VV: "V' - {l} = V'" using lV by blast
+        have inj: "inj_on g (insert l V')"
+          unfolding inj_on_insert VV using giV wn by blast
+        have gW: "g ` insert l V' \<subseteq> W"
+        proof (rule image_subsetI)
+          fix x assume "x \<in> insert l V'"
+          then have "x = l \<or> x \<in> V'" by blast
+          then show "g x \<in> W" using gl wR gV fW by auto
+        qed
+        have ge: "\<forall>a b. {a, b} \<in> insert {l, v} E' \<longrightarrow> {g a, g b} \<notin> H"
+        proof (intro allI impI)
+          fix a b assume ab: "{a, b} \<in> insert {l, v} E'"
+          show "{g a, g b} \<notin> H"
+          proof (cases "{a, b} = {l, v}")
             case True
-            show ?thesis
-            proof (cases "y = v")
-              case True with \<open>x = v\<close> show ?thesis by simp
-            next
-              case False
-              with yS e True wnot show ?thesis by auto
-            qed
+            then have "(a = l \<and> b = v) \<or> (a = v \<and> b = l)" by (auto simp: doubleton_eq_iff)
+            then show ?thesis using nw nw' gl gV[OF vV] by auto
           next
-            case xv: False
-            show ?thesis
-            proof (cases "y = v")
-              case True with xS e xv wnot show ?thesis by auto
-            next
-              case False
-              with xv xS yS e f1 show ?thesis by (auto intro: inj_onD)
-            qed
+            case False
+            with ab have e: "{a, b} \<in> E'" by blast
+            have "{a, b} \<subseteq> V'" by (rule t.wellformed[OF e])
+            then have "a \<in> V'" "b \<in> V'" by auto
+            then show ?thesis using fe e gV by simp
           qed
         qed
-        have img: "?f ` S \<subseteq> {..<N}" using f2 wN by auto
-        have ed: "\<forall>i\<in>S. \<forall>j\<in>S. T i j \<longrightarrow> compl C (?f i) (?f j)"
-        proof (intro ballI impI)
-          fix i j assume iS: "i \<in> S" and jS: "j \<in> S" and Tij: "T i j"
-          show "compl C (?f i) (?f j)"
-          proof (cases "i = v")
-            case True
-            with leaf jS Tij have "j = u" by simp
-            with True cw' uv show ?thesis by simp
-          next
-            case iv: False
-            show ?thesis
-            proof (cases "j = v")
-              case True
-              from Tij True have "T i v" by simp
-              with sym iS vS have "T v i" by blast
-              with leaf iS have "i = u" by simp
-              with True cw iv show ?thesis by simp
-            next
-              case jv: False
-              with iv iS jS f3 Tij show ?thesis by auto
-            qed
-          qed
-        qed
-        from inj img ed show ?thesis by blast
+        show ?thesis
+          unfolding compl_copy_def by (rule exI[where x = g]) (use inj gW ge in blast)
       next
         case False
-        then have allC: "\<forall>w\<in>?R. \<not> compl C (f' u) w" by simp
-        have fuN: "f' u < N" using f2 uS' by auto
-        have cfu: "\<forall>w\<in>?R. C (f' u) w"
-        proof
-          fix w assume wR: "w \<in> ?R"
-          then have "w \<noteq> f' u" using uS' by auto
-          have "\<not> compl C (f' u) w" using allC wR by blast
-          with \<open>w \<noteq> f' u\<close> show "C (f' u) w" unfolding compl_def by auto
+        then have allH: "\<And>w. w \<in> ?R \<Longrightarrow> {f v, w} \<in> H" by blast
+        have fvW: "f v \<in> W" using fW vV by blast
+        have fvR: "f v \<notin> ?R" using vV by blast
+        have ind: "\<And>x y. x \<in> ?R \<Longrightarrow> y \<in> ?R \<Longrightarrow> x \<noteq> y \<Longrightarrow> {x, y} \<notin> H"
+        proof (rule notI)
+          fix x y assume x: "x \<in> ?R" and y: "y \<in> ?R" and xy: "x \<noteq> y" and e: "{x, y} \<in> H"
+          have nx: "f v \<noteq> x" using x fvR by blast
+          have ny: "f v \<noteq> y" using y fvR by blast
+          have cK: "card {f v, x, y} = 3" using nx ny xy by (simp add: card_insert_if)
+          have KW: "{f v, x, y} \<subseteq> W" using fvW x y by blast
+          have "clique {f v, x, y} H"
+            using allH[OF x] allH[OF y] e by (auto simp: clique_def insert_commute)
+          then show False using noK cK KW by blast
         qed
-        have clique: "\<forall>w\<in>?R. \<forall>w'\<in>?R. w \<noteq> w' \<longrightarrow> compl C w w'"
-        proof (intro ballI impI)
-          fix w w' assume wR: "w \<in> ?R" and w'R: "w' \<in> ?R" and ne: "w \<noteq> w'"
-          have wN: "w < N" and w'N: "w' < N" using wR w'R by auto
-          show "compl C w w'"
-          proof (rule ccontr)
-            assume "\<not> compl C w w'"
-            with ne have "C w w'" unfolding compl_def by simp
-            with cfu wR w'R notri fuN wN w'N show False by blast
+        have finI: "finite (insert l V')" using finV by simp
+        obtain h where h1: "h ` insert l V' \<subseteq> ?R" and h2: "inj_on h (insert l V')"
+          using card_le_inj[OF finI finR cRge] by blast
+        have he: "\<forall>a b. {a, b} \<in> insert {l, v} E' \<longrightarrow> {h a, h b} \<notin> H"
+        proof (intro allI impI)
+          fix a b assume ab: "{a, b} \<in> insert {l, v} E'"
+          have mem: "a \<in> insert l V' \<and> b \<in> insert l V' \<and> a \<noteq> b"
+          proof (cases "{a, b} = {l, v}")
+            case True
+            then have "(a = l \<and> b = v) \<or> (a = v \<and> b = l)" by (auto simp: doubleton_eq_iff)
+            then show ?thesis using vV lV by auto
+          next
+            case False
+            with ab have e: "{a, b} \<in> E'" by blast
+            have "{a, b} \<subseteq> V'" by (rule t.wellformed[OF e])
+            moreover have "card {a, b} = 2" by (rule t.two_edges[OF e])
+            ultimately show ?thesis by auto
           qed
+          have ha: "h a \<in> ?R" using mem h1 by blast
+          have hb: "h b \<in> ?R" using mem h1 by blast
+          have hn: "h a \<noteq> h b" using mem h2 by (meson inj_onD)
+          show "{h a, h b} \<notin> H" by (rule ind[OF ha hb hn])
         qed
-        have fR: "finite ?R" by simp
-        from cn cRge have "card S \<le> card ?R" by simp
-        from card_le_inj[OF fin fR this] obtain g where g1: "g ` S \<subseteq> ?R" and g2: "inj_on g S" by blast
-        have "g ` S \<subseteq> {..<N}" using g1 by auto
-        moreover have "\<forall>i\<in>S. \<forall>j\<in>S. T i j \<longrightarrow> compl C (g i) (g j)"
-        proof (intro ballI impI)
-          fix i j assume iS: "i \<in> S" and jS: "j \<in> S" and Tij: "T i j"
-          from irr iS Tij have "i \<noteq> j" by auto
-          with g2 iS jS have "g i \<noteq> g j" by (auto dest: inj_onD)
-          with clique g1 iS jS show "compl C (g i) (g j)" by auto
-        qed
-        ultimately show ?thesis using g2 by blast
+        have hW: "h ` insert l V' \<subseteq> W" using h1 by blast
+        show ?thesis
+          unfolding compl_copy_def by (rule exI[where x = h]) (use h2 hW he in blast)
       qed
     qed
   qed
+  then show ?thesis using big by blast
 qed
+
+theorem chvatal_upper:
+  assumes "tree VT ET"
+  shows "is_triangle_tree_RN U VT ET (2 * card VT - 1)"
+  unfolding is_triangle_tree_RN_def using chvatal_upper_aux[OF assms] by blast
 
 section \<open>The lower bound\<close>
 
-lemma lower:
-  assumes tr: "is_tree n T" and N: "N < 2 * n - 1"
-  shows "\<exists>C. simple N C \<and> \<not> contains 3 triangle N C \<and> \<not> contains n T N (compl C)"
+lemma tree_constant_on_edges:
+  assumes tr: "tree V E" and h: "\<And>a b. {a, b} \<in> E \<Longrightarrow> Q a = Q b"
+    and x: "x \<in> V" and y: "y \<in> V"
+  shows "Q x = Q y"
 proof -
-  have n1: "1 \<le> n" using tr unfolding is_tree_def connected_def by auto
-  have con: "\<forall>i<n. \<forall>j<n. (\<lambda>a b. a < n \<and> b < n \<and> T a b)\<^sup>*\<^sup>* i j"
-    using tr unfolding is_tree_def connected_def by auto
-  define a where "a = min N (n - 1)"
-  define C where "C = (\<lambda>i j. i < N \<and> j < N \<and> ((i < a) \<noteq> (j < a)))"
-  have simp1: "simple N C" unfolding simple_def C_def by auto
-  have nt: "\<not> contains 3 triangle N C"
-  proof
-    assume "contains 3 triangle N C"
-    then obtain f where "\<forall>i<3. \<forall>j<3. triangle i j \<longrightarrow> C (f i) (f j)" unfolding contains_def by auto
-    then have "C (f 0) (f 1)" "C (f 1) (f 2)" "C (f 0) (f 2)" by (auto simp: triangle_def)
-    then show False unfolding C_def by (cases "f 0 < a"; cases "f 1 < a"; cases "f 2 < a"; simp)
-  qed
-  have nT: "\<not> contains n T N (compl C)"
-  proof
-    assume "contains n T N (compl C)"
-    then obtain f where fi: "inj_on f {..<n}" and fN: "f ` {..<n} \<subseteq> {..<N}"
-      and fe: "\<forall>i<n. \<forall>j<n. T i j \<longrightarrow> compl C (f i) (f j)" unfolding contains_def by auto
-    have side: "\<forall>i<n. \<forall>j<n. T i j \<longrightarrow> (f i < a) = (f j < a)"
-    proof (intro allI impI)
-      fix i j assume "i < n" "j < n" "T i j"
-      with fe have "compl C (f i) (f j)" by auto
-      moreover from fN \<open>i < n\<close> \<open>j < n\<close> have "f i < N" "f j < N" by auto
-      ultimately show "(f i < a) = (f j < a)" unfolding compl_def C_def by auto
-    qed
-    have same: "\<And>j. j < n \<Longrightarrow> (f j < a) = (f 0 < a)"
-    proof -
-      fix j assume jn: "j < n"
-      from con n1 jn have "(\<lambda>x y. x < n \<and> y < n \<and> T x y)\<^sup>*\<^sup>* 0 j" by auto
-      then show "(f j < a) = (f 0 < a)"
-      proof (induction rule: rtranclp_induct)
-        case base then show ?case by simp
-      next
-        case (step b c)
-        with side show ?case by auto
+  have "(\<forall>a b. {a, b} \<in> E \<longrightarrow> Q a = Q b) \<longrightarrow> (\<forall>x\<in>V. \<forall>y\<in>V. Q x = Q y)"
+  proof (rule tree_induct[where P =
+        "\<lambda>V E. (\<forall>a b. {a, b} \<in> E \<longrightarrow> Q a = Q b) \<longrightarrow> (\<forall>x\<in>V. \<forall>y\<in>V. Q x = Q y)", OF tr])
+    fix v :: 'a
+    show "(\<forall>a b. {a, b} \<in> {} \<longrightarrow> Q a = Q b) \<longrightarrow> (\<forall>x\<in>{v}. \<forall>y\<in>{v}. Q x = Q y)" by simp
+  next
+    fix l v :: 'a and V' :: "'a set" and E' :: "'a set set"
+    assume IH: "(\<forall>a b. {a, b} \<in> E' \<longrightarrow> Q a = Q b) \<longrightarrow> (\<forall>x\<in>V'. \<forall>y\<in>V'. Q x = Q y)"
+      and vV: "v \<in> V'"
+    show "(\<forall>a b. {a, b} \<in> insert {l, v} E' \<longrightarrow> Q a = Q b) \<longrightarrow>
+        (\<forall>x\<in>insert l V'. \<forall>y\<in>insert l V'. Q x = Q y)"
+    proof
+      assume hi: "\<forall>a b. {a, b} \<in> insert {l, v} E' \<longrightarrow> Q a = Q b"
+      then have "\<forall>x\<in>V'. \<forall>y\<in>V'. Q x = Q y" using IH by blast
+      with vV have hv: "\<forall>x\<in>V'. Q x = Q v" by blast
+      have hl: "Q l = Q v" using hi by blast
+      from hv hl have all: "\<forall>x\<in>insert l V'. Q x = Q v" by blast
+      show "\<forall>x\<in>insert l V'. \<forall>y\<in>insert l V'. Q x = Q y"
+      proof (intro ballI)
+        fix x y assume x: "x \<in> insert l V'" and y: "y \<in> insert l V'"
+        have "Q x = Q v" using all x by (rule bspec)
+        moreover have "Q y = Q v" using all y by (rule bspec)
+        ultimately show "Q x = Q y" by simp
       qed
     qed
-    show False
-    proof (cases "f 0 < a")
-      case True
-      have "f ` {..<n} \<subseteq> {..<a}" using same True by auto
-      from card_inj_on_le[OF fi this] have "n \<le> a" by simp
-      with N n1 show False unfolding a_def by simp
-    next
-      case False
-      have nl: "\<And>j. j < n \<Longrightarrow> \<not> f j < a" using same False by auto
-      have "f ` {..<n} \<subseteq> {a..<N}"
-      proof (rule image_subsetI)
-        fix x assume x: "x \<in> {..<n}"
-        then have "\<not> f x < a" using nl by simp
-        moreover have "f x < N" using fN x by auto
-        ultimately show "f x \<in> {a..<N}" by simp
-      qed
-      from card_inj_on_le[OF fi this] have "n \<le> N - a" by simp
-      with N n1 show False unfolding a_def by simp
+  qed
+  then show ?thesis using h x y by blast
+qed
+
+text \<open>The complete bipartite graph with two parts of size $n - 1$ has no triangle, and a connected
+  graph in its complement stays inside one part.\<close>
+
+theorem chvatal_lower:
+  fixes U :: "'b itself"
+  assumes tr: "tree VT ET" and inf: "infinite (UNIV :: 'b set)"
+  shows "\<not> is_triangle_tree_RN U VT ET (2 * card VT - 2)"
+proof
+  assume RN: "is_triangle_tree_RN U VT ET (2 * card VT - 2)"
+  interpret t: tree VT ET by (rule tr)
+  have n1: "1 \<le> card VT" using t.finV t.not_empty by (simp add: Suc_le_eq card_gt_0_iff)
+  obtain A :: "'b set" where finA: "finite A" and cA: "card A = card VT - 1"
+    using infinite_arbitrarily_large[OF inf] by blast
+  have "infinite (UNIV - A)" by (rule Diff_infinite_finite[OF finA inf])
+  then obtain B :: "'b set" where finB: "finite B" and cB: "card B = card VT - 1"
+    and BA: "B \<subseteq> UNIV - A"
+    using infinite_arbitrarily_large by blast
+  have disj: "A \<inter> B = {}" using BA by blast
+  define W where "W = A \<union> B"
+  define H where "H = {{a, b} | a b. a \<in> A \<and> b \<in> B}"
+  have finW: "finite W" using finA finB by (simp add: W_def)
+  have cW: "2 * card VT - 2 \<le> card W"
+    unfolding W_def using card_Un_disjoint[OF finA finB disj] cA cB n1 by arith
+  have sep: "\<And>x y. {x, y} \<in> H \<Longrightarrow> (x \<in> A) \<noteq> (y \<in> A)"
+  proof -
+    fix x y assume "{x, y} \<in> H"
+    then obtain a b where e: "{x, y} = {a, b}" and a: "a \<in> A" and b: "b \<in> B"
+      unfolding H_def by blast
+    have nb: "b \<notin> A" using disj b by blast
+    show "(x \<in> A) \<noteq> (y \<in> A)" using e a nb by (auto simp: doubleton_eq_iff)
+  qed
+  have notri: "\<not> (\<exists>K\<subseteq>W. card K = 3 \<and> clique K H)"
+  proof
+    assume "\<exists>K\<subseteq>W. card K = 3 \<and> clique K H"
+    then obtain K where cK: "card K = 3" and qK: "clique K H" by blast
+    then obtain x y z where K: "K = {x, y, z}" and xy: "x \<noteq> y" and yz: "y \<noteq> z" and xz: "x \<noteq> z"
+      using card_3_iff[of K] by blast
+    have e1: "{x, y} \<in> H" using qK K xy by (auto simp: clique_def)
+    have e2: "{y, z} \<in> H" using qK K yz by (auto simp: clique_def)
+    have e3: "{x, z} \<in> H" using qK K xz by (auto simp: clique_def)
+    show False using sep[OF e1] sep[OF e2] sep[OF e3] by blast
+  qed
+  have "(\<exists>K\<subseteq>W. card K = 3 \<and> clique K H) \<or> compl_copy VT ET W H"
+    using RN finW cW unfolding is_triangle_tree_RN_def by blast
+  with notri have "compl_copy VT ET W H" by blast
+  then obtain f where fi: "inj_on f VT" and fW: "f ` VT \<subseteq> W"
+    and fe: "\<forall>a b. {a, b} \<in> ET \<longrightarrow> {f a, f b} \<notin> H"
+    unfolding compl_copy_def by blast
+  have side: "\<And>a b. {a, b} \<in> ET \<Longrightarrow> (f a \<in> A) = (f b \<in> A)"
+  proof -
+    fix a b assume ab: "{a, b} \<in> ET"
+    have sub: "{a, b} \<subseteq> VT" by (rule t.wellformed[OF ab])
+    have fa: "f a \<in> A \<union> B" "f b \<in> A \<union> B" using fW sub by (auto simp: W_def)
+    have nH: "{f a, f b} \<notin> H" using fe ab by blast
+    show "(f a \<in> A) = (f b \<in> A)"
+    proof (rule ccontr)
+      assume "(f a \<in> A) \<noteq> (f b \<in> A)"
+      then have "(f a \<in> A \<and> f b \<in> B) \<or> (f b \<in> A \<and> f a \<in> B)" using fa by blast
+      then have "{f a, f b} \<in> H \<or> {f b, f a} \<in> H" unfolding H_def by blast
+      then show False using nH by (simp add: insert_commute)
     qed
   qed
-  from simp1 nt nT show ?thesis by blast
+  have same: "\<And>x y. x \<in> VT \<Longrightarrow> y \<in> VT \<Longrightarrow> (f x \<in> A) = (f y \<in> A)"
+    using tree_constant_on_edges[where Q = "\<lambda>x. f x \<in> A", OF tr side] by blast
+  obtain x0 where x0: "x0 \<in> VT" using t.not_empty by blast
+  show False
+  proof (cases "f x0 \<in> A")
+    case True
+    have "f ` VT \<subseteq> A" using True same x0 by blast
+    from card_inj_on_le[OF fi this finA] cA n1 show False by arith
+  next
+    case False
+    have "f ` VT \<subseteq> B"
+    proof (rule image_subsetI)
+      fix y assume y: "y \<in> VT"
+      have "f y \<notin> A" using same[OF y x0] False by blast
+      moreover have "f y \<in> A \<union> B" using fW y by (auto simp: W_def)
+      ultimately show "f y \<in> B" by blast
+    qed
+    from card_inj_on_le[OF fi this finB] cB n1 show False by arith
+  qed
 qed
 
 section \<open>Chv\'atal's theorem\<close>
 
 theorem chvatal:
-  assumes "is_tree n T"
-  shows "ramsey_triangle n T = 2 * n - 1"
-proof -
-  have n1: "1 \<le> n" using assms unfolding is_tree_def connected_def by auto
-  have RSeq: "RS {..<n} T = (\<lambda>a b. a < n \<and> b < n \<and> T a b)" by (simp add: RS_def fun_eq_iff)
-  have tr: "tree_on {..<n} T"
-    using assms unfolding is_tree_def simple_def connected_def tree_on_def edges_def Eset_def RSeq
-    by auto
-  let ?S = "{N. \<forall>C. simple N C \<longrightarrow> contains 3 triangle N C \<or> contains n T N (compl C)}"
-  have mem: "2 * n - 1 \<in> ?S"
-    unfolding mem_Collect_eq
-  proof (intro allI impI)
-    fix C assume sC: "simple (2 * n - 1) C"
-    show "contains 3 triangle (2 * n - 1) C \<or> contains n T (2 * n - 1) (compl C)"
-    proof (cases "contains 3 triangle (2 * n - 1) C")
-      case True then show ?thesis by simp
-    next
-      case False
-      let ?N = "2 * n - 1"
-      from sC have csym: "\<forall>i<?N. \<forall>j<?N. C i j = C j i" and cirr: "\<forall>i<?N. \<not> C i i"
-        unfolding simple_def by auto
-      have notri: "\<forall>a<?N. \<forall>b<?N. \<forall>c<?N. \<not> (C a b \<and> C b c \<and> C a c)"
-      proof (intro allI impI notI)
-        fix a b c assume aN: "a < ?N" and bN: "b < ?N" and cN: "c < ?N" and H: "C a b \<and> C b c \<and> C a c"
-        then have Cab: "C a b" and Cbc: "C b c" and Cac: "C a c" by auto
-        have Cba: "C b a" using csym aN bN Cab by auto
-        have Ccb: "C c b" using csym bN cN Cbc by auto
-        have Cca: "C c a" using csym aN cN Cac by auto
-        have ab: "a \<noteq> b" and bc: "b \<noteq> c" and ac: "a \<noteq> c" using cirr aN bN cN Cab Cbc Cac by auto
-        define f where "f = (\<lambda>i::nat. if i = 0 then a else if i = 1 then b else c)"
-        have "contains 3 triangle ?N C"
-          unfolding contains_def
-        proof (intro exI[where x = f] conjI)
-          show "inj_on f {..<3}" using ab bc ac unfolding f_def inj_on_def by (auto split: if_splits)
-          show "f ` {..<3} \<subseteq> {..<?N}" using aN bN cN unfolding f_def by auto
-          show "\<forall>i<3. \<forall>j<3. triangle i j \<longrightarrow> C (f i) (f j)"
-          proof (intro allI impI)
-            fix i j assume "i < 3" "j < 3" "triangle i j"
-            then have ij: "i \<noteq> j" and i3: "i = 0 \<or> i = 1 \<or> i = 2" and j3: "j = 0 \<or> j = 1 \<or> j = 2"
-              unfolding triangle_def by auto
-            from i3 j3 ij show "C (f i) (f j)"
-              using Cab Cba Cbc Ccb Cac Cca unfolding f_def by (elim disjE) auto
-          qed
-        qed
-        with False show False by simp
-      qed
-      note U = upper[where n = n and T = T, OF csym notri, rule_format, of "{..<n}"]
-      from U[OF tr card_lessThan order_refl] obtain f where
-        "inj_on f {..<n}" "f ` {..<n} \<subseteq> {..<?N}"
-        "\<forall>i\<in>{..<n}. \<forall>j\<in>{..<n}. T i j \<longrightarrow> compl C (f i) (f j)" by blast
-      then have "contains n T ?N (compl C)" unfolding contains_def by (intro exI[where x = f]) auto
-      then show ?thesis by simp
-    qed
-  qed
-  have low: "\<And>N. N \<in> ?S \<Longrightarrow> 2 * n - 1 \<le> N"
-  proof (rule ccontr)
-    fix N assume "N \<in> ?S" and "\<not> 2 * n - 1 \<le> N"
-    then have lt: "N < 2 * n - 1" by simp
-    from lower[OF assms lt] obtain C where "simple N C" "\<not> contains 3 triangle N C"
-      "\<not> contains n T N (compl C)" by blast
-    with \<open>N \<in> ?S\<close> show False by blast
-  qed
-  have "ramsey_triangle n T = Inf ?S" unfolding ramsey_triangle_def by simp
-  also have "\<dots> = 2 * n - 1"
-  proof (rule antisym)
-    show "Inf ?S \<le> 2 * n - 1" by (rule wellorder_Inf_le1[OF mem])
-    show "2 * n - 1 \<le> Inf ?S" using Inf_nat_def1[of ?S] mem low by auto
-  qed
-  finally show ?thesis .
-qed
-
-section \<open>Connected graphs with at most $n-1$ edges\<close>
-
-text \<open>Corollary \<open>erdos_1182.variants.F_ge_pred\<close>: a connected graph with at most $n-1$ edges is a
-  tree, hence has Ramsey number $2n-1$ against the triangle. We first need that a connected graph
-  on $n$ vertices has at least $n-1$ edges.\<close>
-
-lemma exit_edge:
-  assumes p: "(RS S G)\<^sup>*\<^sup>* x y" and x: "x \<in> X" and y: "y \<notin> X"
-  shows "\<exists>a b. a \<in> X \<and> a \<in> S \<and> b \<in> S \<and> b \<notin> X \<and> G a b"
-proof -
-  have "y \<in> X \<or> (\<exists>a b. a \<in> X \<and> a \<in> S \<and> b \<in> S \<and> b \<notin> X \<and> G a b)"
-    using p
-  proof (induction rule: rtranclp_induct)
-    case base then show ?case using x by simp
-  next
-    case (step p q)
-    from step(2) have pS: "p \<in> S" and qS: "q \<in> S" and Gpq: "G p q" unfolding RS_def by auto
-    from step(3) show ?case
-    proof
-      assume pX: "p \<in> X"
-      show ?thesis
-      proof (cases "q \<in> X")
-        case True then show ?thesis by simp
-      next
-        case False
-        with pX pS qS Gpq show ?thesis by blast
-      qed
-    next
-      assume "\<exists>a b. a \<in> X \<and> a \<in> S \<and> b \<in> S \<and> b \<notin> X \<and> G a b"
-      then show ?thesis by blast
-    qed
-  qed
-  with y show ?thesis by blast
-qed
-
-lemma grow_edges:
-  assumes fin: "finite S" and con: "\<forall>i\<in>S. \<forall>j\<in>S. (RS S G)\<^sup>*\<^sup>* i j"
-  shows "\<forall>X. X \<subseteq> S \<longrightarrow> X \<noteq> {} \<longrightarrow> card (S - X) = k \<longrightarrow>
-     card X \<le> card (Eset X G) + 1 \<longrightarrow> card S \<le> card (Eset S G) + 1"
-proof (induction k)
-  case 0
-  show ?case
-  proof (intro allI impI)
-    fix X assume XS: "X \<subseteq> S" and "card (S - X) = 0" and h: "card X \<le> card (Eset X G) + 1"
-    then have "S - X = {}" using fin by simp
-    with XS have "X = S" by auto
-    with h show "card S \<le> card (Eset S G) + 1" by simp
-  qed
+  assumes tr: "tree VT ET"
+  shows "triangle_tree_RN VT ET = 2 * card VT - 1"
+  unfolding triangle_tree_RN_def
+proof (rule Least_equality)
+  show "is_triangle_tree_RN TYPE(nat) VT ET (2 * card VT - 1)" by (rule chvatal_upper[OF tr])
 next
-  case (Suc k)
-  show ?case
-  proof (intro allI impI)
-    fix X assume XS: "X \<subseteq> S" and Xne: "X \<noteq> {}" and ck: "card (S - X) = Suc k"
-      and h: "card X \<le> card (Eset X G) + 1"
-    have finX: "finite X" by (rule finite_subset[OF XS fin])
-    have "S - X \<noteq> {}"
-    proof
-      assume e: "S - X = {}"
-      then have "card (S - X) = 0" by (simp only: card.empty)
-      with ck show False by simp
-    qed
-    then obtain y where yS: "y \<in> S" and yX: "y \<notin> X" by auto
-    from Xne obtain x where xX: "x \<in> X" by auto
-    from con xX XS yS have "(RS S G)\<^sup>*\<^sup>* x y" by auto
-    from exit_edge[OF this xX yX] obtain a b where aX: "a \<in> X" and aS: "a \<in> S" and bS: "b \<in> S"
-      and bX: "b \<notin> X" and Gab: "G a b" by blast
-    let ?X' = "insert b X"
-    have X'S: "?X' \<subseteq> S" using XS bS by auto
-    have cS: "card (S - ?X') = k"
-    proof -
-      have "S - ?X' = (S - X) - {b}" by auto
-      then show ?thesis using ck bS bX fin by (simp add: card_Diff_singleton)
-    qed
-    have cX': "card ?X' = Suc (card X)" using finX bX by simp
-    have finE: "finite (Eset X G)" by (rule finite_Eset[OF finX])
-    have finE': "finite (Eset ?X' G)" by (rule finite_Eset) (use finX in simp)
-    have notin: "{a, b} \<notin> Eset X G"
-    proof
-      assume "{a, b} \<in> Eset X G"
-      then obtain i j where "{a, b} = {i, j}" "i \<in> X" "j \<in> X" unfolding Eset_def by auto
-      then show False using bX by (auto simp: doubleton_eq_iff)
-    qed
-    have sub: "insert {a, b} (Eset X G) \<subseteq> Eset ?X' G"
-      unfolding Eset_def using aX Gab by auto
-    have "card (insert {a, b} (Eset X G)) \<le> card (Eset ?X' G)" by (rule card_mono[OF finE' sub])
-    moreover have "card (insert {a, b} (Eset X G)) = Suc (card (Eset X G))" using notin finE by simp
-    ultimately have "Suc (card (Eset X G)) \<le> card (Eset ?X' G)" by simp
-    with h cX' have "card ?X' \<le> card (Eset ?X' G) + 1" by simp
-    from Suc.IH[rule_format, OF X'S _ cS this] show "card S \<le> card (Eset S G) + 1" by simp
+  fix r assume r: "is_triangle_tree_RN TYPE(nat) VT ET r"
+  interpret t: tree VT ET by (rule tr)
+  have n1: "1 \<le> card VT" using t.finV t.not_empty by (simp add: Suc_le_eq card_gt_0_iff)
+  show "2 * card VT - 1 \<le> r"
+  proof (rule ccontr)
+    assume "\<not> 2 * card VT - 1 \<le> r"
+    then have "r \<le> 2 * card VT - 2" using n1 by arith
+    with r have "is_triangle_tree_RN TYPE(nat) VT ET (2 * card VT - 2)"
+      by (rule is_triangle_tree_RN_mono)
+    with chvatal_lower[OF tr infinite_UNIV_nat] show False by blast
   qed
 qed
 
-lemma connected_edges_ge:
-  assumes fin: "finite S" and ne: "S \<noteq> {}" and con: "\<forall>i\<in>S. \<forall>j\<in>S. (RS S G)\<^sup>*\<^sup>* i j"
-  shows "card S \<le> card (Eset S G) + 1"
-proof -
-  from ne obtain r where r: "r \<in> S" by auto
-  have "card {r} \<le> card (Eset {r} G) + 1" by simp
-  from grow_edges[OF fin con, rule_format, of "{r}" "card (S - {r})"] r this show ?thesis by simp
-qed
+text \<open>A connected graph with $n$ vertices and at most $n - 1$ edges is a tree.\<close>
 
-theorem connected_le_pred_edges_triangle_good:
-  assumes sG: "simple n G" and cG: "connected n G" and le: "card (edges n G) \<le> n - 1"
-  shows "ramsey_triangle n G = 2 * n - 1"
+corollary connected_few_edges_triangle_good:
+  assumes g: "fin_connected_sgraph V E" and c: "card E + 1 \<le> card V"
+  shows "triangle_tree_RN V E = 2 * card V - 1"
 proof -
-  have n1: "0 < n" using cG unfolding connected_def by auto
-  have RSeq: "RS {..<n} G = (\<lambda>a b. a < n \<and> b < n \<and> G a b)" by (simp add: RS_def fun_eq_iff)
-  have Eeq: "edges n G = Eset {..<n} G" unfolding edges_def Eset_def by auto
-  have con: "\<forall>i\<in>{..<n}. \<forall>j\<in>{..<n}. (RS {..<n} G)\<^sup>*\<^sup>* i j"
-    using cG unfolding connected_def RSeq by auto
-  have ge: "n \<le> card (Eset {..<n} G) + 1"
-  proof -
-    have ne: "{..<n} \<noteq> {}" using n1 by auto
-    from connected_edges_ge[OF finite_lessThan ne con] show ?thesis by simp
-  qed
-  have "card (edges n G) + 1 = n" using ge le Eeq n1 by simp
-  then have "is_tree n G" unfolding is_tree_def using sG cG by simp
+  interpret g: fin_connected_sgraph V E by (rule g)
+  obtain T where T: "spanning_tree V E T" using g.has_spanning_tree by blast
+  interpret s: spanning_tree V E T by (rule T)
+  have "card T \<le> card E" by (intro card_mono g.fin_edges s.subgraph)
+  moreover have "card V = Suc (card T)" by (rule s.T.card_V_card_E)
+  ultimately have "card V = Suc (card E)" using c by arith
+  then have "tree V E" using card_E_treeI g.fin_connected_ulgraph_axioms by blast
   then show ?thesis by (rule chvatal)
 qed
+
+section \<open>Agreement with \<open>RN\<close> of \<open>Ramsey_Bounds\<close>\<close>
+
+text \<open>The tree $K_2$ is also a complete graph, so there the two notions of Ramsey number can be
+  compared directly: a copy of $K_2$ in the complement is an independent pair.\<close>
+
+lemma compl_copy_edge_iff:
+  fixes W :: "'b set" and H :: "'b set set"
+  assumes uv: "u \<noteq> v"
+  shows "compl_copy {u, v} {{u, v}} W H \<longleftrightarrow> (\<exists>K\<subseteq>W. card K = 2 \<and> indep K H)"
+proof
+  assume "compl_copy {u, v} {{u, v}} W H"
+  then obtain f where fi: "inj_on f {u, v}" and fW: "f ` {u, v} \<subseteq> W"
+    and fe: "\<forall>a b. {a, b} \<in> {{u, v}} \<longrightarrow> {f a, f b} \<notin> H"
+    unfolding compl_copy_def by blast
+  have ne: "f u \<noteq> f v" using fi uv by (auto simp: inj_on_def)
+  have nH: "{f u, f v} \<notin> H" using fe by blast
+  have "indep {f u, f v} H" using nH by (auto simp: indep_def insert_commute)
+  moreover have "card {f u, f v} = 2" using ne by simp
+  moreover have "{f u, f v} \<subseteq> W" using fW by blast
+  ultimately show "\<exists>K\<subseteq>W. card K = 2 \<and> indep K H" by blast
+next
+  assume "\<exists>K\<subseteq>W. card K = 2 \<and> indep K H"
+  then obtain K where KW: "K \<subseteq> W" and cK: "card K = 2" and iK: "indep K H" by blast
+  then obtain x y where K: "K = {x, y}" and xy: "x \<noteq> y" using card_2_iff[of K] by blast
+  define f where "f = (\<lambda>z. if z = u then x else y)"
+  have fu: "f u = x" and fv: "f v = y" using uv by (auto simp: f_def)
+  have fi: "inj_on f {u, v}" using fu fv xy by (auto simp: inj_on_def)
+  have fW: "f ` {u, v} \<subseteq> W" using fu fv KW K by auto
+  have nH: "{x, y} \<notin> H" "{y, x} \<notin> H" using iK K xy by (auto simp: indep_def)
+  have fe: "\<forall>a b. {a, b} \<in> {{u, v}} \<longrightarrow> {f a, f b} \<notin> H"
+  proof (intro allI impI)
+    fix a b assume "{a, b} \<in> {{u, v}}"
+    then have "(a = u \<and> b = v) \<or> (a = v \<and> b = u)" by (auto simp: doubleton_eq_iff)
+    then show "{f a, f b} \<notin> H" using fu fv nH by auto
+  qed
+  show "compl_copy {u, v} {{u, v}} W H"
+    unfolding compl_copy_def by (rule exI[where x = f]) (use fi fW fe in blast)
+qed
+
+lemma ex_clique_indep_iff:
+  "(\<exists>K\<subseteq>W. clique_indep m n K E) \<longleftrightarrow>
+     (\<exists>K\<subseteq>W. card K = m \<and> clique K E) \<or> (\<exists>K\<subseteq>W. card K = n \<and> indep K E)"
+  by (simp only: clique_indep_def conj_disj_distribL ex_disj_distrib)
+
+lemma is_triangle_tree_RN_edge_iff:
+  assumes "u \<noteq> v"
+  shows "is_triangle_tree_RN U {u, v} {{u, v}} r \<longleftrightarrow> is_clique_RN U 3 2 r"
+  unfolding is_triangle_tree_RN_def is_clique_RN_def compl_copy_edge_iff[OF assms] ex_clique_indep_iff
+  by simp
+
+corollary triangle_tree_RN_edge:
+  assumes "u \<noteq> v"
+  shows "triangle_tree_RN {u, v} {{u, v}} = RN 3 2"
+  using chvatal[OF tree2[OF assms]] assms by simp
 
 end
