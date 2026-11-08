@@ -3,3 +3,4 @@ session SU7_Rung = HOL +
   theories
     Rung_Recursion
     G_Window
+    Family_Anomaly

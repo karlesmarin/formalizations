@@ -67,3 +67,4 @@
 "Isabelle/WeightedPartialSums/Order_Four.thy" = "NumberTheory/WeightedCharacterSums"
 "Isabelle/SU7Rung/Rung_Recursion.thy" = "Physics/Particles/GaugeHiggsUnification"
 "Isabelle/SU7Rung/G_Window.thy" = "Physics/Particles/GaugeHiggsUnification"
+"Isabelle/SU7Rung/Family_Anomaly.thy" = "Physics/Particles/GaugeHiggsUnification"
