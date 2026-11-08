@@ -1,3 +1,9 @@
+(*  Title:      BSR_Union.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory BSR_Union
   imports BSR_Rational Seven_Embedding
 begin

@@ -1,3 +1,9 @@
+(*  Title:      Zarankiewicz_Cells.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Zarankiewicz_Cells
   imports Main
 begin

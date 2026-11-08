@@ -1,3 +1,9 @@
+(*  Title:      BSR_Union.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: the rational bound |E| + 3 for a diagonal C4-free form with one coefficient 7 *)
 section \<open>A rational form whose rational length exceeds the real one by three\<close>
 

@@ -1,3 +1,9 @@
+(*  Title:      Regular_Variation_Sums.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Regular_Variation_Sums
   imports Regular_Variation.Regular_Variation "HOL-Probability.Probability"
 begin

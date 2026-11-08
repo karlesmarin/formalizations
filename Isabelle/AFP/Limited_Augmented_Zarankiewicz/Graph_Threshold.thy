@@ -1,3 +1,9 @@
+(*  Title:      Graph_Threshold.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Graph_Threshold
   imports "HOL-Analysis.Analysis"
 begin

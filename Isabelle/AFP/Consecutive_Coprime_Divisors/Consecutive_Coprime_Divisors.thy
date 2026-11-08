@@ -1,3 +1,9 @@
+(*  Title:      Consecutive_Coprime_Divisors.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Consecutive_Coprime_Divisors
   imports "HOL-Computational_Algebra.Primes" "HOL-Computational_Algebra.Squarefree"
 begin

@@ -1,3 +1,9 @@
+(*  Title:      Width_Four.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: BSR(m,3) = 2m, section 7 (Corollary 7): from width three to width four by the projection argument of
    BSR_Upper (thm:up of the earlier note), and the identity comparing mn - max(m,n) with BSSV Theorem 2.1 *)
 theory Width_Four

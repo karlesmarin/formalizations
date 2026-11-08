@@ -1,3 +1,9 @@
+(*  Title:      Regular_Point.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: Lemma 1 of V236 (algebraic part): for the cyclic permutation P, D = diag(1..m), Q = D P^T = D P^-1,
    a matrix M with MP = P^T M, MQ = Q^T M, P^T M Q = Q^T M P is zero; matrices as functions on indices < m *)
 theory Regular_Point

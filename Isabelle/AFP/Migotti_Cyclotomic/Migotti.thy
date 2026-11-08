@@ -1,3 +1,9 @@
+(*  Title:      Migotti.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* Migotti (1883): for distinct primes p, q the coefficients of the cyclotomic polynomial Phi_pq lie in {-1, 0, 1}.
    Here Phi_pq is the quotient (1 - X^(pq)) (1 - X) / ((1 - X^p) (1 - X^q)), which equals the cyclotomic polynomial for
    distinct primes p, q (Moebius product formula); that identification is classical and not formalized here.

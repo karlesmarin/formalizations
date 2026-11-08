@@ -1,3 +1,9 @@
+(*  Title:      Kn_Witness.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Kn_Witness
   imports Complex_Main
 begin

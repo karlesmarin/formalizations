@@ -1,3 +1,9 @@
+(*  Title:      Huckel_SOS.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Huckel_SOS
   imports "HOL-Analysis.Analysis" "HOL-Computational_Algebra.Polynomial"
 begin

@@ -1,3 +1,9 @@
+(*  Title:      Chvatal_Tree_Ramsey.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Chvatal_Tree_Ramsey
   imports "Ramsey_Bounds.Ramsey_Bounds" "Tree_Enumeration.Tree_Graph"
 begin

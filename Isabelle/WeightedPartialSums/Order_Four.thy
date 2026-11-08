@@ -1,3 +1,9 @@
+(*  Title:      Order_Four.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: weighted-partial-sums, Proposition prop:ordenalto (b): a character of order 4 splits T(m,chi) into the
    signed sums over residues and non-residues; abstract form over C, independent of the character theory *)
 theory Order_Four

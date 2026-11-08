@@ -1,3 +1,9 @@
+(*  Title:      Width3_Trace.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: V236 section 4, branch e = 1 (elementary part): the alternating-symbol variations D_i,
    the contraction identity of epsilon, sum_i H(D_i,D_i) = sum_p v_p^T S v_p - sum_pq v_p^T H_pq v_q,
    L = I_3 (x) S - H >= 0 gives S >= 0, and full support gives S > 0 *)

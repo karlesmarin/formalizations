@@ -1,3 +1,9 @@
+(*  Title:      Prime_Degree_Criterion.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 section \<open>Irreducible rational polynomials of prime degree with two non-real roots\<close>
 
 theory Prime_Degree_Criterion

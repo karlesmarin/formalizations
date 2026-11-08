@@ -1,3 +1,9 @@
+(*  Title:      Dunn_Pretty.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Dunn_Pretty
   imports Complex_Main
 begin

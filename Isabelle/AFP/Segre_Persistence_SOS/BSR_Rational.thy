@@ -1,3 +1,9 @@
+(*  Title:      BSR_Rational.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: orthogonality of the rational coefficient vectors of a diagonal form with C4-free support *)
 section \<open>Rational representations of a diagonal form with $C_4$-free support\<close>
 

@@ -1,3 +1,9 @@
+(*  Title:      Heavy_Tail_Examples.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Heavy_Tail_Examples
   imports Heavy_Tail_Relations
 begin

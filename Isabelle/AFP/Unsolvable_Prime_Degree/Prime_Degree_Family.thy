@@ -1,3 +1,9 @@
+(*  Title:      Prime_Degree_Family.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 section \<open>An unsolvable polynomial of every prime degree\<close>
 
 theory Prime_Degree_Family

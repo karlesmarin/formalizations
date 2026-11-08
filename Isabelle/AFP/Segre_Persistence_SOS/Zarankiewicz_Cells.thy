@@ -1,3 +1,9 @@
+(*  Title:      Zarankiewicz_Cells.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: cell bound for C4-free supports and the arithmetic of the width-four comparison *)
 section \<open>The cell bound and the width-four comparison\<close>
 

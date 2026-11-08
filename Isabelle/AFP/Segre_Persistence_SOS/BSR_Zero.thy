@@ -1,3 +1,9 @@
+(*  Title:      BSR_Zero.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: zero filter for BSR: a biquadratic SOS with a real zero (x0,y0), x0,y0 nonzero, is a sum of
    (m-1) + BSR(m,n-1) squares; corollaries m x 3 (2m) and 4 x 3 (8) from BSSV Thm 1.4 *)
 section \<open>A real zero saves one square\<close>

@@ -1,3 +1,9 @@
+(*  Title:      BSR_Rational.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory BSR_Rational
   imports Complex_Main "HOL-Library.Function_Algebras"
 begin

@@ -1,3 +1,9 @@
+(*  Title:      Breiman_Lemma.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Breiman_Lemma
   imports Regular_Variation.Regular_Variation "HOL-Probability.Probability"
 begin

@@ -1,3 +1,9 @@
+(*  Title:      Seven_Embedding.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Seven_Embedding
   imports Complex_Main
 begin

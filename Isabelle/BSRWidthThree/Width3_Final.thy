@@ -1,3 +1,9 @@
+(*  Title:      Width3_Final.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: V236 section 4, branch e = 1 closed: with S > 0, an S-orthonormal basis (Gram-Schmidt) gives the
    congruence H~ = (I_3 (x) F)^T H (I_3 (x) F) with H~ <= I, tr H~ = a, rank <= a + 1 and a negative direction,
    which Trace_Rank.trace_rank_neg forbids: theorem width_three_trace *)

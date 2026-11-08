@@ -1,3 +1,11 @@
+(*  Title:      Dirac_Critical.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín (the proofs). All rights reserved.
+    Statement:  definitions and statement transcribed from google-deepmind/formal-conjectures
+                (Apache License 2.0); they are not ours.
+    License:    BSD
+*)
+
 theory Dirac_Critical
   imports Main
 begin

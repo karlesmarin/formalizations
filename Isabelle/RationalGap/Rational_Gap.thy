@@ -1,3 +1,9 @@
+(*  Title:      Rational_Gap.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Rational_Gap
   imports Complex_Main
 begin

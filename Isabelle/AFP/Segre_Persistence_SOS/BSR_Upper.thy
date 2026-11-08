@@ -1,3 +1,9 @@
+(*  Title:      BSR_Upper.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: BSR(m,n) <= mn - max(m,n) + 1 from the width-two bound of BSSV (explicit hypothesis) *)
 section \<open>An upper bound for the biquadratic SOS rank\<close>
 

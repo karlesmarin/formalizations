@@ -1,3 +1,9 @@
+(*  Title:      Catalecticant_Converse.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Catalecticant_Converse
   imports Catalecticant "HOL-Computational_Algebra.Polynomial"
 begin

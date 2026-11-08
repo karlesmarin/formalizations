@@ -1,3 +1,9 @@
+(*  Title:      Segre_Width3.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: qp of the Segre variety P^(m-1) x P^2: upper bound in coordinates and the count of the lower bound *)
 section \<open>Quadratic persistence of $\mathbb{P}^{m-1}\times\mathbb{P}^2$\<close>
 

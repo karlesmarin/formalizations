@@ -1,3 +1,9 @@
+(*  Title:      Coefficient_Vectors.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: shared base of the entry (inner product of coefficient vectors, C4-free supports) *)
 section \<open>Coefficient vectors\<close>
 

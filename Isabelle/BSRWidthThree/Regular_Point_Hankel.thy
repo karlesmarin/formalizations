@@ -1,3 +1,9 @@
+(*  Title:      Regular_Point_Hankel.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: Lemma 2 of the note BSR(m,3) = 2m, complete linear-algebra form: a Hankel multiplier H on A^3 (blocks
    symmetric, H_jl = H_lj) that vanishes on ker[I P Q] is zero; builds on Regular_Point.regular_point_algebra *)
 theory Regular_Point_Hankel

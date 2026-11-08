@@ -1,3 +1,9 @@
+(*  Title:      Heavy_Tail_Relations.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Heavy_Tail_Relations
   imports Regular_Variation_Sums Breiman_Lemma Extreme_Value_Theory.Domain_of_Attraction
 begin

@@ -1,3 +1,9 @@
+(*  Title:      Seven_Embedding.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: unit vectors and a vector of norm 7 in Q^r force r >= e + 3; arithmetic from Three_Squares *)
 section \<open>The embedding step: a vector of squared norm 7\<close>
 

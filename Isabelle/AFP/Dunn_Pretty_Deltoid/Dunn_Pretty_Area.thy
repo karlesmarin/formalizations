@@ -1,3 +1,9 @@
+(*  Title:      Dunn_Pretty_Area.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Dunn_Pretty_Area
   imports "HOL-Analysis.Analysis"
 begin

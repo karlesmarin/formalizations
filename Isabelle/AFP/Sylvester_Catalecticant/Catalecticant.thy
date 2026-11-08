@@ -1,3 +1,9 @@
+(*  Title:      Catalecticant.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Catalecticant
   imports Main
 begin

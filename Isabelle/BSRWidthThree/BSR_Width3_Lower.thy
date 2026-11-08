@@ -1,3 +1,9 @@
+(*  Title:      BSR_Width3_Lower.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: lower bound BSR(m,3) >= 2m (V236, section 5): the witness
    F_m = sum_i x_i^2 ((y_1 - i y_0)^2 + y_2^2) is a sum of 2m squares and of no fewer;
    reuses bil, sos_form, bsr_le, dot, dot_self_zero (BSR_Upper) and antisym3_two_kernel_zero (Segre_Width3) *)

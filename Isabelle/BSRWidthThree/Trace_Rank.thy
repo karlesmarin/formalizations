@@ -1,3 +1,9 @@
+(*  Title:      Trace_Rank.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: elementary trace bound used in V236 branch e = 1: a symmetric X with X <= I that factors through
    T terms (rank <= |T|) has tr X <= |T|, and tr X < |T| - 1 if X has a negative direction;
    no spectral theorem: projections P = I - u u^T and induction on |T| *)

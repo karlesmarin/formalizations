@@ -1,3 +1,9 @@
+(*  Title:      Tournament_Orthogonal.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Tournament_Orthogonal
   imports "HOL-Analysis.Analysis"
 begin

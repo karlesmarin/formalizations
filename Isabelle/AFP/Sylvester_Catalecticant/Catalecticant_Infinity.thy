@@ -1,3 +1,9 @@
+(*  Title:      Catalecticant_Infinity.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Catalecticant_Infinity
   imports Catalecticant_Converse
 begin

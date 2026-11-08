@@ -1,3 +1,9 @@
+(*  Title:      Relay_Fidelity.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: teoria Isabelle de la cola (formalizacion), compilada con isa_compilar.py; no es herramienta. *)
 theory Relay_Fidelity
   imports "HOL-Analysis.Analysis"

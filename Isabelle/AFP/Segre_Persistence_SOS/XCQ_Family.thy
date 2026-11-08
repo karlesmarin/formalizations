@@ -1,3 +1,9 @@
+(*  Title:      XCQ_Family.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 (* encaje: the family F_t = Q + t w^2 above the Xu-Cui-Qi form of length eight: 8 squares for t >= 1/2 *)
 section \<open>A family above the Xu--Cui--Qi form of length eight\<close>
 

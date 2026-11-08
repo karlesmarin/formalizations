@@ -1,3 +1,9 @@
+(*  Title:      Segre_Width3.thy
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
+*)
+
 theory Segre_Width3
   imports Main
 begin
