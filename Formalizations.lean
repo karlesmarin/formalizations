@@ -243,6 +243,7 @@ public import Formalizations.Probability.Kemeny
 public import Formalizations.RepresentationTheory.OrbifoldAlphabet.SymplecticBuild
 public import Formalizations.RepresentationTheory.Symplectic.ResidueCapacity
 public import Formalizations.RepresentationTheory.G2Counts
+public import Formalizations.RepresentationTheory.SpinRhoLine
 public import Formalizations.RingTheory.AffineSemigroup.OrbifoldProduct
 public import Formalizations.RingTheory.DGH.Absorb
 public import Formalizations.RingTheory.DGH.Basic
