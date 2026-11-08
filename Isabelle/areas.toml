@@ -65,6 +65,7 @@
 "Isabelle/BSRWidthThree/Width3_Trace.thy" = "AlgebraicGeometry/SegrePersistence"
 "Isabelle/BSRWidthThree/Width_Four.thy" = "AlgebraicGeometry/SegrePersistence"
 "Isabelle/BSRFourFour/BSR44_Pieces.thy" = "AlgebraicGeometry/SegrePersistence"
+"Isabelle/BSRFourFour/Supports_Lemma.thy" = "AlgebraicGeometry/SegrePersistence"
 "Isabelle/WeightedPartialSums/Order_Four.thy" = "NumberTheory/WeightedCharacterSums"
 "Isabelle/SU7Rung/Rung_Recursion.thy" = "Physics/Particles/GaugeHiggsUnification"
 "Isabelle/SU7Rung/G_Window.thy" = "Physics/Particles/GaugeHiggsUnification"

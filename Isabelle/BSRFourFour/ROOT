@@ -1,5 +1,6 @@
-(* encaje: BSR(4,4) = 11: piezas elementales de la nota (punto regular, soportes, polar, traza) *)
-session BSR_Four_Four = HOL +
+(* encaje: BSR(4,4) = 11: piezas elementales de la nota (punto regular, soportes, polar, traza) y piezas del Lema 3 *)
+session BSR_Four_Four = Rep_Fin_Groups +
   options [timeout = 600]
   theories
     BSR44_Pieces
+    Supports_Lemma
