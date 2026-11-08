@@ -165,6 +165,7 @@ public import Formalizations.NumberTheory.NumericalSemigroup.GapBound
 public import Formalizations.NumberTheory.NumericalSemigroup.GenusBound
 public import Formalizations.NumberTheory.NumericalSemigroup.GenusThree
 public import Formalizations.NumberTheory.NumericalSemigroup.FourMoments
+public import Formalizations.NumberTheory.NumericalSemigroup.HalfSystems
 public import Formalizations.NumberTheory.NumericalSemigroup.FamilyMoments
 public import Formalizations.NumberTheory.OrderOfTwo
 public import Formalizations.NumberTheory.PrescribedMoments.Biquanimous
