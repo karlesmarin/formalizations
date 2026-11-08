@@ -2622,3 +2622,11 @@ import Formalizations
 #print axioms RhoLine.D_half_odd
 #print axioms RhoLine.dims_odd
 #print axioms RhoLine.thm_signo
+#print axioms RhoLine.Nq_rho_le
+#print axioms RhoLine.N_rho_le
+#print axioms RhoLine.Fl_cyclo
+#print axioms RhoLine.dvd_rho_ring
+#print axioms RhoLine.dvd_rho
+#print axioms RhoLine.thm_crit'
+#print axioms RhoLine.thm_valgen'
+#print axioms RhoLine.thm_signo'
