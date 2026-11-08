@@ -5,6 +5,7 @@ session BSR_Width_Three = Segre_Width3 +
   theories
     BSR_Width3_Lower
     Regular_Point
+    Regular_Point_Hankel
     Width3_Trace
     Trace_Rank
     Width3_Final
