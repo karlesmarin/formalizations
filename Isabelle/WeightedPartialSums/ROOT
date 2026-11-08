@@ -1,0 +1,4 @@
+session Weighted_Order_Four = HOL +
+  options [timeout = 600]
+  theories
+    Order_Four

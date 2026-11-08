@@ -59,6 +59,8 @@ Further sessions, not submitted to the AFP:
 - `BSRRational`: on a `C₄`-free support the coefficient vectors of a sum of squares of bilinear forms are orthogonal; orthonormal vectors and one of norm 7 force three more coordinates over `ℚ` (`seven_embedding`), so a `C₄`-free form with one weight 7 needs at least `|E| + 3` rational squares (`bsr_rational_lower`).
 - `SegrePersistence`: the quadratic persistence of `ℙ^{m-1} × ℙ²` is at most `m`, in coordinates: antisymmetric `3 × 3` blocks killing two independent vectors vanish (`segre_width3_upper`), and the count `d − g(m−1) = m − 1` of the lower bound (`segre_width3_count`); a `C₄`-free support has at most `m + C(n,2)` cells (`c4_free_card_le`), and `⌊8m/3⌋ > ⌊(5m+6)/2⌋` for `m ≥ 23` (`gap_pos`); and `BSR(m,n) ≤ mn − max(m,n) + 1` (`bsr_upper`), with the `m × 2` case of Blekherman–Sinn–Smith–Velasco Theorem 1.4 as an explicit hypothesis, so `BSR(4,3) ≤ 9` (`bsr_upper_4_3`).
 - `Erdos1186`: `erdos_1186.variants.probabilistic` of formal-conjectures, `δ_k ≤ 1/((k − 1) 2^k)` (`erdos_1186_probabilistic`).
+- `BSRWidthThree` (on `SegrePersistence`): the parts of *For m ≥ 2, every m×3 biquadratic sum of squares is a sum of 2m squares* (doi:10.5281/zenodo.24051362) that are formalized. The lower bound `2m` by the witness (`bsr_width_three_lower`); Lemma 2, a Hankel multiplier vanishing on `ker[I P Q]` is zero (`regular_point_algebra`, `regular_point_hankel`); the case `e = 1` of the induction (`width_three_trace`); Corollary 7, `BSR(m,3) ≤ 2m` implies `BSR(m,4) ≤ 3m` and `BSR(m,n) ≤ mn − max(m,n)` (`bsr_width_four`, `bsr_upper_three`, with Theorem 1 as an explicit hypothesis); and the identity comparing it with Blekherman–Sinn–Smith–Velasco Theorem 2.1 (`bssv_wins_from_five`, `width_four_wins`).
+- `WeightedPartialSums`: Proposition `prop:ordenalto` (b) of *Weighted partial sums of characters*, in abstract form. For a character of order 4, `T = Σ_R c ε_c + i Σ_N c δ_c` vanishes iff both signed sums vanish (`T4_zero_iff`), and then both plain sums are even (`T4_zero_parity`).
 
 ## 🚀 Building
 
@@ -94,6 +96,8 @@ isabelle build -v -D RationalGap
 isabelle build -v -D BSRRational
 isabelle build -v -D Erdos1186
 isabelle build -v -D SegrePersistence
+isabelle build -v -d SegrePersistence -D BSRWidthThree
+isabelle build -v -D WeightedPartialSums
 ```
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions
