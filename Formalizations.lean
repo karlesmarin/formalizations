@@ -245,6 +245,7 @@ public import Formalizations.Probability.Kemeny
 public import Formalizations.RepresentationTheory.OrbifoldAlphabet.SymplecticBuild
 public import Formalizations.RepresentationTheory.Symplectic.ResidueCapacity
 public import Formalizations.RepresentationTheory.Symplectic.RhoLine
+public import Formalizations.RepresentationTheory.Symplectic.SurvivorCount
 public import Formalizations.RepresentationTheory.Symplectic.WeylProductMs
 public import Formalizations.RepresentationTheory.G2Counts
 public import Formalizations.RepresentationTheory.SpinRhoLine

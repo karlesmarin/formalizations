@@ -2331,6 +2331,13 @@ import Formalizations
 #print axioms RootPairing.Base.pheight_eq_rootForm
 #print axioms RootPairing.Base.obs_types_arith
 #print axioms RootPairing.Base.obs_types
+#print axioms SurvivorCount.Nq_profile_sum
+#print axioms SurvivorCount.fibre_count
+#print axioms SurvivorCount.cost_eq_two_Nq
+#print axioms SurvivorCount.min_profile_case1
+#print axioms SurvivorCount.min_profile_case2
+#print axioms SurvivorCount.thm_cuenta_le
+#print axioms SurvivorCount.thm_cuenta_gt
 #print axioms Dilog.enestrom_kakeya_boundary_series
 #print axioms Dilog.strictAnti_series_ne_zero
 #print axioms VirtualRoots.R_mem
