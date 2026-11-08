@@ -2617,3 +2617,7 @@ import Formalizations
 #print axioms ResidualHistogram.P_shape_case2
 #print axioms ResidualHistogram.prop_resid_case1
 #print axioms ResidualHistogram.prop_resid_case2
+#print axioms RhoLine.D_c_nonfixed_odd
+#print axioms RhoLine.D_zero_odd
+#print axioms RhoLine.D_half_odd
+#print axioms RhoLine.dims_odd

@@ -822,5 +822,440 @@ theorem D_c_nonfixed_odd {h s m : ℕ} (hm : m + 1 = (2 * s + 1) * h) (c₀ : �
   D_nonfixed (by omega) (c₀ : ZMod (2 * h)) (two_c_ne_zero c₀ h1 h2) c₀ (2 * s + 1) Lℓ _ hℓn hℓ
     (rho_block_prod hm c₀ h1 h2) y ν hy hν
 
+/-! ### The fixed classes `0` and `q/2` (`d` odd): every pair is divisible -/
+
+lemma getD_mem_of_lt (L : List ℤ) (i : ℕ) (hi : i < L.length) : L.getD i 0 ∈ L := by
+  simp [List.getD_eq_getElem?_getD, hi]
+
+/-- If every root of the rows `L` is divisible by `q` and `a_i = q · Lf i`, then
+`prodDiv q L = (2q)^n (q²)^{npairs n} · weylC n Lf`. -/
+theorem prodDiv_alldiv (q n : ℕ) (L : List ℤ) (hn : L.length = n) (Lf : ℕ → ℚ)
+    (hv : ∀ i < n, ((L.getD i 0 : ℤ) : ℚ) = q * Lf i)
+    (hg : ∀ i < n, (q : ℤ) ∣ 2 * L.getD i 0)
+    (hf : ∀ i j, i < j → j < n →
+      (q : ℤ) ∣ L.getD i 0 - L.getD j 0 ∧ (q : ℤ) ∣ L.getD i 0 + L.getD j 0) :
+    prodDiv q L = (2 * (q : ℚ)) ^ n * ((q : ℚ) ^ 2) ^ npairs n * weylC n Lf := by
+  rw [prodDiv_idx, hn]
+  have e1 : ∀ i ∈ Finset.range n, gdiag q (L.getD i 0) = 2 * q * Lf i := by
+    intro i hi
+    have hi' := Finset.mem_range.1 hi
+    rw [gdiag]; simp only [hg i hi', ↓reduceIte]
+    push_cast
+    rw [hv i hi']; ring
+  have e2 : ∀ i ∈ Finset.range n, ∀ j ∈ Finset.Ico (i + 1) n,
+      fpair q (L.getD i 0) (L.getD j 0) = (q : ℚ) ^ 2 * ((Lf i - Lf j) * (Lf i + Lf j)) := by
+    intro i hi j hj
+    have hi' := Finset.mem_range.1 hi
+    have hj' := Finset.mem_Ico.1 hj
+    obtain ⟨d1, d2⟩ := hf i j (by omega) hj'.2
+    rw [fpair]; simp only [d1, d2, ↓reduceIte]
+    push_cast
+    rw [hv i hi', hv j hj'.2]; ring
+  rw [Finset.prod_congr rfl e1,
+    Finset.prod_congr rfl fun i hi => Finset.prod_congr rfl (e2 i hi), ← Finset.prod_mul_distrib]
+  have key : ∀ i ∈ Finset.range n,
+      2 * (q : ℚ) * Lf i * ∏ j ∈ Finset.Ico (i + 1) n,
+        ((q : ℚ) ^ 2 * ((Lf i - Lf j) * (Lf i + Lf j))) =
+      (2 * (q : ℚ)) * ((q : ℚ) ^ 2) ^ (n - (i + 1)) *
+        (Lf i * ∏ j ∈ Finset.Ico (i + 1) n, ((Lf i - Lf j) * (Lf i + Lf j))) := by
+    intro i _
+    rw [Finset.prod_mul_distrib, Finset.prod_const, Nat.card_Ico]; ring
+  rw [Finset.prod_congr rfl key, Finset.prod_mul_distrib, Finset.prod_mul_distrib,
+    Finset.prod_const, Finset.card_range, Finset.prod_pow_eq_pow_sum]
+  rfl
+
+lemma hpos_of_hm {h s m : ℕ} (hm : m + 1 = (2 * s + 1) * h) : 0 < h :=
+  Nat.pos_of_ne_zero (by rintro rfl; simp at hm)
+
+lemma rhoZ_pairwise (m : ℕ) : (rhoZ m).Pairwise (· > ·) := by
+  unfold rhoZ
+  rw [List.pairwise_map, List.pairwise_reverse]
+  refine (List.pairwise_lt_range (n := m)).imp ?_
+  intro a b hab
+  have : a + 1 < b + 1 := by omega
+  exact_mod_cast this
+
+/-- The rows of `ρ_m` divisible by `q = 2h`, for `m + 1 = (2s+1) h`: `q (s - i)`, `i < s`. -/
+lemma rho_filter_zero {h s m : ℕ} (hm : m + 1 = (2 * s + 1) * h) :
+    (rhoZ m).filter (fun v : ℤ => decide ((v : ZMod (2 * h)) = 0)) =
+      (List.range s).map fun i : ℕ => ((2 * h : ℕ) : ℤ) * ((s : ℤ) - i) := by
+  have hmZ : (m : ℤ) + 1 = (2 * s + 1) * h := by exact_mod_cast hm
+  have hh : 1 ≤ h := hpos_of_hm hm
+  have hqZ : ((2 * h : ℕ) : ℤ) = 2 * h := by push_cast; ring
+  refine List.Pairwise.eq_of_mem_iff (r := (· > ·)) ((rhoZ_pairwise m).filter _) ?_ ?_
+  · rw [List.pairwise_map]
+    refine (List.pairwise_lt_range (n := s)).imp ?_
+    intro a b hab
+    have : (a : ℤ) < b := by exact_mod_cast hab
+    rw [hqZ]; nlinarith
+  · intro v
+    simp only [List.mem_filter, List.mem_map, List.mem_range, decide_eq_true_eq]
+    constructor
+    · rintro ⟨hv, hz⟩
+      obtain ⟨hv1, hv2⟩ := mem_rhoZ hv
+      have hd : ((2 * h : ℕ) : ℤ) ∣ v := by
+        rw [dvd_iff_zmod]; exact hz
+      obtain ⟨k, hk⟩ := hd
+      rw [hqZ] at hk
+      have hk0 : 1 ≤ k := by
+        by_contra hn; push Not at hn
+        nlinarith
+      have hk1 : k ≤ s := by
+        by_contra hn; push Not at hn
+        nlinarith
+      exact ⟨(s - k).toNat, by omega, by rw [hqZ, show (((s - k).toNat : ℕ) : ℤ) = s - k by omega, hk]; ring⟩
+    · rintro ⟨i, hi, rfl⟩
+      have hi' : (i : ℤ) + 1 ≤ s := by exact_mod_cast hi
+      rw [hqZ]
+      refine ⟨mem_rhoZ_of (by nlinarith) (by nlinarith), ?_⟩
+      have : ((2 * h : ℕ) : ℤ) ∣ 2 * h * ((s : ℤ) - i) := by rw [hqZ]; exact Dvd.intro _ rfl
+      have := (dvd_iff_zmod (2 * h) _).1 this
+      simpa using this
+
+/-- **`D_0` for `d` odd.**  `q = 2h`, `m + 1 = (2s+1) h`.  If the `s` rows of `ℓ` in the class
+`0` are `q · L_i` (`ν_i = L_i - (s - i)`, the note's `ν^{(0)}`), then the product of the divisible
+pairs inside the class for `ℓ`, divided by the same for `ρ`, has modulus `dim Sp_{2s} ν^{(0)}`. -/
+theorem D_zero_odd {h s m : ℕ} (hm : m + 1 = (2 * s + 1) * h) (Lℓ : List ℤ)
+    (hℓn : Lℓ.length = s) (L ν : ℕ → ℤ)
+    (hL : ∀ i < s, Lℓ.getD i 0 = ((2 * h : ℕ) : ℤ) * L i)
+    (hν : ∀ i < s, ν i = L i - ((s : ℤ) - i)) :
+    |prodDiv (2 * h) Lℓ /
+        prodDiv (2 * h) ((rhoZ m).filter fun v : ℤ => decide ((v : ZMod (2 * h)) = 0))| =
+      |dimSp s ν| := by
+  have hh : 1 ≤ h := hpos_of_hm hm
+  have hq : (0 : ℚ) < ((2 * h : ℕ) : ℚ) := by exact_mod_cast (by omega : 0 < 2 * h)
+  rw [rho_filter_zero hm]
+  have A := prodDiv_alldiv (2 * h) s Lℓ hℓn (fun i => (L i : ℚ))
+    (fun i hi => by rw [hL i hi]; push_cast; ring)
+    (fun i hi => ⟨2 * L i, by rw [hL i hi]; ring⟩)
+    (fun i j hij hj => by
+      rw [hL i (hij.trans hj), hL j hj]
+      exact ⟨⟨L i - L j, by ring⟩, ⟨L i + L j, by ring⟩⟩)
+  have hE : ∀ i < s, ((List.range s).map fun i : ℕ => ((2 * h : ℕ) : ℤ) * ((s : ℤ) - i)).getD i 0
+      = ((2 * h : ℕ) : ℤ) * ((s : ℤ) - i) := by
+    intro i hi
+    simp [List.getD_eq_getElem?_getD, hi]
+  have B := prodDiv_alldiv (2 * h) s
+    ((List.range s).map fun i : ℕ => ((2 * h : ℕ) : ℤ) * ((s : ℤ) - i)) (by simp)
+    (fun i => (s : ℚ) - i)
+    (fun i hi => by rw [hE i hi]; push_cast; ring)
+    (fun i hi => ⟨2 * ((s : ℤ) - i), by rw [hE i hi]; ring⟩)
+    (fun i j hij hj => by
+      rw [hE i (hij.trans hj), hE j hj]
+      exact ⟨⟨(j : ℤ) - i, by ring⟩, ⟨2 * s - i - j, by ring⟩⟩)
+  rw [A, B, mul_div_mul_left _ _ (by positivity), dimSp_shift s ν L hν]
+
+/-- Rows of `ρ_m` in the class `q/2 = h`: `h (2(s-i) - 1)`, `i < s`. -/
+lemma rho_filter_half {h s m : ℕ} (hm : m + 1 = (2 * s + 1) * h) :
+    (rhoZ m).filter (fun v : ℤ => decide ((v : ZMod (2 * h)) = ((h : ℤ) : ZMod (2 * h)))) =
+      (List.range s).map fun i : ℕ => (h : ℤ) * (2 * ((s : ℤ) - i) - 1) := by
+  have hmZ : (m : ℤ) + 1 = (2 * s + 1) * h := by exact_mod_cast hm
+  have hh : 1 ≤ h := hpos_of_hm hm
+  have hqZ : ((2 * h : ℕ) : ℤ) = 2 * h := by push_cast; ring
+  refine List.Pairwise.eq_of_mem_iff (r := (· > ·)) ((rhoZ_pairwise m).filter _) ?_ ?_
+  · rw [List.pairwise_map]
+    refine (List.pairwise_lt_range (n := s)).imp ?_
+    intro a b hab
+    have : (a : ℤ) < b := by exact_mod_cast hab
+    nlinarith
+  · intro v
+    simp only [List.mem_filter, List.mem_map, List.mem_range, decide_eq_true_eq]
+    constructor
+    · rintro ⟨hv, hz⟩
+      obtain ⟨hv1, hv2⟩ := mem_rhoZ hv
+      obtain ⟨k, hk⟩ := (cls_iff_c _ v h).1 hz
+      rw [hqZ] at hk
+      have hk0 : 0 ≤ k := by
+        by_contra hn; push Not at hn
+        nlinarith
+      have hk1 : k ≤ s - 1 := by
+        by_contra hn; push Not at hn
+        nlinarith
+      exact ⟨(s - 1 - k).toNat, by omega,
+        by rw [show (((s - 1 - k).toNat : ℕ) : ℤ) = s - 1 - k by omega]; linarith⟩
+    · rintro ⟨i, hi, rfl⟩
+      have hi' : (i : ℤ) + 1 ≤ s := by exact_mod_cast hi
+      refine ⟨mem_rhoZ_of (by nlinarith) (by nlinarith), ?_⟩
+      rw [cls_iff_c, hqZ]
+      exact ⟨(s : ℤ) - i - 1, by ring⟩
+
+lemma half_param {h : ℕ} {v : ℤ} (hv : (v : ZMod (2 * h)) = ((h : ℤ) : ZMod (2 * h))) :
+    ∃ u : ℤ, v = h + ((2 * h : ℕ) : ℤ) * u := by
+  obtain ⟨u, hu⟩ := (cls_iff_c _ v h).1 hv
+  exact ⟨u, by linarith⟩
+
+/-- **`D_{q/2}` for `d` odd.**  `q = 2h`, `m + 1 = (2s+1) h`.  If the `s` rows of `ℓ` in the class
+`h` have `ν_i = ℓ_i / q - (s - i + ½)^{-}` (here `(2(s-i)-1)/2`), the ratio of the divisible-pair
+products has modulus `dim SO_{2s+1} ν^{(q/2)}`. -/
+theorem D_half_odd {h s m : ℕ} (hm : m + 1 = (2 * s + 1) * h) (Lℓ : List ℤ)
+    (hℓn : Lℓ.length = s)
+    (hℓ : ∀ v ∈ Lℓ, (v : ZMod (2 * h)) = ((h : ℤ) : ZMod (2 * h))) (ν : ℕ → ℚ)
+    (hν : ∀ i < s, ν i = (Lℓ.getD i 0 : ℚ) / ((2 * h : ℕ) : ℚ) - (2 * ((s : ℚ) - i) - 1) / 2) :
+    |prodDiv (2 * h) Lℓ /
+        prodDiv (2 * h) ((rhoZ m).filter fun v : ℤ =>
+          decide ((v : ZMod (2 * h)) = ((h : ℤ) : ZMod (2 * h))))| =
+      |dimSoOdd s ν| := by
+  have hh : 1 ≤ h := hpos_of_hm hm
+  have hq : (0 : ℚ) < ((2 * h : ℕ) : ℚ) := by exact_mod_cast (by omega : 0 < 2 * h)
+  have hqZ : ((2 * h : ℕ) : ℤ) = 2 * h := by push_cast; ring
+  rw [rho_filter_half hm]
+  have P : ∀ i < s, ∃ u : ℤ, Lℓ.getD i 0 = h + ((2 * h : ℕ) : ℤ) * u := fun i hi =>
+    half_param (hℓ _ (getD_mem_of_lt Lℓ i (by omega)))
+  have A := prodDiv_alldiv (2 * h) s Lℓ hℓn (fun i => (Lℓ.getD i 0 : ℚ) / ((2 * h : ℕ) : ℚ))
+    (fun i hi => by field_simp)
+    (fun i hi => by
+      obtain ⟨u, hu⟩ := P i hi
+      exact ⟨1 + 2 * u, by rw [hu, hqZ]; ring⟩)
+    (fun i j hij hj => by
+      obtain ⟨u, hu⟩ := P i (hij.trans hj)
+      obtain ⟨w, hw⟩ := P j hj
+      rw [hu, hw, hqZ]
+      exact ⟨⟨u - w, by ring⟩, ⟨1 + u + w, by ring⟩⟩)
+  have hE : ∀ i < s, ((List.range s).map fun i : ℕ => (h : ℤ) * (2 * ((s : ℤ) - i) - 1)).getD i 0
+      = (h : ℤ) * (2 * ((s : ℤ) - i) - 1) := by
+    intro i hi
+    simp [List.getD_eq_getElem?_getD, hi]
+  have B := prodDiv_alldiv (2 * h) s
+    ((List.range s).map fun i : ℕ => (h : ℤ) * (2 * ((s : ℤ) - i) - 1)) (by simp)
+    (fun i => (2 * ((s : ℚ) - i) - 1) / 2)
+    (fun i hi => by rw [hE i hi]; push_cast; ring)
+    (fun i hi => ⟨(2 * ((s : ℤ) - i) - 1), by rw [hE i hi, hqZ]; ring⟩)
+    (fun i j hij hj => by
+      rw [hE i (hij.trans hj), hE j hj, hqZ]
+      exact ⟨⟨(j : ℤ) - i, by ring⟩, ⟨2 * s - i - j - 1, by ring⟩⟩)
+  rw [A, B, mul_div_mul_left _ _ (by positivity),
+    dimSoOdd_shift s ν (fun i => (Lℓ.getD i 0 : ℚ) / ((2 * h : ℕ) : ℚ)) hν]
+
+/-! ### Assembly (`d` odd): the product over the folded classes
+
+Grouping is done at the level of lists (induction on the row list), not through
+`prodDiv_idx` / `prod_pairs_by_class`: the indexed filtered double product would need a bridge
+back to the filtered list anyway. -/
+
+lemma map_fpair_filter {β : Type*} [DecidableEq β] (q : ℕ) (cl : ℤ → β)
+    (hf : ∀ a b, cl a ≠ cl b → fpair q a b = 1) (a : ℤ) (xs : List ℤ) :
+    (xs.map (fpair q a)).prod = ((xs.filter fun v => decide (cl v = cl a)).map (fpair q a)).prod := by
+  induction xs with
+  | nil => simp
+  | cons b xs ih =>
+    by_cases hb : cl b = cl a
+    · simp [hb, ih]
+    · have : fpair q a b = 1 := hf a b (fun h => hb h.symm)
+      simp [hb, ih, this]
+
+/-- **Class factorisation of the divisible-pair product.**  If rows of different classes
+contribute `1`, `prodDiv q x` is the product over the classes of `prodDiv` of the class rows. -/
+theorem prodDiv_by_class {β : Type*} [DecidableEq β] (q : ℕ) (cl : ℤ → β)
+    (hf : ∀ a b, cl a ≠ cl b → fpair q a b = 1) (T : Finset β) :
+    ∀ x : List ℤ, (∀ v ∈ x, cl v ∈ T) →
+      prodDiv q x = ∏ c ∈ T, prodDiv q (x.filter fun v => decide (cl v = c)) := by
+  intro x
+  induction x with
+  | nil => intro _; simp [prodDiv, pairs, ResidueCapacity.posRootVals]
+  | cons a xs ih =>
+    intro hx
+    have ha : cl a ∈ T := hx a (by simp)
+    have hxs : ∀ v ∈ xs, cl v ∈ T := fun v hv => hx v (List.mem_cons_of_mem _ hv)
+    have step : ∀ c ∈ T, prodDiv q ((a :: xs).filter fun v => decide (cl v = c)) =
+        (if cl a = c then gdiag q a *
+          ((xs.filter fun v => decide (cl v = cl a)).map (fpair q a)).prod else 1) *
+        prodDiv q (xs.filter fun v => decide (cl v = c)) := by
+      intro c _
+      by_cases hc : cl a = c
+      · subst hc; simp [prodDiv_cons]
+      · simp [hc]
+    rw [prodDiv_cons, ih hxs, Finset.prod_congr rfl step, Finset.prod_mul_distrib,
+      Finset.prod_ite_eq, map_fpair_filter q cl hf a xs]
+    simp only [ha, ↓reduceIte]
+
+/-- The folded class of `v` modulo `2h`: `{v, -v}` in `ZMod (2h)`. -/
+def fcl (h : ℕ) (v : ℤ) : Finset (ZMod (2 * h)) := {(v : ZMod (2 * h)), -(v : ZMod (2 * h))}
+
+lemma fcl_eq_iff (h : ℕ) (v w : ℤ) :
+    fcl h v = fcl h w ↔
+      ((v : ZMod (2 * h)) = (w : ZMod (2 * h)) ∨ (v : ZMod (2 * h)) = -(w : ZMod (2 * h))) := by
+  constructor
+  · intro e
+    have : (v : ZMod (2 * h)) ∈ fcl h w := e ▸ (by simp [fcl])
+    simpa [fcl] using this
+  · rintro (e | e) <;> ext z <;> simp [fcl, e, or_comm]
+
+lemma fcl_ne_imp {h : ℕ} {a b : ℤ} (hab : fcl h a ≠ fcl h b) :
+    (a : ZMod (2 * h)) ≠ b ∧ (a : ZMod (2 * h)) ≠ -(b : ZMod (2 * h)) :=
+  ⟨fun e => hab ((fcl_eq_iff h a b).2 (Or.inl e)), fun e => hab ((fcl_eq_iff h a b).2 (Or.inr e))⟩
+
+lemma fpair_fcl (h : ℕ) (a b : ℤ) (hab : fcl h a ≠ fcl h b) : fpair (2 * h) a b = 1 :=
+  fpair_diff_class a b (fcl_ne_imp hab).1 (fcl_ne_imp hab).2
+
+/-- The rows of `L` in the folded class of `c₀`. -/
+def clsList (h : ℕ) (c₀ : ℤ) (L : List ℤ) : List ℤ :=
+  L.filter fun v : ℤ => decide ((v : ZMod (2 * h)) = (c₀ : ZMod (2 * h)) ∨
+    (v : ZMod (2 * h)) = -(c₀ : ZMod (2 * h)))
+
+lemma filter_fcl (h : ℕ) (c₀ : ℤ) (L : List ℤ) :
+    L.filter (fun v => decide (fcl h v = fcl h c₀)) = clsList h c₀ L :=
+  List.filter_congr fun v _ => by
+    simp only [decide_eq_decide]; exact fcl_eq_iff h v c₀
+
+lemma neg_half (h : ℕ) : -((h : ℤ) : ZMod (2 * h)) = ((h : ℤ) : ZMod (2 * h)) := by
+  have : ((2 * h : ℕ) : ZMod (2 * h)) = 0 := ZMod.natCast_self _
+  push_cast at this
+  rw [neg_eq_iff_add_eq_zero, Int.cast_natCast]
+  linear_combination this
+
+lemma neg_half_nat (h : ℕ) : -((h : ℕ) : ZMod (2 * h)) = ((h : ℕ) : ZMod (2 * h)) := by
+  simpa using neg_half h
+
+lemma clsList_zero (h : ℕ) (L : List ℤ) :
+    clsList h 0 L = L.filter fun v : ℤ => decide ((v : ZMod (2 * h)) = 0) :=
+  List.filter_congr fun v _ => by simp
+
+lemma clsList_half (h : ℕ) (L : List ℤ) :
+    clsList h (h : ℤ) L =
+      L.filter fun v : ℤ => decide ((v : ZMod (2 * h)) = ((h : ℤ) : ZMod (2 * h))) :=
+  List.filter_congr fun v _ => by simp [neg_half_nat h]
+
+lemma abs_list_prod_map (f : ℤ → ℚ) (L : List ℤ) :
+    |(L.map f).prod| = (L.map fun v => |f v|).prod := by
+  induction L with
+  | nil => simp
+  | cons a L ih => simp [abs_mul, ih]
+
+lemma two_ne_of_cls {q : ℕ} (c : ZMod q) (hc : 2 * c ≠ 0) (v : ℤ)
+    (hv : (v : ZMod q) = c ∨ (v : ZMod q) = -c) : 2 * (v : ZMod q) ≠ 0 := by
+  rcases hv with h | h
+  · rw [h]; exact hc
+  · rw [h, mul_neg]; exact neg_ne_zero.2 hc
+
+/-- On a non-fixed class the long roots are not divisible: `|prodDiv| = pairProdL`. -/
+lemma abs_prodDiv_nonfixed {q : ℕ} (L : List ℤ) (hL : ∀ v ∈ L, 2 * (v : ZMod q) ≠ 0) :
+    |prodDiv q L| = pairProdL q L := by
+  induction L with
+  | nil => simp [prodDiv, pairs, ResidueCapacity.posRootVals, pairProdL]
+  | cons a L ih =>
+    have hL' : ∀ v ∈ L, 2 * (v : ZMod q) ≠ 0 := fun v hv => hL v (List.mem_cons_of_mem _ hv)
+    rw [prodDiv_cons, gdiag_nonfixed a (hL a (List.mem_cons_self ..)), one_mul, abs_mul,
+      abs_list_prod_map, ih hL', pairProdL]
+
+lemma ratio_by_class (h : ℕ) (T : Finset (Finset (ZMod (2 * h)))) (l r : List ℤ)
+    (hl : ∀ v ∈ l, fcl h v ∈ T) (hr : ∀ v ∈ r, fcl h v ∈ T) :
+    |prodDiv (2 * h) l / prodDiv (2 * h) r| =
+      ∏ C ∈ T, |prodDiv (2 * h) (l.filter fun v => decide (fcl h v = C)) /
+        prodDiv (2 * h) (r.filter fun v => decide (fcl h v = C))| := by
+  rw [prodDiv_by_class (2 * h) (fcl h) (fpair_fcl h) T l hl,
+    prodDiv_by_class (2 * h) (fcl h) (fpair_fcl h) T r hr, ← Finset.prod_div_distrib,
+    Finset.abs_prod]
+
+/-- The classes of `c ∈ [0, h]` represent all folded classes. -/
+lemma fcl_mem_T (h : ℕ) (hh : 0 < h) (v : ℤ) :
+    fcl h v ∈ (Finset.range (h + 1)).image (fun c : ℕ => fcl h (c : ℤ)) := by
+  have : NeZero (2 * h) := ⟨by omega⟩
+  rw [Finset.mem_image]
+  have hr : (((v : ZMod (2 * h)).val : ℕ) : ZMod (2 * h)) = (v : ZMod (2 * h)) :=
+    ZMod.natCast_zmod_val _
+  have hrl : (v : ZMod (2 * h)).val < 2 * h := ZMod.val_lt _
+  by_cases hrh : (v : ZMod (2 * h)).val ≤ h
+  · exact ⟨(v : ZMod (2 * h)).val, Finset.mem_range.2 (by omega),
+      (fcl_eq_iff h _ _).2 (Or.inl (by simp))⟩
+  · refine ⟨2 * h - (v : ZMod (2 * h)).val, Finset.mem_range.2 (by omega),
+      (fcl_eq_iff h _ _).2 (Or.inr ?_)⟩
+    have h0 : ((2 * h : ℕ) : ZMod (2 * h)) = 0 := ZMod.natCast_self _
+    rw [Int.cast_natCast, Nat.cast_sub (by omega), h0, zero_sub, hr]
+
+lemma fcl_inj (h : ℕ) (hh : 0 < h) (c c' : ℕ) (hc : c ≤ h) (hc' : c' ≤ h)
+    (e : fcl h (c : ℤ) = fcl h (c' : ℤ)) : c = c' := by
+  have hqZ : ((2 * h : ℕ) : ℤ) = 2 * h := by push_cast; ring
+  rcases (fcl_eq_iff h _ _).1 e with e | e
+  · obtain ⟨k, hk⟩ := (cls_iff_c (2 * h) (c : ℤ) (c' : ℤ)).1 e
+    rw [hqZ] at hk
+    have hk0 : 0 ≤ k := by
+      by_contra hn; push Not at hn
+      nlinarith
+    have hk1 : k < 1 := by
+      by_contra hn; push Not at hn
+      nlinarith
+    have : k = 0 := by omega
+    subst this
+    omega
+  · obtain ⟨k, hk⟩ := (cls_iff_negc (2 * h) (c : ℤ) (c' : ℤ)).1 e
+    rw [hqZ] at hk
+    have hk0 : 0 ≤ k := by
+      by_contra hn; push Not at hn
+      nlinarith
+    have hk1 : k ≤ 1 := by
+      by_contra hn; push Not at hn
+      nlinarith
+    interval_cases k <;> omega
+
+lemma range_split (h : ℕ) (hh : 0 < h) (F : ℕ → ℚ) :
+    ∏ c ∈ Finset.range (h + 1), F c =
+      F 0 * (∏ c ∈ Finset.range (h - 1), F (c + 1)) * F h := by
+  obtain ⟨k, rfl⟩ : ∃ k, h = k + 1 := ⟨h - 1, by omega⟩
+  rw [Nat.add_sub_cancel, Finset.prod_range_succ, Finset.prod_range_succ']
+  ring
+
+/-- **Theorem 10.1 (`thm:dims`), `d = 2s+1` odd, `q = 2h` even, modulus form.**
+`m + 1 = (2s+1) h`.  Write `ℓ` for the list of rows; the class of a row is its folded residue
+`{v, -v} ⊂ ℤ/q`.  With the occupancies given by the profile (`s` rows in each of the classes `0`
+and `q/2`, `2s+1` rows in each non-fixed class `c₀ = c+1`, `c < h-1`) and the partitions
+`ν^{(0)}`, `ν^{(q/2)}`, `ν^{(c)}` as in the note,
+`|∏_{q∣a} a / ∏_{q∣b} b| = |D_0| · |D_{q/2}| · ∏_{c} |D_c|`
+(`dimSp`, `dimSoOdd`, `dimGl`), where the products run over the divisible pairs of `ℓ` and of
+`ρ_m`. -/
+theorem dims_odd {h s m : ℕ} (hm : m + 1 = (2 * s + 1) * h) (l : List ℤ)
+    (hl0 : (clsList h 0 l).length = s) (L0 ν0 : ℕ → ℤ)
+    (hL0 : ∀ i < s, (clsList h 0 l).getD i 0 = ((2 * h : ℕ) : ℤ) * L0 i)
+    (hν0 : ∀ i < s, ν0 i = L0 i - ((s : ℤ) - i))
+    (hlh : (clsList h (h : ℤ) l).length = s) (νh : ℕ → ℚ)
+    (hνh : ∀ i < s, νh i = ((clsList h (h : ℤ) l).getD i 0 : ℚ) / ((2 * h : ℕ) : ℚ) -
+      (2 * ((s : ℚ) - i) - 1) / 2)
+    (hlc : ∀ c < h - 1, (clsList h ((c + 1 : ℕ) : ℤ) l).length = 2 * s + 1)
+    (y ν : ℕ → ℕ → ℤ)
+    (hy : ∀ c < h - 1, ∀ i < 2 * s + 1,
+      orient (2 * h) (((c + 1 : ℕ) : ℤ) : ZMod (2 * h))
+          ((clsList h ((c + 1 : ℕ) : ℤ) l).getD i 0) =
+        ((c + 1 : ℕ) : ℤ) + ((2 * h : ℕ) : ℤ) * y c i)
+    (hν : ∀ c < h - 1, ∀ i < 2 * s + 1,
+      ν c i = y c i - y c (2 * s + 1 - 1) - (((2 * s + 1 : ℕ) : ℤ) - 1 - i)) :
+    |prodDiv (2 * h) l / prodDiv (2 * h) (rhoZ m)| =
+      |dimSp s ν0| * |dimSoOdd s νh| *
+        ∏ c ∈ Finset.range (h - 1), |dimGl (2 * s + 1) (ν c)| := by
+  have hh : 0 < h := hpos_of_hm hm
+  have hT : ∀ v : ℤ, fcl h v ∈ (Finset.range (h + 1)).image (fun c : ℕ => fcl h (c : ℤ)) :=
+    fun v => fcl_mem_T h hh v
+  rw [ratio_by_class h _ l (rhoZ m) (fun v _ => hT v) (fun v _ => hT v),
+    Finset.prod_image (fun c hc c' hc' e => fcl_inj h hh c c'
+      (by have := Finset.mem_range.1 (Finset.mem_coe.1 hc); omega)
+      (by have := Finset.mem_range.1 (Finset.mem_coe.1 hc'); omega) e),
+    range_split h hh]
+  simp only [Nat.cast_zero, filter_fcl]
+  have E0 : |prodDiv (2 * h) (clsList h 0 l) / prodDiv (2 * h) (clsList h 0 (rhoZ m))| =
+      |dimSp s ν0| := by
+    rw [clsList_zero h (rhoZ m)]
+    exact D_zero_odd hm _ hl0 L0 ν0 hL0 hν0
+  have Eh : |prodDiv (2 * h) (clsList h (h : ℤ) l) /
+      prodDiv (2 * h) (clsList h (h : ℤ) (rhoZ m))| = |dimSoOdd s νh| := by
+    rw [clsList_half h (rhoZ m)]
+    refine D_half_odd hm _ hlh (fun v hv => ?_) νh hνh
+    have hv' := (List.mem_filter.1 hv).2
+    simp only [decide_eq_true_eq] at hv'
+    rcases hv' with e | e
+    · exact e
+    · rw [e, neg_half]
+  have Ec : ∀ c ∈ Finset.range (h - 1),
+      |prodDiv (2 * h) (clsList h ((c + 1 : ℕ) : ℤ) l) /
+        prodDiv (2 * h) (clsList h ((c + 1 : ℕ) : ℤ) (rhoZ m))| = |dimGl (2 * s + 1) (ν c)| := by
+    intro c hc
+    have hc' : c < h - 1 := Finset.mem_range.1 hc
+    have h1 : 1 ≤ ((c + 1 : ℕ) : ℤ) := by omega
+    have h2 : ((c + 1 : ℕ) : ℤ) ≤ (h : ℤ) - 1 := by omega
+    have hc2 := two_c_ne_zero (h := h) _ h1 h2
+    have hnf : ∀ L : List ℤ, ∀ v ∈ clsList h ((c + 1 : ℕ) : ℤ) L, 2 * (v : ZMod (2 * h)) ≠ 0 :=
+      fun L v hv => two_ne_of_cls _ hc2 v (by simpa [clsList] using (List.mem_filter.1 hv).2)
+    rw [abs_div, abs_prodDiv_nonfixed _ (hnf l), abs_prodDiv_nonfixed _ (hnf (rhoZ m))]
+    exact D_c_nonfixed_odd hm _ h1 h2 (clsList h ((c + 1 : ℕ) : ℤ) l) (hlc c hc')
+      (fun v hv => by simpa using (List.mem_filter.1 hv).2) (y c) (ν c) (hy c hc') (hν c hc')
+  rw [E0, Eh, Finset.prod_congr rfl Ec]
+  ring
 
 end RhoLine
