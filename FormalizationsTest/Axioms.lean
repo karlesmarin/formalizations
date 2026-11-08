@@ -2322,6 +2322,10 @@ import Formalizations
 #print axioms Segmentos.stable_iff_cond
 #print axioms Segmentos.esymm_int_iff_stable
 #print axioms Segmentos.thm_clasif_spectral
+#print axioms WeylProductMs.vandermonde_punctured
+#print axioms WeylProductMs.CD_punctured
+#print axioms WeylProductMs.prop_Ms
+#print axioms WeylProductMs.prop_Ms_zmod
 #print axioms Dilog.enestrom_kakeya_boundary_series
 #print axioms Dilog.strictAnti_series_ne_zero
 #print axioms VirtualRoots.R_mem

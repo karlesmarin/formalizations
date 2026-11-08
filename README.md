@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2581 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2585 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -296,6 +296,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `RepresentationTheory` | `SpinRhoLine` 🆕 | Product of sines `∏_{k=1}^{n-1} 2 sin(kπ/n) = n`; the spin values on the ρ-line, `∏_{j=1}^{m} 2 sin(jπ/(2m+1)) = √(2m+1)` (type B, also in cosine form) and `∏_{j=1}^{m-1} 2 sin(jπ/2m) = √m` (type D), each an integer iff `2m+1` (resp. `m`) is a square; the Dirichlet kernel and the index shift `sin((hq+r)π/q) = (−1)^h sin(rπ/q)`. The identification with the spin characters is not formalized. |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |
 | `RepresentationTheory.Symplectic` | `RhoLine` 🆕 | The ρ-line of `Sp(2m)` from the product `F_x = ∏_{α>0}(1 − X^{(x,α)})`: if `F_y · Q = F_x`, then at a primitive `q`-th root `ζ` the value `Q(ζ)` is nonzero iff `N_q(x) = N_q(y)` (Theorem 3.1 of the note), its exact value when the counts agree (`eval_quot`), and at the powers of `a_P` (`dq = 2m + 2`) the non-vanishing factors cancel in modulus (Lemma 8.4) and `‖Q(ζ)‖ = ∏_{q∣a} a / ∏_{q∣b} b` (Theorem 8.3). That `ζ^{−(λ,ρ)} Q(ζ)` is the character (Weyl's formula on the ρ-line) is not formalized. |
+| `RepresentationTheory.Symplectic` | `WeylProductMs` 🆕 | `μ_q` with one point `a` removed: the ordered Vandermonde `∏_{x≠y}‖x − y‖ = q^{q−2}`, and `∏_{xy≠1}‖1 − xy‖ · ∏_{x²≠1}‖1 − x²‖ = q^{q−2} · ∏_{x∈μ_q, x²≠1}‖1 − x²‖`; hence the moduli of the non-vanishing factors of the `C_{q−1}` Weyl product do not depend on the removed point (Proposition 8.2 of the ρ-line note) |
 | `RepresentationTheory.OrbifoldAlphabet` | `SymplecticBuild` 🆕 | Proposition 2 of the orbifold alphabet: `ρ ⊗ I₂` preserves `B ⊗ ε` when `ρᵀBρ = B`; `B ⊗ ε` is antisymmetric for `B` symmetric and `ε` antisymmetric; a unitary `ρ ⊕ ρ̄` preserves `J = [[0, I], [−I, 0]]` |
 | `RingTheory` | `KostantAlphabet` 🆕 | Alphabet of the k-th power of the Kostant element: multiset identity A = d.mu_q minus two points, by parity of gcd(k, 2m+2). |
 | `RingTheory.AffineSemigroup` | `OrbifoldProduct` 🆕 | `(S¹/ℤ₂)^k`: `4^k` distinct generators spanning a space of dimension `3^k` (the generator matrix is the `k`-th Kronecker power of a rank-3 `4 × 4` matrix), `∑ C(k,j)2^j = 3^k`; `4^k > 2·3^k − 2` for `k ≥ 3`, so (with Fischer–Morris–Shapiro's Cor. 3.4 as hypothesis) not a complete intersection; every generator spans an extreme ray (one-hot block vectors of distinct choices); and too many edges to be a cut ideal |
