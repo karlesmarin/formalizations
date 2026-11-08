@@ -1,0 +1,19 @@
+chapter AFP
+
+session Segre_Persistence_SOS = Three_Squares +
+  options [timeout = 1200]
+  sessions
+    "HOL-Library"
+  theories
+    Coefficient_Vectors
+    Segre_Width3
+    Zarankiewicz_Cells
+    BSR_Upper
+    BSR_Zero
+    XCQ_Family
+    BSR_Rational
+    Seven_Embedding
+    BSR_Union
+  document_files
+    "root.tex"
+    "root.bib"

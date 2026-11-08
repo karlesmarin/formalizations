@@ -1,0 +1,35 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Quadratic Persistence of Segre Varieties and Biquadratic Sums of Squares}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+We formalize the elementary parts of a note~\cite{Marin2026} on the quadratic persistence of Segre varieties, in the sense of Blekherman, Sinn, Smith and Velasco~\cite{BSSV}, and on sums of squares of bilinear forms. For $\mathbb{P}^{m-1}\times\mathbb{P}^2$ we prove the linear algebra of the bound $\mathrm{qp}\le m$: an antisymmetric $3\times3$ matrix with two independent vectors in its kernel vanishes, so the radical conditions at the points $e_i\otimes(1,i,i^2)$ force every $D_{ij}$ to vanish; we also check the count $d-g(m-1)=m-1$ behind the lower bound. For $C_4$-free supports $E$ in an $m\times n$ grid we prove $|E|\le m+\binom n2$, and the arithmetic comparing $\lfloor 8m/3\rfloor$ with $\lfloor(5m+6)/2\rfloor$. Assuming Theorem~1.4 of~\cite{BSSV} (sums of squares of size $m\times2$ need at most $m+1$ squares) as an explicit hypothesis, we derive $\mathrm{BSR}(m,n)\le mn-\max(m,n)+1$ by successive orthogonal projections, hence $\mathrm{BSR}(4,3)\le9$. A real zero saves one square: a form with a real zero $(x_0,y_0)$, $x_0\ne0\ne y_0$, is a sum of at most $(m-1)+\mathrm{BSR}(m,n-1)$ squares, hence of at most $8$ in size $4\times3$. Above the form of length eight of Xu, Cui and Qi~\cite{XCQ} we give a family $F_t=Q+t\,w^2$ whose nine-square Gram matrix is extreme of rank nine (checked by computation, not here), and prove the identity showing that $F_t$ is still a sum of eight squares for $t\ge1/2$, and of seven at $t=1/2$. Over $\mathbb{Q}$, orthogonal unit vectors together with a vector of squared norm $7$ need three extra coordinates; with the coefficient identity of a representation as hypothesis, a diagonal form with $C_4$-free support, unit coefficients and one coefficient $7$ needs at least $|E|+3$ rational squares. The fact that $7$ is not a sum of three rational squares is reduced to the entry \emph{Three\_Squares}~\cite{Three_Squares-AFP}.
+\end{abstract}
+
+\paragraph{What is not formalized.} The identification of the quadrics through the Segre variety with $\bigwedge^2A^*\otimes\bigwedge^2B^*$, the characterization of quadratic persistence by radicals and the bound $d\le g(\mathrm{qp})$ of~\cite{BSSV} are used as text in the theory \texttt{Segre\_Width3}. Theorem~1.4 of~\cite{BSSV} is the hypothesis \texttt{BSSV\_1\_4} of \texttt{bsr\_upper} and of the width-three corollaries \texttt{bsr\_zero\_width\_three} and \texttt{bsr\_zero\_4\_3}; the general \texttt{bsr\_zero\_filter} takes a bound for width $n-1$ as hypothesis. The passage from a representation $f=\sum_k s_k^2$ to the polarized identity of its coefficient vectors (Zhang and Zhu~\cite[Prop.~2.1]{ZhangZhu}) is the hypothesis \texttt{polarized} of \texttt{bsr\_rational\_lower}. The values of the Zarankiewicz-type numbers compared in \texttt{Zarankiewicz\_Cells} are taken from the literature~\cite{ChenChen}; only the arithmetic is checked.
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}
