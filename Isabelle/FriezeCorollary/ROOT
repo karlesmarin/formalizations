@@ -1,0 +1,4 @@
+session Frieze_Corollary = Odd_Frieze_Rows +
+  options [timeout = 600]
+  theories
+    Four_Sign_Changes_Fail
