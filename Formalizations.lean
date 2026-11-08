@@ -114,6 +114,7 @@ public import Formalizations.LinearAlgebra.Matrix.WalkCount
 public import Formalizations.LinearAlgebra.Matrix.SchurCommuting
 public import Formalizations.LinearAlgebra.Eigenspace.JointInvolutions
 public import Formalizations.LinearAlgebra.PointwiseProductSpan
+public import Formalizations.LinearAlgebra.RootSystem.PHeight
 public import Formalizations.MusicTheory.AllPairsEvenness
 public import Formalizations.MusicTheory.CRTCharacters
 public import Formalizations.MusicTheory.CircleOfFifths

@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2585 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2590 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -152,6 +152,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | | `ChanGL` 🆕 | Melody Chan's theorem: for `F` infinite or `\|F\| > n + 1`, a two-colouring of `Fⁿ` that no non-identity invertible matrix preserves. |
 | | `BoundedMovement` 🆕 | Praeger's bounded movement theorem: movement `m` forces `Ω` finite, `≤ 2m − 1` orbits of size `≤ 3m`, and `\|Ω\| ≤ 3m + t − 1`. |
 | `LinearAlgebra` | `PointwiseProductSpan` 🆕 | Over an infinite field, if `V`, `W ≤ ι → K` are stable under a transitive group of signed permutations and `dim V + dim W > card ι`, the products `v * w` span `ι → K` |
+| `LinearAlgebra.RootSystem` | `PHeight` 🆕 | In a crystallographic root pairing with a base: if `α = ∑ cᵢαᵢ` then `α^∨ = ∑ cᵢ ((αᵢ,αᵢ)/(α,α)) αᵢ^∨` for the canonical root form; hence the weighted height `∑ cᵢ (αᵢ,αᵢ)/2` equals `((α,α)/2) · ht(α^∨)` (height in the dual base), and equals `(ρ, α)` for any `ρ` with `⟨ρ, αᵢ^∨⟩ = 1`; with the two root lengths as hypothesis, Observation 13.1 of the ρ-line note (`q ∣ ht(α^∨)` forces `q ∣ ht_P(α)`, the difference is exactly the long roots with `q ∣ r·ht(α^∨)`, none when `gcd(q, r) = 1`) |
 | `LinearAlgebra.Eigenspace` | `JointInvolutions` 🆕 | For two commuting involutions `P₀`, `P₁` in characteristic zero, `¼ (1 + ε₀P₀)(1 + ε₁P₁)` projects onto the joint eigenspace, of dimension `¼ [dim + ε₀ tr P₀ + ε₁ tr P₁ + ε₀ε₁ tr P₀P₁]` |
 | `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |
 | | `Adjugate` | Diagonal entries of the adjugate are principal minors |

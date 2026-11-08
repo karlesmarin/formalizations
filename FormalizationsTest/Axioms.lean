@@ -2326,6 +2326,11 @@ import Formalizations
 #print axioms WeylProductMs.CD_punctured
 #print axioms WeylProductMs.prop_Ms
 #print axioms WeylProductMs.prop_Ms_zmod
+#print axioms RootPairing.Base.coroot_coeffs
+#print axioms RootPairing.Base.pheight_eq
+#print axioms RootPairing.Base.pheight_eq_rootForm
+#print axioms RootPairing.Base.obs_types_arith
+#print axioms RootPairing.Base.obs_types
 #print axioms Dilog.enestrom_kakeya_boundary_series
 #print axioms Dilog.strictAnti_series_ne_zero
 #print axioms VirtualRoots.R_mem
