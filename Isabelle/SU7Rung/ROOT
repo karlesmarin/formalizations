@@ -2,3 +2,4 @@ session SU7_Rung = HOL +
   options [timeout = 600]
   theories
     Rung_Recursion
+    G_Window
