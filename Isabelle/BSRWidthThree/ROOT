@@ -1,0 +1,10 @@
+(* encaje: BSR(m,3) = 2m (V236): lower bound by the witness, regular point (Lemma 1), branch e = 1 (width_three_trace);
+   Lemma 2, the e >= 2 branch and the assembly are NOT here *)
+session BSR_Width_Three = Segre_Width3 +
+  options [timeout = 600]
+  theories
+    BSR_Width3_Lower
+    Regular_Point
+    Width3_Trace
+    Trace_Rank
+    Width3_Final
