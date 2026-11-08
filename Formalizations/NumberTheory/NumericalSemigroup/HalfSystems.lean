@@ -109,11 +109,14 @@ def w (T : Finset K) (y : K) : ℕ := #{t ∈ T | t ^ 2 = y}
 variable (h2 : (2 : K) ≠ 0)
 include h2
 
+omit [Fintype K] [DecidableEq K] in
 theorem neg_ne_self {x : K} (hx : x ≠ 0) : -x ≠ x := by
   intro h
   have : (2 : K) * x = 0 := by linear_combination -h
   exact hx ((mul_eq_zero.1 this).resolve_left h2)
 
+omit [Fintype K] in
+set_option linter.unusedSectionVars false in
 theorem filter_sq_eq (S : Finset K) (x : K) : {t ∈ S | t ^ 2 = x ^ 2} = S.filter (fun t => t = x ∨ t = -x) := by
   ext t
   simp only [mem_filter, sq_eq_sq_iff_eq_or_eq_neg]
@@ -130,6 +133,7 @@ theorem card_fiber_two {x : K} (hx : x ≠ 0) : #{t ∈ univ.erase (0 : K) | t ^
       · exact neg_ne_zero.2 hx
   rw [this, card_pair (neg_ne_self h2 hx).symm]
 
+set_option linter.unusedSectionVars false in
 theorem mapsTo_QR (T : Finset K) (hT : (0 : K) ∉ T) : (T : Set K).MapsTo (· ^ 2) (QR K) := by
   intro t ht
   simp only [QR, coe_image, Set.mem_image, mem_coe, mem_erase, mem_univ, and_true]
@@ -164,6 +168,7 @@ theorem sum_QR_pow {k : ℕ} (hk : 1 ≤ k) (hk2 : 2 * k < Fintype.card K - 1) :
   rw [sum_congr rfl fun y hy => by rw [hw y hy], ← mul_sum] at hall
   exact (mul_eq_zero.1 hall).resolve_left h2
 
+omit [Fintype K] [DecidableEq K] in
 theorem cast_inj_le_two {a b : ℕ} (ha : a ≤ 2) (hb : b ≤ 2) (h : (a : K) = (b : K)) : a = b := by
   have h1 : (1 : K) ≠ 0 := one_ne_zero
   interval_cases a <;> interval_cases b
@@ -173,7 +178,8 @@ theorem cast_inj_le_two {a b : ℕ} (ha : a ≤ 2) (hb : b ≤ 2) (h : (a : K) =
         | exact h1 h | exact h1 h.symm | exact h2 h | exact h2 h.symm
         | exact h1 (by linear_combination -h) | exact h1 (by linear_combination h))
 
-theorem w_le_two (T : Finset K) {x : K} (hx : x ≠ 0) : w T (x ^ 2) ≤ 2 := by
+omit [Fintype K] in
+theorem w_le_two (T : Finset K) {x : K} (_hx : x ≠ 0) : w T (x ^ 2) ≤ 2 := by
   rw [w, filter_sq_eq h2]
   calc #(T.filter fun t => t = x ∨ t = -x) ≤ #({x, -x} : Finset K) := by
         refine card_le_card fun t ht => ?_
@@ -237,7 +243,7 @@ theorem trichotomy (T : Finset K) (hT : (0 : K) ∉ T)
       have h := hconst t ht
       rw [hcount t ht] at h
       by_contra htT
-      rw [if_neg htT] at h
+      rw [ite_eq_right htT] at h
       split_ifs at h <;> omega
 
 /-- The converse: half-systems have the even moments zero. -/

@@ -2609,3 +2609,11 @@ import Formalizations
 #print axioms Erdos963.exists_dissociated
 #print axioms Erdos835.indepNum_johnson_le_johnsonBound
 #print axioms Erdos835.card_le_johnsonBound
+#print axioms ResidualHistogram.resid_core
+#print axioms ResidualHistogram.eq_res_D
+#print axioms ResidualHistogram.resid_C
+#print axioms ResidualHistogram.resid_D
+#print axioms ResidualHistogram.P_shape_case1
+#print axioms ResidualHistogram.P_shape_case2
+#print axioms ResidualHistogram.prop_resid_case1
+#print axioms ResidualHistogram.prop_resid_case2

@@ -213,12 +213,14 @@ section Cyclotomic
 
 variable {q : ℕ} [NeZero q] {K : Type*} [Field K] [Algebra ℚ K] {ζ : K}
 
+omit [Algebra ℚ K] in
 /-- `a ↦ ζ ^ a.val` is injective on `ZMod q`. -/
 lemma pow_val_injective (hζ : IsPrimitiveRoot ζ q) :
     Function.Injective (fun a : ZMod q => ζ ^ a.val) := by
   intro a b h
   exact ZMod.val_injective q (hζ.pow_inj (ZMod.val_lt a) (ZMod.val_lt b) h)
 
+omit [NeZero q] [Algebra ℚ K] in
 lemma pow_val_mul (hζ : IsPrimitiveRoot ζ q) (a b : ZMod q) :
     ζ ^ (a * b).val = (ζ ^ a.val) ^ b.val := by
   rw [ZMod.val_mul, ← pow_mul, ← pow_eq_pow_mod _ hζ.pow_eq_one]
@@ -332,10 +334,10 @@ theorem esymm_int_iff_stable {q : ℕ} (hq : 1 ≤ q) {ζ : ℂ} (hζ : IsPrimit
     (A : Multiset (ZMod q)) :
     (∀ k, ∃ n : ℤ, (A.map (fun a => ζ ^ a.val)).esymm k = n) ↔
       ∀ u : (ZMod q)ˣ, A.map (fun a => (u : ZMod q) * a) = A := by
-  haveI : NeZero q := ⟨by omega⟩
+  have : NeZero q := ⟨by omega⟩
   have hint : IsIntegral ℚ ζ := (hζ.isIntegral (by omega)).tower_top
   let K := IntermediateField.adjoin ℚ {ζ}
-  haveI : IsCyclotomicExtension {q} ℚ K := by
+  have : IsCyclotomicExtension {q} ℚ K := by
     change IsCyclotomicExtension {q} ℚ (IntermediateField.adjoin ℚ {ζ}).toSubalgebra
     rw [IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic hint.isAlgebraic]
     exact hζ.adjoin_isCyclotomicExtension ℚ

@@ -86,12 +86,12 @@ lemma Fl_split (q : ℕ) (L : List ℤ) :
           (1 - X ^ q) * ∑ i ∈ range (a.natAbs / q), ((X : R[X]) ^ q) ^ i := by
         rw [mul_neg_geom_sum, ← pow_mul, hmul]
       have hc : Ncount q (a :: L) = Ncount q L + 1 := by
-        simp [Ncount, List.countP_cons, h]
-      rw [Fl_cons, Hl_cons, if_pos h, hc, e, ih']
+        simp [Ncount, h]
+      rw [Fl_cons, Hl_cons, ite_eq_left h, hc, e, ih']
       ring
     · have hc : Ncount q (a :: L) = Ncount q L := by
-        simp [Ncount, List.countP_cons, h]
-      rw [Fl_cons, Hl_cons, if_neg h, hc, ih']
+        simp [Ncount, h]
+      rw [Fl_cons, Hl_cons, ite_eq_right h, hc, ih']
       ring
 
 end Split
@@ -114,7 +114,7 @@ lemma eval_Hl (q : ℕ) (ζ : K) (hζ : ζ ^ q = 1) (L : List ℤ) :
     rw [ih]
     congr 1
     split_ifs with h
-    · simp [eval_finset_sum, ← pow_mul, mul_comm q, pow_mul, hζ]
+    · simp [eval_finsetSum, hζ]
     · simp
 
 /-- The value factor `∏ (if q ∣ a then a else 1 - ζ^a)`. -/
@@ -132,17 +132,17 @@ lemma evalE_eq (q : ℕ) (ζ : K) (L : List ℤ) (hpos : ∀ a ∈ L, 0 < a) :
     · have hq : q ∣ a.natAbs := Int.natCast_dvd.1 h
       have hmul : q * (a.natAbs / q) = a.natAbs := Nat.mul_div_cancel' hq
       have hc : Ncount q (a :: L) = Ncount q L + 1 := by
-        simp [Ncount, List.countP_cons, h]
+        simp [Ncount, h]
       have haK : (a : K) = (q : K) * ((a.natAbs / q : ℕ) : K) := by
         have h0 : (a.natAbs : ℤ) = a := Int.natAbs_of_nonneg ha.le
         have h1 : (a : K) = ((a.natAbs : ℕ) : K) := by rw [← Int.cast_natCast, h0]
         have h2 : ((a.natAbs : ℕ) : K) = ((q * (a.natAbs / q) : ℕ) : K) := by rw [hmul]
         rw [h1, h2]; push_cast; ring
-      simp only [evalE, evalH, List.map_cons, List.prod_cons, h, if_true, hc] at ih ⊢
+      simp only [evalE, evalH, List.map_cons, List.prod_cons, h, ite_true, hc] at ih ⊢
       rw [ih, haK, pow_succ]; ring
     · have hc : Ncount q (a :: L) = Ncount q L := by
-        simp [Ncount, List.countP_cons, h]
-      simp only [evalE, evalH, List.map_cons, List.prod_cons, h, if_false, hc] at ih ⊢
+        simp [Ncount, h]
+      simp only [evalE, evalH, List.map_cons, List.prod_cons, h, ite_false, hc] at ih ⊢
       rw [ih]; ring
 
 lemma evalE_split (q : ℕ) (ζ : K) (L : List ℤ) :
@@ -153,8 +153,8 @@ lemma evalE_split (q : ℕ) (ζ : K) (L : List ℤ) :
   | cons a L ih =>
     simp only [evalE, List.map_cons, List.prod_cons] at ih ⊢
     by_cases h : (q : ℤ) ∣ a
-    · simp [h, List.filter_cons, ih, mul_assoc]
-    · simp [h, List.filter_cons, ih]
+    · simp [h, ih, mul_assoc]
+    · simp [h, ih]
       ring
 
 end Eval
@@ -192,6 +192,7 @@ theorem eval_quot (q : ℕ) (hq : 0 < q) (ζ : K) (hζ : ζ ^ q = 1) (x y : List
   have hN' : Ncount q (pairs x) = Ncount q (pairs y) := hN
   rw [hN', ← hev]; ring
 
+omit [CharZero K] in
 lemma evalH_cons (q : ℕ) (ζ : K) (L : List ℤ) (a : ℤ) :
     evalH K ζ q (a :: L) =
       (if (q : ℤ) ∣ a then (((a.natAbs / q : ℕ)) : K) else 1 - ζ ^ a.natAbs) * evalH K ζ q L := rfl
@@ -292,7 +293,7 @@ lemma map_posRootVals {G H : Type*} [AddCommGroup G] [AddCommGroup H] (φ : G �
   induction x with
   | nil => simp [posRootVals]
   | cons a xs ih =>
-    simp [posRootVals, List.map_flatMap, List.flatMap_map, ih, Function.comp_def]
+    simp [posRootVals, List.map_flatMap, List.flatMap_map, ih]
 
 /-- `ρ = (m, …, 1)` as integers. -/
 def rhoZ (m : ℕ) : List ℤ := ((List.range m).reverse).map fun i => ((i + 1 : ℕ) : ℤ)
@@ -322,7 +323,7 @@ lemma rhoZ_pairs_pos (m : ℕ) : ∀ a ∈ pairs (rhoZ m), 0 < a := by
     rcases ha with (rfl | ⟨b, hb, hab⟩) | ha
     · rw [two_nsmul]; push_cast; omega
     · have := mem_rhoZ hb
-      simp only [List.mem_cons, List.not_mem_nil, or_false] at hab
+      simp only [List.not_mem_nil, or_false] at hab
       rcases hab with rfl | rfl <;> push_cast <;> omega
     · exact ih a ha
 
@@ -332,7 +333,7 @@ lemma Nq_cast {q : ℕ} (l : List ℤ) :
   unfold Nq N Ncount pairs
   rw [← map_posRootVals, List.count_eq_countP, List.countP_map]
   refine List.countP_congr (fun a _ => ?_)
-  simp [Function.comp_def, ZMod.intCast_zmod_eq_zero_iff_dvd]
+  simp [ZMod.intCast_zmod_eq_zero_iff_dvd]
 
 lemma coeff_Rl {G : Type*} [AddCommGroup G] [DecidableEq G] (L : List G) (g : G) :
     ((L.map fun v => s v + s (-v)).sum : AddMonoidAlgebra ℤ G).coeff g = o L g := by
@@ -377,7 +378,7 @@ lemma fz_even {q : ℕ} [NeZero q] {ζ : ℂ} (hζ : ζ ^ q = 1) (g : ZMod q) :
   · simp [hg]
   · have hq : q ≠ 0 := NeZero.ne q
     have hng : -g ≠ 0 := neg_ne_zero.2 hg
-    have hv : (-g).val = q - g.val := by rw [ZMod.neg_val, if_neg hg]
+    have hv : (-g).val = q - g.val := by rw [ZMod.neg_val, ite_eq_right hg]
     have hlt : g.val < q := ZMod.val_lt g
     have hprod : ζ ^ (q - g.val) * ζ ^ g.val = 1 := by
       rw [← pow_add, Nat.sub_add_cancel hlt.le, hζ]
@@ -385,7 +386,7 @@ lemma fz_even {q : ℕ} [NeZero q] {ζ : ℂ} (hζ : ζ ^ q = 1) (g : ZMod q) :
       linear_combination (-1 : ℂ) * hprod
     have hn : ‖ζ ^ (q - g.val)‖ = 1 := by
       rw [norm_pow, Complex.norm_eq_one_of_pow_eq_one hζ hq, one_pow]
-    simp only [fz, hg, hng, if_false, hv]
+    simp only [fz, hg, hng, ite_false, hv]
     rw [e, norm_mul, hn, one_mul, norm_sub_rev]
 
 lemma fz_int {q : ℕ} [NeZero q] {ζ : ℂ} (hζ : ζ ^ q = 1) (a : ℤ) (ha : 0 < a) :
@@ -398,7 +399,7 @@ lemma fz_int {q : ℕ} [NeZero q] {ζ : ℂ} (hζ : ζ ^ q = 1) (a : ℤ) (ha : 
     have hc : (a : ZMod q) = ((a.natAbs : ℕ) : ZMod q) := by
       rw [← Int.cast_natCast, Int.natAbs_of_nonneg ha.le]
     have hv : (a : ZMod q).val = a.natAbs % q := by rw [hc, ZMod.val_natCast]
-    simp only [fz, h0, h, if_false]
+    simp only [fz, h0, h, ite_false]
     rw [hv, ← pow_eq_pow_mod _ hζ]
 
 /-- Norm of the unit part as the exponential of a sum of `fz`. -/
@@ -413,15 +414,15 @@ lemma norm_unit {q : ℕ} [NeZero q] {ζ : ℂ} (hζ : IsPrimitiveRoot ζ q) (L 
     have ha := hpos a (List.mem_cons_self ..)
     by_cases h : (q : ℤ) ∣ a
     · rw [List.filter_cons_of_neg (by simp [h]), List.map_cons, List.sum_cons,
-        fz_int hζ.pow_eq_one a ha, if_pos h, zero_add]
+        fz_int hζ.pow_eq_one a ha, ite_eq_left h, zero_add]
       exact ih
     · have hne : 1 - ζ ^ a.natAbs ≠ 0 := by
         intro h0
         exact h (Int.natCast_dvd.2 ((hζ.pow_eq_one_iff_dvd _).1 (sub_eq_zero.1 h0).symm))
       have hpos' : 0 < ‖1 - ζ ^ a.natAbs‖ := norm_pos_iff.2 hne
-      simp only [List.filter_cons, h, decide_false, not_false_eq_true, decide_true, if_true,
+      simp only [List.filter_cons, h, not_false_eq_true, decide_true, ite_true,
         List.map_cons, List.prod_cons, norm_mul, ih, List.sum_cons, fz_int hζ.pow_eq_one a ha,
-        if_false, Real.exp_add, Real.exp_log hpos']
+        ite_false, Real.exp_add, Real.exp_log hpos']
 
 /-- **Lemma 8.4 (`lem:unit`).**  For `ℓ` of length `m` with positive pairs, `d q = 2m + 2`, `ζ` a
 primitive `q`-th root of unity in `ℂ`, and `N_q ℓ = N_q ρ`: the unit parts
@@ -435,7 +436,7 @@ theorem lem_unit {q m d : ℕ} (hq : 0 < q) (hd : d * q = 2 * m + 2) {ζ : ℂ}
     ‖(((pairs l).filter fun a => ¬ (q : ℤ) ∣ a).map fun a => 1 - ζ ^ a.natAbs).prod‖ =
       ‖(((pairs (rhoZ m)).filter fun b => ¬ (q : ℤ) ∣ b).map
         fun b => 1 - ζ ^ b.natAbs).prod‖ := by
-  haveI : NeZero q := ⟨hq.ne'⟩
+  have : NeZero q := ⟨hq.ne'⟩
   have hlen : (l.map (Int.castAddHom (ZMod q))).length = m := by simp [hl]
   have hNq : Nq (l.map (Int.castAddHom (ZMod q))) = Nq (rho q m) := by
     rw [← rhoZ_cast q m, Nq_cast, Nq_cast]; exact hN
@@ -468,7 +469,7 @@ theorem thm_valgen {q m d : ℕ} (hq : 0 < q) (hd : d * q = 2 * m + 2) {ζ : ℂ
     (hQ : F ℂ (rhoZ m) * Q = F ℂ l) :
     ‖Q.eval ζ‖ = (((pairs l).filter fun a => (q : ℤ) ∣ a).map fun a : ℤ => (a : ℝ)).prod /
       (((pairs (rhoZ m)).filter fun b => (q : ℤ) ∣ b).map fun b : ℤ => (b : ℝ)).prod := by
-  haveI : NeZero q := ⟨hq.ne'⟩
+  have : NeZero q := ⟨hq.ne'⟩
   have hev := eval_quot q hq ζ hζ.pow_eq_one l (rhoZ m) hpl (rhoZ_pairs_pos m) Q hQ hN
   have hu := lem_unit hq hd hζ l hl hpl hN
   have hnorm := congrArg norm hev

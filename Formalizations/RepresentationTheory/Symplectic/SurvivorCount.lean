@@ -82,6 +82,7 @@ def prof {m : ℕ} (x : Fin m → X) (k : K) : ℕ := (univ.filter fun i => φ (
 /-- Size of the fibre of `φ` over `k`. -/
 def wt (k : K) : ℕ := (univ.filter fun a : X => φ a = k).card
 
+omit [Fintype X] [DecidableEq X] [Fintype K] in
 lemma prof_cons {m : ℕ} (x0 : X) (x' : Fin m → X) (k : K) :
     prof φ (Fin.cons x0 x' : Fin (m + 1) → X) k = (if φ x0 = k then 1 else 0) + prof φ x' k := by
   unfold prof
@@ -89,6 +90,7 @@ lemma prof_cons {m : ℕ} (x0 : X) (x' : Fin m → X) (k : K) :
   simp only [Fin.cons_zero, Fin.cons_succ]
   split_ifs <;> omega
 
+omit [Fintype X] [DecidableEq X] [Fintype K] in
 lemma prof_cons_eq_iff {m : ℕ} (x0 : X) (x' : Fin m → X) (n : K → ℕ) :
     prof φ (Fin.cons x0 x' : Fin (m + 1) → X) = n ↔
       (1 ≤ n (φ x0) ∧ prof φ x' = Function.update n (φ x0) (n (φ x0) - 1)) := by
@@ -96,7 +98,7 @@ lemma prof_cons_eq_iff {m : ℕ} (x0 : X) (x' : Fin m → X) (n : K → ℕ) :
   · intro h
     have h1 := congrFun h (φ x0)
     rw [prof_cons] at h1
-    simp only [if_true] at h1
+    simp only [ite_true] at h1
     refine ⟨by omega, funext fun k => ?_⟩
     have h2 := congrFun h k
     rw [prof_cons] at h2
@@ -104,15 +106,16 @@ lemma prof_cons_eq_iff {m : ℕ} (x0 : X) (x' : Fin m → X) (n : K → ℕ) :
     · subst hk; simp only [Function.update_self]; omega
     · rw [Function.update_of_ne hk]
       have : ¬ φ x0 = k := fun e => hk e.symm
-      simp only [this, if_false] at h2; omega
+      simp only [this, ite_false] at h2; omega
   · rintro ⟨h1, h2⟩
     funext k
     rw [prof_cons, h2]
     by_cases hk : k = φ x0
-    · subst hk; simp only [Function.update_self, if_true]; omega
+    · subst hk; simp only [Function.update_self, ite_true]; omega
     · have : ¬ φ x0 = k := fun e => hk e.symm
       rw [Function.update_of_ne hk]; simp [this]
 
+omit [DecidableEq X] in
 theorem fibre_count (m : ℕ) (n : K → ℕ) (hn : ∑ k, n k = m) :
     (univ.filter fun x : Fin m → X => prof φ x = n).card * ∏ k, (n k).factorial =
       m.factorial * ∏ k, (wt φ k) ^ (n k) := by
@@ -141,7 +144,7 @@ theorem fibre_count (m : ℕ) (n : K → ℕ) (hn : ∑ k, n k = m) :
       refine Finset.sum_congr rfl fun x0 _ => ?_
       simp only [prof_cons_eq_iff]
       by_cases h1 : 1 ≤ n (φ x0)
-      · simp only [h1, true_and, if_true]
+      · simp only [h1, true_and, ite_true]
         rw [Finset.card_filter]
       · simp [h1]
     have hsum : ∀ k, 1 ≤ n k →
@@ -204,7 +207,7 @@ theorem fibre_count (m : ℕ) (n : K → ℕ) (hn : ∑ k, n k = m) :
         n k * (m.factorial * ∏ j, (wt φ j) ^ (n j)) := by
       intro k
       by_cases hk : 1 ≤ n k
-      · simp only [hk, if_true]
+      · simp only [hk, ite_true]
         have := ih _ (hsum k hk)
         rw [hprodf k hk]
         have e2 := hprodw k hk
@@ -219,7 +222,7 @@ theorem fibre_count (m : ℕ) (n : K → ℕ) (hn : ∑ k, n k = m) :
           _ = n k * (m.factorial * (wt φ k * ∏ j, (wt φ j) ^ ((Function.update n k (n k - 1)) j))) := by ring
           _ = _ := by rw [← e2]
       · have : n k = 0 := by omega
-        simp [hk, this]
+        simp [this]
     rw [Finset.sum_congr rfl (fun k _ => hterm k), ← Finset.sum_mul, hn]
     rw [Nat.factorial_succ]
     ring
@@ -339,7 +342,7 @@ def Ek [DecidableEq K] (ε : ℕ) (w : K → ℕ) : Finset K := univ.filter fun 
 
 variable [DecidableEq K] {t b ε : ℕ} {w : K → ℕ}
 
-lemma refS_Al (hw : ∀ k, w k = 1 ∨ w k = 2) {S : Finset K} (hS : S ⊆ Ek ε w) (k : K) :
+lemma refS_Al (_hw :∀ k, w k = 1 ∨ w k = 2) {S : Finset K} (hS : S ⊆ Ek ε w) (k : K) :
     Al t b ε (w k) (refS t b w S k) := by
   unfold Al refS base
   by_cases h1 : w k = 1
@@ -387,14 +390,15 @@ lemma exists_S (hw : ∀ k, w k = 1 ∨ w k = 2) (n : K → ℕ) (h : ∀ k, Al 
       unfold refS; simp
     rw [hb]
     by_cases hc : n k = base t b w k + 1
-    · rw [if_pos hc]; omega
-    · rw [if_neg hc]; omega
+    · rw [ite_eq_left hc]; omega
+    · rw [ite_eq_right hc]; omega
 
 lemma sum_refS (S : Finset K) : ∑ k, refS t b w S k = ∑ k, base t b w k + S.card := by
   unfold refS
   rw [Finset.sum_add_distrib]
   simp
 
+omit [Fintype K] in
 lemma refS_inj {S S' : Finset K} (h : refS t b w S = refS t b w S') : S = S' := by
   ext k
   have := congrFun h k
@@ -430,6 +434,7 @@ section Total
 
 variable {X K : Type*} [Fintype X] [DecidableEq X] [Fintype K] [DecidableEq K] (φ : X → K)
 
+omit [Fintype X] [DecidableEq X] in
 lemma prof_sum {m : ℕ} (x : Fin m → X) : ∑ k, prof φ x k = m := by
   have := Finset.card_eq_sum_card_fiberwise (s := (Finset.univ : Finset (Fin m)))
     (t := (Finset.univ : Finset K)) (f := fun i => φ (x i)) (fun i _ => Finset.mem_univ _)
@@ -466,6 +471,7 @@ theorem count_min_set {t b ε : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) (
   simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx hx'
   exact hne (refS_inj (hx.symm.trans hx'))
 
+omit [DecidableEq X] in
 /-- Fixed (weight 1) and non-fixed (weight 2) classes partition `K`. -/
 lemma card_split (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) {a f : ℕ}
     (ha : (univ.filter fun k => wt φ k = 2).card = a)
@@ -480,6 +486,7 @@ lemma card_split (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) {a f : ℕ}
   rw [hne, ha, hf] at h
   simpa using h.symm
 
+omit [DecidableEq X] in
 lemma sum_base {t b : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) {a f : ℕ}
     (ha : (univ.filter fun k => wt φ k = 2).card = a)
     (hf : (univ.filter fun k => wt φ k = 1).card = f) :
@@ -493,6 +500,7 @@ lemma sum_base {t b : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) {a f : ℕ}
   rw [Finset.sum_ite, hne]
   simp [ha, hf, mul_comm]
 
+omit [DecidableEq X] in
 lemma prod_base_fact {t b : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) {a f : ℕ}
     (ha : (univ.filter fun k => wt φ k = 2).card = a)
     (hf : (univ.filter fun k => wt φ k = 1).card = f) :
@@ -507,6 +515,7 @@ lemma prod_base_fact {t b : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) {a f 
   rw [Finset.prod_congr rfl fun k _ => this k, Finset.prod_ite, hne]
   simp [ha, hf]
 
+omit [DecidableEq X] in
 lemma prod_w_base {t b : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) {a : ℕ}
     (ha : (univ.filter fun k => wt φ k = 2).card = a) :
     ∏ k, (wt φ k) ^ (base t b (wt φ) k) = 2 ^ (t * a) := by
@@ -515,7 +524,7 @@ lemma prod_w_base {t b : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) {a : ℕ
     by_cases h1 : wt φ k = 1
     · simp [h1]
     · have := (hw k).resolve_left h1
-      simp [h1, this]
+      simp [this]
   rw [Finset.prod_congr rfl fun k _ => this k, Finset.prod_ite]
   have hne : (univ.filter fun k => ¬ wt φ k = 1) = univ.filter fun k => wt φ k = 2 := by
     ext k; simp only [Finset.mem_filter, Finset.mem_univ, true_and]
@@ -524,6 +533,7 @@ lemma prod_w_base {t b : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2) {a : ℕ
     · intro h2; omega
   rw [hne, Finset.prod_const_one, Finset.prod_const, ha, one_mul, pow_mul]
 
+omit [DecidableEq X] in
 /-- Per-profile identity: `count(refS S) · ∏ base! · ∏_S (base+1) = m! · ∏ w^base · ∏_S w`. -/
 lemma count_refS {t b : ℕ} {m : ℕ} (S : Finset K)
     (hm : ∑ k, refS t b (wt φ) S k = m) :
@@ -536,7 +546,7 @@ lemma count_refS {t b : ℕ} {m : ℕ} (S : Finset K)
 /-- **Closed count, case `v ≤ a`.** -/
 theorem total_case1 {u a f v m : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2)
     (ha : (univ.filter fun k => wt φ k = 2).card = a)
-    (hf : (univ.filter fun k => wt φ k = 1).card = f) (hv : v ≤ a)
+    (hf : (univ.filter fun k => wt φ k = 1).card = f) (_hv : v ≤ a)
     (hm : u * f + 2 * u * a + v = m)
     (nρ : K → ℕ) (hρsum : ∑ k, nρ k = m) (hρ : ∀ k, Al (2 * u) u 0 (wt φ k) (nρ k)) :
     (univ.filter fun x : Fin m → X =>
@@ -613,7 +623,7 @@ theorem total_case2 {u a f e m : ℕ} (hw : ∀ k, wt φ k = 1 ∨ wt φ k = 2)
       rw [← hcard, ← Finset.prod_const, ← Finset.prod_mul_distrib]
       refine Finset.prod_congr rfl fun k _ => ?_
       unfold base
-      rcases hw k with h | h <;> simp [h] <;> ring
+      rcases hw k with h | h <;> simp [h]; ring
     have hpos : 0 < ∏ k ∈ S, wt φ k :=
       Finset.prod_pos fun k _ => by rcases hw k with h | h <;> omega
     rw [h1] at this
@@ -669,7 +679,7 @@ lemma wt_cls (g : G) : wt (cls (G := G)) (cls g) = if 2 • g = 0 then 1 else 2 
   · have : -g = g := (fixed_iff g).1 h
     simp [h, this]
   · have hne : g ≠ -g := fun e => h ((fixed_iff g).2 e.symm)
-    rw [if_neg h, Finset.card_pair hne]
+    rw [ite_eq_right h, Finset.card_pair hne]
 
 lemma wt_cases (k : Cls G) : wt (cls (G := G)) k = 1 ∨ wt (cls (G := G)) k = 2 := by
   obtain ⟨g, rfl⟩ := cls_surj k
@@ -684,6 +694,7 @@ lemma sum_cls_group (H : Cls G → ℤ) :
     univ.filter (fun g => cls g = k), H (cls g) = H k)]
   simp [wt]
 
+omit [AddCommGroup G] [DecidableEq G] [Fintype G] in
 lemma countP_ofFn' {m : ℕ} (x : Fin m → G) (p : G → Bool) :
     (List.ofFn x).countP p = (univ.filter fun i => p (x i) = true).card := by
   induction m with
@@ -717,7 +728,7 @@ theorem cost_eq_two_Nq {m : ℕ} (x : Fin m → G) :
       2 * c2 (wt (cls (G := G)) k) (prof (cls (G := G)) x k) := by
     intro k
     simp only [H, c2]
-    rcases wt_cases k with hk | hk <;> simp [hk] <;> ring
+    rcases wt_cases k with hk | hk <;> simp [hk]; ring
   rw [Finset.sum_congr rfl fun k _ => h2 k, ← Finset.mul_sum] at h
   unfold cost
   linarith
@@ -759,7 +770,7 @@ lemma fixed_card : (Finset.univ.filter fun g : ZMod q => 2 • g = 0).card = fq 
   have hq : 0 < q := Nat.pos_of_ne_zero (NeZero.ne q)
   unfold fq
   by_cases h : q % 2 = 0
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hs : (Finset.univ.filter fun g : ZMod q => 2 • g = 0) =
         {0, ((q / 2 : ℕ) : ZMod q)} := by
       ext g
@@ -781,7 +792,7 @@ lemma fixed_card : (Finset.univ.filter fun g : ZMod q => 2 • g = 0).card = fq 
     have := congrArg ZMod.val h0
     rw [ZMod.val_zero, ZMod.val_natCast, Nat.mod_eq_of_lt (by omega)] at this
     omega
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hs : (Finset.univ.filter fun g : ZMod q => 2 • g = 0) = {0} := by
       ext g
       simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton,
@@ -922,6 +933,7 @@ lemma Ncnt_eq (m : ℕ) (g : ZMod q) :
     · simp [hc]; omega
     · simp [hc]; omega
 
+omit [NeZero q] in
 lemma o_rho_Ncnt (m : ℕ) (g : ZMod q) :
     o (rho q m) g = (Ncnt q m g : ℤ) + (Ncnt q m (-g) : ℤ) := by
   rw [o_rho, Finset.sum_add_distrib, sum_ite_card, sum_ite_card]
@@ -930,17 +942,18 @@ lemma o_rho_Ncnt (m : ℕ) (g : ZMod q) :
   ext i
   simp only [Finset.mem_filter, neg_eq_iff_eq_neg]
 
+omit [NeZero q] in
 lemma occ_rho (m : ℕ) (g : ZMod q) :
     occ (rho q m) g = if 2 • g = 0 then Ncnt q m g else Ncnt q m g + Ncnt q m (-g) := by
   have h1 := o_rho_Ncnt m g
   have h2 := o_eq_occ (rho q m) g
   by_cases h : 2 • g = 0
   · have hn : -g = g := (fixed_iff g).1 h
-    rw [if_pos h]
-    rw [if_pos h, h1, hn] at h2
+    rw [ite_eq_left h]
+    rw [ite_eq_left h, h1, hn] at h2
     omega
-  · rw [if_neg h]
-    rw [if_neg h, h1] at h2
+  · rw [ite_eq_right h]
+    rw [ite_eq_right h, h1] at h2
     omega
 
 /-- `ρ` as a vector `(1, 2, …, m)` (order is irrelevant for occupancies). -/
@@ -956,6 +969,7 @@ lemma ofFn_val_map {α : Type*} (f : ℕ → α) (m : ℕ) :
       List.map_nil]
     rw [ih]
 
+omit [NeZero q] in
 lemma occ_rhoV (m : ℕ) (g : ZMod q) : occ (List.ofFn (rhoV q m)) g = occ (rho q m) g := by
   unfold rhoV
   rw [ofFn_val_map (fun i => ((i + 1 : ℕ) : ZMod q)) m]
@@ -965,10 +979,10 @@ lemma occ_rhoV (m : ℕ) (g : ZMod q) : occ (List.ofFn (rhoV q m)) g = occ (rho 
 lemma val_neg' (g : ZMod q) : (-g).val = if g.val = 0 then 0 else q - g.val := by
   by_cases h : g = 0
   · subst h; simp
-  · haveI : NeZero g := ⟨h⟩
+  · have : NeZero g := ⟨h⟩
     rw [ZMod.val_neg_of_ne_zero]
     have : g.val ≠ 0 := fun h' => h ((ZMod.val_eq_zero g).1 h')
-    rw [if_neg this]
+    rw [ite_eq_right this]
 
 lemma fq_cases (q : ℕ) : fq q = 1 ∨ fq q = 2 := by unfold fq; split_ifs <;> simp
 
@@ -984,11 +998,11 @@ lemma rho_Al_case1 (m : ℕ) (hv : m % q ≤ aq q) (g : ZMod q) :
   rw [occ_rho, Ncnt_eq, Ncnt_eq]
   unfold Al
   by_cases hg : 2 • g = 0
-  · rw [if_pos hg, if_pos hg, if_pos rfl]
+  · rw [ite_eq_left hg, ite_eq_left hg, ite_eq_left rfl]
     have hc := hD.1 hg
     simp only [ne_eq, hg0]
     split_ifs <;> omega
-  · rw [if_neg hg, if_neg hg, if_neg (by omega)]
+  · rw [ite_eq_right hg, ite_eq_right hg, ite_eq_right (by omega)]
     have hc := mt hD.2 hg
     simp only [ne_eq, hg0, neg_eq_zero, val_neg']
     split_ifs <;> omega
@@ -1005,11 +1019,11 @@ lemma rho_Al_case2 (m : ℕ) (hv : aq q < m % q) (g : ZMod q) :
   rw [occ_rho, Ncnt_eq, Ncnt_eq]
   unfold Al
   by_cases hg : 2 • g = 0
-  · rw [if_pos hg, if_pos hg, if_pos rfl]
+  · rw [ite_eq_left hg, ite_eq_left hg, ite_eq_left rfl]
     have hc := hD.1 hg
     simp only [ne_eq, hg0]
     split_ifs <;> first | omega | simp
-  · rw [if_neg hg, if_neg hg, if_neg (by omega)]
+  · rw [ite_eq_right hg, ite_eq_right hg, ite_eq_right (by omega)]
     have hc := mt hD.2 hg
     simp only [ne_eq, hg0, neg_eq_zero, val_neg']
     split_ifs <;> omega
