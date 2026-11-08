@@ -2338,6 +2338,12 @@ import Formalizations
 #print axioms SurvivorCount.min_profile_case2
 #print axioms SurvivorCount.thm_cuenta_le
 #print axioms SurvivorCount.thm_cuenta_gt
+#print axioms RhoLine.rho_div_pairs_eq_q
+#print axioms RhoLine.thm_val_k2
+#print axioms RhoLine.thm_val_k2_norm
+#print axioms RhoLine.dimGl_shift
+#print axioms RhoLine.dimSp_shift
+#print axioms RhoLine.dimSoOdd_shift
 #print axioms Dilog.enestrom_kakeya_boundary_series
 #print axioms Dilog.strictAnti_series_ne_zero
 #print axioms VirtualRoots.R_mem
