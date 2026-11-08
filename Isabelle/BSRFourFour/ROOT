@@ -1,0 +1,5 @@
+(* encaje: BSR(4,4) = 11: piezas elementales de la nota (punto regular, soportes, polar, traza) *)
+session BSR_Four_Four = HOL +
+  options [timeout = 600]
+  theories
+    BSR44_Pieces
