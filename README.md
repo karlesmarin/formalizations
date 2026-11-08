@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2574 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2581 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -238,6 +238,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `NumberTheory.SymplecticCharacterOrders` | `Arithmetic` 🆕 | When `p ∣ ∑_{j≤m} j²` (`p ≥ 5`, `3`, `2`), the cases `q = p, 25, 27`; half period and doubling of the column lattices |
 | | `Multipliers` 🆕 | The rank of `[½(s(ℓu⁻¹c) − s(u⁻¹c))]` is `d − δ_ℓ`, given the rank of `[s(u⁻¹c)]` |
 | | `Segments` 🆕 | Amiot's lemma (an interval of `ℤ/n` is not stable under a unit `≢ ±1`); `#{j ≤ m : j ≡ ±c}` is stable under a unit `≢ ±1` iff `n` divides `2m`, `2m+1` or `2m+2` |
+| | `IntegralPoints` 🆕 | The spectrum `{±1, …, ±m}` of `g_{1/q}` in `Sp(2m)` is stable under every unit of `ZMod q` iff `q ∣ 2m`, `q ∣ 2m+1`, `q ∣ 2m+2`, or `q = 6` and `m ≡ 1 (mod 3)`; for a multiset of `q`-th roots of unity, all elementary symmetric functions are integers iff it is Galois-stable; together, Theorem 5.1 of the note at the level of the spectrum (the step from characters of `Sp(2m)` to the elementary symmetric functions is not formalized) |
 | | `SupportAndIndex` 🆕 | Closed form of `S(c) = ∑_{j≡c} j − ∑_{j≡−c} j`; the arithmetic of the support of the conductor and of the index |
 | | `LinearCoefficient` 🆕 | Constant and linear parts of `e_k(2 + x_1, …, 2 + x_m)`, polynomial and `MvPolynomial` forms |
 | `NumberTheory.WeightedCharacterSums` | `DigitRecursion` 🆕 | For `χ` completely multiplicative and periodic off the multiples of `q`, `S(m) = ∑_{n≤m} n χ(n)` satisfies `S(qk + r) = s q S(k) + k(T_q + q C(r)) + T(r)`; zeros propagate along base-`q` digits; complete sequences and their pairs version (names `SegmentoII.*` as cited by the paper's blueprint) |
@@ -294,6 +295,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `RepresentationTheory` | `G2Counts` 🆕 | Divisibility counts of the six G2 positive-root values at q = 2, 3 (the arithmetic half of a character-vanishing corollary). |
 | `RepresentationTheory` | `SpinRhoLine` 🆕 | Product of sines `∏_{k=1}^{n-1} 2 sin(kπ/n) = n`; the spin values on the ρ-line, `∏_{j=1}^{m} 2 sin(jπ/(2m+1)) = √(2m+1)` (type B, also in cosine form) and `∏_{j=1}^{m-1} 2 sin(jπ/2m) = √m` (type D), each an integer iff `2m+1` (resp. `m`) is a square; the Dirichlet kernel and the index shift `sin((hq+r)π/q) = (−1)^h sin(rπ/q)`. The identification with the spin characters is not formalized. |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |
+| `RepresentationTheory.Symplectic` | `RhoLine` 🆕 | The ρ-line of `Sp(2m)` from the product `F_x = ∏_{α>0}(1 − X^{(x,α)})`: if `F_y · Q = F_x`, then at a primitive `q`-th root `ζ` the value `Q(ζ)` is nonzero iff `N_q(x) = N_q(y)` (Theorem 3.1 of the note), its exact value when the counts agree (`eval_quot`), and at the powers of `a_P` (`dq = 2m + 2`) the non-vanishing factors cancel in modulus (Lemma 8.4) and `‖Q(ζ)‖ = ∏_{q∣a} a / ∏_{q∣b} b` (Theorem 8.3). That `ζ^{−(λ,ρ)} Q(ζ)` is the character (Weyl's formula on the ρ-line) is not formalized. |
 | `RepresentationTheory.OrbifoldAlphabet` | `SymplecticBuild` 🆕 | Proposition 2 of the orbifold alphabet: `ρ ⊗ I₂` preserves `B ⊗ ε` when `ρᵀBρ = B`; `B ⊗ ε` is antisymmetric for `B` symmetric and `ε` antisymmetric; a unitary `ρ ⊕ ρ̄` preserves `J = [[0, I], [−I, 0]]` |
 | `RingTheory` | `KostantAlphabet` 🆕 | Alphabet of the k-th power of the Kostant element: multiset identity A = d.mu_q minus two points, by parity of gcd(k, 2m+2). |
 | `RingTheory.AffineSemigroup` | `OrbifoldProduct` 🆕 | `(S¹/ℤ₂)^k`: `4^k` distinct generators spanning a space of dimension `3^k` (the generator matrix is the `k`-th Kronecker power of a rank-3 `4 × 4` matrix), `∑ C(k,j)2^j = 3^k`; `4^k > 2·3^k − 2` for `k ≥ 3`, so (with Fischer–Morris–Shapiro's Cor. 3.4 as hypothesis) not a complete intersection; every generator spans an extreme ray (one-hot block vectors of distinct choices); and too many edges to be a cut ideal |

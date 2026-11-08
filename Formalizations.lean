@@ -175,6 +175,7 @@ public import Formalizations.NumberTheory.SymplecticCharacterOrders.Arithmetic
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.LinearCoefficient
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.Multipliers
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.Segments
+public import Formalizations.NumberTheory.SymplecticCharacterOrders.IntegralPoints
 public import Formalizations.NumberTheory.SymplecticCharacterOrders.SupportAndIndex
 public import Formalizations.NumberTheory.WeightedCharacterSums.DigitCorollaries
 public import Formalizations.NumberTheory.WeightedCharacterSums.DigitRecursion
@@ -242,6 +243,7 @@ public import Formalizations.Probability.Distributions.Superstatistics.StudentMi
 public import Formalizations.Probability.Kemeny
 public import Formalizations.RepresentationTheory.OrbifoldAlphabet.SymplecticBuild
 public import Formalizations.RepresentationTheory.Symplectic.ResidueCapacity
+public import Formalizations.RepresentationTheory.Symplectic.RhoLine
 public import Formalizations.RepresentationTheory.G2Counts
 public import Formalizations.RepresentationTheory.SpinRhoLine
 public import Formalizations.RingTheory.AffineSemigroup.OrbifoldProduct

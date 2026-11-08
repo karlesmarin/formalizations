@@ -2315,6 +2315,13 @@ import Formalizations
 #print axioms SpinRhoLine.sqrt_two_mul_add_one_eq_nat_iff
 #print axioms SpinRhoLine.spin_B_eq_nat_iff
 #print axioms SpinRhoLine.halfspin_D_eq_nat_iff
+#print axioms RhoLine.eval_quot
+#print axioms RhoLine.thm_crit
+#print axioms RhoLine.lem_unit
+#print axioms RhoLine.thm_valgen
+#print axioms Segmentos.stable_iff_cond
+#print axioms Segmentos.esymm_int_iff_stable
+#print axioms Segmentos.thm_clasif_spectral
 #print axioms Dilog.enestrom_kakeya_boundary_series
 #print axioms Dilog.strictAnti_series_ne_zero
 #print axioms VirtualRoots.R_mem
