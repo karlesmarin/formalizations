@@ -249,6 +249,7 @@ public import Formalizations.RepresentationTheory.Symplectic.SurvivorCount
 public import Formalizations.RepresentationTheory.Symplectic.DimsFactorisation
 public import Formalizations.RepresentationTheory.Symplectic.WeylProductMs
 public import Formalizations.RepresentationTheory.Symplectic.ResidualHistogram
+public import Formalizations.RepresentationTheory.Symplectic.RhoLineSign
 public import Formalizations.RepresentationTheory.G2Counts
 public import Formalizations.RepresentationTheory.SpinRhoLine
 public import Formalizations.RingTheory.AffineSemigroup.OrbifoldProduct
