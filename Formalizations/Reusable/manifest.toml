@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.1.1).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.2.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.1.1"
+version = "0.2.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -121,9 +121,9 @@ repo_dependencies = []
 id = "R0007"
 lean_name = "Formalizations.Reusable.splits_of_alternating_sign"
 statement = "A nonzero real polynomial of degree at most n that alternates sign at n + 1 strictly increasing points splits over ℝ (is real-rooted)."
-area = "Analysis"
+area = "Polynomial"
 msc = "26C10"
-import = "Formalizations.Reusable.Analysis"
+import = "Formalizations.Reusable.Polynomial"
 archive_module = "Formalizations.Analysis.Polynomial.RealRoots.RealRooted"
 archive_decl = "MSS.realRooted_of_alternating"
 paper = "none cited in the module (tool for the Heilmann–Lieb formalization)"
@@ -184,3 +184,173 @@ role = "showcase"
 upstream_candidate = false
 upstream_reason = "the hypotheses (roots.card = natDegree, nonzero sum of inverse roots) are tailored to the proof; a Mathlib version would need plane-curve API"
 repo_dependencies = []
+
+[[entry]]
+id = "R0011"
+lean_name = "Formalizations.Reusable.card_roots_toFinset_ge_of_alternating_sign"
+statement = "If a nonzero real polynomial takes strictly alternating signs at n + 1 strictly increasing points, it has at least n distinct real roots."
+area = "Polynomial"
+msc = "26C10"
+import = "Formalizations.Reusable.Polynomial"
+archive_module = "Formalizations.Analysis.Polynomial.RealRoots.RealRooted"
+archive_decl = "MSS.card_roots_ge_of_alternating"
+paper = "none cited in the module (tool for the Heilmann–Lieb formalization)"
+classical_reference = "S. Fisk, Polynomials, roots, and interlacing, arXiv:math/0612833"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "a short lemma on Polynomial.roots and the intermediate value theorem; Mathlib has card_roots_le_derivative but no lower count from sign changes"
+repo_dependencies = []
+
+[[entry]]
+id = "R0012"
+lean_name = "Formalizations.Reusable.splits_of_isRoot_mem_Ioo_of_gaps"
+statement = "A nonzero real polynomial of degree at most n with a root in each of the n open gaps between n + 1 strictly increasing points splits over ℝ."
+area = "Polynomial"
+msc = "26C10"
+import = "Formalizations.Reusable.Polynomial"
+archive_module = "Formalizations.Analysis.Polynomial.RealRoots.RealRooted"
+archive_decl = "MSS.realRooted_of_root_per_gap"
+paper = "none cited in the module (tool for the Heilmann–Lieb formalization)"
+classical_reference = "S. Fisk, Polynomials, roots, and interlacing, arXiv:math/0612833"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "a root-counting lemma about Polynomial.Splits; the closing step of interlacing proofs (orthogonal polynomials, Cauchy interlacing)"
+repo_dependencies = []
+
+[[entry]]
+id = "R0013"
+lean_name = "Formalizations.Reusable.sturm_signVariations_sub_eq_card_roots"
+statement = "Sturm's theorem: for squarefree p ∈ ℝ[X] and a < b with p(a), p(b) ≠ 0, the sign variations of Mathlib's Polynomial.sturmSeq p p' at a minus those at b equal the number of distinct roots of p in (a, b]."
+area = "Polynomial"
+msc = "12D10"
+import = "Formalizations.Reusable.Polynomial"
+archive_module = "Formalizations.Analysis.Polynomial.RealRoots.Sturm"
+archive_decl = "Sturm.sturm, Sturm.sturmSeq_eq, Sturm.signVarAt_eq_signVariations"
+paper = "none"
+classical_reference = "C. Sturm (1829); S. Basu, R. Pollack, M.-F. Roy, Algorithms in Real Algebraic Geometry, ch. 2"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "the theorem Mathlib's Polynomial.sturmSeq is defined for (its docstring: only the algebraic properties); its authors may be writing it, so check before any PR"
+repo_dependencies = []
+
+[[entry]]
+id = "R0014"
+lean_name = "Formalizations.Reusable.budan_fourier_card_roots_le"
+statement = "The Budan–Fourier theorem: for nonzero p ∈ ℝ[X] and a < b with p(a), p(b) ≠ 0, the number of roots of p in (a, b] counted with multiplicity is at most V(a) − V(b), with even difference, where V(x) is the number of sign variations of p, p′, …, p^(deg p) at x."
+area = "Polynomial"
+msc = "12D10"
+import = "Formalizations.Reusable.Polynomial"
+archive_module = "Formalizations.Analysis.Polynomial.RealRoots.BudanFourier"
+archive_decl = "BudanFourier.budan_fourier, BudanFourier.fourierVar_eq_signVarAt, Sturm.signVarAt_eq_signVariations"
+paper = "none"
+classical_reference = "F. D. Budan (1807), J. Fourier (1820); S. Basu, R. Pollack, M.-F. Roy, Algorithms in Real Algebraic Geometry, ch. 2"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has Descartes' rule of signs (roots_countP_pos_le_signVariations) and List.signVariations, not Budan–Fourier"
+repo_dependencies = ["Formalizations.Analysis.Polynomial.RealRoots.Sturm"]
+
+[[entry]]
+id = "R0015"
+lean_name = "Formalizations.Reusable.newton_inequality_esymm_roots"
+statement = "Newton's inequalities: for a monic real polynomial p of degree n that splits over ℝ and 1 ≤ k ≤ n − 1, e_k² · C(n,k−1) C(n,k+1) ≥ e_{k−1} e_{k+1} · C(n,k)², with e_j the elementary symmetric functions of the roots."
+area = "Polynomial"
+msc = "26D05"
+import = "Formalizations.Reusable.Polynomial"
+archive_module = "Formalizations.Analysis.Polynomial.RealRoots.NewtonInequalities"
+archive_decl = "Newton.newton_inequality"
+paper = "none"
+classical_reference = "I. Newton, Arithmetica universalis (1707); G. H. Hardy, J. E. Littlewood, G. Pólya, Inequalities, 2nd ed. (1952), ch. II"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "a classical inequality stated with Multiset.esymm of Polynomial.roots; Mathlib has neither Newton nor Maclaurin"
+repo_dependencies = ["Formalizations.Analysis.Polynomial.RealRoots.RealRooted"]
+
+[[entry]]
+id = "R0016"
+lean_name = "Formalizations.Reusable.enestrom_kakeya_ne_zero"
+statement = "The Eneström–Kakeya theorem: a polynomial ∑_{k ≤ n} a_k z^k with real coefficients a_0 ≥ a_1 ≥ ⋯ ≥ a_n > 0 has no zero in the open unit disc ‖z‖ < 1."
+area = "Analysis"
+msc = "30C15"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Analysis.Polynomial.EnestromKakeya"
+archive_decl = "Dilog.enestrom_kakeya"
+paper = "none"
+classical_reference = "G. Eneström (1893); S. Kakeya, Tôhoku Math. J. 2 (1912); Q. I. Rahman, G. Schmeisser, Analytic Theory of Polynomials (2002)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "a zero-localization lemma for polynomials with monotone coefficients; the archive module imports the dilogarithm module, whose names its proof does not use; to be split before any PR"
+repo_dependencies = ["Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic"]
+
+[[entry]]
+id = "R0017"
+lean_name = "Formalizations.Reusable.matrix_rank_add_le"
+statement = "Over a field, rank (A + B) ≤ rank A + rank B for matrices."
+area = "LinearAlgebra"
+msc = "15A03"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.BlockRank"
+archive_decl = "Matrix.rank_add_le"
+paper = "none (shared lemma of the free-locus certificates)"
+classical_reference = "textbook"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "the Matrix.rank form of LinearMap.rank_add_le; a three-line lemma"
+repo_dependencies = []
+
+[[entry]]
+id = "R0018"
+lean_name = "Formalizations.Reusable.det_mul_eq_sum_det_submatrix_mul_det_submatrix"
+statement = "Cauchy–Binet: for A : m × n and B : n × m over a commutative ring (n linearly ordered), det (A B) is the sum over the |m|-subsets S of n of det A[:, S] · det B[S, :]."
+area = "LinearAlgebra"
+msc = "15A15"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.CauchyBinet"
+archive_decl = "Matrix.det_mul_cauchyBinet"
+paper = "none (tool for Kirchhoff's theorem)"
+classical_reference = "A.-L. Cauchy (1815), J. Binet (1815)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "three Mathlib PRs by others (#44209, #44757, #44759) closed; any PR is the maintainer's decision"
+repo_dependencies = []
+
+[[entry]]
+id = "R0019"
+lean_name = "Formalizations.Reusable.derivative_det_eq_trace_adjugate_mul"
+statement = "Jacobi's formula: for a square matrix A of polynomials over a commutative ring, derivative (det A) = trace (adjugate A · A.map derivative)."
+area = "LinearAlgebra"
+msc = "15A15"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi"
+archive_decl = "Matrix.derivative_det"
+paper = "none (tool for the Ihara trace formula)"
+classical_reference = "C. G. J. Jacobi, J. Reine Angew. Math. 22 (1841)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has only the special case derivative_det_one_add_X_smul"
+repo_dependencies = []
+
+[[entry]]
+id = "R0020"
+lean_name = "Formalizations.Reusable.det_lapMatrix_submatrix_eq_card_spanningTrees"
+statement = "Kirchhoff's matrix-tree theorem: over an integral domain, deleting the row and column of any vertex from the Laplacian (Mathlib's lapMatrix) of a finite simple graph leaves a matrix whose determinant is the number of spanning trees."
+area = "Combinatorics"
+msc = "05C30"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.MatrixTree.Kirchhoff"
+archive_decl = "SimpleGraph.det_reducedLapMatrix_eq_card_spanningTrees"
+paper = "none"
+classical_reference = "G. Kirchhoff, Ann. Phys. 148 (1847) 497–508; N. Biggs, Algebraic Graph Theory, 2nd ed. (1993), ch. 6"
+status = "reusable"
+role = "showcase"
+upstream_candidate = true
+upstream_reason = "answers the TODO in Mathlib/Combinatorics/SimpleGraph/IncMatrix.lean and the 1000+ list (Q2226691); Mathlib has not accepted this from anyone (#44234 closed); LeanPool is the realistic route"
+repo_dependencies = ["Formalizations.LinearAlgebra.Matrix.CauchyBinet", "Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix", "Formalizations.Combinatorics.SimpleGraph.MatrixTree.Basic", "Formalizations.Combinatorics.SimpleGraph.MatrixTree.SpanningTreeMinor"]

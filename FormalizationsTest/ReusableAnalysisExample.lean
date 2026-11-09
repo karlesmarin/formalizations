@@ -23,14 +23,13 @@ example : ∏ k ∈ Finset.Ico (1 : ℕ) 6, 2 * Real.sin (k * π / 6) = 6 := by
   push_cast at this
   exact this
 
-/-- `X² − 1` splits over `ℝ`: its signs at `−2, 0, 2` are `+, −, +`. -/
-example : (Polynomial.X ^ 2 - 1 : Polynomial ℝ).Splits := by
-  refine splits_of_alternating_sign _ ?_ 2 ?_ ![-2, 0, 2] ?_ ?_
-  · intro h
-    have := congrArg (Polynomial.eval 0) h
-    simp at this
-  · compute_degree!
-  · refine Fin.strictMono_iff_lt_succ.2 fun i => ?_
-    fin_cases i <;> norm_num
-  · intro i
-    fin_cases i <;> norm_num
+/-- Eneström–Kakeya: `1 + z/2 + z²/3` (coefficients `1 ≥ 1/2 ≥ 1/3 > 0`) has no zero in the open
+unit disc. -/
+example {z : ℂ} (hz : ‖z‖ < 1) : (1 : ℂ) + z / 2 + z ^ 2 / 3 ≠ 0 := by
+  have h := enestrom_kakeya_ne_zero (n := 2) (fun k => 1 / ((k : ℝ) + 1))
+    (fun k _ => by positivity)
+    (fun k _ => one_div_le_one_div_of_le (by positivity) (by push_cast; linarith)) hz
+  convert h using 1
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero]
+  push_cast
+  ring

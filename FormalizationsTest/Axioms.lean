@@ -2674,3 +2674,13 @@ import Formalizations
 #print axioms Formalizations.Reusable.pomerance_density_add_dvd_centralBinom
 #print axioms Formalizations.Reusable.rank_fromBlocks_zero₂₁_le_card_add_rank
 #print axioms Formalizations.Reusable.cotes_harmonic_mean_polar
+#print axioms Formalizations.Reusable.card_roots_toFinset_ge_of_alternating_sign
+#print axioms Formalizations.Reusable.splits_of_isRoot_mem_Ioo_of_gaps
+#print axioms Formalizations.Reusable.sturm_signVariations_sub_eq_card_roots
+#print axioms Formalizations.Reusable.budan_fourier_card_roots_le
+#print axioms Formalizations.Reusable.newton_inequality_esymm_roots
+#print axioms Formalizations.Reusable.enestrom_kakeya_ne_zero
+#print axioms Formalizations.Reusable.matrix_rank_add_le
+#print axioms Formalizations.Reusable.det_mul_eq_sum_det_submatrix_mul_det_submatrix
+#print axioms Formalizations.Reusable.derivative_det_eq_trace_adjugate_mul
+#print axioms Formalizations.Reusable.det_lapMatrix_submatrix_eq_card_spanningTrees

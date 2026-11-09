@@ -11,9 +11,10 @@ public import Formalizations.Reusable.Combinatorics
 public import Formalizations.Reusable.Geometry
 public import Formalizations.Reusable.LinearAlgebra
 public import Formalizations.Reusable.MeasureTheory
+public import Formalizations.Reusable.Polynomial
 
 /-!
-# Reusable layer (v0.1.1)
+# Reusable layer (v0.2.0)
 
 A small, deliberately maintained layer on top of the archive: general statements, phrased with
 Mathlib concepts only, under stable names `Formalizations.Reusable.<name>`. Each theorem is proved
@@ -26,5 +27,6 @@ each entry, is `Formalizations/Reusable/manifest.toml`; usage examples are in
 `FormalizationsTest/ReusableExamples.lean` (all of them).
 
 Import the whole layer with `import Formalizations.Reusable`, or one area, e.g.
-`import Formalizations.Reusable.Analysis`.
+`import Formalizations.Reusable.Polynomial` (real polynomials and their real roots; it imports no
+paper of the archive).
 -/

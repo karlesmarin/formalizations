@@ -6,17 +6,21 @@ Authors: Carles Marín, Claude (AI assistant)
 module
 
 public import Formalizations.Analysis.SpecialFunctions.Airy.Basic
-public import Formalizations.Analysis.Polynomial.RealRoots.RealRooted
+public import Formalizations.Analysis.Polynomial.EnestromKakeya
 public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
 public import Formalizations.RepresentationTheory.SpinRhoLine
+public import Formalizations.Reusable.Polynomial
 
 /-!
 # Reusable layer: analysis
 
-Stable names for four analysis results of the archive. Each theorem is proved by the archive
-theorem it re-exposes (no proof is copied). The real-rootedness result is restated with Mathlib's
-`Polynomial.Splits` instead of the archive predicate `MSS.RealRooted`; the two agree by
-definition (`Formalizations.Reusable.realRooted_iff_splits`).
+Stable names for analysis results of the archive. Each theorem is proved by the archive theorem it
+re-exposes (no proof is copied).
+
+Since v0.2.0 the real-rootedness result `splits_of_alternating_sign` (and its bridge
+`realRooted_iff_splits`) lives in `Formalizations.Reusable.Polynomial`, with the other results on
+real roots; this module imports it, so `import Formalizations.Reusable.Analysis` still provides it
+under the same name.
 
 ## Main results
 
@@ -26,9 +30,8 @@ definition (`Formalizations.Reusable.realRooted_iff_splits`).
   (archive: `Superstatistics.glasser_integral`).
 * `Formalizations.Reusable.prod_two_sin_mul_pi_div`: `∏_{k=1}^{n-1} 2 sin(kπ/n) = n`
   (archive: `SpinRhoLine.prod_two_sin`).
-* `Formalizations.Reusable.splits_of_alternating_sign`: a real polynomial of degree at most `n`
-  that alternates sign at `n + 1` increasing points splits over `ℝ`
-  (archive: `MSS.realRooted_of_alternating`).
+* `Formalizations.Reusable.enestrom_kakeya_ne_zero`: a polynomial with positive non-increasing
+  real coefficients has no zero in the open unit disc (archive: `Dilog.enestrom_kakeya`).
 -/
 
 @[expose] public section
@@ -85,30 +88,21 @@ theorem prod_two_sin_mul_pi_div (n : ℕ) (hn : 1 ≤ n) :
     ∏ k ∈ Finset.Ico 1 n, 2 * Real.sin (k * π / n) = n :=
   SpinRhoLine.prod_two_sin n hn
 
-/-- The archive predicate `MSS.RealRooted` is Mathlib's `Polynomial.Splits` over `ℝ`, by
-definition. This is the bridge that lets `splits_of_alternating_sign` be stated with Mathlib
-concepts only. -/
-theorem realRooted_iff_splits (p : Polynomial ℝ) : MSS.RealRooted p ↔ p.Splits :=
-  Iff.rfl
+/-- **The Eneström–Kakeya theorem.** A polynomial `∑_{k=0}^n a_k z^k` with real coefficients
+`a_0 ≥ a_1 ≥ ⋯ ≥ a_n > 0` has no zero in the open unit disc `‖z‖ < 1`. The proof multiplies by
+`1 − z`, telescopes and applies the triangle inequality. (In the other common form, increasing
+positive coefficients give no zero outside the closed unit disc; it follows by reversing the
+polynomial.)
 
-/-- **Real-rootedness from sign alternation.** A nonzero real polynomial `h` of degree at most `n`
-that alternates sign at `n + 1` strictly increasing points `x 0 < x 1 < ⋯ < x n`
-(`h (x i) · h (x (i+1)) < 0`) splits over `ℝ`: the intermediate value theorem gives a root in each
-of the `n` gaps, and the degree bound leaves no room for non-real roots. This is the step in which
-the method of interlacing polynomials (Marcus–Spielman–Srivastava) concludes real-rootedness.
-
-* Archive: `MSS.realRooted_of_alternating`
-  (`Formalizations.Analysis.Polynomial.RealRoots.RealRooted`, a tool for the Heilmann–Lieb theorem
-  on matching polynomials in the same archive); restated with `Polynomial.Splits` through
-  `realRooted_iff_splits`.
-* Classical reference: S. Fisk, *Polynomials, roots, and interlacing*, arXiv:math/0612833;
-  A. W. Marcus, D. A. Spielman, N. Srivastava, Ann. of Math. 182 (2015) 307–325.
-* Example: for `h = X² − 1`, `n = 2` and the points `−2 < 0 < 2`, the signs are `+, −, +`, so
-  `splits_of_alternating_sign` shows that `X² − 1` splits. -/
-theorem splits_of_alternating_sign (h : Polynomial ℝ) (hh : h ≠ 0) (n : ℕ)
-    (hdeg : h.natDegree ≤ n) (x : Fin (n + 1) → ℝ) (hmono : StrictMono x)
-    (halt : ∀ i : Fin n, h.eval (x i.castSucc) * h.eval (x i.succ) < 0) :
-    h.Splits :=
-  (realRooted_iff_splits h).1 (MSS.realRooted_of_alternating h hh n hdeg x hmono halt)
+* Archive: `Dilog.enestrom_kakeya` (`Formalizations.Analysis.Polynomial.EnestromKakeya`, in the
+  namespace of the dilogarithm notes of the same archive; the module also has the boundary case,
+  `Dilog.enestrom_kakeya_boundary`).
+* Classical reference: G. Eneström (1893), S. Kakeya, Tôhoku Math. J. 2 (1912);
+  Q. I. Rahman, G. Schmeisser, *Analytic Theory of Polynomials* (2002).
+* Example: `1 + z/2 + z²/3` (coefficients `1 ≥ 1/2 ≥ 1/3 > 0`) has no zero with `‖z‖ < 1`. -/
+theorem enestrom_kakeya_ne_zero {n : ℕ} (a : ℕ → ℝ) (hpos : ∀ k ≤ n, 0 < a k)
+    (hmono : ∀ k, k < n → a (k + 1) ≤ a k) {z : ℂ} (hz : ‖z‖ < 1) :
+    ∑ k ∈ Finset.range (n + 1), (a k : ℂ) * z ^ k ≠ 0 :=
+  Dilog.enestrom_kakeya a hpos hmono hz
 
 end Formalizations.Reusable
