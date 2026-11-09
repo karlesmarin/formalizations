@@ -6,8 +6,8 @@ Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/le
 organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
 results.
 
-- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.lean` (commit `f0b4c81`).
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2629 main results depend only on the standard axioms
+- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.1.0`.
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2668 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -36,6 +36,50 @@ lake build
 
 Import everything with `import Formalizations`, or a single file, e.g.
 `import Formalizations.RingTheory.DGH.Epsilon0`.
+
+## 💎 Reusable layer
+
+Most of the archive is organized by paper. On top of it, `Formalizations.Reusable` is a small layer of general
+statements, phrased with Mathlib concepts only, under stable names `Formalizations.Reusable.<name>`. Each one is
+proved by the archive theorem it re-exposes, so its provenance stays traceable; the archive itself is unchanged.
+The manifest [`Formalizations/Reusable/manifest.toml`](Formalizations/Reusable/manifest.toml) gives, for each entry, an
+English statement, the area (MSC), the minimal import, the archive module, the paper, the classical reference and
+whether it is a candidate for Mathlib. A compiled usage example of each is in
+[`FormalizationsTest/ReusableExamples.lean`](FormalizationsTest/ReusableExamples.lean).
+
+To depend on it from another Lake project on the same Lean and Mathlib versions (Lean `v4.35.0`, Mathlib
+`f0b4c81`), add to its `lakefile.toml`:
+
+```toml
+[[require]]
+name = "formalizations"
+git = "https://github.com/karlesmarin/formalizations"
+rev = "v0.1.0"
+```
+
+(The tag `v0.1.0` is published by the maintainer; until it exists, use a commit hash as `rev`.) Then:
+
+```lean
+import Formalizations.Reusable            -- the whole layer
+import Formalizations.Reusable.Analysis   -- or one area
+
+example (n : ℕ) (hn : 1 ≤ n) :
+    ∏ k ∈ Finset.Ico 1 n, 2 * Real.sin (k * Real.pi / n) = n :=
+  Formalizations.Reusable.prod_two_sin_mul_pi_div n hn
+```
+
+| Name (`Formalizations.Reusable.…`) | Statement | Import (`Formalizations.Reusable.…`) | Archive theorem |
+|---|---|---|---|
+| `pappus_hexagon` | Pappus's hexagon theorem in homogeneous coordinates over any commutative ring | `Geometry` | `Pappus.pappus` |
+| `wolstenholme_defect_eq_sq_add_sq` | If `A + B + C = π`, the defect of Wolstenholme's inequality is `(x − z cos B − y cos C)² + (z sin B − y sin C)²` | `Geometry` | `WolstenholmeInequality.sub_eq_sq_add_sq` |
+| `torricelli_trumpet` | The revolution of `y = 1/x`, `x ≥ 1`, has volume `π`; its plane section has infinite area | `MeasureTheory` | `Torricelli.volume_trumpet`, `Torricelli.volume_section_eq_top` |
+| `airy_eq_zeros_unbounded_below` | Every solution of `y'' = x y` has zeros unbounded below | `Analysis` | `Airy.sturm_unbounded_zeros` |
+| `glasser_integral` | `∫_{v>0} v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` for `a ≥ 0`, `b > 0` | `Analysis` | `Superstatistics.glasser_integral` |
+| `prod_two_sin_mul_pi_div` | `∏_{k=1}^{n−1} 2 sin(kπ/n) = n` | `Analysis` | `SpinRhoLine.prod_two_sin` |
+| `splits_of_alternating_sign` | A real polynomial of degree `≤ n` alternating in sign at `n + 1` increasing points splits over `ℝ` | `Analysis` | `MSS.realRooted_of_alternating` |
+| `pomerance_density_add_dvd_centralBinom` | For `k ≥ 1`, `n + k ∣ C(2n, n)` for a set of `n` of density 1 (Pomerance 2015, Thm 2) | `Combinatorics` | `MiddleBinomial.tendsto_density_add_dvd_centralBinom` |
+| `rank_fromBlocks_zero₂₁_le_card_add_rank` | `rank [[A, B], [0, D]] ≤ #rows(A) + rank D` over a field | `LinearAlgebra` | `Matrix.rank_fromBlocks_zero₂₁_le_right` |
+| `cotes_harmonic_mean_polar` | Cotes' harmonic means theorem: the harmonic-mean point of a line's intersections with a plane curve lies on the polar of `p` | `AlgebraicGeometry` | `Cotes.harmonic_mean_polar` |
 
 ## 🗂️ Contents
 
@@ -293,6 +337,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 | `Probability` | `Kemeny` 🆕 | Kemeny's constant: for a finite Markov chain with stationary `π` and finite hitting times, `Σ_t π_t m_st` does not depend on the start `s`. |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
 | | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
+| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry` 🆕 | The reusable layer v0.1.0: ten general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
 | `RepresentationTheory` | `G2Counts` 🆕 | Divisibility counts of the six G2 positive-root values at q = 2, 3 (the arithmetic half of a character-vanishing corollary). |
 | `RepresentationTheory` | `SpinRhoLine` 🆕 | Product of sines `∏_{k=1}^{n-1} 2 sin(kπ/n) = n`; the spin values on the ρ-line, `∏_{j=1}^{m} 2 sin(jπ/(2m+1)) = √(2m+1)` (type B, also in cosine form) and `∏_{j=1}^{m-1} 2 sin(jπ/2m) = √m` (type D), each an integer iff `2m+1` (resp. `m`) is a square; the Dirichlet kernel and the index shift `sin((hq+r)π/q) = (−1)^h sin(rπ/q)`. The identification with the spin characters is not formalized. |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |

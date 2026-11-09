@@ -1,0 +1,173 @@
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.1.0).
+# One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
+# (no proof is copied). Usage examples: FormalizationsTest/ReusableExamples.lean. Axioms: FormalizationsTest/Axioms.lean
+# (every entry depends only on propext, Classical.choice, Quot.sound).
+# Status: `reusable` = stable name, maintained across releases. `upstream_candidate` = whether the statement looks like a
+# short lemma in an existing Mathlib theory; any Mathlib PR is decided and written by the maintainer, not generated.
+
+[layer]
+package = "formalizations"
+version = "0.1.0"
+lean = "leanprover/lean4:v4.35.0"
+mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
+import_all = "Formalizations.Reusable"
+
+[[entry]]
+id = "R0001"
+lean_name = "Formalizations.Reusable.pappus_hexagon"
+statement = "Pappus's hexagon theorem in homogeneous coordinates over any commutative ring: if A, B, C are collinear and a, b, c are collinear, the meets Ab∩aB, Ac∩aC, Bc∩bC are collinear, with no non-degeneracy hypothesis."
+area = "Geometry"
+msc = "51A20"
+import = "Formalizations.Reusable.Geometry"
+archive_module = "Formalizations.Geometry.Projective.Pappus"
+archive_decl = "Pappus.pappus"
+paper = "none (Theorem of the Day)"
+classical_reference = "Pappus of Alexandria, Collection, Book VII (c. 320 AD)"
+status = "reusable"
+upstream_candidate = false
+upstream_reason = "the proof is a degree-9 ideal-membership certificate of several hundred terms; Mathlib would want a synthetic or affine proof"
+repo_dependencies = []
+
+[[entry]]
+id = "R0002"
+lean_name = "Formalizations.Reusable.wolstenholme_defect_eq_sq_add_sq"
+statement = "If A + B + C = π, then x² + y² + z² − (2yz cos A + 2zx cos B + 2xy cos C) = (x − z cos B − y cos C)² + (z sin B − y sin C)² for all real x, y, z; hence Wolstenholme's inequality."
+area = "Geometry"
+msc = "51M16"
+import = "Formalizations.Reusable.Geometry"
+archive_module = "Formalizations.Geometry.Euclidean.WolstenholmeInequality"
+archive_decl = "WolstenholmeInequality.sub_eq_sq_add_sq"
+paper = "none"
+classical_reference = "J. Wolstenholme, A Book of Mathematical Problems, Macmillan, 1867"
+status = "reusable"
+upstream_candidate = false
+upstream_reason = "an olympiad-style identity with a six-line proof; Mathlib's Archive at most"
+repo_dependencies = []
+
+[[entry]]
+id = "R0003"
+lean_name = "Formalizations.Reusable.torricelli_trumpet"
+statement = "The solid of revolution of y = 1/x, x ≥ 1 (Torricelli's trumpet, Gabriel's horn) has Lebesgue volume π, while its plane section {x ≥ 1, |y| ≤ 1/x} has infinite area."
+area = "MeasureTheory"
+msc = "28A75"
+import = "Formalizations.Reusable.MeasureTheory"
+archive_module = "Formalizations.MeasureTheory.Torricelli"
+archive_decl = "Torricelli.volume_trumpet, Torricelli.volume_section_eq_top"
+paper = "none (Theorem of the Day)"
+classical_reference = "E. Torricelli, Opera geometrica (1644)"
+status = "reusable"
+upstream_candidate = false
+upstream_reason = "a named example rather than API; it rests on the archive's own Pappus–Guldin volume formula"
+repo_dependencies = ["Formalizations.MeasureTheory.PappusGuldin"]
+
+[[entry]]
+id = "R0004"
+lean_name = "Formalizations.Reusable.airy_eq_zeros_unbounded_below"
+statement = "Every solution f of the Airy equation f'' = x f on ℝ has zeros unbounded below: for every M there is x < M with f x = 0."
+area = "Analysis"
+msc = "34C10"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Analysis.SpecialFunctions.Airy.Basic"
+archive_decl = "Airy.sturm_unbounded_zeros"
+paper = "C. Marín, How a Falling Particle Counts Its Floors (2026), doi:10.5281/zenodo.20787671"
+classical_reference = "E. A. Coddington, N. Levinson, Theory of Ordinary Differential Equations (1955), ch. 8; DLMF §9.9"
+status = "reusable"
+upstream_candidate = false
+upstream_reason = "Mathlib has no Sturm comparison theory; the right upstream object is a general Sturm comparison theorem, not this instance"
+repo_dependencies = []
+
+[[entry]]
+id = "R0005"
+lean_name = "Formalizations.Reusable.glasser_integral"
+statement = "For a ≥ 0 and b > 0, ∫_{v>0} v^{-1/2} exp(−a/v − b v) dv = √(π/b) exp(−2√(ab)) (the modified Bessel K_{1/2} integral)."
+area = "Analysis"
+msc = "33C10"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture"
+archive_decl = "Superstatistics.glasser_integral"
+paper = "none cited in the module (superstatistics series)"
+classical_reference = "M. L. Glasser, A remarkable property of definite integrals, Math. Comp. 40 (1983) 561"
+status = "reusable"
+upstream_candidate = true
+upstream_reason = "a single closed-form integral in Mathlib's existing improper-integral theory, next to the Gamma and Gaussian integrals"
+repo_dependencies = []
+
+[[entry]]
+id = "R0006"
+lean_name = "Formalizations.Reusable.prod_two_sin_mul_pi_div"
+statement = "For every n ≥ 1, ∏_{k=1}^{n−1} 2 sin(kπ/n) = n."
+area = "Analysis"
+msc = "33B10"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.RepresentationTheory.SpinRhoLine"
+archive_decl = "SpinRhoLine.prod_two_sin"
+paper = "none cited in the module (ρ-line note)"
+classical_reference = "folklore: the value at 1 of (Xⁿ − 1)/(X − 1) = ∏(X − ζᵏ)"
+status = "reusable"
+upstream_candidate = true
+upstream_reason = "a short corollary of Mathlib's IsPrimitiveRoot.prod_pow_sub_one_eq_order, absent from Mathlib"
+repo_dependencies = []
+
+[[entry]]
+id = "R0007"
+lean_name = "Formalizations.Reusable.splits_of_alternating_sign"
+statement = "A nonzero real polynomial of degree at most n that alternates sign at n + 1 strictly increasing points splits over ℝ (is real-rooted)."
+area = "Analysis"
+msc = "26C10"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Analysis.Polynomial.RealRoots.RealRooted"
+archive_decl = "MSS.realRooted_of_alternating"
+paper = "none cited in the module (tool for the Heilmann–Lieb formalization)"
+classical_reference = "S. Fisk, Polynomials, roots, and interlacing, arXiv:math/0612833; Marcus–Spielman–Srivastava, Ann. of Math. 182 (2015)"
+status = "reusable"
+upstream_candidate = true
+upstream_reason = "a short lemma about Mathlib's Polynomial.Splits and the intermediate value theorem; restated with Splits through realRooted_iff_splits (Iff.rfl)"
+repo_dependencies = []
+
+[[entry]]
+id = "R0008"
+lean_name = "Formalizations.Reusable.pomerance_density_add_dvd_centralBinom"
+statement = "For every integer k ≥ 1, the set of n with n + k dividing the central binomial coefficient C(2n, n) has asymptotic density 1."
+area = "Combinatorics"
+msc = "11B65"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.Choose.MiddleBinomialDensity"
+archive_decl = "MiddleBinomial.tendsto_density_add_dvd_centralBinom"
+paper = "C. Pomerance, Divisors of the middle binomial coefficient, Amer. Math. Monthly 122 (2015) 636–644, Theorem 2, doi:10.4169/amer.math.monthly.122.7.636"
+classical_reference = "Pomerance 2015 (the formalized paper)"
+status = "reusable"
+upstream_candidate = false
+upstream_reason = "a 400-line proof of one research theorem; it belongs in a library of results, not in Mathlib"
+repo_dependencies = ["Formalizations.Combinatorics.Choose.MiddleBinomialDivisors"]
+
+[[entry]]
+id = "R0009"
+lean_name = "Formalizations.Reusable.rank_fromBlocks_zero₂₁_le_card_add_rank"
+statement = "Over a field, the rank of the block upper-triangular matrix [[A, B], [0, D]] is at most the number of rows of A plus the rank of D."
+area = "LinearAlgebra"
+msc = "15A03"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.Rank"
+archive_decl = "Matrix.rank_fromBlocks_zero₂₁_le_right"
+paper = "none (shared lemma of the free-locus certificates)"
+classical_reference = "textbook consequence of the subadditivity of the rank"
+status = "reusable"
+upstream_candidate = true
+upstream_reason = "a short lemma in Mathlib's Matrix.rank API; an earlier PR of ours (#44905) was closed under Mathlib's AI policy, so only a maintainer-written PR could go"
+repo_dependencies = []
+
+[[entry]]
+id = "R0010"
+lean_name = "Formalizations.Reusable.cotes_harmonic_mean_polar"
+statement = "Cotes' harmonic means theorem: if a line p + t v meets a real plane curve f = 0 in deg g real points (g(t) = f(p + t v) splits), the harmonic-mean point lies on the polar line ∇f(p)·(q − p) = −d f(p) of p."
+area = "AlgebraicGeometry"
+msc = "14H50"
+import = "Formalizations.Reusable.AlgebraicGeometry"
+archive_module = "Formalizations.AlgebraicGeometry.PlaneCurve.Cotes"
+archive_decl = "Cotes.harmonic_mean_polar"
+paper = "none"
+classical_reference = "R. Cotes, Harmonia Mensurarum, Cambridge, 1722"
+status = "reusable"
+upstream_candidate = false
+upstream_reason = "the hypotheses (roots.card = natDegree, nonzero sum of inverse roots) are tailored to the proof; a Mathlib version would need plane-curve API"
+repo_dependencies = []
