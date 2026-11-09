@@ -17,3 +17,5 @@ jobs:
         run: sh scripts/check_imports.sh
       - name: Axiom audit
         run: sh scripts/check_axioms.sh
+      - name: Usage examples of the Reusable layer compile
+        run: lake env lean FormalizationsTest/ReusableExamples.lean
