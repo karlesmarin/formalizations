@@ -2630,3 +2630,8 @@ import Formalizations
 #print axioms RhoLine.thm_crit'
 #print axioms RhoLine.thm_valgen'
 #print axioms RhoLine.thm_signo'
+#print axioms RhoLine.occ_odd
+#print axioms RhoLine.dims_odd_occ
+#print axioms RhoLine.occ_even
+#print axioms RhoLine.dims_even
+#print axioms RhoLine.dims_even_occ

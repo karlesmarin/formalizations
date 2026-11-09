@@ -251,6 +251,7 @@ public import Formalizations.RepresentationTheory.Symplectic.WeylProductMs
 public import Formalizations.RepresentationTheory.Symplectic.ResidualHistogram
 public import Formalizations.RepresentationTheory.Symplectic.RhoLineSign
 public import Formalizations.RepresentationTheory.Symplectic.RhoLineDvd
+public import Formalizations.RepresentationTheory.Symplectic.DimsFactorisationEven
 public import Formalizations.RepresentationTheory.G2Counts
 public import Formalizations.RepresentationTheory.SpinRhoLine
 public import Formalizations.RingTheory.AffineSemigroup.OrbifoldProduct
