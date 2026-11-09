@@ -1,0 +1,42 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Monotonicity of Restricted $\ell$-ary Partition Functions}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+For $k,\ell\ge 2$ let $b_{k,\ell}(n)$ be the number of partitions of $n$ into powers of $\ell$ in which each power
+appears at most $k$ times. We formalize Theorem~3 of Coons~\cite{Coons2026}: $b_{k,\ell}$ is monotone if and only if
+$\ell$ divides $k+1$, and it is never strictly monotone. The function is first defined by the recurrence
+$b(0)=1$ and $b(n)=\sum b(j)$ over the $j$ with $\ell j\le n\le k+\ell j$ for $n\ge1$, obtained by fixing the
+multiplicity $n-\ell j$ of the part $1$; we then prove that this recurrence equals the number of digit lists with entries
+at most $k$, no trailing zero and value $n$, so the theorem is stated for the partition count itself. The proof does not
+use generating functions. Since $b(0)=b(1)=1$, $b$ is never strictly monotone. If $\ell\nmid k+1$, then
+$b(k)=b(k+1)+1$. If $k+1=\ell a$, strong induction on $n$ shows $b(n)\le b(n+1)$: the two sums coincide unless
+$\ell\mid n+1$, and for $n+1=\ell m$ the second sum gains the term $b(m)$ and loses at most the term $b(m-a)$, with $b(m-a)\le b(m)$ by
+induction.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

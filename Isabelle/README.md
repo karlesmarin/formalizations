@@ -52,6 +52,8 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🎯 `Dirac_Critical_Graphs` | HOL-Library | Dirac (1952): the join of two odd cycles `C_{2n+1}` is 6-critical with `4n² + 8n + 3` edges, so `f_6(4n+2) ≥ 4n² + 8n + 3` (`dirac_bound`); `erdos_917.variants.dirac` of formal-conjectures | 📤 submitted |
 | 🔢 `Biquadratic_SOS_Length` | HOL-Analysis | sums of squares of bilinear forms attached to a symmetric matrix `H`: representations as pairs of isometries, the determinant of the pencil, rings and chains, a cyclic vector bound, integer coefficients, paired levels, witnesses for `(J − I)/(n − 1)` with `n = 5, 7`, and the Bailey–Craigen orthogonal matrix from a doubly regular tournament |
 | 🎨 `Schur_Number_Four` | HOL | the Schur number `S(4) = 44` (`schur4`): `{1..44}` has a Schur-free 4-colouring (witness checked by `code_simp`) and `{1..45}` has none; the colour symmetry is broken in HOL (first appearance of the colours in the order 0, 1, 2, 3, four cases) and each case is refuted by an LRAT proof replayed by the kernel with the method `lrat` of the entry (RUP steps, forward, clause theorems released after their last use; certificates XZ-compressed, 3.8 MB; no oracle) | 📤 submitted |
+| 🤝 `Coprime_Divisor_Matchings` | AFP `Jordan_Normal_Form` + HOL-Computational_Algebra | Alekseyev–Beyer de Ryke, *Coprime matchings of divisor sets* (arXiv:2610.37512): Lemma 2.1, if `m = ∏ p_i^(h_i − 1)`, `b > 0`, `gcd(a, b) = 1` and `h_i ≤ p_i` whenever `p_i ∤ b`, the divisors of `m` have a coprime matching with `a, a + b, …, a + (τ(m) − 1) b` (`lemma_2_1`; roots of unity from the fundamental theorem of algebra, Vandermonde times triangular, a nonzero Leibniz term); Theorem 1.2, the conjecture of McNew and Pomerance: `n` is strongly matchable iff `p^p ∤ n` for every prime `p` (`theorem_1_2`). Theorem 1.1, the classification of matchable integers and the asymptotics are not formalized | ⏳ not submitted |
+| 🔢 `Lary_Partitions` | HOL | Coons, Theorem 3 (arXiv:2611.08109): for `k, l ≥ 2` the number `b_{k,l}(n)` of partitions of `n` into powers of `l`, each used at most `k` times, is monotone iff `l ∣ k + 1`, and never strictly monotone (`coons_theorem_3` for the recurrence, `b_count_eq_b`: the recurrence equals the count of digit lists, `coons_theorem_3_count` for the count) | ⏳ not submitted |
 
 Further sessions, not submitted to the AFP:
 
@@ -95,6 +97,8 @@ isabelle build -v -d <afp>/thys -D AFP/Erdos_Rubin_Taylor_Choosability
 isabelle build -v -D AFP/Seymour_Minimal_Cuts
 isabelle build -v -D AFP/Dirac_Critical_Graphs
 isabelle build -v -D AFP/Biquadratic_SOS_Length
+isabelle build -v -d <afp>/thys -D AFP/Coprime_Divisor_Matchings
+isabelle build -v -D AFP/Lary_Partitions
 isabelle build -v -D RationalGap
 isabelle build -v -D BSRRational
 isabelle build -v -D Erdos1186

@@ -1,0 +1,11 @@
+chapter AFP
+
+session Coprime_Divisor_Matchings = Jordan_Normal_Form +
+  options [timeout = 1200]
+  sessions
+    "HOL-Computational_Algebra"
+  theories
+    Coprime_Matching
+  document_files
+    "root.tex"
+    "root.bib"

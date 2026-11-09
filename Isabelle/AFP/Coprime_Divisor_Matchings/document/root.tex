@@ -1,0 +1,46 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Coprime Matchings of Divisors and Arithmetic Progressions}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+A coprime matching between two finite sets of integers of the same size is a bijection under which corresponding
+integers are coprime. Let $D(n)$ be the set of positive divisors of $n$ and $\tau(n)=|D(n)|$. Following Alekseyev and
+Beyer de Ryke~\cite{AlekseyevBeyerDeRyke2026}, we formalize their Lemma~2.1: if $m=\prod_i p_i^{h_i-1}$, $b>0$,
+$\gcd(a,b)=1$ and $h_i\le p_i$ whenever $p_i\nmid b$, then $D(m)$ admits a coprime matching with the progression
+$\{a+bt: 0\le t<\tau(m)\}$. The proof follows theirs: a $\tau(m)\times\tau(m)$ matrix built from complex roots of
+unity, whose nonzero entries are exactly the coprime pairs, factors as a Vandermonde matrix with distinct nodes times a
+triangular matrix with nonzero diagonal, so its determinant is nonzero and some permutation avoids the zero entries.
+The roots of unity are obtained from the fundamental theorem of algebra; determinants are those of the entry
+\emph{Jordan\_Normal\_Form}. As a consequence we formalize their Theorem~1.2, conjectured by McNew and
+Pomerance~\cite{McNewPomerance2026}: $D(n)$ admits a coprime matching with every primitive arithmetic progression of
+length $\tau(n)$ (positive common difference coprime to the first term) if and only if $p^p\nmid n$ for every prime
+$p$. The direction from strong matchability to $p^p\nmid n$ is proved by a counting argument with the progression $p, p+1, \dots, p+\tau(n)-1$.
+The general matching criterion (Theorem~1.1 of~\cite{AlekseyevBeyerDeRyke2026}), the classification of matchable
+integers and the asymptotic counts are not formalized.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

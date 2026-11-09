@@ -1,0 +1,9 @@
+chapter AFP
+
+session Lary_Partitions = HOL +
+  options [timeout = 600]
+  theories
+    Lary_Partitions
+  document_files
+    "root.tex"
+    "root.bib"
