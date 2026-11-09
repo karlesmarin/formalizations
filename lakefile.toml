@@ -7,6 +7,11 @@ name = "formalizations"
 version = "0.1.1"
 versionTags = {preset = "verLike"}
 defaultTargets = ["Formalizations"]
+# GitHub Release Builds (Lake README, «GitHub Release Builds»; Lake/Config/PackageConfig.lean of Lean v4.35.0): when
+# this package is a dependency, Lake first tries to download `formalizations-<System.Platform.target>.tar.gz` from the
+# GitHub release whose tag points at the required commit, unpacks it into the build directory and builds from source
+# only if that fails. The archives are attached by .github/workflows/release.yml (`lake upload <tag>`).
+preferReleaseBuild = true
 
 [leanOptions]
 pp.unicode.fun = true

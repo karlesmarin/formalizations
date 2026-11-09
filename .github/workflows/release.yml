@@ -1,0 +1,42 @@
+# encaje: release counterpart of build.yml; pairs with `preferReleaseBuild = true` in lakefile.toml.
+# Prebuilt build archives for GitHub Release Builds (Lake): when a release is published, each OS builds the package
+# and attaches `formalizations-<System.Platform.target>.tar.gz` to that release with `lake upload <tag>`. A downstream
+# project that requires this package then downloads the archive instead of compiling it (`preferReleaseBuild = true`
+# in lakefile.toml); if the download fails, Lake builds from source. `lake upload` needs `gh` (preinstalled on the
+# GitHub-hosted runners) and an existing release, not only a tag.
+name: release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build-archive:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      # Installs elan and the toolchain of lean-toolchain only; the build steps below are explicit.
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          use-github-cache: false
+      - name: Mathlib cache
+        run: lake exe cache get
+      - name: Build
+        run: lake build
+      - name: Upload the build archive to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: lake upload "${{ github.event.release.tag_name }}"

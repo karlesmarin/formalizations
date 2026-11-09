@@ -52,6 +52,17 @@ that area's minimal import, are in `FormalizationsTest/Reusable<Area>Example.lea
 Install directly from GitHub (Reservoir indexing pending). To use a theorem from another Lake project on the same Lean
 and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
 
+0. Create the project (skip this in an existing project on the same versions):
+
+   ```sh
+   lake +leanprover/lean4:v4.35.0 new myproject std.toml
+   cd myproject
+   ```
+
+   Use the standard template, not `math`: the `math` template adds its own Mathlib requirement pinned to the Lean
+   release tag (`v4.35.0`, Mathlib commit `56a0058`), not to the commit this package is built and tested with
+   (`f0b4c81`), so you would get a second, different Mathlib. Mathlib comes in through this package.
+
 1. Add the dependency to its `lakefile.toml`:
 
    ```toml
@@ -61,7 +72,8 @@ and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
    rev = "v0.1.1"
    ```
 
-2. Import the minimal module, the area of the theorem (column "Import" below):
+2. In a file of the project (here `Example.lean`), import the minimal module, the area of the theorem (column
+   "Import" below):
 
    ```lean
    import Formalizations.Reusable.Analysis
@@ -79,13 +91,24 @@ and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
      exact this
    ```
 
-4. Fetch and build (`lake exe cache get` downloads the compiled Mathlib instead of building it):
+4. Fetch and check:
 
    ```sh
    lake update
-   lake exe cache get
-   lake build
+   lake lean Example.lean
    ```
+
+   `lake update` fetches this package and Mathlib, and Mathlib's update hook downloads the compiled Mathlib (it runs
+   `lake exe cache get`). `lake lean Example.lean` builds the imports of the file and checks it; for a release with
+   prebuilt archives (see below) it downloads this package's build instead of compiling it. If the file belongs to a
+   `lean_lib` of your project, `lake build <lib>` does the same. Avoid a bare `lake build` in a project from the
+   standard template: its default target is the executable, whose link compiles every imported Mathlib module to
+   native code. `lake env lean Example.lean` builds nothing: it only works once the imports are built.
+
+**Prebuilt archives.** `lakefile.toml` sets `preferReleaseBuild = true`: when this package is a dependency, Lake first
+tries to download `formalizations-<platform>.tar.gz` from the GitHub release of the required tag and builds from
+source only if that fails. The workflow `.github/workflows/release.yml` attaches one archive per platform (Linux,
+macOS, Windows) to each published release.
 
 Alternative to step 2: `import Formalizations.Reusable` imports the whole layer (all areas).
 
@@ -225,7 +248,8 @@ commitment; Lake does not enforce it.
 | `LinearAlgebra.Eigenspace` | `JointInvolutions` 🆕 | For two commuting involutions `P₀`, `P₁` in characteristic zero, `¼ (1 + ε₀P₀)(1 + ε₁P₁)` projects onto the joint eigenspace, of dimension `¼ [dim + ε₀ tr P₀ + ε₁ tr P₁ + ε₀ε₁ tr P₀P₁]` |
 | `LinearAlgebra.Matrix` | `FinTwo` | `2×2` identities: polarized Cayley–Hamilton, `det (A + B)`, iterated commutators |
 | | `Adjugate` | Diagonal entries of the adjugate are principal minors |
-| | `Rank` | `rank (A + B) ≤ rank A + rank B`; nullity under low-rank perturbation; block triangular bounds |
+| | `BlockRank` 🆕 | `rank (A + B) ≤ rank A + rank B`; upper bounds for the rank of `fromBlocks A B 0 D` (imports only `Mathlib.LinearAlgebra.Matrix.Rank`; the home of the reusable `rank_fromBlocks_zero₂₁_le_card_add_rank`) |
+| | `Rank` | Nullity under low-rank perturbation; block triangular lower bound `rank A + rank D ≤ rank (fromBlocks A B 0 D)` (imports `BlockRank`) |
 | | `Rank.Kronecker` | `rank (A ⊗ₖ B) = rank A * rank B` over a field (general; Mathlib has no such lemma); `rank` of the `k`-th Kronecker power is `rank A ^ k`; `rank (A ⊗ₖ 1) = card p * rank A` |
 | | `Charpoly.Jacobi` | Resolvent series and Jacobi's formula for the derivative of the reversed charpoly |
 | | `CauchyBinet` 🆕 | The Cauchy–Binet formula `det (A B) = ∑_S det A[·, S] det B[S, ·]` |

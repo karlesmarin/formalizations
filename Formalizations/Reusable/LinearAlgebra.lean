@@ -5,7 +5,7 @@ Authors: Carles Marín, Claude (AI assistant)
 -/
 module
 
-public import Formalizations.LinearAlgebra.Matrix.Rank
+public import Formalizations.LinearAlgebra.Matrix.BlockRank
 
 /-!
 # Reusable layer: linear algebra
@@ -31,7 +31,7 @@ namespace Formalizations.Reusable
 as `fromBlocks A B 0 0 + fromBlocks 0 0 0 D` and uses subadditivity of the rank (also in the
 archive, `Matrix.rank_add_le`, which Mathlib states only for linear maps).
 
-* Archive: `Matrix.rank_fromBlocks_zero₂₁_le_right` (`Formalizations.LinearAlgebra.Matrix.Rank`,
+* Archive: `Matrix.rank_fromBlocks_zero₂₁_le_right` (`Formalizations.LinearAlgebra.Matrix.BlockRank`,
   used by the free-locus certificates of the same archive).
 * Classical reference: a textbook consequence of the subadditivity of the rank (no single source).
 * Example: with `A = 1 : Matrix (Fin 1) (Fin 1) ℚ`, any `B` and `D : Matrix (Fin 2) (Fin 2) ℚ`,
