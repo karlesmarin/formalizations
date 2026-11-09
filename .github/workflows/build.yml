@@ -19,3 +19,5 @@ jobs:
         run: sh scripts/check_axioms.sh
       - name: Usage examples of the Reusable layer compile
         run: lake env lean FormalizationsTest/ReusableExamples.lean
+      - name: Usage examples of the Reusable layer compile with the minimal import of each area
+        run: for f in FormalizationsTest/Reusable*Example.lean; do echo "$f"; lake env lean "$f" || exit 1; done

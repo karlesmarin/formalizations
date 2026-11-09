@@ -1,13 +1,16 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.1.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.1.1).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
-# (no proof is copied). Usage examples: FormalizationsTest/ReusableExamples.lean. Axioms: FormalizationsTest/Axioms.lean
-# (every entry depends only on propext, Classical.choice, Quot.sound).
-# Status: `reusable` = stable name, maintained across releases. `upstream_candidate` = whether the statement looks like a
-# short lemma in an existing Mathlib theory; any Mathlib PR is decided and written by the maintainer, not generated.
+# (no proof is copied). Usage examples, one file per area with that area's minimal import:
+# FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
+# Axioms: FormalizationsTest/Axioms.lean (every entry depends only on propext, Classical.choice, Quot.sound).
+# Status: `reusable` = stable name, maintained across releases (see "Stability policy" in the README).
+# Role: `API` = a lemma meant to be imported and used inside other proofs; `showcase` = a classical theorem, complete in
+# itself, more often consulted than imported. `upstream_candidate` = whether the statement looks like a short lemma in
+# an existing Mathlib theory; any Mathlib PR is decided and written by the maintainer, not generated.
 
 [layer]
 package = "formalizations"
-version = "0.1.0"
+version = "0.1.1"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -24,6 +27,7 @@ archive_decl = "Pappus.pappus"
 paper = "none (Theorem of the Day)"
 classical_reference = "Pappus of Alexandria, Collection, Book VII (c. 320 AD)"
 status = "reusable"
+role = "API"
 upstream_candidate = false
 upstream_reason = "the proof is a degree-9 ideal-membership certificate of several hundred terms; Mathlib would want a synthetic or affine proof"
 repo_dependencies = []
@@ -40,6 +44,7 @@ archive_decl = "WolstenholmeInequality.sub_eq_sq_add_sq"
 paper = "none"
 classical_reference = "J. Wolstenholme, A Book of Mathematical Problems, Macmillan, 1867"
 status = "reusable"
+role = "showcase"
 upstream_candidate = false
 upstream_reason = "an olympiad-style identity with a six-line proof; Mathlib's Archive at most"
 repo_dependencies = []
@@ -56,6 +61,7 @@ archive_decl = "Torricelli.volume_trumpet, Torricelli.volume_section_eq_top"
 paper = "none (Theorem of the Day)"
 classical_reference = "E. Torricelli, Opera geometrica (1644)"
 status = "reusable"
+role = "showcase"
 upstream_candidate = false
 upstream_reason = "a named example rather than API; it rests on the archive's own Pappus–Guldin volume formula"
 repo_dependencies = ["Formalizations.MeasureTheory.PappusGuldin"]
@@ -72,6 +78,7 @@ archive_decl = "Airy.sturm_unbounded_zeros"
 paper = "C. Marín, How a Falling Particle Counts Its Floors (2026), doi:10.5281/zenodo.20787671"
 classical_reference = "E. A. Coddington, N. Levinson, Theory of Ordinary Differential Equations (1955), ch. 8; DLMF §9.9"
 status = "reusable"
+role = "showcase"
 upstream_candidate = false
 upstream_reason = "Mathlib has no Sturm comparison theory; the right upstream object is a general Sturm comparison theorem, not this instance"
 repo_dependencies = []
@@ -88,6 +95,7 @@ archive_decl = "Superstatistics.glasser_integral"
 paper = "none cited in the module (superstatistics series)"
 classical_reference = "M. L. Glasser, A remarkable property of definite integrals, Math. Comp. 40 (1983) 561"
 status = "reusable"
+role = "showcase"
 upstream_candidate = true
 upstream_reason = "a single closed-form integral in Mathlib's existing improper-integral theory, next to the Gamma and Gaussian integrals"
 repo_dependencies = []
@@ -104,6 +112,7 @@ archive_decl = "SpinRhoLine.prod_two_sin"
 paper = "none cited in the module (ρ-line note)"
 classical_reference = "folklore: the value at 1 of (Xⁿ − 1)/(X − 1) = ∏(X − ζᵏ)"
 status = "reusable"
+role = "API"
 upstream_candidate = true
 upstream_reason = "a short corollary of Mathlib's IsPrimitiveRoot.prod_pow_sub_one_eq_order, absent from Mathlib"
 repo_dependencies = []
@@ -120,6 +129,7 @@ archive_decl = "MSS.realRooted_of_alternating"
 paper = "none cited in the module (tool for the Heilmann–Lieb formalization)"
 classical_reference = "S. Fisk, Polynomials, roots, and interlacing, arXiv:math/0612833; Marcus–Spielman–Srivastava, Ann. of Math. 182 (2015)"
 status = "reusable"
+role = "API"
 upstream_candidate = true
 upstream_reason = "a short lemma about Mathlib's Polynomial.Splits and the intermediate value theorem; restated with Splits through realRooted_iff_splits (Iff.rfl)"
 repo_dependencies = []
@@ -136,6 +146,7 @@ archive_decl = "MiddleBinomial.tendsto_density_add_dvd_centralBinom"
 paper = "C. Pomerance, Divisors of the middle binomial coefficient, Amer. Math. Monthly 122 (2015) 636–644, Theorem 2, doi:10.4169/amer.math.monthly.122.7.636"
 classical_reference = "Pomerance 2015 (the formalized paper)"
 status = "reusable"
+role = "showcase"
 upstream_candidate = false
 upstream_reason = "a 400-line proof of one research theorem; it belongs in a library of results, not in Mathlib"
 repo_dependencies = ["Formalizations.Combinatorics.Choose.MiddleBinomialDivisors"]
@@ -152,6 +163,7 @@ archive_decl = "Matrix.rank_fromBlocks_zero₂₁_le_right"
 paper = "none (shared lemma of the free-locus certificates)"
 classical_reference = "textbook consequence of the subadditivity of the rank"
 status = "reusable"
+role = "API"
 upstream_candidate = true
 upstream_reason = "a short lemma in Mathlib's Matrix.rank API; an earlier PR of ours (#44905) was closed under Mathlib's AI policy, so only a maintainer-written PR could go"
 repo_dependencies = []
@@ -168,6 +180,7 @@ archive_decl = "Cotes.harmonic_mean_polar"
 paper = "none"
 classical_reference = "R. Cotes, Harmonia Mensurarum, Cambridge, 1722"
 status = "reusable"
+role = "showcase"
 upstream_candidate = false
 upstream_reason = "the hypotheses (roots.card = natDegree, nonzero sum of inverse roots) are tailored to the proof; a Mathlib version would need plane-curve API"
 repo_dependencies = []
