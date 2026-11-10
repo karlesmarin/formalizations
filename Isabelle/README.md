@@ -57,6 +57,7 @@ Sessions in the AFP format (`chapter AFP`, with a document: prose, figures, bibl
 | 🔢 `Segre_Persistence_SOS` | AFP `Three_Squares` | the elementary parts of a note on the quadratic persistence of Segre varieties (doi:10.5281/zenodo.24036320): for `P^(m−1) × P^2`, the linear algebra of the bound `qp ≤ m` (an antisymmetric 3×3 matrix with two independent kernel vectors vanishes) and the count behind the matching lower bound; facts on sums of squares of bilinear forms with `C₄`-free supports | 📤 submitted |
 | 🤝 `Coprime_Divisor_Matchings` | AFP `Jordan_Normal_Form` + HOL-Computational_Algebra | Alekseyev–Beyer de Ryke, *Coprime matchings of divisor sets* (arXiv:2610.37512): Lemma 2.1, if `m = ∏ p_i^(h_i − 1)`, `b > 0`, `gcd(a, b) = 1` and `h_i ≤ p_i` whenever `p_i ∤ b`, the divisors of `m` have a coprime matching with `a, a + b, …, a + (τ(m) − 1) b` (`lemma_2_1`; roots of unity from the fundamental theorem of algebra, Vandermonde times triangular, a nonzero Leibniz term); Theorem 1.2, the conjecture of McNew and Pomerance: `n` is strongly matchable iff `p^p ∤ n` for every prime `p` (`theorem_1_2`). Theorem 1.1, the classification of matchable integers and the asymptotics are not formalized | ⏳ not submitted |
 | 🔢 `Lary_Partitions` | HOL | Coons, Theorem 3 (arXiv:2611.08109): for `k, l ≥ 2` the number `b_{k,l}(n)` of partitions of `n` into powers of `l`, each used at most `k` times, is monotone iff `l ∣ k + 1`, and never strictly monotone (`coons_theorem_3` for the recurrence, `b_count_eq_b`: the recurrence equals the count of digit lists, `coons_theorem_3_count` for the count) | ⏳ not submitted |
+| 🧬 `Game_of_Life` | HOL | Conway's Game of Life on `ℤ²` (sets of live cells, rule B3/S23): the step commutes with the symmetries of the square (`step_equivariant`); light-cone locality (`locality`); patterns whose thickenings are disjoint evolve independently (`disjoint_steps_dist`), also for arbitrary families, which gives the free flight of salvos of spaceships (`salvo_flight`, `glider_salvo`); Conway's speed limit, `2(|a| + |b|) ≤ p` for a finite pattern that reappears displaced by `(a, b)` after `p` generations (`speed_limit`), attained by the glider and by the lightweight spaceship (`speed_limit_sharp`, `speed_limit_orthogonal_sharp`); block, blinker, glider, lightweight spaceship and eater 1 by trace replay with a verified executable step (`code_simp`); the Gosper gun emits a glider every 30 generations (`gun_stream`), so a finite pattern has unbounded population (`unbounded_population`) | ⏳ not submitted |
 
 Further sessions, not submitted to the AFP:
 
@@ -102,6 +103,7 @@ isabelle build -v -D AFP/Dirac_Critical_Graphs
 isabelle build -v -D AFP/Biquadratic_SOS_Length
 isabelle build -v -d <afp>/thys -D AFP/Coprime_Divisor_Matchings
 isabelle build -v -D AFP/Lary_Partitions
+isabelle build -v -D AFP/Game_of_Life
 isabelle build -v -D RationalGap
 isabelle build -v -D BSRRational
 isabelle build -v -D Erdos1186

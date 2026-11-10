@@ -1,0 +1,19 @@
+chapter AFP
+
+session Game_of_Life = HOL +
+  options [timeout = 1800]
+  theories
+    Life_Base
+    Life_Objects
+    Life_Disjoint
+    Life_Flight
+    Life_Speed
+    Life_Fast
+    Life_Spaceships_Data
+    Life_Spaceships
+    Gosper_Gun_Data
+    Gosper_Gun_Cert
+    Gosper_Gun
+  document_files
+    "root.tex"
+    "root.bib"

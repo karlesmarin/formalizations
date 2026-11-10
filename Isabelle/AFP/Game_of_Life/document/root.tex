@@ -1,0 +1,78 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Conway's Game of Life: Locality, Gliders and the Gosper Gun}
+\author{Carles Mar\'in}
+\maketitle
+
+\begin{abstract}
+We formalize Conway's Game of Life~\cite{Gardner70,BCG82} on the integer plane: a generation is an arbitrary set
+of live cells, the neighbourhood is the Moore neighbourhood and the rule is B3/S23. We prove that the step commutes
+with every bijection of the plane that preserves the neighbourhood relation (translations, the quarter turn and the
+diagonal reflection, hence the symmetry group of the square), the light-cone locality of the dynamics (after $t$
+generations the state on a region $R$ depends only on the initial state on $R$ thickened by $t$ cells), that finite
+patterns stay finite, and that patterns whose $t$-thickenings are disjoint evolve independently for $t$ generations.
+The last result is extended to arbitrary families of patterns, which gives the free flight of salvos: translated
+copies of a spaceship, in arbitrary phases, that stay apart during one period fly independently for ever (for
+gliders it suffices that the offsets differ by at least 5 in some coordinate). We prove Conway's speed limit: a
+pattern contained in a diagonal half-plane needs two generations to advance one diagonal, so a finite non-empty
+pattern that reappears displaced by $(a,b)$ after $p$ generations satisfies $2(|a|+|b|)\le p$; the glider and the
+lightweight spaceship attain the diagonal and the orthogonal bounds.
+Concrete evolutions are proved by trace replay: an external simulator proposes the intermediate generations and a
+verified executable step, evaluated by \texttt{code\_simp}, checks every transition. We prove that the block is a
+still life, that the blinker has period~2, that the glider and the lightweight spaceship have period~4 with
+displacements $(1,1)$ and $(-2,0)$, that eater~1 absorbs a glider in ten generations, and that the Gosper glider gun
+emits a glider every 30 generations: after $30k$ generations the gun is intact and is followed by $k$ gliders in
+flight, so its population is $36+5k$. Hence there is a finite pattern whose population is unbounded, and grows at
+least linearly.
+\end{abstract}
+
+\paragraph{Acknowledgement.} The formalization and the text of this document were prepared with the
+assistance of generative AI systems, and checked by the author.
+
+\tableofcontents
+
+\section*{Introduction}
+
+The theory \texttt{Life\_Base} defines the rule on sets of cells of $\mathbb{Z}^2$ and proves equivariance,
+locality (the cone lemma) and finiteness; it also defines a simple executable step on lists of cells, proved
+equal to the abstract one, and the trace-replay theorem used for every concrete evolution.
+\texttt{Life\_Objects} proves the block, the blinker and the glider (period, minimal period, free flight for every
+number of periods). \texttt{Life\_Disjoint} proves that patterns whose thickenings stay disjoint evolve
+independently, the formulation in terms of regions that contain the orbits, and an executable sufficient
+condition. \texttt{Life\_Flight} extends the one-generation lemma to arbitrary families of patterns and proves the
+free flight of salvos of spaceships. \texttt{Life\_Speed} proves the speed limit~\cite[Theorem~4.1]{JG22}: the
+half-plane lemmas hold for arbitrary patterns, finite or not, and the bound for a finite pattern that reappears
+displaced is stated in the oblique form of~\cite[Exercise~4.26]{JG22}; nothing is stated for objects that never
+reappear exactly. \texttt{Life\_Fast} gives a faster executable step on sorted lists (merging the eight translated copies
+and counting by run-length encoding); it checks at run time that its input is sorted and otherwise falls back to the
+simple step, so its correctness holds for every list. \texttt{Life\_Spaceships} proves the lightweight spaceship (which
+attains the orthogonal bound of the speed limit) and eater~1. \texttt{Gosper\_Gun} proves the gun theorem and the unbounded population.
+
+The theories \texttt{Life\_Spaceships\_Data} and \texttt{Gosper\_Gun\_Data} contain only data: the generations
+proposed by the external simulator. They are not trusted; \texttt{Gosper\_Gun\_Cert} and the concrete lemmas check
+every transition. No oracle is used.
+
+The disjointness lemma for a single generation is the one stated by Myreen and Carneiro (their area of
+influence is our thickening by one cell) in their verified construction, in HOL4, of the Game of Life inside the
+Game of Life~\cite{MC25}; here it is iterated for $t$ generations. The patterns are the classical
+ones; see~\cite{JG22} for their history and properties. Coordinates: $x$ is the column, growing to the right, and
+$y$ the row, growing downwards.
+
+\parindent 0pt\parskip 0.5ex
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}
