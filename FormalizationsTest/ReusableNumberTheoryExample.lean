@@ -12,9 +12,3 @@ example (p : ℕ) (hp : p.Prime) (h5 : 5 ≤ p) :
   have h := Nat.modEq_iff_dvd.1 (wolstenholme_choose_modEq p hp h5).2.symm
   push_cast at h
   exact h
-
-/-- Babbage's congruence `C(2p − 1, p − 1) ≡ 1 (mod p²)` follows for `p ≥ 5` by weakening the
-modulus. -/
-example (p : ℕ) (hp : p.Prime) (h5 : 5 ≤ p) :
-    Nat.choose (2 * p - 1) (p - 1) ≡ 1 [MOD p ^ 2] :=
-  (wolstenholme_choose_modEq p hp h5).1.of_dvd (pow_dvd_pow p (by norm_num))
