@@ -2684,3 +2684,13 @@ import Formalizations
 #print axioms Formalizations.Reusable.det_mul_eq_sum_det_submatrix_mul_det_submatrix
 #print axioms Formalizations.Reusable.derivative_det_eq_trace_adjugate_mul
 #print axioms Formalizations.Reusable.det_lapMatrix_submatrix_eq_card_spanningTrees
+#print axioms Formalizations.Reusable.splits_derivative
+#print axioms Formalizations.Reusable.splits_reverse
+#print axioms Formalizations.Reusable.matrix_rank_add_rank_le_rank_fromBlocks
+#print axioms Formalizations.Reusable.matrix_rank_kronecker
+#print axioms Formalizations.Reusable.adjugate_apply_self_eq_det_principal_submatrix
+#print axioms Formalizations.Reusable.wolstenholme_choose_modEq
+#print axioms Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight
+#print axioms Formalizations.Reusable.card_biUnion_submodular
+#print axioms Formalizations.Reusable.card_biUnion_union_inter_eq_of_tight
+#print axioms Formalizations.Reusable.bondy_exists_erase_injOn

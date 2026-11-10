@@ -354,3 +354,173 @@ role = "showcase"
 upstream_candidate = true
 upstream_reason = "answers the TODO in Mathlib/Combinatorics/SimpleGraph/IncMatrix.lean and the 1000+ list (Q2226691); Mathlib has not accepted this from anyone (#44234 closed); LeanPool is the realistic route"
 repo_dependencies = ["Formalizations.LinearAlgebra.Matrix.CauchyBinet", "Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix", "Formalizations.Combinatorics.SimpleGraph.MatrixTree.Basic", "Formalizations.Combinatorics.SimpleGraph.MatrixTree.SpanningTreeMinor"]
+
+[[entry]]
+id = "R0021"
+lean_name = "Formalizations.Reusable.splits_derivative"
+statement = "If a real polynomial splits over ℝ (all its roots are real), so does its derivative."
+area = "Polynomial"
+msc = "26C10"
+import = "Formalizations.Reusable.Polynomial"
+archive_module = "Formalizations.Analysis.Polynomial.RealRoots.NewtonInequalities"
+archive_decl = "Newton.RealRooted.derivative"
+paper = "none (step (1) of the proof of Newton's inequalities)"
+classical_reference = "a consequence of Rolle's theorem; Q. I. Rahman, G. Schmeisser, Analytic Theory of Polynomials (2002)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has the counting step card_roots_le_derivative but no Splits statement; a short lemma next to it"
+repo_dependencies = ["Formalizations.Analysis.Polynomial.RealRoots.RealRooted"]
+
+[[entry]]
+id = "R0022"
+lean_name = "Formalizations.Reusable.splits_reverse"
+statement = "If a real polynomial splits over ℝ, so does its reverse (the reciprocal polynomial X^deg · p(1/X))."
+area = "Polynomial"
+msc = "26C10"
+import = "Formalizations.Reusable.Polynomial"
+archive_module = "Formalizations.Analysis.Polynomial.RealRoots.NewtonInequalities"
+archive_decl = "Newton.RealRooted.reverse"
+paper = "none (reversal step of the proof of Newton's inequalities)"
+classical_reference = "G. H. Hardy, J. E. Littlewood, G. Pólya, Inequalities, 2nd ed. (1952), ch. II"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has no Splits lemma for Polynomial.reverse; about thirty lines, and the statement holds over any field"
+repo_dependencies = ["Formalizations.Analysis.Polynomial.RealRoots.RealRooted"]
+
+[[entry]]
+id = "R0023"
+lean_name = "Formalizations.Reusable.matrix_rank_add_rank_le_rank_fromBlocks"
+statement = "Over a field, rank A + rank D ≤ rank of the block upper-triangular matrix fromBlocks A B 0 D."
+area = "LinearAlgebra"
+msc = "15A03"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.Rank"
+archive_decl = "Matrix.rank_add_rank_le_rank_fromBlocks_zero₂₁"
+paper = "none (shared lemma of the free-locus certificates)"
+classical_reference = "textbook; G. Marsaglia, G. P. H. Styan, Linear and Multilinear Algebra 2 (1974) 269–292"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "the lower-bound companion of R0009 and R0017; Mathlib has no rank bound for fromBlocks"
+repo_dependencies = ["Formalizations.LinearAlgebra.Matrix.BlockRank"]
+
+[[entry]]
+id = "R0024"
+lean_name = "Formalizations.Reusable.matrix_rank_kronecker"
+statement = "Over a field, the rank of the Kronecker product A ⊗ₖ B of two matrices is rank A · rank B."
+area = "LinearAlgebra"
+msc = "15A69"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.Rank.Kronecker"
+archive_decl = "Matrix.rank_kronecker"
+paper = "none (tool for the free-locus certificates and the orbifold products)"
+classical_reference = "R. A. Horn, C. R. Johnson, Topics in Matrix Analysis (1991), ch. 4"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has toLin_kronecker but neither the matrix rank nor the finrank of the range of TensorProduct.map"
+repo_dependencies = []
+
+[[entry]]
+id = "R0025"
+lean_name = "Formalizations.Reusable.adjugate_apply_self_eq_det_principal_submatrix"
+statement = "For a square matrix A over a commutative ring, indexed by any finite type, adjugate A i i is the determinant of the principal submatrix obtained by deleting row and column i."
+area = "LinearAlgebra"
+msc = "15A15"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.Adjugate"
+archive_decl = "Matrix.adjugate_apply_self_eq_det_submatrix"
+paper = "none (tool for the Ihara trace formula)"
+classical_reference = "textbook (Laplace expansion of the cofactor)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has it only for Fin (n + 1) indices (adjugate_fin_succ_eq_det_submatrix); this is the index-free diagonal case"
+repo_dependencies = []
+
+[[entry]]
+id = "R0026"
+lean_name = "Formalizations.Reusable.wolstenholme_choose_modEq"
+statement = "Wolstenholme's theorem: for a prime p ≥ 5, C(2p − 1, p − 1) ≡ 1 and C(2p, p) ≡ 2 (mod p³)."
+area = "NumberTheory"
+msc = "11A07"
+import = "Formalizations.Reusable.NumberTheory"
+archive_module = "Formalizations.NumberTheory.Wolstenholme"
+archive_decl = "Wolstenholme.choose_modEq"
+paper = "none"
+classical_reference = "J. Wolstenholme, On certain properties of prime numbers, Quart. J. Pure Appl. Math. 5 (1862) 35–39"
+status = "reusable"
+role = "showcase"
+upstream_candidate = true
+upstream_reason = "a classical named theorem absent from Mathlib; the proof (about 250 lines over ZMod (p³)) would need review against Mathlib's style"
+repo_dependencies = []
+
+[[entry]]
+id = "R0027"
+lean_name = "Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight"
+statement = "Pólya–Redfield enumeration theorem: for a finite group G acting on a finite set α and colour weights w, |G| · Σ over orbits of colourings of Π_a w(F a) equals Σ_g p₁^(fixed points of g) · Π over the cycles of g of p_length, where p_k = Σ_c w(c)^k."
+area = "GroupTheory"
+msc = "05A15"
+import = "Formalizations.Reusable.GroupTheory"
+archive_module = "Formalizations.GroupTheory.GroupAction.PolyaRedfield"
+archive_decl = "PolyaRedfield.card_mul_sum_orbit_weight"
+paper = "none (Theorem of the Day)"
+classical_reference = "J. H. Redfield, Amer. J. Math. 49 (1927) 433–455; G. Pólya, Acta Math. 68 (1937) 145–254"
+status = "reusable"
+role = "showcase"
+upstream_candidate = true
+upstream_reason = "Mathlib has Burnside's lemma (MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group) and Equiv.Perm.cycleType but not the enumeration theorem"
+repo_dependencies = []
+
+[[entry]]
+id = "R0028"
+lean_name = "Formalizations.Reusable.card_biUnion_submodular"
+statement = "For an indexed family of finite sets t, the neighbourhood function s ↦ |s.biUnion t| is submodular: |N(s ∪ u)| + |N(s ∩ u)| ≤ |N(s)| + |N(u)|."
+area = "Combinatorics"
+msc = "05D15"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.Hall.Tight"
+archive_decl = "Finset.card_biUnion_union_add_card_biUnion_inter_le"
+paper = "none"
+classical_reference = "L. Lovász, M. D. Plummer, Matching Theory (1986), ch. 1"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "a short Finset lemma next to Mathlib.Combinatorics.Hall.Finite, which has no tight-set lemmas"
+repo_dependencies = []
+
+[[entry]]
+id = "R0029"
+lean_name = "Formalizations.Reusable.card_biUnion_union_inter_eq_of_tight"
+statement = "Under Hall's condition |v| ≤ |v.biUnion t| for all v, the union and the intersection of two tight sets (|s.biUnion t| = |s|) are tight."
+area = "Combinatorics"
+msc = "05D15"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.Hall.Tight"
+archive_decl = "Finset.card_biUnion_union_eq_card_union, Finset.card_biUnion_inter_eq_card_inter"
+paper = "none"
+classical_reference = "P. R. Halmos, H. E. Vaughan, Amer. J. Math. 72 (1950) 214–215; L. Lovász, M. D. Plummer, Matching Theory (1986), ch. 1"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "two omega corollaries of R0028; they belong next to Mathlib.Combinatorics.Hall.Finite"
+repo_dependencies = []
+
+[[entry]]
+id = "R0030"
+lean_name = "Formalizations.Reusable.bondy_exists_erase_injOn"
+statement = "Bondy's theorem: if X is a nonempty finite set and F a family of at most |X| distinct finite sets, some x ∈ X can be deleted from every member of F keeping them distinct."
+area = "Combinatorics"
+msc = "05D05"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SetFamily.Bondy"
+archive_decl = "Bondy.exists_erase_injOn"
+paper = "none"
+classical_reference = "J. A. Bondy, Induced subsets, J. Combin. Theory Ser. B 12 (1972) 201–202"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "a classical theorem with a self-contained linear-algebra proof; Mathlib has no theory of separating systems for it to extend"
+repo_dependencies = []

@@ -7,6 +7,8 @@ module
 
 public import Formalizations.Combinatorics.Choose.MiddleBinomialDensity
 public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.Kirchhoff
+public import Formalizations.Combinatorics.Hall.Tight
+public import Formalizations.Combinatorics.SetFamily.Bondy
 
 /-!
 # Reusable layer: combinatorics and number theory
@@ -23,6 +25,13 @@ for Kirchhoff's matrix-tree theorem. Each theorem is proved by the archive theor
 * `Formalizations.Reusable.det_lapMatrix_submatrix_eq_card_spanningTrees`: Kirchhoff's
   matrix-tree theorem, with Mathlib's `SimpleGraph.lapMatrix` (archive:
   `SimpleGraph.det_reducedLapMatrix_eq_card_spanningTrees`).
+* `Formalizations.Reusable.card_biUnion_submodular`: the neighbourhood function
+  `s ↦ |s.biUnion t|` is submodular (archive: `Finset.card_biUnion_union_add_card_biUnion_inter_le`).
+* `Formalizations.Reusable.card_biUnion_union_inter_eq_of_tight`: under Hall's condition, unions and
+  intersections of tight sets are tight (archive: `Finset.card_biUnion_union_eq_card_union`,
+  `Finset.card_biUnion_inter_eq_card_inter`).
+* `Formalizations.Reusable.bondy_exists_erase_injOn`: Bondy's theorem on induced subsets (archive:
+  `Bondy.exists_erase_injOn`).
 -/
 
 @[expose] public section
@@ -74,5 +83,55 @@ theorem det_lapMatrix_submatrix_eq_card_spanningTrees {V : Type*} (R : Type*) [C
           (fun S : {s : Finset (Sym2 V) // s.card = Fintype.card {v : V // v ≠ v₀}} =>
             ↑S.1 ⊆ G.edgeSet ∧ (SimpleGraph.fromEdgeSet (↑S.1 : Set (Sym2 V))).IsTree)).card : R) :=
   SimpleGraph.det_reducedLapMatrix_eq_card_spanningTrees R G v₀
+
+/-- **The neighbourhood function of a set family is submodular.** For an indexed family of finite
+sets `t : ι → Finset α` and `s u : Finset ι`, with `N(s) = s.biUnion t` (the union of the `t i`,
+`i ∈ s`): `|N(s ∪ u)| + |N(s ∩ u)| ≤ |N(s)| + |N(u)|`. It is the inequality behind the deficiency
+form of Hall's theorem (Kőnig–Ore) and behind the transversal matroid.
+
+* Archive: `Finset.card_biUnion_union_add_card_biUnion_inter_le`
+  (`Formalizations.Combinatorics.Hall.Tight`, which imports only `Mathlib.Combinatorics.Hall.Finite`);
+  the module cites no paper DOI of ours. Mathlib proves Hall's theorem by another induction and has
+  no tight-set lemmas.
+* Classical reference: L. Lovász, M. D. Plummer, *Matching Theory* (1986), ch. 1.
+* Example: for `t i = {i, i + 1}` on `ℕ`, `s = {0}`, `u = {1}`, it reads `3 + 0 ≤ 2 + 2`. -/
+theorem card_biUnion_submodular {ι α : Type*} [DecidableEq ι] [DecidableEq α]
+    (t : ι → Finset α) (s u : Finset ι) :
+    ((s ∪ u).biUnion t).card + ((s ∩ u).biUnion t).card ≤ (s.biUnion t).card + (u.biUnion t).card :=
+  Finset.card_biUnion_union_add_card_biUnion_inter_le t s u
+
+/-- **Tight sets of a Hall family form a lattice.** Let `t : ι → Finset α` satisfy Hall's condition
+`|v| ≤ |v.biUnion t|` for every `v : Finset ι`, and call `s` tight when `|s.biUnion t| = |s|`. Then
+the union and the intersection of two tight sets are tight. This is the critical-set step of the
+Halmos–Vaughan proof of Hall's theorem and the source of the Dulmage–Mendelsohn decomposition.
+
+* Archive: `Finset.card_biUnion_union_eq_card_union` and `Finset.card_biUnion_inter_eq_card_inter`
+  (`Formalizations.Combinatorics.Hall.Tight`), paired into one statement here; the module cites no
+  paper DOI of ours.
+* Classical reference: P. R. Halmos, H. E. Vaughan, Amer. J. Math. 72 (1950) 214–215;
+  L. Lovász, M. D. Plummer, *Matching Theory* (1986), ch. 1.
+* Example: for the identity family `t i = {i}` every set is tight, and so are unions and
+  intersections. -/
+theorem card_biUnion_union_inter_eq_of_tight {ι α : Type*} [DecidableEq ι] [DecidableEq α]
+    {t : ι → Finset α} {s u : Finset ι} (hall : ∀ v : Finset ι, v.card ≤ (v.biUnion t).card)
+    (hs : (s.biUnion t).card = s.card) (hu : (u.biUnion t).card = u.card) :
+    ((s ∪ u).biUnion t).card = (s ∪ u).card ∧ ((s ∩ u).biUnion t).card = (s ∩ u).card :=
+  ⟨Finset.card_biUnion_union_eq_card_union hall hs hu,
+    Finset.card_biUnion_inter_eq_card_inter hall hs hu⟩
+
+/-- **Bondy's theorem on induced subsets.** Let `X` be a nonempty finite set and `F` a family of at
+most `|X|` distinct finite sets. Then some `x ∈ X` can be deleted from every member of `F` without
+merging two of them: `A ↦ A.erase x` is injective on `F`. The sets need not be subsets of `X`.
+Typical uses: test covers and separating systems, and deleting a coordinate of a binary code
+without identifying two codewords.
+
+* Archive: `Bondy.exists_erase_injOn` (`Formalizations.Combinatorics.SetFamily.Bondy`, proved by
+  the linear-algebra argument over `ZMod 2`); the module cites no paper DOI of ours.
+* Classical reference: J. A. Bondy, *Induced subsets*, J. Combin. Theory Ser. B 12 (1972) 201–202.
+* Example: for `X = {1, 2}` and `F = {∅, {1}}`, deleting `2` keeps the two sets distinct. -/
+theorem bondy_exists_erase_injOn {α : Type*} [DecidableEq α] (X : Finset α) (hX : X.Nonempty)
+    (F : Finset (Finset α)) (hcard : F.card ≤ X.card) :
+    ∃ x ∈ X, Set.InjOn (fun A : Finset α => A.erase x) (F : Set (Finset α)) :=
+  Bondy.exists_erase_injOn X hX F hcard
 
 end Formalizations.Reusable

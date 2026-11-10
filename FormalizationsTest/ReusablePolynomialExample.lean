@@ -82,3 +82,17 @@ example (p : Polynomial ℝ) (hp : p.Splits) (hm : p.Monic) (h3 : p.natDegree = 
   rw [h3] at h
   norm_num [Nat.choose] at h
   linarith
+
+/-- Every higher derivative of a real-rooted polynomial is real-rooted (the step behind the
+real roots of the Legendre polynomials, `dⁿ/dxⁿ (x² − 1)ⁿ`). -/
+example (p : Polynomial ℝ) (hp : p.Splits) (k : ℕ) : ((derivative^[k]) p).Splits := by
+  induction k with
+  | zero => exact hp
+  | succ k ih =>
+    rw [Function.iterate_succ_apply']
+    exact splits_derivative ih
+
+/-- The reverse of a real-rooted polynomial has as many real roots, with multiplicity, as its
+degree. -/
+example (p : Polynomial ℝ) (hp : p.Splits) : p.reverse.roots.card = p.reverse.natDegree :=
+  splits_iff_card_roots.1 (splits_reverse hp)

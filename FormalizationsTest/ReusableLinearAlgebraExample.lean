@@ -5,6 +5,7 @@ same code a user pastes into a file of their own project (README, section "Reusa
 import Formalizations.Reusable.LinearAlgebra
 
 open Formalizations.Reusable Matrix
+open scoped Kronecker
 
 /-- Rank of a block triangular matrix with a `1 × 1` identity corner. -/
 example (B : Matrix (Fin 1) (Fin 2) ℚ) (D : Matrix (Fin 2) (Fin 2) ℚ) :
@@ -35,3 +36,22 @@ example (M : Matrix (Fin 3) (Fin 3) ℚ) :
       simp [charmatrix_apply_eq]
     · simp [charmatrix_apply_ne _ _ _ h, one_apply_ne h]
   rw [charpoly, derivative_det_eq_trace_adjugate_mul, h1, Matrix.mul_one]
+
+/-- A block upper-triangular matrix with identity diagonal blocks is invertible, whatever its
+corner `B`: its rank is at least `2 + 2`. -/
+example (B : Matrix (Fin 2) (Fin 2) ℚ) :
+    4 ≤ (fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℚ) B 0 (1 : Matrix (Fin 2) (Fin 2) ℚ)).rank := by
+  have h := matrix_rank_add_rank_le_rank_fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℚ) B
+    (1 : Matrix (Fin 2) (Fin 2) ℚ)
+  simpa only [rank_one, Fintype.card_fin] using h
+
+/-- The Kronecker square of a matrix has the square of its rank. -/
+example (A : Matrix (Fin 2) (Fin 3) ℚ) : (A ⊗ₖ A).rank = A.rank ^ 2 := by
+  rw [matrix_rank_kronecker, sq]
+
+/-- The trace of the adjugate is the sum of the principal `(n − 1) × (n − 1)` minors (up to sign,
+the coefficient of `X` in the characteristic polynomial). -/
+example {n : Type*} [Fintype n] [DecidableEq n] (A : Matrix n n ℚ) :
+    A.adjugate.trace = ∑ i : n, (A.submatrix ((↑) : {j // j ≠ i} → n) ((↑) : {j // j ≠ i} → n)).det := by
+  rw [Matrix.trace]
+  exact Finset.sum_congr rfl fun i _ => adjugate_apply_self_eq_det_principal_submatrix A i

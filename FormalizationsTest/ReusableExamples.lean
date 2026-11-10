@@ -195,3 +195,89 @@ example {V : Type*} [Fintype V] [LinearOrder V] (G : SimpleGraph V) [DecidableRe
   exact Int.natCast_nonneg _
 
 end V020
+
+section V030
+
+-- Entries added in v0.3.0 (the same blocks as in the per-area files).
+open Polynomial
+open scoped Kronecker
+
+/-- Every higher derivative of a real-rooted polynomial is real-rooted. -/
+example (p : Polynomial ℝ) (hp : p.Splits) (k : ℕ) : ((derivative^[k]) p).Splits := by
+  induction k with
+  | zero => exact hp
+  | succ k ih =>
+    rw [Function.iterate_succ_apply']
+    exact splits_derivative ih
+
+/-- The reverse of a real-rooted polynomial has as many real roots as its degree. -/
+example (p : Polynomial ℝ) (hp : p.Splits) : p.reverse.roots.card = p.reverse.natDegree :=
+  splits_iff_card_roots.1 (splits_reverse hp)
+
+/-- A block upper-triangular matrix with identity diagonal blocks has full rank. -/
+example (B : Matrix (Fin 2) (Fin 2) ℚ) :
+    4 ≤ (fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℚ) B 0 (1 : Matrix (Fin 2) (Fin 2) ℚ)).rank := by
+  have h := matrix_rank_add_rank_le_rank_fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℚ) B
+    (1 : Matrix (Fin 2) (Fin 2) ℚ)
+  simpa only [rank_one, Fintype.card_fin] using h
+
+/-- The Kronecker square of a matrix has the square of its rank. -/
+example (A : Matrix (Fin 2) (Fin 3) ℚ) : (A ⊗ₖ A).rank = A.rank ^ 2 := by
+  rw [matrix_rank_kronecker, sq]
+
+/-- The trace of the adjugate is the sum of the principal `(n − 1) × (n − 1)` minors. -/
+example {n : Type*} [Fintype n] [DecidableEq n] (A : Matrix n n ℚ) :
+    A.adjugate.trace = ∑ i : n, (A.submatrix ((↑) : {j // j ≠ i} → n) ((↑) : {j // j ≠ i} → n)).det := by
+  rw [Matrix.trace]
+  exact Finset.sum_congr rfl fun i _ => adjugate_apply_self_eq_det_principal_submatrix A i
+
+/-- Wolstenholme as a divisibility: `p³ ∣ C(2p, p) − 2` for every prime `p ≥ 5`. -/
+example (p : ℕ) (hp : p.Prime) (h5 : 5 ≤ p) :
+    (p : ℤ) ^ 3 ∣ (Nat.choose (2 * p) p : ℤ) - 2 := by
+  have h := Nat.modEq_iff_dvd.1 (wolstenholme_choose_modEq p hp h5).2.symm
+  push_cast at h
+  exact h
+
+open Classical in
+/-- Counting colourings up to symmetry: `|G| · #orbits = Σ_g |C| ^ (number of cycles of g)`. -/
+example {G α C : Type*} [Group G] [Fintype G] [MulAction G α] [Fintype α] [Fintype C] :
+    letI := arrowAction (G := G) (A := α) (B := C)
+    Fintype.card G * Fintype.card (MulAction.orbitRel.Quotient G (α → C)) =
+      ∑ g : G, (Fintype.card C) ^
+        (Fintype.card (Function.fixedPoints (MulAction.toPerm g : Equiv.Perm α)) +
+          (MulAction.toPerm g : Equiv.Perm α).cycleType.card) := by
+  let _ := arrowAction (G := G) (A := α) (B := C)
+  have h := polya_redfield_card_mul_sum_orbit_weight (G := G) (α := α) (C := C) (R := ℤ)
+    (fun _ => 1)
+  simp only [Finset.prod_const_one, Finset.sum_const, Finset.card_univ, one_pow, nsmul_eq_mul,
+    mul_one, Multiset.map_const', Multiset.prod_replicate] at h
+  rw [← Nat.cast_inj (R := ℤ)]
+  push_cast
+  rw [h]
+  refine Finset.sum_congr rfl fun g _ => ?_
+  rw [pow_add]
+
+/-- The Hall deficiency is supermodular. -/
+example (t : ℕ → Finset ℕ) (s u : Finset ℕ) :
+    ((s.card : ℤ) - (s.biUnion t).card) + ((u.card : ℤ) - (u.biUnion t).card) ≤
+      (((s ∪ u).card : ℤ) - ((s ∪ u).biUnion t).card) +
+        (((s ∩ u).card : ℤ) - ((s ∩ u).biUnion t).card) := by
+  have h1 := card_biUnion_submodular t s u
+  have h2 := Finset.card_union_add_card_inter s u
+  omega
+
+/-- Under Hall's condition, the union of three tight sets is tight. -/
+example (t : ℕ → Finset ℕ) (hall : ∀ v : Finset ℕ, v.card ≤ (v.biUnion t).card)
+    (s u v : Finset ℕ) (hs : (s.biUnion t).card = s.card) (hu : (u.biUnion t).card = u.card)
+    (hv : (v.biUnion t).card = v.card) :
+    ((s ∪ u ∪ v).biUnion t).card = (s ∪ u ∪ v).card :=
+  (card_biUnion_union_inter_eq_of_tight hall
+    (card_biUnion_union_inter_eq_of_tight hall hs hu).1 hv).1
+
+/-- Bondy: one element can be deleted from a family of at most `|X|` sets without losing any. -/
+example (X : Finset ℕ) (hX : X.Nonempty) (F : Finset (Finset ℕ)) (hF : F.card ≤ X.card) :
+    ∃ x ∈ X, (F.image (fun A => A.erase x)).card = F.card := by
+  obtain ⟨x, hx, hinj⟩ := bondy_exists_erase_injOn X hX F hF
+  exact ⟨x, hx, Finset.card_image_of_injOn hinj⟩
+
+end V030

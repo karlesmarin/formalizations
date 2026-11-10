@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.2.0`.
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2678 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2688 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -128,16 +128,26 @@ commitment; Lake does not enforce it.
 | `pomerance_density_add_dvd_centralBinom` | `showcase` | For `k ≥ 1`, `n + k ∣ C(2n, n)` for a set of `n` of density 1 (Pomerance 2015, Thm 2) | `Combinatorics` | `MiddleBinomial.tendsto_density_add_dvd_centralBinom` |
 | `rank_fromBlocks_zero₂₁_le_card_add_rank` | `API` | `rank [[A, B], [0, D]] ≤ #rows(A) + rank D` over a field | `LinearAlgebra` | `Matrix.rank_fromBlocks_zero₂₁_le_right` |
 | `cotes_harmonic_mean_polar` | `showcase` | Cotes' harmonic means theorem: the harmonic-mean point of a line's intersections with a plane curve lies on the polar of `p` | `AlgebraicGeometry` | `Cotes.harmonic_mean_polar` |
-| `card_roots_toFinset_ge_of_alternating_sign` 🆕 | `API` | A nonzero real polynomial alternating in sign at `n + 1` increasing points has at least `n` distinct real roots | `Polynomial` | `MSS.card_roots_ge_of_alternating` |
-| `splits_of_isRoot_mem_Ioo_of_gaps` 🆕 | `API` | A nonzero real polynomial of degree `≤ n` with a root in each of the `n` gaps of `n + 1` increasing points splits over `ℝ` | `Polynomial` | `MSS.realRooted_of_root_per_gap` |
-| `sturm_signVariations_sub_eq_card_roots` 🆕 | `API` | Sturm's theorem with Mathlib's `Polynomial.sturmSeq p p'` and `List.signVariations`: the drop of sign variations from `a` to `b` is the number of distinct roots in `(a, b]` (`p` squarefree) | `Polynomial` | `Sturm.sturm` |
-| `budan_fourier_card_roots_le` 🆕 | `API` | Budan–Fourier: roots in `(a, b]` with multiplicity `≤ V(a) − V(b)` for the derivative tower, with even difference | `Polynomial` | `BudanFourier.budan_fourier` |
-| `newton_inequality_esymm_roots` 🆕 | `API` | Newton's inequalities `e_k² C(n,k−1) C(n,k+1) ≥ e_{k−1} e_{k+1} C(n,k)²` for the roots of a monic real-rooted polynomial | `Polynomial` | `Newton.newton_inequality` |
-| `enestrom_kakeya_ne_zero` 🆕 | `API` | Eneström–Kakeya: `∑ a_k z^k` with `a_0 ≥ ⋯ ≥ a_n > 0` has no zero in `‖z‖ < 1` | `Analysis` | `Dilog.enestrom_kakeya` |
-| `matrix_rank_add_le` 🆕 | `API` | `rank (A + B) ≤ rank A + rank B` for matrices over a field | `LinearAlgebra` | `Matrix.rank_add_le` |
-| `det_mul_eq_sum_det_submatrix_mul_det_submatrix` 🆕 | `API` | Cauchy–Binet: `det (A B) = Σ_{|S| = |m|} det A[:, S] det B[S, :]` | `LinearAlgebra` | `Matrix.det_mul_cauchyBinet` |
-| `derivative_det_eq_trace_adjugate_mul` 🆕 | `API` | Jacobi's formula `(det A)′ = trace (adj A · A′)` for a matrix of polynomials | `LinearAlgebra` | `Matrix.derivative_det` |
-| `det_lapMatrix_submatrix_eq_card_spanningTrees` 🆕 | `showcase` | Kirchhoff's matrix-tree theorem with Mathlib's `lapMatrix`: the reduced Laplacian's determinant counts spanning trees | `Combinatorics` | `SimpleGraph.det_reducedLapMatrix_eq_card_spanningTrees` |
+| `card_roots_toFinset_ge_of_alternating_sign` | `API` | A nonzero real polynomial alternating in sign at `n + 1` increasing points has at least `n` distinct real roots | `Polynomial` | `MSS.card_roots_ge_of_alternating` |
+| `splits_of_isRoot_mem_Ioo_of_gaps` | `API` | A nonzero real polynomial of degree `≤ n` with a root in each of the `n` gaps of `n + 1` increasing points splits over `ℝ` | `Polynomial` | `MSS.realRooted_of_root_per_gap` |
+| `sturm_signVariations_sub_eq_card_roots` | `API` | Sturm's theorem with Mathlib's `Polynomial.sturmSeq p p'` and `List.signVariations`: the drop of sign variations from `a` to `b` is the number of distinct roots in `(a, b]` (`p` squarefree) | `Polynomial` | `Sturm.sturm` |
+| `budan_fourier_card_roots_le` | `API` | Budan–Fourier: roots in `(a, b]` with multiplicity `≤ V(a) − V(b)` for the derivative tower, with even difference | `Polynomial` | `BudanFourier.budan_fourier` |
+| `newton_inequality_esymm_roots` | `API` | Newton's inequalities `e_k² C(n,k−1) C(n,k+1) ≥ e_{k−1} e_{k+1} C(n,k)²` for the roots of a monic real-rooted polynomial | `Polynomial` | `Newton.newton_inequality` |
+| `enestrom_kakeya_ne_zero` | `API` | Eneström–Kakeya: `∑ a_k z^k` with `a_0 ≥ ⋯ ≥ a_n > 0` has no zero in `‖z‖ < 1` | `Analysis` | `Dilog.enestrom_kakeya` |
+| `matrix_rank_add_le` | `API` | `rank (A + B) ≤ rank A + rank B` for matrices over a field | `LinearAlgebra` | `Matrix.rank_add_le` |
+| `det_mul_eq_sum_det_submatrix_mul_det_submatrix` | `API` | Cauchy–Binet: `det (A B) = Σ_{|S| = |m|} det A[:, S] det B[S, :]` | `LinearAlgebra` | `Matrix.det_mul_cauchyBinet` |
+| `derivative_det_eq_trace_adjugate_mul` | `API` | Jacobi's formula `(det A)′ = trace (adj A · A′)` for a matrix of polynomials | `LinearAlgebra` | `Matrix.derivative_det` |
+| `det_lapMatrix_submatrix_eq_card_spanningTrees` | `showcase` | Kirchhoff's matrix-tree theorem with Mathlib's `lapMatrix`: the reduced Laplacian's determinant counts spanning trees | `Combinatorics` | `SimpleGraph.det_reducedLapMatrix_eq_card_spanningTrees` |
+| `splits_derivative` 🆕 | `API` | If a real polynomial splits over `ℝ`, so does its derivative | `Polynomial` | `Newton.RealRooted.derivative` |
+| `splits_reverse` 🆕 | `API` | If a real polynomial splits over `ℝ`, so does its reverse `Xᵈ p(1/X)` | `Polynomial` | `Newton.RealRooted.reverse` |
+| `matrix_rank_add_rank_le_rank_fromBlocks` 🆕 | `API` | `rank A + rank D ≤ rank [[A, B], [0, D]]` over a field | `LinearAlgebra` | `Matrix.rank_add_rank_le_rank_fromBlocks_zero₂₁` |
+| `matrix_rank_kronecker` 🆕 | `API` | `rank (A ⊗ₖ B) = rank A · rank B` over a field | `LinearAlgebra` | `Matrix.rank_kronecker` |
+| `adjugate_apply_self_eq_det_principal_submatrix` 🆕 | `API` | `adjugate A i i` is the principal minor of `A` without row and column `i` (any finite index type) | `LinearAlgebra` | `Matrix.adjugate_apply_self_eq_det_submatrix` |
+| `wolstenholme_choose_modEq` 🆕 | `showcase` | Wolstenholme: `C(2p − 1, p − 1) ≡ 1` and `C(2p, p) ≡ 2 (mod p³)` for primes `p ≥ 5` | `NumberTheory` | `Wolstenholme.choose_modEq` |
+| `polya_redfield_card_mul_sum_orbit_weight` 🆕 | `showcase` | Pólya–Redfield: `\|G\| · Σ_orbits W` is the cycle index at the power sums of the colour weights | `GroupTheory` | `PolyaRedfield.card_mul_sum_orbit_weight` |
+| `card_biUnion_submodular` 🆕 | `API` | `s ↦ \|s.biUnion t\|` is submodular | `Combinatorics` | `Finset.card_biUnion_union_add_card_biUnion_inter_le` |
+| `card_biUnion_union_inter_eq_of_tight` 🆕 | `API` | Under Hall's condition, unions and intersections of tight sets are tight | `Combinatorics` | `Finset.card_biUnion_union_eq_card_union`, `Finset.card_biUnion_inter_eq_card_inter` |
+| `bondy_exists_erase_injOn` 🆕 | `showcase` | Bondy: from at most `\|X\|` distinct sets some `x ∈ X` can be deleted keeping them distinct | `Combinatorics` | `Bondy.exists_erase_injOn` |
 
 ## 🗂️ Contents
 
@@ -396,7 +406,7 @@ commitment; Lake does not enforce it.
 | `Probability` | `Kemeny` 🆕 | Kemeny's constant: for a finite Markov chain with stationary `π` and finite hitting times, `Σ_t π_t m_st` does not depend on the start `s`. |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
 | | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
-| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry` 🆕 | The reusable layer v0.2.0: twenty general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
+| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry`, `NumberTheory` 🆕, `GroupTheory` 🆕 | The reusable layer v0.3.0: thirty general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
 | `RepresentationTheory` | `G2Counts` 🆕 | Divisibility counts of the six G2 positive-root values at q = 2, 3 (the arithmetic half of a character-vanishing corollary). |
 | `RepresentationTheory` | `SpinRhoLine` 🆕 | Product of sines `∏_{k=1}^{n-1} 2 sin(kπ/n) = n`; the spin values on the ρ-line, `∏_{j=1}^{m} 2 sin(jπ/(2m+1)) = √(2m+1)` (type B, also in cosine form) and `∏_{j=1}^{m-1} 2 sin(jπ/2m) = √m` (type D), each an integer iff `2m+1` (resp. `m`) is a square; the Dirichlet kernel and the index shift `sin((hq+r)π/q) = (−1)^h sin(rπ/q)`. The identification with the spin characters is not formalized. |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |

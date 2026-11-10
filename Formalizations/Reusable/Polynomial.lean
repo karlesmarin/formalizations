@@ -38,6 +38,9 @@ This module imports no paper of the archive: only the four general modules of
   `List.signVariations` of the derivative tower (archive: `BudanFourier.budan_fourier`).
 * `Formalizations.Reusable.newton_inequality_esymm_roots`: Newton's inequalities for the roots of a
   monic real-rooted polynomial (archive: `Newton.newton_inequality`).
+* `Formalizations.Reusable.splits_derivative`, `Formalizations.Reusable.splits_reverse`: `Splits`
+  over `ℝ` is stable under `derivative` and `reverse` (archive: `Newton.RealRooted.derivative`,
+  `Newton.RealRooted.reverse`).
 -/
 
 @[expose] public section
@@ -179,5 +182,36 @@ theorem newton_inequality_esymm_roots {p : Polynomial ℝ} (hp : p.Splits) (hmon
     (p.roots.esymm k) ^ 2 * ((p.natDegree.choose (k - 1) : ℝ) * (p.natDegree.choose (k + 1) : ℝ))
       ≥ (p.roots.esymm (k - 1)) * (p.roots.esymm (k + 1)) * ((p.natDegree.choose k : ℝ)) ^ 2 :=
   Newton.newton_inequality ((realRooted_iff_splits p).2 hp) hmonic hk hk2
+
+/-- **Real-rootedness is stable under differentiation.** If a real polynomial `p` splits over `ℝ`,
+so does its derivative: Rolle's theorem puts a root of `p'` between consecutive roots of `p`, and
+a multiple root of `p` stays a root of `p'`, which accounts for all `deg p − 1` roots of `p'`.
+Mathlib has the counting step (`Polynomial.card_roots_le_derivative`) but no `Splits` statement.
+
+* Archive: `Newton.RealRooted.derivative`
+  (`Formalizations.Analysis.Polynomial.RealRoots.NewtonInequalities`, step (1) of the proof of
+  Newton's inequalities), restated with `Polynomial.Splits` through `realRooted_iff_splits`; the
+  module cites no paper DOI of ours.
+* Classical reference: a consequence of Rolle's theorem; Q. I. Rahman, G. Schmeisser, *Analytic
+  Theory of Polynomials* (2002).
+* Example: by Rodrigues' formula, iterating `splits_derivative` on `(X² − 1)ⁿ` shows that the
+  Legendre polynomials have only real roots. -/
+theorem splits_derivative {p : Polynomial ℝ} (hp : p.Splits) : (derivative p).Splits :=
+  (realRooted_iff_splits _).1 (Newton.RealRooted.derivative ((realRooted_iff_splits p).2 hp))
+
+/-- **Real-rootedness is stable under reversal.** If a real polynomial `p` splits over `ℝ`, so does
+its reverse `p.reverse = Xᵈᵉᵍ ᵖ · p(1/X)` (Mathlib's `Polynomial.reverse`): the nonzero roots are
+inverted, and a vanishing constant term only lowers the degree. With `splits_derivative`, it
+reduces statements about the middle coefficients of a real-rooted polynomial to a real-rooted
+quadratic.
+
+* Archive: `Newton.RealRooted.reverse`
+  (`Formalizations.Analysis.Polynomial.RealRoots.NewtonInequalities`), restated with
+  `Polynomial.Splits` through `realRooted_iff_splits`; the module cites no paper DOI of ours.
+* Classical reference: the reversal step of the classical proof of Newton's inequalities;
+  G. H. Hardy, J. E. Littlewood, G. Pólya, *Inequalities*, 2nd ed. (1952), ch. II.
+* Example: `X · (X − 2)` splits, so its reverse `1 − 2X` splits. -/
+theorem splits_reverse {p : Polynomial ℝ} (hp : p.Splits) : p.reverse.Splits :=
+  (realRooted_iff_splits _).1 (Newton.RealRooted.reverse ((realRooted_iff_splits p).2 hp))
 
 end Formalizations.Reusable

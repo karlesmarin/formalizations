@@ -319,6 +319,8 @@ public import Formalizations.Reusable.AlgebraicGeometry
 public import Formalizations.Reusable.Analysis
 public import Formalizations.Reusable.Combinatorics
 public import Formalizations.Reusable.Geometry
+public import Formalizations.Reusable.GroupTheory
 public import Formalizations.Reusable.LinearAlgebra
 public import Formalizations.Reusable.MeasureTheory
+public import Formalizations.Reusable.NumberTheory
 public import Formalizations.Reusable.Polynomial
