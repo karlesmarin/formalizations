@@ -2,9 +2,9 @@
 # Build: `lake exe cache get && lake build`. Axiom audit: `scripts/check_axioms.sh`.
 # TOML, not lakefile.lean: leanprover-community/docgen-action (docs.yml) only reads lakefile.toml.
 name = "formalizations"
-# Package version (Lake `version`); the matching Git tag is `v0.2.0`. `versionTags` tells package indices such as
+# Package version (Lake `version`); the matching Git tag is `v0.3.0`. `versionTags` tells package indices such as
 # Reservoir which tags are versions: the `verLike` preset is the tags starting with `v` and a digit.
-version = "0.2.0"
+version = "0.3.0"
 versionTags = {preset = "verLike"}
 defaultTargets = ["Formalizations"]
 # GitHub Release Builds (Lake README, «GitHub Release Builds»; Lake/Config/PackageConfig.lean of Lean v4.35.0): when
