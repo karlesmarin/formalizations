@@ -70,9 +70,8 @@ next
       c2: "\<forall>u v. u div 2 \<in> P' \<longrightarrow> v div 2 \<in> P' \<longrightarrow> u div 2 \<noteq> v div 2 \<longrightarrow> c' u \<noteq> c' v"
       by blast
     define c where "c v = (if v div 2 = i then x else c' v)" for v
-    have in1: "\<And>v. v div 2 \<in> P \<Longrightarrow> c v \<in> L v"
+    have in1: "c v \<in> L v" if vP: "v div 2 \<in> P" for v
     proof -
-      fix v assume vP: "v div 2 \<in> P"
       show "c v \<in> L v"
       proof (cases "v div 2 = i")
         case True
@@ -88,16 +87,14 @@ next
         thus ?thesis using c1 False by (auto simp add: c_def L'_def)
       qed
     qed
-    have ne: "\<And>w. w div 2 \<noteq> i \<Longrightarrow> w div 2 \<in> P \<Longrightarrow> c w \<noteq> x"
+    have ne: "c w \<noteq> x" if "w div 2 \<noteq> i" "w div 2 \<in> P" for w
     proof -
-      fix w assume "w div 2 \<noteq> i" "w div 2 \<in> P"
-      hence "w div 2 \<in> P'" by (simp add: P'_def)
+      from that have "w div 2 \<in> P'" by (simp add: P'_def)
       with c1 have "c' w \<in> L' w" by blast
       thus "c w \<noteq> x" using \<open>w div 2 \<noteq> i\<close> by (auto simp add: c_def L'_def)
     qed
-    have prp: "\<And>u v. u div 2 \<in> P \<Longrightarrow> v div 2 \<in> P \<Longrightarrow> u div 2 \<noteq> v div 2 \<Longrightarrow> c u \<noteq> c v"
+    have prp: "c u \<noteq> c v" if uP: "u div 2 \<in> P" and vP: "v div 2 \<in> P" and uv: "u div 2 \<noteq> v div 2" for u v
     proof -
-      fix u v assume uP: "u div 2 \<in> P" and vP: "v div 2 \<in> P" and uv: "u div 2 \<noteq> v div 2"
       show "c u \<noteq> c v"
       proof (cases "u div 2 = i")
         case True

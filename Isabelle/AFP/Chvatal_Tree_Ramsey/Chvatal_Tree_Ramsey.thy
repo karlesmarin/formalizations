@@ -1,9 +1,3 @@
-(*  Title:      Chvatal_Tree_Ramsey.thy
-    Author:     Carles Marín
-    Copyright (c) 2026 Carles Marín. All rights reserved.
-    License:    BSD
-*)
-
 theory Chvatal_Tree_Ramsey
   imports "Ramsey_Bounds.Ramsey_Bounds" "Tree_Enumeration.Tree_Graph"
 begin
@@ -48,123 +42,105 @@ lemma chvatal_upper_aux:
   assumes tr: "tree VT ET" and finW: "finite W"
     and noK: "\<not> (\<exists>K\<subseteq>W. card K = 3 \<and> clique K H)" and big: "2 * card VT - 1 \<le> card W"
   shows "compl_copy VT ET W H"
-proof -
-  have "2 * card VT - 1 \<le> card W \<longrightarrow> compl_copy VT ET W H"
-  proof (rule tree_induct[where P = "\<lambda>V E. 2 * card V - 1 \<le> card W \<longrightarrow> compl_copy V E W H", OF tr])
-    fix v :: 'a
-    show "2 * card {v} - 1 \<le> card W \<longrightarrow> compl_copy {v} {} W H"
-    proof
-      assume "2 * card {v} - 1 \<le> card W"
-      then have "W \<noteq> {}" by auto
-      then obtain w where "w \<in> W" by blast
-      then show "compl_copy {v} {} W H"
-        unfolding compl_copy_def by (intro exI[where x = "\<lambda>_. w"]) auto
-    qed
-  next
-    fix l v :: 'a and V' :: "'a set" and E' :: "'a set set"
-    assume tr': "tree V' E'" and IH: "2 * card V' - 1 \<le> card W \<longrightarrow> compl_copy V' E' W H"
-      and lV: "l \<notin> V'" and vV: "v \<in> V'"
-    show "2 * card (insert l V') - 1 \<le> card W \<longrightarrow> compl_copy (insert l V') (insert {l, v} E') W H"
-    proof
-      assume big': "2 * card (insert l V') - 1 \<le> card W"
-      interpret t: tree V' E' by (rule tr')
-      have finV: "finite V'" by (rule t.finV)
-      have c: "card (insert l V') = Suc (card V')" using finV lV by simp
-      have "2 * card V' - 1 \<le> card W" using big' c by arith
-      with IH have "compl_copy V' E' W H" by blast
-      then obtain f where fi: "inj_on f V'" and fW: "f ` V' \<subseteq> W"
-        and fe: "\<forall>a b. {a, b} \<in> E' \<longrightarrow> {f a, f b} \<notin> H"
-        unfolding compl_copy_def by blast
-      let ?R = "W - f ` V'"
-      have finR: "finite ?R" using finW by simp
-      have cfV: "card (f ` V') = card V'" by (rule card_image[OF fi])
-      have cR: "card ?R = card W - card V'"
-        using card_Diff_subset[OF finite_imageI[OF finV] fW] cfV by simp
-      have cRge: "card (insert l V') \<le> card ?R" using cR big' c by arith
-      show "compl_copy (insert l V') (insert {l, v} E') W H"
-      proof (cases "\<exists>w\<in>?R. {f v, w} \<notin> H")
+  using tr noK big
+proof (induct rule: tree_induct)
+  case (singolton v)
+  then obtain w where "w \<in> W" by force
+  then show ?case 
+    unfolding compl_copy_def by (intro exI[where x = "\<lambda>_. w"]) auto
+next
+  case (insert l v V' E')
+  then interpret t: tree V' E' by auto
+  have finV: "finite V'" by (rule t.finV)
+  have c: "card (insert l V') = Suc (card V')" 
+    by (simp add: local.insert t.finV) 
+  have "2 * card V' - 1 \<le> card W" using insert c by arith
+  with insert have "compl_copy V' E' W H" by blast
+  then obtain f where fi: "inj_on f V'" and fW: "f ` V' \<subseteq> W"
+    and fe: "\<forall>a b. {a, b} \<in> E' \<longrightarrow> {f a, f b} \<notin> H"
+    unfolding compl_copy_def by blast
+  let ?R = "W - f ` V'"
+  have finR: "finite ?R" using finW by simp
+  have cfV: "card (f ` V') = card V'" by (rule card_image[OF fi])
+  have cR: "card ?R = card W - card V'"
+    using card_Diff_subset[OF finite_imageI[OF finV] fW] cfV by simp
+  have cRge: "card (insert l V') \<le> card ?R" using cR insert c by arith
+  show "compl_copy (insert l V') (insert {l, v} E') W H"
+  proof (cases "\<exists>w\<in>?R. {f v, w} \<notin> H")
+    case True
+    then obtain w where wR: "w \<in> ?R" and nw: "{f v, w} \<notin> H" by blast
+    have nw': "{w, f v} \<notin> H" using nw by (simp add: insert_commute)
+    define g where "g = (\<lambda>x. if x = l then w else f x)"
+    have gV: "\<And>x. x \<in> V' \<Longrightarrow> g x = f x" using insert by (auto simp: g_def)
+    have gl: "g l = w" by (simp add: g_def)
+    have giV: "inj_on g V'" by (rule iffD2[OF inj_on_cong[OF gV] fi])
+    have wn: "g l \<notin> g ` V'" using wR gl gV by force
+    have VV: "V' - {l} = V'" using insert by blast
+    have inj: "inj_on g (insert l V')"
+      unfolding inj_on_insert VV using giV wn by blast
+    have gW: "g ` insert l V' \<subseteq> W"
+      using fW gV gl wR by auto
+    have ge: "{g a, g b} \<notin> H" if ab: "{a, b} \<in> insert {l, v} E'" for a b
+    proof -
+      show "{g a, g b} \<notin> H"
+      proof (cases "{a, b} = {l, v}")
         case True
-        then obtain w where wR: "w \<in> ?R" and nw: "{f v, w} \<notin> H" by blast
-        have nw': "{w, f v} \<notin> H" using nw by (simp add: insert_commute)
-        define g where "g = (\<lambda>x. if x = l then w else f x)"
-        have gV: "\<And>x. x \<in> V' \<Longrightarrow> g x = f x" using lV by (auto simp: g_def)
-        have gl: "g l = w" by (simp add: g_def)
-        have giV: "inj_on g V'" by (rule iffD2[OF inj_on_cong[OF gV] fi])
-        have wn: "g l \<notin> g ` V'" using wR gl gV by force
-        have VV: "V' - {l} = V'" using lV by blast
-        have inj: "inj_on g (insert l V')"
-          unfolding inj_on_insert VV using giV wn by blast
-        have gW: "g ` insert l V' \<subseteq> W"
-        proof (rule image_subsetI)
-          fix x assume "x \<in> insert l V'"
-          then have "x = l \<or> x \<in> V'" by blast
-          then show "g x \<in> W" using gl wR gV fW by auto
-        qed
-        have ge: "\<forall>a b. {a, b} \<in> insert {l, v} E' \<longrightarrow> {g a, g b} \<notin> H"
-        proof (intro allI impI)
-          fix a b assume ab: "{a, b} \<in> insert {l, v} E'"
-          show "{g a, g b} \<notin> H"
-          proof (cases "{a, b} = {l, v}")
-            case True
-            then have "(a = l \<and> b = v) \<or> (a = v \<and> b = l)" by (auto simp: doubleton_eq_iff)
-            then show ?thesis using nw nw' gl gV[OF vV] by auto
-          next
-            case False
-            with ab have e: "{a, b} \<in> E'" by blast
-            have "{a, b} \<subseteq> V'" by (rule t.wellformed[OF e])
-            then have "a \<in> V'" "b \<in> V'" by auto
-            then show ?thesis using fe e gV by simp
-          qed
-        qed
-        show ?thesis
-          unfolding compl_copy_def by (rule exI[where x = g]) (use inj gW ge in blast)
+        then have "(a = l \<and> b = v) \<or> (a = v \<and> b = l)" by (auto simp: doubleton_eq_iff)
+        then show ?thesis using nw nw' gl gV insert by auto
       next
         case False
-        then have allH: "\<And>w. w \<in> ?R \<Longrightarrow> {f v, w} \<in> H" by blast
-        have fvW: "f v \<in> W" using fW vV by blast
-        have fvR: "f v \<notin> ?R" using vV by blast
-        have ind: "\<And>x y. x \<in> ?R \<Longrightarrow> y \<in> ?R \<Longrightarrow> x \<noteq> y \<Longrightarrow> {x, y} \<notin> H"
-        proof (rule notI)
-          fix x y assume x: "x \<in> ?R" and y: "y \<in> ?R" and xy: "x \<noteq> y" and e: "{x, y} \<in> H"
-          have nx: "f v \<noteq> x" using x fvR by blast
-          have ny: "f v \<noteq> y" using y fvR by blast
-          have cK: "card {f v, x, y} = 3" using nx ny xy by (simp add: card_insert_if)
-          have KW: "{f v, x, y} \<subseteq> W" using fvW x y by blast
-          have "clique {f v, x, y} H"
-            using allH[OF x] allH[OF y] e by (auto simp: clique_def insert_commute)
-          then show False using noK cK KW by blast
-        qed
-        have finI: "finite (insert l V')" using finV by simp
-        obtain h where h1: "h ` insert l V' \<subseteq> ?R" and h2: "inj_on h (insert l V')"
-          using card_le_inj[OF finI finR cRge] by blast
-        have he: "\<forall>a b. {a, b} \<in> insert {l, v} E' \<longrightarrow> {h a, h b} \<notin> H"
-        proof (intro allI impI)
-          fix a b assume ab: "{a, b} \<in> insert {l, v} E'"
-          have mem: "a \<in> insert l V' \<and> b \<in> insert l V' \<and> a \<noteq> b"
-          proof (cases "{a, b} = {l, v}")
-            case True
-            then have "(a = l \<and> b = v) \<or> (a = v \<and> b = l)" by (auto simp: doubleton_eq_iff)
-            then show ?thesis using vV lV by auto
-          next
-            case False
-            with ab have e: "{a, b} \<in> E'" by blast
-            have "{a, b} \<subseteq> V'" by (rule t.wellformed[OF e])
-            moreover have "card {a, b} = 2" by (rule t.two_edges[OF e])
-            ultimately show ?thesis by auto
-          qed
-          have ha: "h a \<in> ?R" using mem h1 by blast
-          have hb: "h b \<in> ?R" using mem h1 by blast
-          have hn: "h a \<noteq> h b" using mem h2 by (meson inj_onD)
-          show "{h a, h b} \<notin> H" by (rule ind[OF ha hb hn])
-        qed
-        have hW: "h ` insert l V' \<subseteq> W" using h1 by blast
-        show ?thesis
-          unfolding compl_copy_def by (rule exI[where x = h]) (use h2 hW he in blast)
+        with ab have e: "{a, b} \<in> E'" by blast
+        have "{a, b} \<subseteq> V'" by (rule t.wellformed[OF e])
+        then have "a \<in> V'" "b \<in> V'" by auto
+        then show ?thesis using fe e gV by simp
       qed
     qed
+    show ?thesis
+      unfolding compl_copy_def by (rule exI[where x = g]) (use inj gW ge in blast)
+  next
+    case False
+    then have allH: "\<And>w. w \<in> ?R \<Longrightarrow> {f v, w} \<in> H" by blast
+    have fvW: "f v \<in> W" using fW insert by blast
+    have fvR: "f v \<notin> ?R" using insert by blast
+    have ind: "\<And>x y. x \<in> ?R \<Longrightarrow> y \<in> ?R \<Longrightarrow> x \<noteq> y \<Longrightarrow> {x, y} \<notin> H"
+    proof (rule notI)
+      fix x y assume x: "x \<in> ?R" and y: "y \<in> ?R" and xy: "x \<noteq> y" and e: "{x, y} \<in> H"
+      have nx: "f v \<noteq> x" using x fvR by blast
+      have ny: "f v \<noteq> y" using y fvR by blast
+      have cK: "card {f v, x, y} = 3" using nx ny xy by (simp add: card_insert_if)
+      have KW: "{f v, x, y} \<subseteq> W" using fvW x y by blast
+      have "clique {f v, x, y} H"
+        using allH[OF x] allH[OF y] e by (auto simp: clique_def insert_commute)
+      then show False using noK cK KW by blast
+    qed
+    have finI: "finite (insert l V')" using finV by simp
+    obtain h where h1: "h ` insert l V' \<subseteq> ?R" and h2: "inj_on h (insert l V')"
+      using card_le_inj[OF finI finR cRge] by blast
+    have he: "{h a, h b} \<notin> H" if ab: "{a, b} \<in> insert {l, v} E'" for a b
+    proof -
+      have mem: "a \<in> insert l V' \<and> b \<in> insert l V' \<and> a \<noteq> b"
+      proof (cases "{a, b} = {l, v}")
+        case True
+        then have "(a = l \<and> b = v) \<or> (a = v \<and> b = l)" by (auto simp: doubleton_eq_iff)
+        then show ?thesis using insert by auto
+      next
+        case False
+        with ab have e: "{a, b} \<in> E'" by blast
+        have "{a, b} \<subseteq> V'" by (rule t.wellformed[OF e])
+        moreover have "card {a, b} = 2" by (rule t.two_edges[OF e])
+        ultimately show ?thesis by auto
+      qed
+      have ha: "h a \<in> ?R" using mem h1 by blast
+      have hb: "h b \<in> ?R" using mem h1 by blast
+      have hn: "h a \<noteq> h b" using mem h2 by (meson inj_onD)
+      show "{h a, h b} \<notin> H" by (rule ind[OF ha hb hn])
+    qed
+    have hW: "h ` insert l V' \<subseteq> W" using h1 by blast
+    show ?thesis
+      unfolding compl_copy_def by (rule exI[where x = h]) (use h2 hW he in blast)
   qed
-  then show ?thesis using big by blast
 qed
+
 
 theorem chvatal_upper:
   assumes "tree VT ET"
@@ -177,34 +153,14 @@ lemma tree_constant_on_edges:
   assumes tr: "tree V E" and h: "\<And>a b. {a, b} \<in> E \<Longrightarrow> Q a = Q b"
     and x: "x \<in> V" and y: "y \<in> V"
   shows "Q x = Q y"
-proof -
-  have "(\<forall>a b. {a, b} \<in> E \<longrightarrow> Q a = Q b) \<longrightarrow> (\<forall>x\<in>V. \<forall>y\<in>V. Q x = Q y)"
-  proof (rule tree_induct[where P =
-        "\<lambda>V E. (\<forall>a b. {a, b} \<in> E \<longrightarrow> Q a = Q b) \<longrightarrow> (\<forall>x\<in>V. \<forall>y\<in>V. Q x = Q y)", OF tr])
-    fix v :: 'a
-    show "(\<forall>a b. {a, b} \<in> {} \<longrightarrow> Q a = Q b) \<longrightarrow> (\<forall>x\<in>{v}. \<forall>y\<in>{v}. Q x = Q y)" by simp
-  next
-    fix l v :: 'a and V' :: "'a set" and E' :: "'a set set"
-    assume IH: "(\<forall>a b. {a, b} \<in> E' \<longrightarrow> Q a = Q b) \<longrightarrow> (\<forall>x\<in>V'. \<forall>y\<in>V'. Q x = Q y)"
-      and vV: "v \<in> V'"
-    show "(\<forall>a b. {a, b} \<in> insert {l, v} E' \<longrightarrow> Q a = Q b) \<longrightarrow>
-        (\<forall>x\<in>insert l V'. \<forall>y\<in>insert l V'. Q x = Q y)"
-    proof
-      assume hi: "\<forall>a b. {a, b} \<in> insert {l, v} E' \<longrightarrow> Q a = Q b"
-      then have "\<forall>x\<in>V'. \<forall>y\<in>V'. Q x = Q y" using IH by blast
-      with vV have hv: "\<forall>x\<in>V'. Q x = Q v" by blast
-      have hl: "Q l = Q v" using hi by blast
-      from hv hl have all: "\<forall>x\<in>insert l V'. Q x = Q v" by blast
-      show "\<forall>x\<in>insert l V'. \<forall>y\<in>insert l V'. Q x = Q y"
-      proof (intro ballI)
-        fix x y assume x: "x \<in> insert l V'" and y: "y \<in> insert l V'"
-        have "Q x = Q v" using all x by (rule bspec)
-        moreover have "Q y = Q v" using all y by (rule bspec)
-        ultimately show "Q x = Q y" by simp
-      qed
-    qed
-  qed
-  then show ?thesis using h x y by blast
+  using assms
+proof (induction arbitrary: x y rule: tree_induct)
+  case (singolton v)
+  then show ?case by simp
+next
+  case (insert l v V E)
+  then show ?case
+    by (metis insert_iff)
 qed
 
 text \<open>The complete bipartite graph with two parts of size $n - 1$ has no triangle, and a connected
@@ -230,10 +186,9 @@ proof
   have finW: "finite W" using finA finB by (simp add: W_def)
   have cW: "2 * card VT - 2 \<le> card W"
     unfolding W_def using card_Un_disjoint[OF finA finB disj] cA cB n1 by arith
-  have sep: "\<And>x y. {x, y} \<in> H \<Longrightarrow> (x \<in> A) \<noteq> (y \<in> A)"
+  have sep: "(x \<in> A) \<noteq> (y \<in> A)" if "{x, y} \<in> H" for x y
   proof -
-    fix x y assume "{x, y} \<in> H"
-    then obtain a b where e: "{x, y} = {a, b}" and a: "a \<in> A" and b: "b \<in> B"
+    from that obtain a b where e: "{x, y} = {a, b}" and a: "a \<in> A" and b: "b \<in> B"
       unfolding H_def by blast
     have nb: "b \<notin> A" using disj b by blast
     show "(x \<in> A) \<noteq> (y \<in> A)" using e a nb by (auto simp: doubleton_eq_iff)
@@ -244,9 +199,8 @@ proof
     then obtain K where cK: "card K = 3" and qK: "clique K H" by blast
     then obtain x y z where K: "K = {x, y, z}" and xy: "x \<noteq> y" and yz: "y \<noteq> z" and xz: "x \<noteq> z"
       using card_3_iff[of K] by blast
-    have e1: "{x, y} \<in> H" using qK K xy by (auto simp: clique_def)
-    have e2: "{y, z} \<in> H" using qK K yz by (auto simp: clique_def)
-    have e3: "{x, z} \<in> H" using qK K xz by (auto simp: clique_def)
+    have e1: "{x, y} \<in> H" and e2: "{y, z} \<in> H" and e3: "{x, z} \<in> H" 
+      using qK K xy yz xz by (auto simp: clique_def)
     show False using sep[OF e1] sep[OF e2] sep[OF e3] by blast
   qed
   have "(\<exists>K\<subseteq>W. card K = 3 \<and> clique K H) \<or> compl_copy VT ET W H"
@@ -255,19 +209,13 @@ proof
   then obtain f where fi: "inj_on f VT" and fW: "f ` VT \<subseteq> W"
     and fe: "\<forall>a b. {a, b} \<in> ET \<longrightarrow> {f a, f b} \<notin> H"
     unfolding compl_copy_def by blast
-  have side: "\<And>a b. {a, b} \<in> ET \<Longrightarrow> (f a \<in> A) = (f b \<in> A)"
+  have side: "(f a \<in> A) = (f b \<in> A)" if ab: "{a, b} \<in> ET" for a b
   proof -
-    fix a b assume ab: "{a, b} \<in> ET"
     have sub: "{a, b} \<subseteq> VT" by (rule t.wellformed[OF ab])
     have fa: "f a \<in> A \<union> B" "f b \<in> A \<union> B" using fW sub by (auto simp: W_def)
     have nH: "{f a, f b} \<notin> H" using fe ab by blast
     show "(f a \<in> A) = (f b \<in> A)"
-    proof (rule ccontr)
-      assume "(f a \<in> A) \<noteq> (f b \<in> A)"
-      then have "(f a \<in> A \<and> f b \<in> B) \<or> (f b \<in> A \<and> f a \<in> B)" using fa by blast
-      then have "{f a, f b} \<in> H \<or> {f b, f a} \<in> H" unfolding H_def by blast
-      then show False using nH by (simp add: insert_commute)
-    qed
+      using H_def fa nH by blast
   qed
   have same: "\<And>x y. x \<in> VT \<Longrightarrow> y \<in> VT \<Longrightarrow> (f x \<in> A) = (f y \<in> A)"
     using tree_constant_on_edges[where Q = "\<lambda>x. f x \<in> A", OF tr side] by blast
@@ -279,13 +227,9 @@ proof
     from card_inj_on_le[OF fi this finA] cA n1 show False by arith
   next
     case False
-    have "f ` VT \<subseteq> B"
-    proof (rule image_subsetI)
-      fix y assume y: "y \<in> VT"
-      have "f y \<notin> A" using same[OF y x0] False by blast
-      moreover have "f y \<in> A \<union> B" using fW y by (auto simp: W_def)
-      ultimately show "f y \<in> B" by blast
-    qed
+    then have "f ` VT \<subseteq> B"
+      using W_def fW same x0
+      by (metis Un_iff image_subset_iff)
     from card_inj_on_le[OF fi this finB] cB n1 show False by arith
   qed
 qed
@@ -341,7 +285,7 @@ proof
   assume "compl_copy {u, v} {{u, v}} W H"
   then obtain f where fi: "inj_on f {u, v}" and fW: "f ` {u, v} \<subseteq> W"
     and fe: "\<forall>a b. {a, b} \<in> {{u, v}} \<longrightarrow> {f a, f b} \<notin> H"
-    unfolding compl_copy_def by blast
+    by (meson compl_copy_def)
   have ne: "f u \<noteq> f v" using fi uv by (auto simp: inj_on_def)
   have nH: "{f u, f v} \<notin> H" using fe by blast
   have "indep {f u, f v} H" using nH by (auto simp: indep_def insert_commute)
@@ -358,18 +302,14 @@ next
   have fW: "f ` {u, v} \<subseteq> W" using fu fv KW K by auto
   have nH: "{x, y} \<notin> H" "{y, x} \<notin> H" using iK K xy by (auto simp: indep_def)
   have fe: "\<forall>a b. {a, b} \<in> {{u, v}} \<longrightarrow> {f a, f b} \<notin> H"
-  proof (intro allI impI)
-    fix a b assume "{a, b} \<in> {{u, v}}"
-    then have "(a = u \<and> b = v) \<or> (a = v \<and> b = u)" by (auto simp: doubleton_eq_iff)
-    then show "{f a, f b} \<notin> H" using fu fv nH by auto
-  qed
+    using fu fv nH  by (auto simp: doubleton_eq_iff)
   show "compl_copy {u, v} {{u, v}} W H"
     unfolding compl_copy_def by (rule exI[where x = f]) (use fi fW fe in blast)
 qed
 
 lemma ex_clique_indep_iff:
   "(\<exists>K\<subseteq>W. clique_indep m n K E) \<longleftrightarrow>
-     (\<exists>K\<subseteq>W. card K = m \<and> clique K E) \<or> (\<exists>K\<subseteq>W. card K = n \<and> indep K E)"
+   (\<exists>K\<subseteq>W. card K = m \<and> clique K E) \<or> (\<exists>K\<subseteq>W. card K = n \<and> indep K E)"
   by (simp only: clique_indep_def conj_disj_distribL ex_disj_distrib)
 
 lemma is_triangle_tree_RN_edge_iff:
@@ -378,9 +318,10 @@ lemma is_triangle_tree_RN_edge_iff:
   unfolding is_triangle_tree_RN_def is_clique_RN_def compl_copy_edge_iff[OF assms] ex_clique_indep_iff
   by simp
 
+text \<open>The rhs is (of course) equal to 3\<close>
 corollary triangle_tree_RN_edge:
   assumes "u \<noteq> v"
   shows "triangle_tree_RN {u, v} {{u, v}} = RN 3 2"
-  using chvatal[OF tree2[OF assms]] assms by simp
+  using chvatal[OF tree2] assms by force
 
 end

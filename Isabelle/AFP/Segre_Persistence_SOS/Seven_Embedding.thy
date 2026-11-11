@@ -267,10 +267,9 @@ next
       using householder[OF v0 e] by blast
     obtain v' where v'_def: "v' = (\<lambda>j i. R (v (Suc j)) (Suc i))" by simp
     obtain w' where w'_def: "w' = (\<lambda>i. R w (Suc i))" by simp
-    have z: "\<And>y. dot_upto r y (v 0) = 0 \<Longrightarrow> R y 0 = 0"
+    have z: "R y 0 = 0" if "dot_upto r y (v 0) = 0" for y
     proof -
-      fix y assume "dot_upto r y (v 0) = 0"
-      then have "dot_upto r (R y) (R (v 0)) = 0" using R(1)[of y "v 0"] by simp
+      from that have "dot_upto r (R y) (R (v 0)) = 0" using R(1)[of y "v 0"] by simp
       moreover have "dot_upto r (R y) (R (v 0)) = dot_upto r (R y) unit0"
         by (rule dot_on_cong_right) (use R(2) in simp)
       ultimately have "dot_upto r (R y) unit0 = 0" by simp

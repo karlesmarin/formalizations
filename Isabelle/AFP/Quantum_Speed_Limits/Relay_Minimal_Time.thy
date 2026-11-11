@@ -405,9 +405,8 @@ proof -
     by (simp add: Phi_def)
   have cs: "continuous_on A (\<lambda>t. x t + z t)" by (intro continuous_intros cx cz)
   have cd: "continuous_on A (\<lambda>t. x t - z t)" by (intro continuous_intros cx cz)
-  have dsq: "\<And>t. t \<in> A \<Longrightarrow> (x t - z t)^2 \<le> 1"
+  have dsq: "(x t - z t)^2 \<le> 1" if t: "t \<in> A" for t
   proof -
-    fix t assume t: "t \<in> A"
     from D[OF t] have "0 \<le> x t * z t" "(x t)^2 + (z t)^2 \<le> 1" by auto
     thus "(x t - z t)^2 \<le> 1" by (simp add: power2_eq_square algebra_simps)
   qed
@@ -416,10 +415,9 @@ proof -
     show "continuous_on {t \<in> A. x t + z t \<le> 1} (\<lambda>t. arcsin ((x t - z t) / sqrt (2 - (x t + z t)^2)) / sqrt 2)"
     proof -
       let ?B = "{t \<in> A. x t + z t \<le> 1}"
-      have pos: "\<And>t. t \<in> ?B \<Longrightarrow> 0 < 2 - (x t + z t)^2"
+      have pos: "0 < 2 - (x t + z t)^2" if t: "t \<in> ?B" for t
       proof -
-        fix t assume t: "t \<in> ?B"
-        hence "0 \<le> x t + z t" "x t + z t \<le> 1" using D by auto
+        from that have "0 \<le> x t + z t" "x t + z t \<le> 1" using D by auto
         hence "(x t + z t)^2 \<le> 1" by (simp add: power_le_one)
         thus "0 < 2 - (x t + z t)^2" by simp
       qed
@@ -430,9 +428,8 @@ proof -
           by (intro continuous_intros continuous_on_subset[OF cx] continuous_on_subset[OF cz]) auto
         show "\<forall>t\<in>?B. sqrt (2 - (x t + z t)^2) \<noteq> 0" using pos by force
       qed
-      have mem: "\<And>t. t \<in> ?B \<Longrightarrow> (x t - z t) / sqrt (2 - (x t + z t)^2) \<in> {-1..1}"
+      have mem: "(x t - z t) / sqrt (2 - (x t + z t)^2) \<in> {-1..1}" if t: "t \<in> ?B" for t
       proof -
-        fix t assume t: "t \<in> ?B"
         have hp: "0 < 2 - (x t + z t)^2" by (rule pos[OF t])
         have "(x t + z t)^2 + (x t - z t)^2 = 2 * (x t)^2 + 2 * (z t)^2"
           by (simp add: power2_eq_square algebra_simps)
@@ -548,10 +545,9 @@ proof -
   proof (rule ccontr)
     assume "\<not> 0 < G"
     hence G0: "G \<le> 0" by simp
-    have xd: "\<And>u. u \<in> {0..T} - (S \<union> {0, T}) \<Longrightarrow> (x has_derivative (\<lambda>h. 0)) (at u within {0..T})"
+    have xd: "(x has_derivative (\<lambda>h. 0)) (at u within {0..T})" if u: "u \<in> {0..T} - (S \<union> {0, T})" for u
     proof -
-      fix u assume u: "u \<in> {0..T} - (S \<union> {0, T})"
-      hence ui: "u \<in> {0<..<T} - S" by auto
+      from that have ui: "u \<in> {0<..<T} - S" by auto
       have "x' u = 0"
       proof -
         have uD: "u \<in> {0..T}" using ui by auto
@@ -673,10 +669,9 @@ proof -
   define E where "E = S \<union> B"
   have Ec: "countable E" unfolding E_def using S Bc by blast
   define f' where "f' = (\<lambda>u. if u \<in> {t0<..<t1} - E then deriv h u else 0)"
-  have good: "\<And>u. u \<in> {t0<..<t1} - E \<Longrightarrow> \<exists>c. 0 \<le> c \<and> (h has_real_derivative c) (at u)"
+  have good: "\<exists>c. 0 \<le> c \<and> (h has_real_derivative c) (at u)" if u: "u \<in> {t0<..<t1} - E" for u
   proof -
-    fix u assume u: "u \<in> {t0<..<t1} - E"
-    hence u1: "t0 < u" "u < t1" and uS: "u \<notin> S" and uB: "u \<notin> B" unfolding E_def by auto
+    from that have u1: "t0 < u" "u < t1" and uS: "u \<notin> S" and uB: "u \<notin> B" unfolding E_def by auto
     have uT: "u \<in> {0<..<T}" using u1 t0r t1r by auto
     have ui: "u \<in> {0<..<T} - S" using uT uS by blast
     have uD: "u \<in> {0..T}" using uT by auto
@@ -693,16 +688,14 @@ proof -
       by (rule key_deriv[OF G0 hx hz _ _ _ inner_x[OF u1] inner_z[OF u1] _ _ hs])
          (use Dt[OF uD] bnd ui in auto)
   qed
-  have fder: "\<And>u. u \<in> {t0<..<t1} - E \<Longrightarrow> (h has_vector_derivative f' u) (at u)"
+  have fder: "(h has_vector_derivative f' u) (at u)" if u: "u \<in> {t0<..<t1} - E" for u
   proof -
-    fix u assume u: "u \<in> {t0<..<t1} - E"
     from good[OF u] obtain c where c: "0 \<le> c" "(h has_real_derivative c) (at u)" by blast
     have "f' u = c" unfolding f'_def using DERIV_imp_deriv[OF c(2)] by (simp only: if_P[OF u])
     thus "(h has_vector_derivative f' u) (at u)" using c(2) by (simp add: has_real_derivative_iff_has_vector_derivative)
   qed
-  have fnn: "\<And>u. 0 \<le> f' u"
+  have fnn: "0 \<le> f' u" for u
   proof -
-    fix u
     show "0 \<le> f' u"
     proof (cases "u \<in> {t0<..<t1} - E")
       case True

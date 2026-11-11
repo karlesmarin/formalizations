@@ -163,9 +163,8 @@ proof (elim exE conjE)
   obtain f where f: "f permutes {..<length rs}" and ts: "permute_list f rs = ts"
     by (rule mset_eq_permutation[OF m[symmetric]])
   have bij: "bij_betw f {..<length rs} {..<length rs}" using f by (rule permutes_imp_bij)
-  have key: "\<And>i. i < length rs \<Longrightarrow> lin_prod (omit i ts) = lin_prod (omit (f i) rs)"
+  have key: "lin_prod (omit i ts) = lin_prod (omit (f i) rs)" if i: "i < length rs" for i
   proof -
-    fix i assume i: "i < length rs"
     have fi: "f i < length rs" using bij i by (auto simp: bij_betw_def)
     have tsi: "ts ! i = rs ! f i" unfolding ts[symmetric] by (rule permute_list_nth[OF f i])
     have "mset (omit i ts) = mset ts - {#ts ! i#}"

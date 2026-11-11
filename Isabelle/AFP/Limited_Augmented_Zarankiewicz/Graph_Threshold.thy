@@ -258,9 +258,8 @@ proof -
   have ele2: "2 * e \<le> e2" by (simp add: e_def)
   have tight: "\<And>u v. p $ u + p $ v = 1 \<Longrightarrow> w u + w v = 0"
     using c by (auto simp: w_def)
-  have feas: "\<And>s. \<bar>s\<bar> \<le> e \<Longrightarrow> fcover E (\<chi> v. p $ v + s * w v)"
+  have feas: "fcover E (\<chi> v. p $ v + s * w v)" if s: "\<bar>s\<bar> \<le> e" for s
   proof -
-    fix s assume s: "\<bar>s\<bar> \<le> e"
     show "fcover E (\<chi> v. p $ v + s * w v)"
       unfolding fcover_def
     proof (intro conjI allI impI)
@@ -300,9 +299,8 @@ proof -
     qed
   qed
   define T where "T = (\<Sum>v\<in>UNIV. p $ v * w v)"
-  have nonneg: "\<And>s. \<bar>s\<bar> \<le> e \<Longrightarrow> 0 \<le> s * T"
+  have nonneg: "0 \<le> s * T" if s: "\<bar>s\<bar> \<le> e" for s
   proof -
-    fix s assume s: "\<bar>s\<bar> \<le> e"
     have "0 \<le> (\<Sum>v\<in>UNIV. p $ v * ((\<chi> v. p $ v + s * w v) $ v - p $ v))"
       by (rule variational[OF m feas[OF s]])
     also have "\<dots> = s * T" by (simp add: T_def sum_distrib_left algebra_simps)

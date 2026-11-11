@@ -56,9 +56,8 @@ lemma ftc_bound:
   shows "\<bar>F b - F a\<bar> \<le> integral {a..b} g"
 proof -
   define f where "f = (\<lambda>t. if t \<in> {a<..<b} - S then F' t else 0)"
-  have fd: "\<And>t. t \<in> {a<..<b} - S \<Longrightarrow> (F has_vector_derivative f t) (at t)"
+  have fd: "(F has_vector_derivative f t) (at t)" if t: "t \<in> {a<..<b} - S" for t
   proof -
-    fix t assume t: "t \<in> {a<..<b} - S"
     have "f t = F' t" unfolding f_def using t by simp
     thus "(F has_vector_derivative f t) (at t)" using der[OF t] by (simp add: has_real_derivative_iff_has_vector_derivative)
   qed
@@ -67,9 +66,8 @@ proof -
   define I where "I = integral {a..b} g"
   have gi: "(g has_integral I) {a..b}" unfolding I_def
     using integrable_continuous_real[OF gc] by (rule integrable_integral)
-  have fle: "\<And>t. t \<in> {a..b} \<Longrightarrow> f t \<le> g t"
+  have fle: "f t \<le> g t" if t: "t \<in> {a..b}" for t
   proof -
-    fix t assume t: "t \<in> {a..b}"
     show "f t \<le> g t"
     proof (cases "t \<in> {a<..<b} - S")
       case True
@@ -81,9 +79,8 @@ proof -
       thus ?thesis using g0[OF t] by simp
     qed
   qed
-  have fge: "\<And>t. t \<in> {a..b} \<Longrightarrow> - f t \<le> g t"
+  have fge: "- f t \<le> g t" if t: "t \<in> {a..b}" for t
   proof -
-    fix t assume t: "t \<in> {a..b}"
     show "- f t \<le> g t"
     proof (cases "t \<in> {a<..<b} - S")
       case True
@@ -160,9 +157,8 @@ proof -
   define f where "f = (\<lambda>t. if t \<in> {0<..<T} - S then z' t else 0)"
   have ftc: "(f has_integral z T - z 0) {0..T}"
   proof -
-    have fd: "\<And>t. t \<in> {0<..<T} - S \<Longrightarrow> (z has_vector_derivative f t) (at t)"
+    have fd: "(z has_vector_derivative f t) (at t)" if t: "t \<in> {0<..<T} - S" for t
     proof -
-      fix t assume t: "t \<in> {0<..<T} - S"
       have "f t = z' t" unfolding f_def using t by simp
       thus "(z has_vector_derivative f t) (at t)" using der[OF t] by (simp add: has_real_derivative_iff_has_vector_derivative)
     qed
@@ -173,9 +169,8 @@ proof -
   have yi: "(y has_integral I) {0..T}" unfolding I_def
     using integrable_continuous_real[OF yc] by (rule integrable_integral)
   have Gy: "((\<lambda>t. G * y t) has_integral G * I) {0..T}" using has_integral_mult_right[OF yi, of G] by simp
-  have fle: "\<And>t. t \<in> {0..T} \<Longrightarrow> f t \<le> G * y t"
+  have fle: "f t \<le> G * y t" if t: "t \<in> {0..T}" for t
   proof -
-    fix t assume t: "t \<in> {0..T}"
     show "f t \<le> G * y t"
     proof (cases "t \<in> {0<..<T} - S")
       case True
@@ -187,9 +182,8 @@ proof -
       thus ?thesis using y0[OF t] G by simp
     qed
   qed
-  have fge: "\<And>t. t \<in> {0..T} \<Longrightarrow> - f t \<le> G * y t"
+  have fge: "- f t \<le> G * y t" if t: "t \<in> {0..T}" for t
   proof -
-    fix t assume t: "t \<in> {0..T}"
     show "- f t \<le> G * y t"
     proof (cases "t \<in> {0<..<T} - S")
       case True
@@ -236,18 +230,16 @@ proof -
   define p where "p = (\<lambda>t. 1 - (x t)\<^sup>2 - (z t)\<^sup>2)"
   define y where "y = (\<lambda>t. sqrt (p t))"
   have Dt: "\<And>t. t \<in> {0..T} \<Longrightarrow> 0 \<le> x t \<and> 0 \<le> z t \<and> (x t)\<^sup>2 + (z t)\<^sup>2 \<le> 1" using D by blast
-  have pnn: "\<And>t. t \<in> {0..T} \<Longrightarrow> 0 \<le> p t"
+  have pnn: "0 \<le> p t" if "t \<in> {0..T}" for t
   proof -
-    fix t assume "t \<in> {0..T}"
-    from Dt[OF this] have "(x t)\<^sup>2 + (z t)\<^sup>2 \<le> 1" by blast
+    from Dt[OF that] have "(x t)\<^sup>2 + (z t)\<^sup>2 \<le> 1" by blast
     thus "0 \<le> p t" unfolding p_def by linarith
   qed
   have p1: "\<And>t. p t \<le> 1" unfolding p_def by (simp add: zero_le_power2)
   have y0: "\<And>t. t \<in> {0..T} \<Longrightarrow> 0 \<le> y t" unfolding y_def using pnn by simp
   have y2: "\<And>t. t \<in> {0..T} \<Longrightarrow> (y t)\<^sup>2 = p t" unfolding y_def using pnn by simp
-  have y1: "\<And>t. y t \<le> 1"
+  have y1: "y t \<le> 1" for t
   proof -
-    fix t
     have "sqrt (p t) \<le> sqrt 1" by (rule real_sqrt_le_mono[OF p1])
     thus "y t \<le> 1" unfolding y_def by simp
   qed
@@ -334,9 +326,8 @@ proof -
   \<comment> \<open>Step 3: Lipschitz\<close>
   define M where "M = 2 * sqrt 2 * G"
   have M0: "0 < M" unfolding M_def using G by simp
-  have lip: "\<And>a b. 0 \<le> a \<Longrightarrow> a \<le> b \<Longrightarrow> b \<le> T \<Longrightarrow> \<bar>p b - p a\<bar> \<le> M * (b - a)"
+  have lip: "\<bar>p b - p a\<bar> \<le> M * (b - a)" if ab: "0 \<le> a" "a \<le> b" "b \<le> T" for a b
   proof -
-    fix a b assume ab: "0 \<le> a" "a \<le> b" "b \<le> T"
     have "\<bar>p b - p a\<bar> \<le> integral {a..b} (\<lambda>t. M)"
     proof (rule ftc_bound[where F' = "\<lambda>t. - (2 * x t * x' t) - 2 * z t * z' t", OF S ab(2)])
       show "continuous_on {a..b} p" by (rule continuous_on_subset[OF pc]) (use ab in auto)
@@ -401,9 +392,8 @@ proof -
     have "h \<le> M * (T - tc)" using lip[OF tcr(1) tcr(2) order_refl] pT ptc_h hnn h_def by simp
     thus ?thesis unfolding w_def using M0 by (simp add: divide_le_eq mult.commute)
   qed
-  have lowp: "\<And>t. t \<in> {0..T} \<Longrightarrow> h - M * \<bar>t - tc\<bar> \<le> p t"
+  have lowp: "h - M * \<bar>t - tc\<bar> \<le> p t" if t: "t \<in> {0..T}" for t
   proof -
-    fix t assume t: "t \<in> {0..T}"
     show "h - M * \<bar>t - tc\<bar> \<le> p t"
     proof (cases "t \<le> tc")
       case True
@@ -441,10 +431,9 @@ proof -
   have L: "h * w / 2 \<le> integral {a1..tc} p"
   proof -
     have tl: "((\<lambda>t. h - M * (tc - t)) has_integral h * w / 2) {a1..tc}" unfolding a1_def by (rule tri_left[OF M0 w0 hMw])
-    have ineq: "\<And>t. t \<in> {a1..tc} \<Longrightarrow> h - M * (tc - t) \<le> p t"
+    have ineq: "h - M * (tc - t) \<le> p t" if t: "t \<in> {a1..tc}" for t
     proof -
-      fix t assume t: "t \<in> {a1..tc}"
-      hence tD: "t \<in> {0..T}" using a1r tcr by auto
+      from that have tD: "t \<in> {0..T}" using a1r tcr by auto
       have "\<bar>t - tc\<bar> = tc - t" using t by (simp add: abs_of_nonpos)
       thus "h - M * (tc - t) \<le> p t" using lowp[OF tD] by simp
     qed
@@ -453,10 +442,9 @@ proof -
   have R: "h * w / 2 \<le> integral {tc..a3} p"
   proof -
     have tr: "((\<lambda>t. h - M * (t - tc)) has_integral h * w / 2) {tc..a3}" unfolding a3_def by (rule tri_right[OF M0 w0 hMw])
-    have ineq: "\<And>t. t \<in> {tc..a3} \<Longrightarrow> h - M * (t - tc) \<le> p t"
+    have ineq: "h - M * (t - tc) \<le> p t" if t: "t \<in> {tc..a3}" for t
     proof -
-      fix t assume t: "t \<in> {tc..a3}"
-      hence tD: "t \<in> {0..T}" using a3r tcr by auto
+      from that have tD: "t \<in> {0..T}" using a3r tcr by auto
       have "\<bar>t - tc\<bar> = t - tc" using t by (simp add: abs_of_nonneg)
       thus "h - M * (t - tc) \<le> p t" using lowp[OF tD] by simp
     qed

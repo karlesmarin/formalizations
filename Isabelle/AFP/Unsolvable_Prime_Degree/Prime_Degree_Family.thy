@@ -365,10 +365,9 @@ next
       then show False using sec by blast
     qed
     have l2: "\<not> (2::int) dvd lead_coeff (fam p)" using lead_coeff_fam[OF assms(1) p3] by simp
-    have mid: "\<And>i. i < degree (fam p) \<Longrightarrow> (2::int) dvd coeff (fam p) i"
+    have mid: "(2::int) dvd coeff (fam p) i" if "i < degree (fam p)" for i
     proof -
-      fix i assume "i < degree (fam p)"
-      then have "i < p" using dg by simp
+      from that have "i < p" using dg by simp
       then show "(2::int) dvd coeff (fam p) i" by (rule coeff_fam_even[OF assms(1) p3])
     qed
     have c2: "\<not> (2::int)^2 dvd coeff (fam p) 0"
@@ -873,10 +872,9 @@ proof (rule ccontr)
   have e: "(- (2 * of_int cc) :: complex) = of_real (- (2 * real_of_int cc))" by simp
   have s3: "(\<Sum>z\<in>Z. z^2) = of_real (- (2 * real_of_int cc))" using s2[unfolded e] .
   have re1: "Re (\<Sum>z\<in>Z. z^2) = - (2 * real_of_int cc)" unfolding s3 by (rule Re_complex_of_real)
-  have nn: "\<And>z. z \<in> Z \<Longrightarrow> 0 \<le> Re (z^2)"
+  have nn: "0 \<le> Re (z^2)" if zZ: "z \<in> Z" for z
   proof -
-    fix z assume zZ: "z \<in> Z"
-    then have "z \<in> of_real ` R" by (simp only: eqZ)
+    from that have "z \<in> of_real ` R" by (simp only: eqZ)
     then obtain r where r: "z = of_real r" by auto
     have h: "z^2 = of_real (r^2)" using r by (simp add: of_real_power)
     have "Re (z^2) = r^2" unfolding h by (rule Re_complex_of_real)

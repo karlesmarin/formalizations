@@ -175,17 +175,15 @@ proof -
   define M where "M = (\<lambda>u. integral {0..u} m)"
   have mint: "m integrable_on {0..T}" by (rule integrable_continuous_real[OF mc])
   have Mc: "continuous_on {0..T} M" unfolding M_def by (rule indefinite_integral_continuous_1[OF mint])
-  have Mder: "\<And>u. u \<in> {0<..<T} \<Longrightarrow> (M has_real_derivative m u) (at u)"
+  have Mder: "(M has_real_derivative m u) (at u)" if u: "u \<in> {0<..<T}" for u
   proof -
-    fix u assume u: "u \<in> {0<..<T}"
     have w: "(M has_real_derivative m u) (at u within {0..T})"
       unfolding M_def by (rule integral_has_real_derivative[OF mc]) (use u in auto)
     have "at u within {0..T} = at u" by (rule at_within_interior) (use u in simp)
     thus "(M has_real_derivative m u) (at u)" using w by simp
   qed
-  have Mnn: "\<And>u. u \<in> {0..T} \<Longrightarrow> 0 \<le> M u"
+  have Mnn: "0 \<le> M u" if u: "u \<in> {0..T}" for u
   proof -
-    fix u assume u: "u \<in> {0..T}"
     have sub: "{0..u} \<subseteq> {0..T}" using u by auto
     show "0 \<le> M u" unfolding M_def
     proof (rule integral_nonneg)
@@ -308,10 +306,9 @@ proof -
   define E where "E = S \<union> B"
   have Ec: "countable E" unfolding E_def using S Bc by blast
   define f' where "f' = (\<lambda>u. if u \<in> {t0<..<t1} - E then deriv h u else 0)"
-  have good: "\<And>u. u \<in> {t0<..<t1} - E \<Longrightarrow> \<exists>c. 0 \<le> c \<and> (h has_real_derivative c) (at u)"
+  have good: "\<exists>c. 0 \<le> c \<and> (h has_real_derivative c) (at u)" if u: "u \<in> {t0<..<t1} - E" for u
   proof -
-    fix u assume u: "u \<in> {t0<..<t1} - E"
-    hence u1: "t0 < u" "u < t1" and uS: "u \<notin> S" and uB: "u \<notin> B" unfolding E_def by auto
+    from that have u1: "t0 < u" "u < t1" and uS: "u \<notin> S" and uB: "u \<notin> B" unfolding E_def by auto
     have uT: "u \<in> {0<..<T}" using u1 t0r t1r by auto
     have ui: "u \<in> {0<..<T} - S" using uT uS by blast
     have uD: "u \<in> {0..T}" using uT by auto
@@ -329,16 +326,14 @@ proof -
       by (rule key_deriv_var[OF m0u Mder[OF uT] hx hz _ _ _ inner_x[OF u1] inner_z[OF u1] _ _ hs])
          (use Dt[OF uD] bnd ui in auto)
   qed
-  have fder: "\<And>u. u \<in> {t0<..<t1} - E \<Longrightarrow> (h has_vector_derivative f' u) (at u)"
+  have fder: "(h has_vector_derivative f' u) (at u)" if u: "u \<in> {t0<..<t1} - E" for u
   proof -
-    fix u assume u: "u \<in> {t0<..<t1} - E"
     from good[OF u] obtain c where c: "0 \<le> c" "(h has_real_derivative c) (at u)" by blast
     have "f' u = c" unfolding f'_def using DERIV_imp_deriv[OF c(2)] by (simp only: if_P[OF u])
     thus "(h has_vector_derivative f' u) (at u)" using c(2) by (simp add: has_real_derivative_iff_has_vector_derivative)
   qed
-  have fnn: "\<And>u. 0 \<le> f' u"
+  have fnn: "0 \<le> f' u" for u
   proof -
-    fix u
     show "0 \<le> f' u"
     proof (cases "u \<in> {t0<..<t1} - E")
       case True

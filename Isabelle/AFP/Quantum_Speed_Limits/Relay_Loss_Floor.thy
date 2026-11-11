@@ -32,9 +32,8 @@ lemma ftc_decrease:
   shows "n T - n 0 \<le> - \<delta> * integral {0..T} (\<lambda>t. (y t)\<^sup>2)"
 proof -
   define f where "f = (\<lambda>t. if t \<in> {0<..<T} - S then n' t else - \<delta> * (y t)\<^sup>2)"
-  have fd: "\<And>t. t \<in> {0<..<T} - S \<Longrightarrow> (n has_vector_derivative f t) (at t)"
+  have fd: "(n has_vector_derivative f t) (at t)" if t: "t \<in> {0<..<T} - S" for t
   proof -
-    fix t assume t: "t \<in> {0<..<T} - S"
     have "f t = n' t" unfolding f_def using t by simp
     thus "(n has_vector_derivative f t) (at t)" using der[OF t] by (simp add: has_real_derivative_iff_has_vector_derivative)
   qed
@@ -46,9 +45,8 @@ proof -
     using integrable_continuous_real[OF y2c] by (rule integrable_integral)
   have gi: "((\<lambda>t. - \<delta> * (y t)\<^sup>2) has_integral - \<delta> * J) {0..T}"
     using has_integral_mult_right[OF y2i, of "- \<delta>"] by simp
-  have fle: "\<And>t. t \<in> {0..T} \<Longrightarrow> f t \<le> - \<delta> * (y t)\<^sup>2"
+  have fle: "f t \<le> - \<delta> * (y t)\<^sup>2" if "t \<in> {0..T}" for t
   proof -
-    fix t assume "t \<in> {0..T}"
     show "f t \<le> - \<delta> * (y t)\<^sup>2"
     proof (cases "t \<in> {0<..<T} - S")
       case True
@@ -117,9 +115,8 @@ lemma ftc_up:
   shows "F b - F a \<le> c * (b - a)"
 proof -
   define f where "f = (\<lambda>t. if t \<in> {a<..<b} - S then F' t else 0)"
-  have fd: "\<And>t. t \<in> {a<..<b} - S \<Longrightarrow> (F has_vector_derivative f t) (at t)"
+  have fd: "(F has_vector_derivative f t) (at t)" if t: "t \<in> {a<..<b} - S" for t
   proof -
-    fix t assume t: "t \<in> {a<..<b} - S"
     have "f t = F' t" unfolding f_def using t by simp
     thus "(F has_vector_derivative f t) (at t)" using der[OF t] by (simp add: has_real_derivative_iff_has_vector_derivative)
   qed
@@ -127,9 +124,8 @@ proof -
     by (rule fundamental_theorem_of_calculus_interior_strong[OF S ab fd Fc])
   have ci: "((\<lambda>t. c) has_integral c * (b - a)) {a..b}"
     using has_integral_const_real[of c a b] ab by (simp add: mult.commute)
-  have fle: "\<And>t. t \<in> {a..b} \<Longrightarrow> f t \<le> c"
+  have fle: "f t \<le> c" if t: "t \<in> {a..b}" for t
   proof -
-    fix t assume t: "t \<in> {a..b}"
     show "f t \<le> c"
     proof (cases "t \<in> {a<..<b} - S")
       case True
@@ -358,9 +354,8 @@ proof -
   \<comment> \<open>backward window\<close>
   define M where "M = sqrt 2 * G"
   have M0: "0 < M" unfolding M_def using G by simp
-  have grow: "\<And>t. t \<in> {0..tc} \<Longrightarrow> yc - M * (tc - t) \<le> y t"
+  have grow: "yc - M * (tc - t) \<le> y t" if t: "t \<in> {0..tc}" for t
   proof -
-    fix t assume t: "t \<in> {0..tc}"
     have "sqrt (p tc) - sqrt (p t) \<le> sqrt 2 * G * (tc - t)"
     proof (rule sqrt_growth[OF S G _ _ _])
       show "t \<le> tc" using t by simp
@@ -394,10 +389,9 @@ proof -
   proof -
     have cb: "((\<lambda>t. (yc - M * (tc - t))\<^sup>2) has_integral yc ^ 3 / (3 * M)) {a1..tc}"
       unfolding a1_def by (rule cubic_int[OF M0 w0 ycw])
-    have ineq: "\<And>t. t \<in> {a1..tc} \<Longrightarrow> (yc - M * (tc - t))\<^sup>2 \<le> p t"
+    have ineq: "(yc - M * (tc - t))\<^sup>2 \<le> p t" if t: "t \<in> {a1..tc}" for t
     proof -
-      fix t assume t: "t \<in> {a1..tc}"
-      hence tD: "t \<in> {0..T}" and t0: "t \<in> {0..tc}" using a1r tcr by auto
+      from that have tD: "t \<in> {0..T}" and t0: "t \<in> {0..tc}" using a1r tcr by auto
       have "M * (tc - t) \<le> M * w" using t unfolding a1_def by (intro mult_left_mono) (use M0 in auto)
       hence lo: "0 \<le> yc - M * (tc - t)" using ycw by simp
       have "(yc - M * (tc - t))\<^sup>2 \<le> (y t)\<^sup>2" by (rule power_mono[OF grow[OF t0] lo])

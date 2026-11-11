@@ -272,9 +272,8 @@ proof -
     have ry: "PM.random_variable borel Y" using Ym by simp
     show ?thesis by (rule iffD2[OF iff]) (intro conjI rx ry jd)
   qed
-  have tX: "\<And>x. PM.prob {\<omega> \<in> space M. x < X \<omega>} = U.prob {\<omega> \<in> space unif01. x < par \<alpha> \<omega>}"
+  have tX: "PM.prob {\<omega> \<in> space M. x < X \<omega>} = U.prob {\<omega> \<in> space unif01. x < par \<alpha> \<omega>}" for x
   proof -
-    fix x
     have "PM.prob {\<omega> \<in> space M. x < X \<omega>} = measure (distr M borel X) {x<..}"
       by (rule tail_via_distr[OF PM.prob_space_axioms Xm])
     also have "\<dots> = measure (distr unif01 borel (par \<alpha>)) {x<..}" by (simp only: dX)
@@ -282,9 +281,8 @@ proof -
       by (rule tail_via_distr[symmetric, OF unif01_prob par_meas])
     finally show "PM.prob {\<omega> \<in> space M. x < X \<omega>} = U.prob {\<omega> \<in> space unif01. x < par \<alpha> \<omega>}" .
   qed
-  have tY: "\<And>x. PM.prob {\<omega> \<in> space M. x < Y \<omega>} = U.prob {\<omega> \<in> space unif01. x < par \<alpha> \<omega>}"
+  have tY: "PM.prob {\<omega> \<in> space M. x < Y \<omega>} = U.prob {\<omega> \<in> space unif01. x < par \<alpha> \<omega>}" for x
   proof -
-    fix x
     have "PM.prob {\<omega> \<in> space M. x < Y \<omega>} = measure (distr M borel Y) {x<..}"
       by (rule tail_via_distr[OF PM.prob_space_axioms Ym])
     also have "\<dots> = measure (distr unif01 borel (par \<alpha>)) {x<..}" by (simp only: dY)

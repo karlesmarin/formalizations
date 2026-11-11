@@ -186,10 +186,9 @@ qed
 lemma A_B_G: "A + B = G"
 proof -
   have f0: "\<And>z. z \<in> S0 \<Longrightarrow> e z mod (p * q) = e z" by (auto simp: S0_def)
-  have f1: "\<And>z. z \<in> S1 \<Longrightarrow> e z mod (p * q) = e z - p * q"
+  have f1: "e z mod (p * q) = e z - p * q" if z: "z \<in> S1" for z
   proof -
-    fix z assume z: "z \<in> S1"
-    then have "e z < 2 * (p * q)" "p * q \<le> e z" using e_less by (auto simp: S1_def)
+    from that have "e z < 2 * (p * q)" "p * q \<le> e z" using e_less by (auto simp: S1_def)
     then have "e z - p * q < p * q" by simp
     moreover have "e z = (e z - p * q) + p * q" using \<open>p * q \<le> e z\<close> by simp
     ultimately show "e z mod (p * q) = e z - p * q"
@@ -257,9 +256,8 @@ proof -
     by (simp add: monom_XX[symmetric] coeff_monom)
   have cB: "coeff B k = (\<Sum>z\<in>S1. if ?g z = k then 1 else 0)"
     unfolding B_def coeff_sum cX by simp
-  have inj: "\<And>z z'. z \<in> S1 \<Longrightarrow> z' \<in> S1 \<Longrightarrow> ?g z = ?g z' \<Longrightarrow> z = z'"
+  have inj: "z = z'" if hz: "z \<in> S1" and hz': "z' \<in> S1" and h: "?g z = ?g z'" for z z'
   proof -
-    fix z z' assume hz: "z \<in> S1" and hz': "z' \<in> S1" and h: "?g z = ?g z'"
     from hz hz' have ge: "p * q \<le> e z" "p * q \<le> e z'" by (simp_all add: S1_def)
     have "e z = e z'" using h ge by linarith
     moreover from hz hz' have "z \<in> P" "z' \<in> P" by (simp_all add: S1_def)

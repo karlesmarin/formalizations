@@ -20,18 +20,16 @@ lemma ftc_nonpos:
   shows "F b \<le> F a"
 proof -
   define f where "f = (\<lambda>t. if t \<in> {a<..<b} - S then F' t else 0)"
-  have fd: "\<And>t. t \<in> {a<..<b} - S \<Longrightarrow> (F has_vector_derivative f t) (at t)"
+  have fd: "(F has_vector_derivative f t) (at t)" if t: "t \<in> {a<..<b} - S" for t
   proof -
-    fix t assume t: "t \<in> {a<..<b} - S"
     have "f t = F' t" unfolding f_def using t by simp
     thus "(F has_vector_derivative f t) (at t)" using der[OF t] by (simp add: has_real_derivative_iff_has_vector_derivative)
   qed
   have ftc: "(f has_integral F b - F a) {a..b}"
     by (rule fundamental_theorem_of_calculus_interior_strong[OF S ab fd Fc])
   have z: "((\<lambda>t::real. 0::real) has_integral 0) {a..b}" by simp
-  have fle: "\<And>t. t \<in> {a..b} \<Longrightarrow> f t \<le> 0"
+  have fle: "f t \<le> 0" if t: "t \<in> {a..b}" for t
   proof -
-    fix t assume t: "t \<in> {a..b}"
     show "f t \<le> 0"
     proof (cases "t \<in> {a<..<b} - S")
       case True

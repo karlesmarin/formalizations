@@ -22,9 +22,8 @@ lemma ftc_bound:
   shows "\<bar>F b - F a\<bar> \<le> integral {a..b} g"
 proof -
   define f where "f = (\<lambda>t. if t \<in> {a<..<b} - S then F' t else 0)"
-  have fd: "\<And>t. t \<in> {a<..<b} - S \<Longrightarrow> (F has_vector_derivative f t) (at t)"
+  have fd: "(F has_vector_derivative f t) (at t)" if t: "t \<in> {a<..<b} - S" for t
   proof -
-    fix t assume t: "t \<in> {a<..<b} - S"
     have "f t = F' t" unfolding f_def using t by simp
     thus "(F has_vector_derivative f t) (at t)" using der[OF t] by (simp add: has_real_derivative_iff_has_vector_derivative)
   qed
@@ -33,9 +32,8 @@ proof -
   define I where "I = integral {a..b} g"
   have gi: "(g has_integral I) {a..b}" unfolding I_def
     using integrable_continuous_real[OF gc] by (rule integrable_integral)
-  have fle: "\<And>t. t \<in> {a..b} \<Longrightarrow> f t \<le> g t"
+  have fle: "f t \<le> g t" if t: "t \<in> {a..b}" for t
   proof -
-    fix t assume t: "t \<in> {a..b}"
     show "f t \<le> g t"
     proof (cases "t \<in> {a<..<b} - S")
       case True
@@ -47,9 +45,8 @@ proof -
       thus ?thesis using g0[OF t] by simp
     qed
   qed
-  have fge: "\<And>t. t \<in> {a..b} \<Longrightarrow> - f t \<le> g t"
+  have fge: "- f t \<le> g t" if t: "t \<in> {a..b}" for t
   proof -
-    fix t assume t: "t \<in> {a..b}"
     show "- f t \<le> g t"
     proof (cases "t \<in> {a<..<b} - S")
       case True
@@ -139,10 +136,9 @@ proof -
   define f where "f = (\<lambda>t. if t \<in> {a<..<b} - S then F' t else 0)"
   define S' where "S' = {a, b} \<union> S"
   have S'n: "negligible S'" unfolding S'_def by (rule negligible_Un[OF negligible_finite[of "{a, b}"] S]) simp
-  have fd: "\<And>t. t \<in> {a..b} - S' \<Longrightarrow> (F has_vector_derivative f t) (at t within {a..b})"
+  have fd: "(F has_vector_derivative f t) (at t within {a..b})" if t: "t \<in> {a..b} - S'" for t
   proof -
-    fix t assume t: "t \<in> {a..b} - S'"
-    hence t2: "t \<in> {a<..<b} - S" unfolding S'_def by auto
+    from that have t2: "t \<in> {a<..<b} - S" unfolding S'_def by auto
     have "f t = F' t" unfolding f_def using t2 by simp
     hence "(F has_vector_derivative f t) (at t)"
       using der[OF t2] by (simp add: has_real_derivative_iff_has_vector_derivative)
@@ -153,9 +149,8 @@ proof -
   define I where "I = integral {a..b} g"
   have gi: "(g has_integral I) {a..b}" unfolding I_def
     using integrable_continuous_real[OF gc] by (rule integrable_integral)
-  have fle: "\<And>t. t \<in> {a..b} \<Longrightarrow> f t \<le> g t \<and> - f t \<le> g t"
+  have fle: "f t \<le> g t \<and> - f t \<le> g t" if t: "t \<in> {a..b}" for t
   proof -
-    fix t assume t: "t \<in> {a..b}"
     show "f t \<le> g t \<and> - f t \<le> g t"
     proof (cases "t \<in> {a<..<b} - S")
       case True
@@ -238,9 +233,8 @@ lemma endpoint_window:
     and der: "\<forall>t\<in>{0<..<T} - S. (w has_real_derivative w' t) (at t) \<and> \<bar>w' t\<bar> \<le> G * y t"
   shows "\<bar>Phi (w T) - Phi (w 0)\<bar> \<le> G * integral {0..T} (\<lambda>t. (w t)\<^sup>2)"
 proof -
-  have w1: "\<And>t. t \<in> {0..T} \<Longrightarrow> w t \<le> 1"
+  have w1: "w t \<le> 1" if t: "t \<in> {0..T}" for t
   proof -
-    fix t assume t: "t \<in> {0..T}"
     from nrm t have a: "0 \<le> w t" and b: "(w t)\<^sup>2 + (y t)\<^sup>2 \<le> 1" by auto
     have y2: "0 \<le> (y t)\<^sup>2" by simp
     have h1: "(w t)\<^sup>2 \<le> 1" using b y2 by linarith
@@ -254,9 +248,8 @@ proof -
     fix c :: real assume c0: "0 \<le> c" and c1: "c < 1"
     define F where "F = (\<lambda>t. Phi (c * w t))"
     define F' where "F' = (\<lambda>t. (c * w t)\<^sup>2 / sqrt (1 - (c * w t)\<^sup>2) * (c * w' t))"
-    have cw01: "\<And>t. t \<in> {0..T} \<Longrightarrow> c * w t \<in> {0..1}"
+    have cw01: "c * w t \<in> {0..1}" if t: "t \<in> {0..T}" for t
     proof -
-      fix t assume t: "t \<in> {0..T}"
       have "0 \<le> c * w t" using c0 nrm t by simp
       moreover have "c * w t \<le> 1" using c1 w1[OF t] nrm t c0 by (simp add: mult_le_one)
       ultimately show "c * w t \<in> {0..1}" by simp
@@ -409,9 +402,8 @@ lemma endpoint_window_ac:
 proof -
   have wc: "continuous_on {0..T} w"
     by (rule absolutely_continuous_on_imp_continuous[OF wac]) simp
-  have w1: "\<And>t. t \<in> {0..T} \<Longrightarrow> w t \<le> 1"
+  have w1: "w t \<le> 1" if t: "t \<in> {0..T}" for t
   proof -
-    fix t assume t: "t \<in> {0..T}"
     from nrm t have a: "0 \<le> w t" and b: "(w t)\<^sup>2 + (y t)\<^sup>2 \<le> 1" by auto
     have y2: "0 \<le> (y t)\<^sup>2" by simp
     have h1: "(w t)\<^sup>2 \<le> 1" using b y2 by linarith
@@ -425,16 +417,14 @@ proof -
     fix c :: real assume c0: "0 \<le> c" and c1: "c < 1"
     define F where "F = (\<lambda>t. Phi (c * w t))"
     define F' where "F' = (\<lambda>t. (c * w t)\<^sup>2 / sqrt (1 - (c * w t)\<^sup>2) * (c * w' t))"
-    have cw01: "\<And>t. t \<in> {0..T} \<Longrightarrow> c * w t \<in> {0..1}"
+    have cw01: "c * w t \<in> {0..1}" if t: "t \<in> {0..T}" for t
     proof -
-      fix t assume t: "t \<in> {0..T}"
       have "0 \<le> c * w t" using c0 nrm t by simp
       moreover have "c * w t \<le> 1" using c1 w1[OF t] nrm t c0 by (simp add: mult_le_one)
       ultimately show "c * w t \<in> {0..1}" by simp
     qed
-    have cw0c: "\<And>t. t \<in> {0..T} \<Longrightarrow> c * w t \<in> {0..c}"
+    have cw0c: "c * w t \<in> {0..c}" if t: "t \<in> {0..T}" for t
     proof -
-      fix t assume t: "t \<in> {0..T}"
       have "0 \<le> c * w t" using c0 nrm t by simp
       moreover have "c * w t \<le> c * 1" by (rule mult_left_mono) (use c0 w1[OF t] in auto)
       ultimately show "c * w t \<in> {0..c}" by simp

@@ -92,9 +92,8 @@ lemma ftc_le:
   shows "n b - n a \<le> integral {a..b} h"
 proof -
   define f where "f = (\<lambda>t. if t \<in> {a<..<b} - S then n' t else h t)"
-  have fd: "\<And>t. t \<in> {a<..<b} - S \<Longrightarrow> (n has_vector_derivative f t) (at t)"
+  have fd: "(n has_vector_derivative f t) (at t)" if t: "t \<in> {a<..<b} - S" for t
   proof -
-    fix t assume t: "t \<in> {a<..<b} - S"
     have "f t = n' t" unfolding f_def using t by simp
     thus "(n has_vector_derivative f t) (at t)" using der[OF t]
       by (simp add: has_real_derivative_iff_has_vector_derivative)

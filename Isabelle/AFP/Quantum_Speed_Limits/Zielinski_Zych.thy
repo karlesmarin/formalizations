@@ -533,9 +533,8 @@ proof -
   let ?a = "\<lambda>k (a::real). p k * (E k - e0) powr a"
   let ?b = "\<lambda>k. if k = 0 then 0 else p k"
   let ?M = "\<lambda>k. p k * (1 + (E k - e0) powr a0)"
-  have hE': "\<And>n. 0 \<le> E n - e0"
+  have hE': "0 \<le> E n - e0" for n
   proof -
-    fix n
     show "0 \<le> E n - e0" using hE h0 by (cases "n = 0") (auto simp: less_imp_le)
   qed
   have hMs: "summable ?M"
@@ -544,9 +543,8 @@ proof -
     moreover have "(\<lambda>n. p n + p n * (E n - e0) powr a0) = ?M" by (rule ext) (simp add: algebra_simps)
     ultimately show ?thesis by simp
   qed
-  have lim: "\<And>k. ((\<lambda>a. ?a k a) \<longlongrightarrow> ?b k) (at_right 0)"
+  have lim: "((\<lambda>a. ?a k a) \<longlongrightarrow> ?b k) (at_right 0)" for k
   proof -
-    fix k
     show "((\<lambda>a. ?a k a) \<longlongrightarrow> ?b k) (at_right 0)"
     proof (cases "k = 0")
       case True

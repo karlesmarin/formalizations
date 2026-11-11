@@ -379,10 +379,9 @@ lemma hl_poly_Q_at:
   shows "poly (simple_Q ss C) (ss ! j) = - (C j * poly (lin_prod (omit j ss)) (ss ! j))"
 proof -
   have mem: "ss ! j \<in> set ss" using assms by simp
-  have z: "\<And>i. i \<in> {..<length ss} - {j} \<Longrightarrow> C i * poly (lin_prod (omit i ss)) (ss ! j) = 0"
+  have z: "C i * poly (lin_prod (omit i ss)) (ss ! j) = 0" if "i \<in> {..<length ss} - {j}" for i
   proof -
-    fix i assume "i \<in> {..<length ss} - {j}"
-    then have "i \<noteq> j" by simp
+    from that have "i \<noteq> j" by simp
     from hl_omit_mem[OF assms this] hl_lin_prod_root_zero show "C i * poly (lin_prod (omit i ss)) (ss ! j) = 0"
       by simp
   qed
@@ -634,16 +633,14 @@ next
     using bchoice[OF roots] by blast
   define ts where "ts = map f [0..<Suc k]"
   have lts: "length ts = Suc k" unfolding ts_def by simp
-  have tsn: "\<And>l. l \<le> k \<Longrightarrow> ts ! l = f l"
+  have tsn: "ts ! l = f l" if l: "l \<le> k" for l
   proof -
-    fix l assume l: "l \<le> k"
     have l2: "l < Suc k - 0" using l by simp
     show "ts ! l = f l" unfolding ts_def using nth_map_upt[OF l2, of f] by simp
   qed
   have mono: "\<forall>j\<le>Suc k. \<forall>i<j. u i < u j" by (rule hl_strict_steps[OF step])
-  have fmono: "\<And>i j. i < j \<Longrightarrow> j \<le> k \<Longrightarrow> f i < f j"
+  have fmono: "f i < f j" if ij: "i < j" "j \<le> k" for i j
   proof -
-    fix i j assume ij: "i < j" "j \<le> k"
     have "f i < u (Suc i)" using f ij by simp
     also have "u (Suc i) \<le> u j"
     proof (cases "Suc i = j")

@@ -55,9 +55,8 @@ proof -
   define P where "P = (\<Prod>k<r. [:-t k, 1:])"
   have coh: "\<And>i. coeff h i = (if i \<le> r then c (r - i) else 0)"
     by (simp add: h_def coeff_sum coeff_monom)
-  have ph: "\<And>x. poly h x = (\<Sum>l\<in>{..r}. c l * x ^ (r - l))"
+  have ph: "poly h x = (\<Sum>l\<in>{..r}. c l * x ^ (r - l))" for x
   proof -
-    fix x
     have "poly h x = (\<Sum>i\<le>r. c (r - i) * x ^ i)"
       by (simp add: h_def poly_sum poly_monom)
     also have "\<dots> = (\<Sum>i\<le>r. (\<lambda>l. c l * x ^ (r - l)) (r - i))"
@@ -200,9 +199,8 @@ next
     then show ?thesis using l rm unfolding c'_def by auto
   qed
   have rn': "m \<le> n - 1" using nm by simp
-  have hz': "\<And>k. k < m \<Longrightarrow> (\<Sum>l\<in>{..m}. c' l * al' k ^ (m - l) * be' k ^ l) = 0"
+  have hz': "(\<Sum>l\<in>{..m}. c' l * al' k ^ (m - l) * be' k ^ l) = 0" if k: "k < m" for k
   proof -
-    fix k assume k: "k < m"
     have s: "sg k < r" using sgl[OF k] by simp
     have h1: "(\<Sum>l\<in>{..r}. c l * al (sg k) ^ (r - l) * be (sg k) ^ l) = 0" by (rule hz[OF s])
     have h2: "(\<Sum>l\<in>{..Suc m}. c l * al (sg k) ^ (Suc m - l) * be (sg k) ^ l) = 0"
@@ -217,9 +215,8 @@ next
     then show "(\<Sum>l\<in>{..m}. c' l * al' k ^ (m - l) * be' k ^ l) = 0"
       using be0'[OF k] unfolding be'_def by simp
   qed
-  have rec': "\<And>j. j + m \<le> n - 1 \<Longrightarrow> (\<Sum>l\<in>{..m}. a' (j + l) * c' l) = 0"
+  have rec': "(\<Sum>l\<in>{..m}. a' (j + l) * c' l) = 0" if j: "j + m \<le> n - 1" for j
   proof -
-    fix j assume j: "j + m \<le> n - 1"
     have jr: "j + r \<le> n" using j nm rm by simp
     have h1: "(\<Sum>l\<in>{..r}. a (j + l) * c l) = 0" by (rule rec[OF jr])
     have h2: "(\<Sum>l\<in>{..Suc m}. a (j + l) * c l) = 0" using h1 by (simp only: rm)

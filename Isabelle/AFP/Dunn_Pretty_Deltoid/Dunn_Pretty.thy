@@ -161,9 +161,8 @@ proof -
   hence "m * p = - q" by linarith
   hence mq: "m = - q / p" using p0 by (simp add: field_simps)
   show "m = - q / p" by (rule mq)
-  show "\<And>x y. y - q = m * (x - p) \<longleftrightarrow> x / (2 * p) + y / (2 * q) = 1"
+  show "y - q = m * (x - p) \<longleftrightarrow> x / (2 * p) + y / (2 * q) = 1" for x y
   proof -
-    fix x y
     have q0: "q \<noteq> 0" using assms(2) by simp
     have hmp: "m * p = - q" using mq p0 by (simp add: field_simps)
     have key: "y - q = m * (x - p) \<longleftrightarrow> p * y + q * x = 2 * (p * q)"

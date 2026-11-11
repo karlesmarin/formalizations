@@ -101,9 +101,8 @@ next
   define b' where "b' = (\<lambda>u. b (Suc u) - t r * b u)"
   have inj': "inj_on t {..<r}" using Suc.prems(1) by (auto simp: inj_on_def)
   have rM: "r \<le> M - 1" using Suc.prems(2) by simp
-  have rec': "\<And>s. s + r < M - 1 \<Longrightarrow> lfun b' s (\<Prod>k<r. [:-t k, 1:]) = 0"
+  have rec': "lfun b' s (\<Prod>k<r. [:-t k, 1:]) = 0" if s: "s + r < M - 1" for s
   proof -
-    fix s assume s: "s + r < M - 1"
     have "lfun b' s (\<Prod>k<r. [:-t k, 1:]) = lfun b s ((\<Prod>k<r. [:-t k, 1:]) * [:-t r, 1:])"
       unfolding b'_def by (rule lfun_mult_lin[symmetric])
     also have "\<dots> = lfun b s (\<Prod>k<Suc r. [:-t k, 1:])" by (simp only: prod.lessThan_Suc)
@@ -116,18 +115,16 @@ next
   obtain mu where mu: "\<forall>s<M - 1. b' s = (\<Sum>k<r. mu k * t k ^ s)"
     using Suc.IH[OF inj' rM rec'] by blast
   define lam where "lam = (\<lambda>k. mu k / (t k - t r))"
-  have ne: "\<And>k. k < r \<Longrightarrow> t k - t r \<noteq> 0"
+  have ne: "t k - t r \<noteq> 0" if k: "k < r" for k
   proof -
-    fix k assume k: "k < r"
     have "t k \<noteq> t r" using Suc.prems(1) k by (auto simp: inj_on_def)
     then show "t k - t r \<noteq> 0" by simp
   qed
   have lm: "\<And>k. k < r \<Longrightarrow> lam k * (t k - t r) = mu k"
     using ne by (simp add: lam_def)
   define d where "d = (\<lambda>s. b s - (\<Sum>k<r. lam k * t k ^ s))"
-  have step: "\<And>s. s < M - 1 \<Longrightarrow> d (Suc s) = t r * d s"
+  have step: "d (Suc s) = t r * d s" if s: "s < M - 1" for s
   proof -
-    fix s assume s: "s < M - 1"
     have "(\<Sum>k<r. lam k * t k ^ Suc s) - t r * (\<Sum>k<r. lam k * t k ^ s)
         = (\<Sum>k<r. lam k * (t k - t r) * t k ^ s)"
       by (simp add: sum_distrib_left sum_subtractf algebra_simps)
@@ -240,9 +237,8 @@ proof -
   define P where "P = (\<Prod>k<r. [:-t k, 1:])"
   have coh: "\<And>i. coeff h i = (if i \<le> r then c (r - i) else 0)"
     by (simp add: h_def coeff_sum coeff_monom)
-  have ph: "\<And>x. poly h x = (\<Sum>l\<in>{..r}. c l * x ^ (r - l))"
+  have ph: "poly h x = (\<Sum>l\<in>{..r}. c l * x ^ (r - l))" for x
   proof -
-    fix x
     have "poly h x = (\<Sum>i\<le>r. c (r - i) * x ^ i)"
       by (simp add: h_def poly_sum poly_monom)
     also have "\<dots> = (\<Sum>i\<le>r. (\<lambda>l. c l * x ^ (r - l)) (r - i))"
@@ -267,9 +263,8 @@ proof -
   then have e0: "e \<noteq> 0" using q0 by auto
   have hP: "h = smult e P" using hq qe by (simp add: mult.commute)
   define b where "b = (\<lambda>u. a (n - u))"
-  have recb: "\<And>s. s + r < n + 1 \<Longrightarrow> lfun b s P = 0"
+  have recb: "lfun b s P = 0" if s: "s + r < n + 1" for s
   proof -
-    fix s assume s: "s + r < n + 1"
     define j where "j = n - s - r"
     have jr: "j + r \<le> n" using s j_def by simp
     have "lfun b s h = (\<Sum>i\<le>r. coeff h i * b (s + i))" by (rule lfun_gen[OF dh])
@@ -327,9 +322,8 @@ proof -
       using be0 by (simp add: t_def field_simps)
     then show "j = k" using dist jk by auto
   qed
-  have hz': "\<And>k. k < r \<Longrightarrow> (\<Sum>l\<in>{..r}. c l * t k ^ (r - l)) = 0"
+  have hz': "(\<Sum>l\<in>{..r}. c l * t k ^ (r - l)) = 0" if k: "k < r" for k
   proof -
-    fix k assume k: "k < r"
     have bk: "be k \<noteq> 0" by (rule be0[OF k])
     have "be k ^ r * (\<Sum>l\<in>{..r}. c l * t k ^ (r - l))
         = (\<Sum>l\<in>{..r}. c l * al k ^ (r - l) * be k ^ l)"

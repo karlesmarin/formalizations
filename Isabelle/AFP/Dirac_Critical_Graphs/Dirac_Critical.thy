@@ -228,10 +228,9 @@ lemma rot_cyc:
   shows "cyc M (rot M s i) (rot M s j)"
 proof -
   have M: "0 < M" using assms unfolding cyc_def by auto
-  have key: "\<And>x y. y = (x + 1) mod M \<Longrightarrow> rot M s y = (rot M s x + 1) mod M"
+  have key: "rot M s y = (rot M s x + 1) mod M" if "y = (x + 1) mod M" for x y
   proof -
-    fix x y assume "y = (x + 1) mod M"
-    hence h1: "(y + s) mod M = (x + 1 + s) mod M" by (simp only: mod_add_left_eq)
+    from that have h1: "(y + s) mod M = (x + 1 + s) mod M" by (simp only: mod_add_left_eq)
     have h2: "((x + s) mod M + 1) mod M = (x + s + 1) mod M" by (rule mod_add_left_eq)
     have c: "x + 1 + s = x + s + 1" by arith
     show "rot M s y = (rot M s x + 1) mod M" unfolding rot_def by (metis h1 h2 c)
@@ -500,13 +499,11 @@ proof
     and cp: "\<And>u v. u < 2 * M \<Longrightarrow> v < 2 * M \<Longrightarrow> dirac M u v \<Longrightarrow> c u \<noteq> c v"
     unfolding col_on_def by auto
   text \<open>Each copy uses at least three colours (odd cycle).\<close>
-  have three: "\<And>off. off = 0 \<or> off = M \<Longrightarrow> 3 \<le> card (c ` {off..<off + M})"
+  have three: "3 \<le> card (c ` {off..<off + M})" if off: "off = 0 \<or> off = M" for off
   proof -
-    fix off assume off: "off = 0 \<or> off = M"
     define d where "d i = c (off + i)" for i
-    have dstep: "\<And>i. i < M \<Longrightarrow> d i \<noteq> d ((i + 1) mod M)"
+    have dstep: "d i \<noteq> d ((i + 1) mod M)" if i: "i < M" for i
     proof -
-      fix i assume i: "i < M"
       have "(i + 1) mod M < M" using M0 by simp
       hence "cyc M i ((i + 1) mod M)" using i unfolding cyc_def by auto
       have dd: "dirac M (off + i) (off + (i + 1) mod M)" using off i \<open>cyc M i ((i + 1) mod M)\<close>
@@ -540,9 +537,8 @@ proof
         show "{d 0, d 1} \<subseteq> d ` {..<M}" using M0 m1 by auto
         show "card (d ` {..<M}) \<le> card {d 0, d 1}" using card2 e01 by simp
       qed
-      have alt: "\<And>i. i < M \<Longrightarrow> d i = (if even i then d 0 else d 1)"
-      proof -
-        fix i show "i < M \<Longrightarrow> d i = (if even i then d 0 else d 1)"
+      have alt: "d i = (if even i then d 0 else d 1)" if "i < M" for i
+        using that
         proof (induction i)
           case 0 thus ?case by simp
         next
@@ -565,7 +561,6 @@ proof
             thus ?thesis using False by simp
           qed
         qed
-      qed
       have ev: "even (M - 1)" using hodd by presburger
       have lt: "M - 1 < M" using M0 by arith
       have "d (M - 1) \<noteq> d ((M - 1 + 1) mod M)" by (rule dstep[OF lt])
@@ -666,9 +661,8 @@ lemma col5_edge3:
   shows "col_on {..<2 * M} 5 (del_edge a (M + q) (dirac M))"
 proof -
   define gB where "gB j = (if h M q j = 2 then 0 else h M q j + 1)" for j
-  have gBle: "\<And>j. gB j \<le> 2"
+  have gBle: "gB j \<le> 2" for j
   proof -
-    fix j
     have hl: "h M q j < 3" by (rule h_lt)
     show "gB j \<le> 2" unfolding gB_def
     proof (cases "h M q j = 2")

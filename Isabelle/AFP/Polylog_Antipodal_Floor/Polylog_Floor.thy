@@ -134,9 +134,8 @@ lemma nn_integral_gD:
   shows "(\<integral>\<^sup>+x. ennreal (gH s a x / Gamma s) \<partial>lborel) = ennreal (1 / a powr s)"
 proof -
   have g: "0 < Gamma s" using s by simp
-  have pt: "\<And>x. ennreal (gH s a x / Gamma s) = ennreal (1 / Gamma s) * ennreal (gH s a x)"
+  have pt: "ennreal (gH s a x / Gamma s) = ennreal (1 / Gamma s) * ennreal (gH s a x)" for x
   proof -
-    fix x
     have eq: "gH s a x / Gamma s = (1 / Gamma s) * gH s a x" by simp
     show "ennreal (gH s a x / Gamma s) = ennreal (1 / Gamma s) * ennreal (gH s a x)"
       by (subst eq) (rule ennreal_mult', use g in simp)
@@ -325,9 +324,8 @@ proof -
     then show "summable (\<lambda>n. norm (b n))" using sa by simp
   qed
   have hB: "b sums suminf b" using sb by (rule summable_sums)
-  have odd: "\<And>j. a (j * 2 + 1) = c * a j"
+  have odd: "a (j * 2 + 1) = c * a j" for j
   proof -
-    fix j
     have e1: "real (Suc (j * 2 + 1)) = 2 * real (Suc j)" by (simp add: algebra_simps)
     have "a (j * 2 + 1) = (2 * real (Suc j)) powr (- s)" unfolding a_def e1 ..
     also have "\<dots> = c * a j" unfolding c_def a_def by (rule powr_mult)

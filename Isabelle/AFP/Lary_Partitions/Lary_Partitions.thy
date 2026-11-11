@@ -440,10 +440,9 @@ proof (induction n rule: less_induct)
     then show ?thesis by (simp add: S0 b_0)
   next
     case n0: False
-    have lt: "\<And>j. j \<in> W n \<Longrightarrow> j < n"
+    have lt: "j < n" if "j \<in> W n" for j
     proof -
-      fix j assume "j \<in> W n"
-      then have "l * j \<le> n" by (simp add: memW)
+      from that have "l * j \<le> n" by (simp add: memW)
       with two_j[of j] n0 show "j < n" by arith
     qed
     have fin: "\<And>j. j \<in> W n \<Longrightarrow> finite (S j)" using less lt by blast

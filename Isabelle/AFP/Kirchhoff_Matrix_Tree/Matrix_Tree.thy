@@ -569,9 +569,8 @@ next
       and sxs: "set xs = insert l V - {\<rho>}" and sys: "set ys = insert {l, v} E"
       and len: "length xs = length ys"
     obtain j0 where j0: "j0 < length ys" "ys ! j0 = {l, v}" using sys by (metis in_set_conv_nth insertI1)
-    have ysl: "\<And>j. j < length ys \<Longrightarrow> j \<noteq> j0 \<Longrightarrow> l \<notin> ys ! j"
+    have ysl: "l \<notin> ys ! j" if j: "j < length ys" "j \<noteq> j0" for j
     proof -
-      fix j assume j: "j < length ys" "j \<noteq> j0"
       have mem: "ys ! j \<in> insert {l, v} E" using j(1) sys nth_mem by blast
       have "ys ! j \<noteq> {l, v}"
         using j j0 dys nth_eq_iff_index_eq by metis
@@ -585,9 +584,8 @@ next
       have "l \<in> set xs" using sxs False by simp
       then obtain i0 where i0: "i0 < length xs" "xs ! i0 = l" by (auto simp: in_set_conv_nth)
       have n: "Mx xs ys \<in> carrier_mat (length xs) (length xs)" using Mx_carrier len by metis
-      have z: "\<And>j. j < length xs \<Longrightarrow> j \<noteq> j0 \<Longrightarrow> Mx xs ys $$ (i0, j) = 0"
+      have z: "Mx xs ys $$ (i0, j) = 0" if j: "j < length xs" "j \<noteq> j0" for j
       proof -
-        fix j assume j: "j < length xs" "j \<noteq> j0"
         have "l \<notin> ys ! j" using ysl j len by simp
         then show "Mx xs ys $$ (i0, j) = 0" using j i0 len by (simp add: Mx_index ori0_def)
       qed
@@ -614,9 +612,8 @@ next
       then have sxs': "set xs = V" using sxs lV by auto
       then obtain i0 where i0: "i0 < length xs" "xs ! i0 = v" using vV by (auto simp: in_set_conv_nth)
       have n: "Mx xs ys \<in> carrier_mat (length xs) (length xs)" using Mx_carrier len by metis
-      have z: "\<And>i. i < length xs \<Longrightarrow> i \<noteq> i0 \<Longrightarrow> Mx xs ys $$ (i, j0) = 0"
+      have z: "Mx xs ys $$ (i, j0) = 0" if i: "i < length xs" "i \<noteq> i0" for i
       proof -
-        fix i assume i: "i < length xs" "i \<noteq> i0"
         have xi: "xs ! i \<in> V" using i sxs' nth_mem by blast
         have "xs ! i \<noteq> v" using i i0 dxs nth_eq_iff_index_eq by metis
         moreover have "xs ! i \<noteq> l" using xi lV by auto

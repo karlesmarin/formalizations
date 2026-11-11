@@ -761,9 +761,8 @@ next
     unfolding Mk_def by (rule indep_var_Max[OF _ _ ins]) simp_all
   have Mm: "Mk \<in> borel_measurable M"
     unfolding Mk_def by (intro borel_measurable_Max Xm) simp
-  have mx: "\<And>\<omega>. Max ((\<lambda>i. X i \<omega>) ` {0..<Suc (Suc k)}) = max (X (Suc k) \<omega>) (Mk \<omega>)"
+  have mx: "Max ((\<lambda>i. X i \<omega>) ` {0..<Suc (Suc k)}) = max (X (Suc k) \<omega>) (Mk \<omega>)" for \<omega>
   proof -
-    fix \<omega>
     have "{0..<Suc (Suc k)} = insert (Suc k) {0..<Suc k}" by auto
     hence "Max ((\<lambda>i. X i \<omega>) ` {0..<Suc (Suc k)}) = Max (insert (X (Suc k) \<omega>) ((\<lambda>i. X i \<omega>) ` {0..<Suc k}))"
       by simp
