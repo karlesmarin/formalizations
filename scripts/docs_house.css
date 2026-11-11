@@ -1,0 +1,89 @@
+
+/* ---------------------------------------------------------------------------------------------------------------
+   House style for the API documentation (appended to doc-gen4's style.css by .github/workflows/docs.yml).
+   Same look as the blueprints and the Atlas at https://karlesmarin.github.io/blueprints/ : blue header bar with
+   white text, grey ground, the content on a white card with a soft shadow, dark-blue links. Light only, like
+   the rest of the site. Only colours, shadows and spacing: no element of doc-gen is hidden or moved.
+   --------------------------------------------------------------------------------------------------------------- */
+:root, :root[data-theme="light"], :root[data-theme="dark"] {
+    --header-bg: #396282;
+    --body-bg: #e7e9ec;
+    --code-bg: #f3f6fa;
+    --text-color: #1c2733;
+    --link-color: #1f4e79;
+    --implicit-arg-text-color: var(--text-color);
+    --hamburger-bg-color: rgba(255, 255, 255, .18);
+    --hamburger-active-color: #fff;
+    --hamburger-border-color: rgba(255, 255, 255, .8);
+    --tags-border-color: #555;
+    --def-color: #92dce5;
+    --theorem-color: #8fe388;
+    --axiom-and-constant-color: #f44708;
+    --structure-and-inductive-color: #f0a202;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --header-bg: #396282; --body-bg: #e7e9ec; --code-bg: #f3f6fa; --text-color: #1c2733; --link-color: #1f4e79;
+        --hamburger-bg-color: rgba(255, 255, 255, .18); --hamburger-active-color: #fff;
+        --hamburger-border-color: rgba(255, 255, 255, .8); --tags-border-color: #555;
+        --def-color: #92dce5; --theorem-color: #8fe388; --axiom-and-constant-color: #f44708;
+        --structure-and-inductive-color: #f0a202;
+    }
+}
+body { background: var(--body-bg); color: var(--text-color); }
+
+/* the bar */
+body > header {
+    background: linear-gradient(180deg, #6696bb 0, #396282) !important;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+    border-bottom: 0;
+}
+body > header h1, body > header h1 span, body > header h2, body > header h2 .name, body > header a {
+    color: #fff !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, .6);
+    font-family: Helvetica, Arial, sans-serif;
+}
+body > header #search_form input[type="text"] {
+    border: 1px solid rgba(255, 255, 255, .8);
+    border-radius: 14px;
+    padding: .2em .8em;
+    background: #fff;
+    color: #1c2733;
+}
+body > header #search_form button {
+    border: 1px solid rgba(255, 255, 255, .75);
+    border-radius: 14px;
+    padding: .2em .9em;
+    background: rgba(255, 255, 255, .16);
+    color: #fff;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, .6);
+}
+body > header #search_form button:hover { background: rgba(255, 255, 255, .3); }
+
+/* the content on a card */
+main {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55), 0 1px 2px rgba(15, 23, 42, .08),
+        0 4px 10px rgba(15, 23, 42, .08), 0 12px 24px -12px rgba(15, 23, 42, .18);
+    padding: 1em 1.4em 1.6em;
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+main h1, main h2, main h3 { color: #1f4e79; font-family: Helvetica, Arial, sans-serif; }
+
+/* each declaration a lighter card; the highlight is a shadow only (nothing moves under the pointer) */
+main .decl {
+    border-radius: 9px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+    transition: box-shadow .18s ease;
+}
+main .decl:hover { box-shadow: 0 2px 4px rgba(15, 23, 42, .10), 0 10px 20px rgba(15, 23, 42, .12); }
+
+/* the module tree */
+nav.nav, .navframe { background: transparent; }
+nav.nav a, .nav a { color: #1f4e79; }
+a { color: var(--link-color); }
+a:hover { color: #163a5c; }

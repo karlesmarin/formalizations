@@ -48,3 +48,21 @@ jobs:
           api-docs: true
           blueprint: false
           build-page: false
+          # the action only builds; the house style is appended below and the site is uploaded and deployed here
+          deploy: false
+      # same look as https://karlesmarin.github.io/blueprints/ (blue bar, grey ground, content on a white card):
+      # scripts/docs_house.css is appended to doc-gen4's own style.css; it only sets colours, shadows and spacing
+      - name: House style
+        run: |
+          f="$(find docs -maxdepth 2 -name style.css | head -1)"
+          test -n "$f" || { echo "style.css of doc-gen4 not found under docs/"; find docs -maxdepth 2 | head -30; exit 1; }
+          cat scripts/docs_house.css >> "$f"
+          echo "house style appended to $f"
+      - name: Upload the site
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push'
+        uses: actions/deploy-pages@v4
