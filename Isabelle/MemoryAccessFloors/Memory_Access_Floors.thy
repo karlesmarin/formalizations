@@ -3,7 +3,7 @@
     Copyright (c) 2026 Carles Marin. All rights reserved.
     License:    BSD
 
-    Elementary parts of the note 'No pulse beats the resonant swap: exact limits for writing a quantum memory' (C. Marin, draft of November 2026): closed form of the maximum of the resonant exchange, write-channel identities, worst-case fidelity, alignment lemma. Not formalized here: optimality over all control pulses.
+    Part of the formalisation of the note 'No pulse beats the resonant swap: exact limits for writing a quantum memory' (C. Marin, draft of November 2026). Memory_Access_Floors: closed form of the maximum of the resonant exchange, write-channel identities, worst-case fidelity, alignment lemma. Memory_Access_All_Pulses: the bound over all control pulses without dephasing. Not formalized here: the population theorem with dephasing.
 *)
 
 theory Memory_Access_Floors

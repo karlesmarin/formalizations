@@ -1,6 +1,7 @@
 chapter Formalizations
 
-session Memory_Access_Floors = "HOL-Analysis" +
-  options [timeout = 600]
+session Memory_Access_All_Pulses = "HOL-Analysis" +
+  options [timeout = 900]
   theories
     Memory_Access_Floors
+    Memory_Access_All_Pulses
