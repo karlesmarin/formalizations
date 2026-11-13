@@ -73,3 +73,5 @@
 "Isabelle/FriezeCorollary/Four_Sign_Changes_Fail.thy" = "Combinatorics/Frieze"
 "Isabelle/MemoryAccessFloors/Memory_Access_Floors.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Memory_Access_All_Pulses.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Memory_Access_Dephasing.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Memory_Access_Extras.thy" = "Physics/QuantumMechanics/MemoryAccess"
