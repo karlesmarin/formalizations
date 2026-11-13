@@ -122,3 +122,11 @@ isabelle build -v -d AFP/Integer_Frieze_Rows -d AFP/Odd_Frieze_Rows -D FriezeCor
 
 `docker/Dockerfile` adds the LaTeX packages needed to build the documents of the AFP sessions
 (`-o document=pdf`).
+
+## 🧱 Sessions from the queue
+
+Sessions that were finished in the working queue and had not been uploaded.
+
+| Session | What is proved |
+|---|---|
+| `MemoryAccessFloors/` (`Memory_Access_Floors`) | the elementary parts of *No pulse beats the resonant swap* (draft, November 2026): the damped vacuum-Rabi transfer `G²/Ω² · exp(−γ̄ t) · sin²(Ω t)` never exceeds `4G²/(4G² + γ_q γ_m) · exp(−(γ̄/Ω) arctan(2Ω/γ̄))` for `t ≥ 0` (`resonant_pulse_max_bound`), with equality at `t* = arctan(2Ω/γ̄)/Ω` (`resonant_pulse_max_attained`) and symmetry in the two rates (`max_population_symmetric`); the identity `4Ω² + γ̄² = 4G² + γ_q γ_m`; the write-channel identities `1 − F = (1 − p)/6 + (1 − c)/3` and `1 − F_e = (3/2)(1 − F)` (`write_channel_infidelity`); the worst-case fidelity over pure inputs in its two regimes (`worst_case_case_one`, `worst_case_case_two`); the alignment lemma for a complex number (`alignment_lemma`). Not formalized here: that no control pulse does better (the theorems of the note) |

@@ -71,3 +71,4 @@
 "Isabelle/SU7Rung/G_Window.thy" = "Physics/Particles/GaugeHiggsUnification"
 "Isabelle/SU7Rung/Family_Anomaly.thy" = "Physics/Particles/GaugeHiggsUnification"
 "Isabelle/FriezeCorollary/Four_Sign_Changes_Fail.thy" = "Combinatorics/Frieze"
+"Isabelle/MemoryAccessFloors/Memory_Access_Floors.thy" = "Physics/QuantumMechanics/MemoryAccess"
