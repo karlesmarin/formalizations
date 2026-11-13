@@ -1,9 +1,10 @@
 chapter Formalizations
 
-session Memory_Access_Extras = "HOL-Analysis" +
+session Memory_Access_Quasistatic = "HOL-Analysis" +
   options [timeout = 900]
   theories
     Memory_Access_Floors
     Memory_Access_All_Pulses
     Memory_Access_Dephasing
     Memory_Access_Extras
+    Memory_Access_Quasistatic
