@@ -32,3 +32,5 @@ session Memory_Access_Quasistatic = "HOL-Probability" +
     Oscillator_Comparison
     Metzler_Cone
     Storage_Function
+    Square_Unified_Condition
+    Induced_Rate_Optimum

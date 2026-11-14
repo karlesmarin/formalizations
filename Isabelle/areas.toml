@@ -99,3 +99,5 @@
 "Isabelle/MemoryAccessFloors/Oscillator_Comparison.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Metzler_Cone.thy" = "Analysis/ODE"
 "Isabelle/MemoryAccessFloors/Storage_Function.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Square_Unified_Condition.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Induced_Rate_Optimum.thy" = "Physics/QuantumMechanics/MemoryAccess"
