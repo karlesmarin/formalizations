@@ -1,9 +1,10 @@
 (*  Title:      Memory_Access_Floors.thy
-    Author:     Carles Marin
-    Copyright (c) 2026 Carles Marin. All rights reserved.
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
     License:    BSD
 
-    Part of the formalisation of the note 'No pulse beats the resonant swap: exact limits for writing a quantum memory' (C. Marin, draft of November 2026). Not formalized here: the theorems with dephasing and unequal relaxation rates.
+    Part of the formalisation of "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026): the maximum of the damped
+    vacuum-Rabi transfer, the write-channel identities, the worst-case fidelity and the alignment lemma.
 *)
 
 theory Memory_Access_Floors

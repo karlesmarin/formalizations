@@ -1,12 +1,12 @@
 (*  Title:      Memory_Access_Quasistatic.thy
     Author:     Carles Marín
-    Copyright:  Carles Marín
-    License:    BSD-3-Clause
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
-    Quasistatic and strong-dephasing lemmas of the memory-floors note:
-    (A) the one-variable inequality behind the quasistatic bound (Proposition 11(a)),
-    (B) the strong-dephasing envelope (Proposition 10).
+    From "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026): the one-variable inequalities behind the
+    quasi-static bound of the square pulse, and the strong-dephasing envelope (phi >= 4G).
 *)
+
 theory Memory_Access_Quasistatic
   imports Memory_Access_Extras
 begin

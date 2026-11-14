@@ -1,10 +1,11 @@
 (*  Title:      Memory_Access_Regimes.thy
     Author:     Carles Marín
-    Copyright:  Carles Marín
-    License:    BSD-3-Clause
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
-    encaje: segunda teoria de la sesion 186 (regimenes sobreamortiguado, critico y subamortiguado del Teorema 1 de
-    "Exact limits for writing a quantum memory"); reutiliza damped_sine de Memory_Access_Floors; no es herramienta.
+    From "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026): the resonant pulse in the critical and
+    over-damped regimes (global maximum), the stopping rule |a|/|b| = gm/(2G) in all three regimes, the
+    logarithmic-derivative identity of the comparison proof, and the familiar estimate when over-damped.
 *)
 
 theory Memory_Access_Regimes

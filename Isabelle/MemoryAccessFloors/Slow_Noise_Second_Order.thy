@@ -1,10 +1,12 @@
 (*  Title:      Slow_Noise_Second_Order.thy
-    Author:     Carles Marín Muñoz
-    Copyright:  Carles Marín Muñoz
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
-    encaje: sesion 189; piezas elementales de la Proposicion "slow2" (ruido lento a segundo orden) de
-    "Exact limits for writing a quantum memory" (sec_robust.tex, prop:slow2); modelo de estilo: sesion 187; no es herramienta.
+    From "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026): the algebra of the second-order error of
+    every pulse under static offsets, the value of the square pulse, the floor pi^2 sigma^2/(96 G^2) for noise
+    on the qubit, the comparison with the minimum-time robust pulse, and a bang-bang pulse that beats the
+    square one at rho = 1/10.
 *)
 
 theory Slow_Noise_Second_Order

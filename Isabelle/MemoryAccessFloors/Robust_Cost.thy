@@ -1,11 +1,12 @@
 (*  Title:      Robust_Cost.thy
-    Author:     Carles Marín Muñoz
-    Copyright:  Carles Marín Muñoz
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
-    encaje: sesion 188; coste exacto de anular la fuga para pulsos de fase fija (seccion "Robustness costs time and
-    exposure" de "Exact limits for writing a quantum memory", memory-floors.tex; datos en dubins_robusto.py);
-    modelo de estilo: sesion 187; no es herramienta.
+    From "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026): the exact cost of cancelling the first-order leakage
+    with a pulse of fixed phase, (gq + gm)/(2G) arccos(|gq - gm|/(gq + gm)), as the minimum over the axial
+    displacement of the shortest U-turn length L(s). L is taken as a definition: that it is the shortest
+    length is Dubins' theorem.
 *)
 
 theory Robust_Cost

@@ -1,11 +1,13 @@
 (*  Title:      Memory_Access_Dephasing.thy
     Author:     Carles Marín
-    Copyright:  Carles Marín
-    License:    BSD-3-Clause
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
-    Proposition (equal relaxation rates, dephasing) of the memory-floors note, population part.
-    Reduced real model: X' = -2 w y, y' = -Phi y + 2 w X, |w| <= G, X(0) = 1, y(0) = 0.
+    Equal relaxation rates with dephasing, from "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026):
+    the coherence vector cannot grow, and the resonant pulse is optimal at every fixed duration up to its
+    half-transfer time. Reduced real model: X' = -2 w y, y' = -Phi y + 2 w X, |w| <= G, X(0) = 1, y(0) = 0.
 *)
+
 theory Memory_Access_Dephasing
   imports Memory_Access_All_Pulses
 begin

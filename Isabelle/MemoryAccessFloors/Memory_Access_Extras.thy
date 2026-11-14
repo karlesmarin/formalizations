@@ -1,10 +1,12 @@
 (*  Title:      Memory_Access_Extras.thy
     Author:     Carles Marín
-    Copyright:  Carles Marín
-    License:    BSD-3-Clause
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
-    Extras of the memory-floors note: (1) the folk-number inequality, (2) a slow-noise counterexample.
+    From "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026): the familiar estimate
+    exp(-pi (gq + gm)/(4G)) is a rigorous lower bound for the maximum, and an exact slow-noise counterexample.
 *)
+
 theory Memory_Access_Extras
   imports Memory_Access_Floors Memory_Access_All_Pulses Memory_Access_Dephasing
 begin

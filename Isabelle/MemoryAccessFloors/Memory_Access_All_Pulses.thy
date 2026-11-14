@@ -1,10 +1,13 @@
 (*  Title:      Memory_Access_All_Pulses.thy
     Author:     Carles Marín
-    Copyright:  Carles Marín
-    License:    BSD-3-Clause
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
-    Theorem 1 of the memory-floors note (bound over ALL pulses), relaxation only.
+    Theorem 1 of "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026),
+    relaxation only: no control pulse transfers more population than the resonant one, in the
+    under-damped regime |gq - gm| < 4G.
 *)
+
 theory Memory_Access_All_Pulses
   imports Memory_Access_Floors
 begin

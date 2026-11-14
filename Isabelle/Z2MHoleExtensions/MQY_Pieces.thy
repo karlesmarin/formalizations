@@ -1,7 +1,7 @@
 (*  Title:      MQY_Pieces.thy
     Author:     Carles Marín
-    Copyright:  Carles Marín
-    License:    BSD-3-Clause
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Elementary pieces of the note "On z_2M(21,4): the Hole Extensions of the Chen-Chen
     Configuration Are Reducible, and Extremal Configurations Are Not Unique" (Marín, Qi, Yu):

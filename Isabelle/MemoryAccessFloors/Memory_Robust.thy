@@ -1,10 +1,11 @@
 (*  Title:      Memory_Robust.thy
-    Author:     Carles Marín Muñoz
-    Copyright:  Carles Marín Muñoz
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
-    encaje: sesion 187; piezas del Teorema "Robustness costs time and exposure" de "Exact limits for writing a
-    quantum memory" (memory-floors.tex, thm:robust y su corolario); modelo de estilo: sesion 186; no es herramienta.
+    From "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026), section "Robustness costs time and exposure":
+    the elementary steps of the duration-leakage frontier and of the exposure inequality, both equality
+    families, and the cost bound of its corollary.
 *)
 
 theory Memory_Robust
