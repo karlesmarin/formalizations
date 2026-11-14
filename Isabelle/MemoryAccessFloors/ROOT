@@ -2,6 +2,8 @@ chapter Formalizations
 
 session Memory_Access_Quasistatic = "HOL-Analysis" +
   options [timeout = 900]
+  sessions
+    "HOL-Decision_Procs"
   theories
     Memory_Access_Floors
     Memory_Access_All_Pulses
@@ -10,3 +12,5 @@ session Memory_Access_Quasistatic = "HOL-Analysis" +
     Memory_Access_Quasistatic
     Memory_Access_Regimes
     Memory_Robust
+    Robust_Cost
+    Slow_Noise_Second_Order

@@ -79,3 +79,5 @@
 "Isabelle/MemoryAccessFloors/Memory_Access_Quasistatic.thy" = "Physics/Quantum control"
 "Isabelle/MemoryAccessFloors/Memory_Access_Regimes.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Memory_Robust.thy" = "Physics/Quantum control"
+"Isabelle/MemoryAccessFloors/Robust_Cost.thy" = "Physics/Quantum control"
+"Isabelle/MemoryAccessFloors/Slow_Noise_Second_Order.thy" = "Physics/Quantum control"
