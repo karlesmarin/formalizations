@@ -135,11 +135,11 @@ corollary six_state_average_phase:
    \<and> 1 - (3 + P + 2 * c) / 6 = (1 - P) / 6 + (1 - c) / 3"
 proof -
   have "Re (of_real c :: complex) = c" by (simp only: Re_complex_of_real)
-  hence h: "(Re (fid 1 0 P (of_real c)) + Re (fid 0 1 P (of_real c))
+  have h: "(Re (fid 1 0 P (of_real c)) + Re (fid 0 1 P (of_real c))
     + Re (fid s2 s2 P (of_real c)) + Re (fid s2 (- s2) P (of_real c))
     + Re (fid s2 (\<i> * s2) P (of_real c)) + Re (fid s2 (- (\<i> * s2)) P (of_real c))) / 6
     = (3 + P + 2 * Re (of_real c :: complex)) / 6"
-    by (rule_tac w = "of_real c" in six_state_average)
+    by (rule six_state_average[where w = "of_real c"])
   show ?thesis
     using assms h by (simp only: Re_complex_of_real, simp add: field_simps)
 qed
