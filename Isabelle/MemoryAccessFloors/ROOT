@@ -25,3 +25,6 @@ session Memory_Access_Quasistatic = "HOL-Probability" +
     Unitarity_Second_Order
     Memory_Access_Over
     Quasistatic_Average
+    U_Turn_Exposure_Family
+    Equal_Rate_Threshold
+    Unequal_Dephasing_Threshold

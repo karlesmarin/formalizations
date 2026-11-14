@@ -92,3 +92,6 @@
 "Isabelle/MemoryAccessFloors/Robust_Disk.thy" = "Geometry/Curves of bounded curvature"
 "Isabelle/MemoryAccessFloors/Square_Condition.thy" = "Physics/Quantum control"
 "Isabelle/MemoryAccessFloors/Unitarity_Second_Order.thy" = "Physics/Quantum control"
+"Isabelle/MemoryAccessFloors/U_Turn_Exposure_Family.thy" = "Geometry/Curves of bounded curvature"
+"Isabelle/MemoryAccessFloors/Equal_Rate_Threshold.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Unequal_Dephasing_Threshold.thy" = "Physics/QuantumMechanics/MemoryAccess"
