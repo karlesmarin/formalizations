@@ -1,0 +1,4 @@
+session Z2M_Hole_Extensions = Segre_Width3 +
+  options [timeout = 600]
+  theories
+    MQY_Pieces
