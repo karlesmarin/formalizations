@@ -50,10 +50,9 @@ lemma dag_Lrel_Lrel:
   assumes "r j \<ge> 0" "j \<le> n"
   shows "mm n (dag (Lrel r j)) (Lrel r j) a b = (if a = j \<and> b = j then of_real (r j) else 0)"
 proof -
-  have h: "\<And>c. c \<in> {0..n} \<Longrightarrow> dag (Lrel r j) a c * Lrel r j c b
-      = (if c = 0 then (if a = j \<and> b = j then of_real (r j) else 0) else 0)"
+  have h: "dag (Lrel r j) a c * Lrel r j c b
+      = (if c = 0 then (if a = j \<and> b = j then of_real (r j) else 0) else 0)" if "c \<in> {0..n}" for c
   proof -
-    fix c assume "c \<in> {0..n}"
     have q: "sqrt (r j) * sqrt (r j) = r j" by (simp add: real_sqrt_mult_self abs_of_nonneg assms(1))
     have s: "of_real (sqrt (r j)) * of_real (sqrt (r j)) = (of_real (r j) :: complex)"
       by (simp only: of_real_mult[symmetric] q)
@@ -73,10 +72,9 @@ lemma dag_Ldeph_Ldeph:
   assumes "d j \<ge> 0" "j \<le> n"
   shows "mm n (dag (Ldeph d j)) (Ldeph d j) a b = (if a = j \<and> b = j then of_real (d j) else 0)"
 proof -
-  have h: "\<And>c. c \<in> {0..n} \<Longrightarrow> dag (Ldeph d j) a c * Ldeph d j c b
-      = (if c = j then (if a = j \<and> b = j then of_real (d j) else 0) else 0)"
+  have h: "dag (Ldeph d j) a c * Ldeph d j c b
+      = (if c = j then (if a = j \<and> b = j then of_real (d j) else 0) else 0)" if "c \<in> {0..n}" for c
   proof -
-    fix c assume "c \<in> {0..n}"
     have q: "sqrt (d j) * sqrt (d j) = d j" by (simp add: real_sqrt_mult_self abs_of_nonneg assms(1))
     have s: "of_real (sqrt (d j)) * of_real (sqrt (d j)) = (of_real (d j) :: complex)"
       by (simp only: of_real_mult[symmetric] q)
@@ -165,20 +163,18 @@ proof -
       unfolding mm_def split by simp
     thus ?thesis by (simp add: H0)
   qed
-  have rel: "\<And>m. m \<in> {1..n} \<Longrightarrow> dissip n (Lrel r m) rho j 0
-      = - (1/2) * (if j = m then of_real (r m) * rho j 0 else 0)"
+  have rel: "dissip n (Lrel r m) rho j 0
+      = - (1/2) * (if j = m then of_real (r m) * rho j 0 else 0)" if m: "m \<in> {1..n}" for m
   proof -
-    fix m assume m: "m \<in> {1..n}"
     have K: "\<And>a b. mm n (dag (Lrel r m)) (Lrel r m) a b
         = (if a = m \<and> b = m then of_real (r m) else 0)"
       using m by (intro dag_Lrel_Lrel r0, simp)
     show "dissip n (Lrel r m) rho j 0 = - (1/2) * (if j = m then of_real (r m) * rho j 0 else 0)"
       using m by (intro dissip_vac[where w = "of_real (r m)" and m = m, OF K jump_rel[OF j1] _ jn], simp)
   qed
-  have dep: "\<And>m. m \<in> {1..n} \<Longrightarrow> dissip n (Ldeph d m) rho j 0
-      = - (1/2) * (if j = m then of_real (d m) * rho j 0 else 0)"
+  have dep: "dissip n (Ldeph d m) rho j 0
+      = - (1/2) * (if j = m then of_real (d m) * rho j 0 else 0)" if m: "m \<in> {1..n}" for m
   proof -
-    fix m assume m: "m \<in> {1..n}"
     have K: "\<And>a b. mm n (dag (Ldeph d m)) (Ldeph d m) a b
         = (if a = m \<and> b = m then of_real (d m) else 0)"
       using m by (intro dag_Ldeph_Ldeph d0, simp)

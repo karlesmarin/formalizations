@@ -47,9 +47,8 @@ proof -
   define f' where "f' = (\<lambda>u::real. exp (- u) - 1 + u)"
   have df: "\<And>u. (f has_real_derivative f' u) (at u)"
     unfolding f_def f'_def by (auto intro!: derivative_eq_intros simp: power2_eq_square)
-  have f'nn: "\<And>u. 0 \<le> f' u"
+  have f'nn: "0 \<le> f' u" for u :: real
   proof -
-    fix u :: real
     have "1 + (- u) \<le> exp (- u)" by (rule exp_ge_add_one_self)
     thus "0 \<le> f' u" unfolding f'_def by simp
   qed

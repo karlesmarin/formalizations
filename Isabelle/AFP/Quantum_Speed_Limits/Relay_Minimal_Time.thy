@@ -619,16 +619,16 @@ proof -
     have "(z t0)^2 \<le> 0" using Dt[of t0] t0r t1r by simp
     thus ?thesis by simp
   qed
-  have inner_x: "\<And>u. t0 < u \<Longrightarrow> u < t1 \<Longrightarrow> x u \<noteq> 1"
+  have inner_x: "x u \<noteq> 1" if "t0 < u" "u < t1" for u
   proof
-    fix u assume "t0 < u" "u < t1" "x u = 1"
-    hence "u \<le> t0" using t0max[of u] t0r by simp
+    assume "x u = 1"
+    have "u \<le> t0" using that \<open>x u = 1\<close> t0max[of u] t0r by simp
     thus False using \<open>t0 < u\<close> by simp
   qed
-  have inner_z: "\<And>u. t0 < u \<Longrightarrow> u < t1 \<Longrightarrow> z u \<noteq> 1"
+  have inner_z: "z u \<noteq> 1" if "t0 < u" "u < t1" for u
   proof
-    fix u assume "t0 < u" "u < t1" "z u = 1"
-    hence "t1 \<le> u" using t1min[of u] t0r t1r by simp
+    assume "z u = 1"
+    have "t1 \<le> u" using that \<open>z u = 1\<close> t1min[of u] t0r t1r by simp
     thus False using \<open>u < t1\<close> by simp
   qed
   \<comment> \<open>the function h\<close>

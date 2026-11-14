@@ -136,16 +136,14 @@ next
     then show "d (Suc s) = t r * d s"
       using e by (simp add: d_def b'_def algebra_simps)
   qed
-  have geo: "\<And>s. s < M \<Longrightarrow> d s = d 0 * t r ^ s"
-  proof -
-    fix s show "s < M \<Longrightarrow> d s = d 0 * t r ^ s"
-    proof (induction s)
-      case 0 then show ?case by simp
-    next
-      case (Suc s)
-      then have "s < M - 1" by simp
-      then show ?case using step Suc.IH Suc.prems by (simp add: algebra_simps)
-    qed
+  have geo: "d s = d 0 * t r ^ s" if "s < M" for s
+    using that
+  proof (induction s)
+    case 0 then show ?case by simp
+  next
+    case (Suc s)
+    then have "s < M - 1" by simp
+    then show ?case using step Suc.IH Suc.prems by (simp add: algebra_simps)
   qed
   define lam' where "lam' = (\<lambda>k. if k = r then d 0 else lam k)"
   have "\<forall>s<M. b s = (\<Sum>k<Suc r. lam' k * t k ^ s)"

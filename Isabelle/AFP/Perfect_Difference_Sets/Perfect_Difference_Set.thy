@@ -96,9 +96,9 @@ proof -
     using gap[OF fin] by (auto simp: d_def)
   have le: "\<And>x. x \<in> A \<Longrightarrow> x \<le> M"
     using top[OF fin] by (simp add: M_def)
-  have nd: "\<And>x y. x \<in> A \<Longrightarrow> y \<in> A \<Longrightarrow> x \<noteq> y + d"
+  have nd: "x \<noteq> y + d" if x: "x \<in> A" and y: "y \<in> A" for x y
   proof
-    fix x y assume x: "x \<in> A" and y: "y \<in> A" and xy: "x = y + d"
+    assume xy: "x = y + d"
     then have "y < x" "x - y = d" using dpos by auto
     then have "d \<in> pdiffs A"
       unfolding pdiffs_def using x y by blast

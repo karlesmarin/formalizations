@@ -490,11 +490,10 @@ proof -
   note hT = sums_add[OF sums_diff[OF sums_mult[OF hM, of "ta powr a"] sums_mult[OF hsum, of "pi powr a / 2"]]
      sums_mult[OF hc, of "pi powr a / 2"]]
   note hT2 = sums_add[OF hT sums_mult[OF hs, of "a * pi powr (a - 1)"]]
-  have hterm: "\<And>n. 0 \<le> (ta powr a * (p n * (E n - e0) powr a) - pi powr a / 2 * p n)
+  have hterm: "0 \<le> (ta powr a * (p n * (E n - e0) powr a) - pi powr a / 2 * p n)
       + pi powr a / 2 * (p n * cos (E n * ta - e0 * ta))
-      + a * pi powr (a - 1) * (p n * sin (E n * ta - e0 * ta))"
+      + a * pi powr (a - 1) * (p n * sin (E n * ta - e0 * ta))" for n
   proof -
-    fix n
     have dn: "0 \<le> E n - e0" using hE by simp
     have hpn: "0 \<le> p n" using hp by simp
     note h = zz_inequality[OF a0 a1 mult_nonneg_nonneg[OF hta dn]]
@@ -568,10 +567,8 @@ proof -
   qed
   have bound: "eventually (\<lambda>(k,a). norm (?a k a) \<le> ?M k) (at_top \<times>\<^sub>F at_right 0)"
   proof -
-    have "\<And>k a. 0 < a \<and> a < a0 \<Longrightarrow> norm (?a k a) \<le> ?M k"
+    have "norm (?a k a) \<le> ?M k" if ha: "0 < a \<and> a < a0" for k and a :: real
     proof -
-      fix k and a :: real
-      assume ha: "0 < a \<and> a < a0"
       have c0: "0 \<le> E k - e0" by (rule hE')
       have pk: "0 \<le> p k" using hp by simp
       have n: "norm (?a k a) = p k * (E k - e0) powr a" using pk by simp

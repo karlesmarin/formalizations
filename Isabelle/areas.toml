@@ -81,3 +81,6 @@
 "Isabelle/MemoryAccessFloors/Memory_Robust.thy" = "Physics/Quantum control"
 "Isabelle/MemoryAccessFloors/Robust_Cost.thy" = "Physics/Quantum control"
 "Isabelle/MemoryAccessFloors/Slow_Noise_Second_Order.thy" = "Physics/Quantum control"
+"Isabelle/MemoryAccessFloors/Slow_Noise_Kernel.thy" = "Physics/Quantum control"
+"Isabelle/MemoryAccessFloors/Noise_Loss_Bound.thy" = "Physics/Quantum control"
+"Isabelle/MemoryAccessFloors/Dubins_U_Turn.thy" = "Geometry/Curves of bounded curvature"

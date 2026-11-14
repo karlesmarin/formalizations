@@ -363,10 +363,9 @@ proof -
   define z :: complex where "z = exp (- (of_real \<theta> * \<i>))"
   have nz: "norm z = 1" unfolding z_def by (simp add: norm_exp_eq_Re)
   define T where "T n = z ^ Suc n * of_real (a n)" for n
-  have tmeq: "\<And>n. of_real (a n / zeta s) * exp (- (of_real (real (Suc n) * \<theta>) * \<i>))
-      = T n / of_real (zeta s)"
+  have tmeq: "of_real (a n / zeta s) * exp (- (of_real (real (Suc n) * \<theta>) * \<i>))
+      = T n / of_real (zeta s)" for n
   proof -
-    fix n
     have "exp (- (of_real (real (Suc n) * \<theta>) * \<i>)) = z ^ Suc n"
     proof -
       have "- (of_real (real (Suc n) * \<theta>) * \<i>) = of_nat (Suc n) * (- (of_real \<theta> * \<i>))"

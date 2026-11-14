@@ -234,7 +234,8 @@ theorem partial_frontier:
     and x0: "x 0 = 1" and z0: "z 0 = 0" and p0: "p 0 = 0"
     and e0: "0 \<le> \<epsilon>" and e1: "\<epsilon> \<le> 1 / 2" and zT: "1 - \<epsilon> \<le> (z T)\<^sup>2"
     and nT: "\<forall>t\<in>{0..T}. 1 - \<epsilon> \<le> (x t)\<^sup>2 + (z t)\<^sup>2 + p t"
-    and der: "\<forall>t\<in>{0<..<T} - S. (x has_real_derivative x' t) (at t) \<and> (z has_real_derivative z' t) (at t) \<and> (p has_real_derivative p' t) (at t)"
+    and der: "\<forall>t\<in>{0<..<T} - S. (x has_real_derivative x' t) (at t) \<and> (z has_real_derivative z' t) (at t)
+      \<and> (p has_real_derivative p' t) (at t)"
     and bnd: "\<forall>t\<in>{0<..<T} - S. \<bar>x' t\<bar> \<le> G * sqrt (p t) \<and> \<bar>z' t\<bar> \<le> G * sqrt (p t) \<and> p' t \<le> 2 * sqrt 2 * G * sqrt (p t)"
   shows "\<exists>yc\<in>{0..1}. (max 0 (sqrt (2 * (1 - \<epsilon> - yc\<^sup>2)) - sqrt \<epsilon>))\<^sup>2 \<le> G\<^sup>2 * T * integral {0..T} p
                     \<and> sqrt 2 / 6 * yc ^ 3 \<le> G * integral {0..T} p"
@@ -374,9 +375,8 @@ proof -
   have wtc: "w \<le> tc" unfolding w_def using yc_le M0 by (simp add: divide_le_eq mult.commute)
   define a1 where "a1 = tc - w"
   have a1r: "0 \<le> a1" "a1 \<le> tc" unfolding a1_def using wtc w0 by auto
-  have pint: "\<And>a::real. \<And>b::real. 0 \<le> a \<Longrightarrow> b \<le> T \<Longrightarrow> (p has_integral integral {a..b} p) {a..b}"
+  have pint: "(p has_integral integral {a..b} p) {a..b}" if "0 \<le> a" "b \<le> T" for a b :: real
   proof -
-    fix a b :: real assume "0 \<le> a" "b \<le> T"
     have "p integrable_on {a..b}"
       by (rule integrable_continuous_real, rule continuous_on_subset[OF cp]) (use \<open>0 \<le> a\<close> \<open>b \<le> T\<close> in auto)
     thus "(p has_integral integral {a..b} p) {a..b}" by (rule integrable_integral)

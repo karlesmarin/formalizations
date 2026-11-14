@@ -178,9 +178,9 @@ proof -
     thus ?thesis using c1 by (simp add: power2_eq_square)
   qed
   have sc: "0 < sqrt (1 - c\<^sup>2)" using cc by simp
-  have key: "\<And>p q. 0 \<le> p \<Longrightarrow> p < q \<Longrightarrow> q \<le> c \<Longrightarrow> \<bar>Phi q - Phi p\<bar> \<le> 1 / sqrt (1 - c\<^sup>2) * (q - p)"
+  have key: "\<bar>Phi q - Phi p\<bar> \<le> 1 / sqrt (1 - c\<^sup>2) * (q - p)"
+    if p: "0 \<le> p" and pq: "p < q" and q: "q \<le> c" for p q :: real
   proof -
-    fix p q :: real assume p: "0 \<le> p" and pq: "p < q" and q: "q \<le> c"
     have "\<exists>\<xi>. p < \<xi> \<and> \<xi> < q \<and> Phi q - Phi p = (q - p) * (\<xi>\<^sup>2 / sqrt (1 - \<xi>\<^sup>2))"
     proof (rule MVT2[OF pq])
       fix x assume x: "p \<le> x" "x \<le> q"
@@ -242,10 +242,9 @@ proof -
     thus "w t \<le> 1" by (rule power2_le_imp_le) simp
   qed
   have gc: "continuous_on {0..T} (\<lambda>t. G * (w t)\<^sup>2)" using wc by (intro continuous_intros)
-  have bound: "\<And>c. 0 \<le> c \<Longrightarrow> c < 1 \<Longrightarrow>
-      \<bar>Phi (c * w T) - Phi (c * w 0)\<bar> \<le> G * integral {0..T} (\<lambda>t. (w t)\<^sup>2)"
+  have bound: "\<bar>Phi (c * w T) - Phi (c * w 0)\<bar> \<le> G * integral {0..T} (\<lambda>t. (w t)\<^sup>2)"
+    if c0: "0 \<le> c" and c1: "c < 1" for c :: real
   proof -
-    fix c :: real assume c0: "0 \<le> c" and c1: "c < 1"
     define F where "F = (\<lambda>t. Phi (c * w t))"
     define F' where "F' = (\<lambda>t. (c * w t)\<^sup>2 / sqrt (1 - (c * w t)\<^sup>2) * (c * w' t))"
     have cw01: "c * w t \<in> {0..1}" if t: "t \<in> {0..T}" for t
@@ -325,9 +324,9 @@ proof -
     from tendsto_diff[OF tendsto_const this] show "(\<lambda>n. 1 - 1 / (real n + 2)) \<longlonglongrightarrow> 1" by simp
   qed
   have cn01: "\<And>n. 0 \<le> cn n \<and> cn n < 1" unfolding cn_def by (auto simp: field_simps)
-  have lim: "\<And>a. 0 \<le> a \<Longrightarrow> a \<le> 1 \<Longrightarrow> (\<lambda>n. Phi (cn n * a)) \<longlonglongrightarrow> Phi a"
+  have lim: "(\<lambda>n. Phi (cn n * a)) \<longlonglongrightarrow> Phi a"
+    if a0: "0 \<le> a" and a1: "a \<le> 1" for a :: real
   proof -
-    fix a :: real assume a0: "0 \<le> a" and a1: "a \<le> 1"
     have "(\<lambda>n. cn n * a) \<longlonglongrightarrow> 1 * a" by (intro tendsto_intros cn_t)
     hence t1: "(\<lambda>n. cn n * a) \<longlonglongrightarrow> a" by simp
     have ev: "\<forall>\<^sub>F n in sequentially. cn n * a \<in> {0..1}"
@@ -352,7 +351,8 @@ theorem endpoint_occupation:
     and xc: "continuous_on {0..T} x" and zc: "continuous_on {0..T} z" and yc: "continuous_on {0..T} y"
     and nrm: "\<forall>t\<in>{0..T}. 0 \<le> x t \<and> 0 \<le> z t \<and> 0 \<le> y t \<and> (x t)\<^sup>2 + (y t)\<^sup>2 + (z t)\<^sup>2 \<le> 1"
     and bd: "x 0 = 1" "x T = 0" "z 0 = 0" "z T = 1"
-    and der: "\<forall>t\<in>{0<..<T} - S. (x has_real_derivative x' t) (at t) \<and> (z has_real_derivative z' t) (at t)
+    and der: "\<forall>t\<in>{0<..<T} - S. (x has_real_derivative x' t) (at t)
+      \<and> (z has_real_derivative z' t) (at t)
       \<and> \<bar>x' t\<bar> \<le> G * y t \<and> \<bar>z' t\<bar> \<le> G * y t"
   shows "pi / 2 \<le> G * integral {0..T} (\<lambda>t. (x t)\<^sup>2 + (z t)\<^sup>2)"
 proof -
@@ -411,10 +411,9 @@ proof -
     thus "w t \<le> 1" by (rule power2_le_imp_le) simp
   qed
   have gc: "continuous_on {0..T} (\<lambda>t. G * (w t)\<^sup>2)" using wc by (intro continuous_intros)
-  have bound: "\<And>c. 0 \<le> c \<Longrightarrow> c < 1 \<Longrightarrow>
-      \<bar>Phi (c * w T) - Phi (c * w 0)\<bar> \<le> G * integral {0..T} (\<lambda>t. (w t)\<^sup>2)"
+  have bound: "\<bar>Phi (c * w T) - Phi (c * w 0)\<bar> \<le> G * integral {0..T} (\<lambda>t. (w t)\<^sup>2)"
+    if c0: "0 \<le> c" and c1: "c < 1" for c :: real
   proof -
-    fix c :: real assume c0: "0 \<le> c" and c1: "c < 1"
     define F where "F = (\<lambda>t. Phi (c * w t))"
     define F' where "F' = (\<lambda>t. (c * w t)\<^sup>2 / sqrt (1 - (c * w t)\<^sup>2) * (c * w' t))"
     have cw01: "c * w t \<in> {0..1}" if t: "t \<in> {0..T}" for t
@@ -510,9 +509,9 @@ proof -
     from tendsto_diff[OF tendsto_const this] show "(\<lambda>n. 1 - 1 / (real n + 2)) \<longlonglongrightarrow> 1" by simp
   qed
   have cn01: "\<And>n. 0 \<le> cn n \<and> cn n < 1" unfolding cn_def by (auto simp: field_simps)
-  have lim: "\<And>a. 0 \<le> a \<Longrightarrow> a \<le> 1 \<Longrightarrow> (\<lambda>n. Phi (cn n * a)) \<longlonglongrightarrow> Phi a"
+  have lim: "(\<lambda>n. Phi (cn n * a)) \<longlonglongrightarrow> Phi a"
+    if a0: "0 \<le> a" and a1: "a \<le> 1" for a :: real
   proof -
-    fix a :: real assume a0: "0 \<le> a" and a1: "a \<le> 1"
     have "(\<lambda>n. cn n * a) \<longlonglongrightarrow> 1 * a" by (intro tendsto_intros cn_t)
     hence t1: "(\<lambda>n. cn n * a) \<longlonglongrightarrow> a" by simp
     have ev: "\<forall>\<^sub>F n in sequentially. cn n * a \<in> {0..1}"
@@ -538,7 +537,8 @@ theorem endpoint_occupation_ac:
     and xac: "absolutely_continuous_on {0..T} x" and zac: "absolutely_continuous_on {0..T} z" and yc: "continuous_on {0..T} y"
     and nrm: "\<forall>t\<in>{0..T}. 0 \<le> x t \<and> 0 \<le> z t \<and> 0 \<le> y t \<and> (x t)\<^sup>2 + (y t)\<^sup>2 + (z t)\<^sup>2 \<le> 1"
     and bd: "x 0 = 1" "x T = 0" "z 0 = 0" "z T = 1"
-    and der: "\<forall>t\<in>{0<..<T} - S. (x has_real_derivative x' t) (at t) \<and> (z has_real_derivative z' t) (at t)
+    and der: "\<forall>t\<in>{0<..<T} - S. (x has_real_derivative x' t) (at t)
+      \<and> (z has_real_derivative z' t) (at t)
       \<and> \<bar>x' t\<bar> \<le> G * y t \<and> \<bar>z' t\<bar> \<le> G * y t"
   shows "pi / 2 \<le> G * integral {0..T} (\<lambda>t. (x t)\<^sup>2 + (z t)\<^sup>2)"
 proof -

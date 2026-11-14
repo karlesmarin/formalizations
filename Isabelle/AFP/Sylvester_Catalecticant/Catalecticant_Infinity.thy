@@ -158,9 +158,9 @@ next
   case False
   then obtain k0 where k0: "k0 < r" and b0: "be k0 = 0" by auto
   have a0: "al k0 \<noteq> 0" using pt k0 b0 by blast
-  have bne: "\<And>k. k < r \<Longrightarrow> k \<noteq> k0 \<Longrightarrow> be k \<noteq> 0"
+  have bne: "be k \<noteq> 0" if k: "k < r" "k \<noteq> k0" for k
   proof
-    fix k assume k: "k < r" "k \<noteq> k0" and bk: "be k = 0"
+    assume bk: "be k = 0"
     have "al k * be k0 \<noteq> al k0 * be k" by (rule dist[OF k(1) k0 k(2)])
     then show False using b0 bk by simp
   qed
@@ -238,9 +238,8 @@ next
   define mu where "mu = (\<lambda>k. if k = k0 then M0 else nu (tau k) / be k)"
   have mu_sg: "\<And>k. k < m \<Longrightarrow> mu (sg k) = nu k / be' k"
     using sgl tau_sg unfolding mu_def be'_def by auto
-  have split: "\<And>f :: nat \<Rightarrow> 'a. (\<Sum>k<r. f k) = f k0 + (\<Sum>k<m. f (sg k))"
+  have split: "(\<Sum>k<r. f k) = f k0 + (\<Sum>k<m. f (sg k))" for f :: "nat \<Rightarrow> 'a"
   proof -
-    fix f :: "nat \<Rightarrow> 'a"
     have inj: "inj_on sg {..<m}" using sgi by (auto simp: inj_on_def)
     have im: "sg ` {..<m} = {..<r} - {k0}" using skip_image[OF k0m] rm sg_def by simp
     have "(\<Sum>k<r. f k) = f k0 + (\<Sum>k\<in>{..<r} - {k0}. f k)"

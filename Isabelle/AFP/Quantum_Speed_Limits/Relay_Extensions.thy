@@ -120,7 +120,8 @@ theorem weighted_loss_floor:
     and y0: "\<forall>t\<in>{0..T}. 0 \<le> y t"
     and J: "0 < integral {0..T} (\<lambda>t. (m t)\<^sup>2)"
     and n0: "n 0 \<le> 1" and z0: "z 0 = 0" and zT: "(z T)\<^sup>2 \<le> n T"
-    and der: "\<forall>t\<in>{0<..<T} - S. (n has_real_derivative n' t) (at t) \<and> (z has_real_derivative z' t) (at t)"
+    and der: "\<forall>t\<in>{0<..<T} - S. (n has_real_derivative n' t) (at t)
+      \<and> (z has_real_derivative z' t) (at t)"
     and bnd: "\<forall>t\<in>{0<..<T} - S. n' t \<le> - \<delta> * (y t)\<^sup>2 \<and> \<bar>z' t\<bar> \<le> m t * y t"
   shows "(z T)\<^sup>2 * (1 + \<delta> / integral {0..T} (\<lambda>t. (m t)\<^sup>2)) \<le> 1"
 proof -
@@ -347,7 +348,8 @@ theorem ramp_loss_floor:
     and lip: "\<forall>s\<in>{0..T}. \<forall>t\<in>{0..T}. norm (g s - g t) \<le> S * \<bar>s - t\<bar>"
     and g0: "g 0 = 0" and gT: "g T = 0" and gG: "\<forall>t\<in>{0..T}. norm (g t) \<le> G"
     and n0: "n 0 \<le> 1" and z0: "z 0 = 0" and zT: "(z T)\<^sup>2 \<le> n T"
-    and der: "\<forall>t\<in>{0<..<T} - E. (n has_real_derivative n' t) (at t) \<and> (z has_real_derivative z' t) (at t)"
+    and der: "\<forall>t\<in>{0<..<T} - E. (n has_real_derivative n' t) (at t)
+      \<and> (z has_real_derivative z' t) (at t)"
     and bnd: "\<forall>t\<in>{0<..<T} - E. n' t \<le> - \<delta> * (y t)\<^sup>2 \<and> \<bar>z' t\<bar> \<le> norm (g t) * y t"
   shows "(z T)\<^sup>2 * (1 + \<delta> / ramp_J S G T) \<le> 1"
 proof -
@@ -555,7 +557,8 @@ theorem windows_balance:
     and nc: "continuous_on {0..T} n" and xc: "continuous_on {0..T} x"
     and yc: "continuous_on {0..T} y" and zc: "continuous_on {0..T} z"
     and zTn: "0 \<le> z T" and n0: "n 0 \<le> 1" and z0: "z 0 = 0"
-    and der: "\<forall>t\<in>{0<..<T} - S. (n has_real_derivative n' t) (at t) \<and> (z has_real_derivative z' t) (at t)"
+    and der: "\<forall>t\<in>{0<..<T} - S. (n has_real_derivative n' t) (at t)
+      \<and> (z has_real_derivative z' t) (at t)"
     and bnd: "\<forall>t\<in>{0<..<T} - S. n' t \<le> - dA * (x t)\<^sup>2 - dC * (y t)\<^sup>2 - dB * (z t)\<^sup>2
                                  \<and> z' t \<le> G * y t - dB / 2 * z t"
     and fin: "(x T)\<^sup>2 + (z T)\<^sup>2 \<le> n T"

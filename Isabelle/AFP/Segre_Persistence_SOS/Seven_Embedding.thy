@@ -275,9 +275,8 @@ next
       ultimately have "dot_upto r (R y) unit0 = 0" by simp
       then show "R y 0 = 0" unfolding r by (simp add: dot_unit0_right)
     qed
-    have z1: "\<And>j. j < k \<Longrightarrow> R (v (Suc j)) 0 = 0"
+    have z1: "R (v (Suc j)) 0 = 0" if j: "j < k" for j
     proof (rule z)
-      fix j assume j: "j < k"
       show "dot_upto r (v (Suc j)) (v 0) = 0" using o1[rule_format, of "Suc j" 0] j by simp
     qed
     have zw: "R w 0 = 0" by (rule z) (use o2 dot_on_comm[of "{..<r}" w "v 0"] in auto)

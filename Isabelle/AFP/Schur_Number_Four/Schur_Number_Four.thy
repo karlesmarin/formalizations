@@ -195,10 +195,9 @@ proof
     show False
     proof (cases "h 4 = 0 \<or> h 4 = 1")
       case False
-      have low: "\<And>i. 3 \<le> i \<Longrightarrow> i < 4 \<Longrightarrow> h i = 0 \<or> h i = 1"
+      have low: "h i = 0 \<or> h i = 1" if "3 \<le> i" "i < 4" for i :: nat
       proof -
-        fix i :: nat assume "3 \<le> i" "i < 4"
-        then have "i = 3" by auto
+        from that have "i = 3" by auto
         then show "h i = 0 \<or> h i = 1" using h3 by auto
       qed
       obtain e where e: "schur_free 4 45 e" "e 1 = 0" "e 2 = 1" "e 4 = 2"
@@ -210,10 +209,9 @@ proof
       show False
       proof (cases "h 5 = 0 \<or> h 5 = 1")
         case False
-        have low: "\<And>i. 3 \<le> i \<Longrightarrow> i < 5 \<Longrightarrow> h i = 0 \<or> h i = 1"
+        have low: "h i = 0 \<or> h i = 1" if "3 \<le> i" "i < 5" for i :: nat
         proof -
-          fix i :: nat assume "3 \<le> i" "i < 5"
-          then have "i = 3 \<or> i = 4" by auto
+          from that have "i = 3 \<or> i = 4" by auto
           then show "h i = 0 \<or> h i = 1" using h3 h4 by auto
         qed
         obtain e where e: "schur_free 4 45 e" "e 1 = 0" "e 2 = 1" "e 5 = 2"
@@ -222,10 +220,9 @@ proof
         show False by (rule schur4_leaf_5[OF e(1-4)]) (use e(5) in blast)
       next
         case h5: True
-        have low: "\<And>i. 3 \<le> i \<Longrightarrow> i < 6 \<Longrightarrow> h i = 0 \<or> h i = 1"
+        have low: "h i = 0 \<or> h i = 1" if "3 \<le> i" "i < 6" for i :: nat
         proof -
-          fix i :: nat assume "3 \<le> i" "i < 6"
-          then have "i = 3 \<or> i = 4 \<or> i = 5" by auto
+          from that have "i = 3 \<or> i = 4 \<or> i = 5" by auto
           then show "h i = 0 \<or> h i = 1" using h3 h4 h5 by auto
         qed
         show False by (rule schur4_leaf_6[OF sh h1 h2 low])

@@ -14,3 +14,6 @@ session Memory_Access_Quasistatic = "HOL-Analysis" +
     Memory_Robust
     Robust_Cost
     Slow_Noise_Second_Order
+    Slow_Noise_Kernel
+    Noise_Loss_Bound
+    Dubins_U_Turn

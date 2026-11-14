@@ -149,9 +149,8 @@ lemma g1_cont:
   assumes G: "0 < G" and d: "0 < d"
   shows "continuous_on UNIV (g1 G d)"
 proof -
-  have ne: "\<And>v::real. E1 G d (max 0 (min 1 v)) \<noteq> 0"
+  have ne: "E1 G d (max 0 (min 1 v)) \<noteq> 0" for v :: real
   proof -
-    fix v :: real
     have a: "0 \<le> max 0 (min 1 v)" by simp
     have b: "max 0 (min 1 v) \<le> 1" by simp
     have "0 < E1 G d (max 0 (min 1 v))" by (rule E1_pos[OF G d a b])
@@ -281,9 +280,8 @@ lemma g2_cont:
   assumes G: "0 < G" and d: "0 < d" and c0: "0 \<le> c" and c: "c < vstar G d"
   shows "continuous_on UNIV (g2 G d c)"
 proof -
-  have ne: "\<And>v::real. E2 G d (max 0 (min c v)) \<noteq> 0"
+  have ne: "E2 G d (max 0 (min c v)) \<noteq> 0" for v :: real
   proof -
-    fix v :: real
     have a: "0 \<le> max 0 (min c v)" by simp
     have b: "max 0 (min c v) \<le> c" using c0 by simp
     have "0 < E2 G d (max 0 (min c v))" by (rule E2_pos[OF G d a]) (use b c in linarith)

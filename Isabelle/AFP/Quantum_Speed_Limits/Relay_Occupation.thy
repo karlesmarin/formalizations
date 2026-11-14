@@ -406,9 +406,8 @@ proof -
     qed
   qed
   \<comment> \<open>integral of the triangle\<close>
-  have pint: "\<And>a::real. \<And>b::real. 0 \<le> a \<Longrightarrow> b \<le> T \<Longrightarrow> (p has_integral integral {a..b} p) {a..b}"
+  have pint: "(p has_integral integral {a..b} p) {a..b}" if "0 \<le> a" "b \<le> T" for a b :: real
   proof -
-    fix a b :: real assume "0 \<le> a" "b \<le> T"
     have "p integrable_on {a..b}"
       by (rule integrable_continuous_real, rule continuous_on_subset[OF pc]) (use \<open>0 \<le> a\<close> \<open>b \<le> T\<close> in auto)
     thus "(p has_integral integral {a..b} p) {a..b}" by (rule integrable_integral)

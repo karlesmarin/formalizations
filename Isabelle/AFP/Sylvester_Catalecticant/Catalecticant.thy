@@ -40,12 +40,10 @@ theorem catalecticant_necessary:
   shows "(\<Sum>l\<in>{..r}. coef_pow lam al be K n (j + l) * c l) = 0"
 proof -
   obtain m where m: "n = j + r + m" using jr le_Suc_ex by blast
-  have tm: "\<And>k l. l \<in> {..r} \<Longrightarrow>
-      lam k * al k ^ (n - (j + l)) * be k ^ (j + l) * c l
-      = lam k * al k ^ m * be k ^ j * (c l * al k ^ (r - l) * be k ^ l)"
+  have tm: "lam k * al k ^ (n - (j + l)) * be k ^ (j + l) * c l
+      = lam k * al k ^ m * be k ^ j * (c l * al k ^ (r - l) * be k ^ l)" if "l \<in> {..r}" for k l
   proof -
-    fix k l assume "l \<in> {..r}"
-    then have "n - (j + l) = m + (r - l)" using m by auto
+    from that have "n - (j + l) = m + (r - l)" using m by auto
     then show "lam k * al k ^ (n - (j + l)) * be k ^ (j + l) * c l
       = lam k * al k ^ m * be k ^ j * (c l * al k ^ (r - l) * be k ^ l)"
       by (simp add: power_add algebra_simps)
