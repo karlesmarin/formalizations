@@ -28,3 +28,7 @@ session Memory_Access_Quasistatic = "HOL-Probability" +
     U_Turn_Exposure_Family
     Equal_Rate_Threshold
     Unequal_Dephasing_Threshold
+    Memory_Floors_Pieces
+    Oscillator_Comparison
+    Metzler_Cone
+    Storage_Function

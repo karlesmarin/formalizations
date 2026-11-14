@@ -95,3 +95,7 @@
 "Isabelle/MemoryAccessFloors/U_Turn_Exposure_Family.thy" = "Geometry/Curves of bounded curvature"
 "Isabelle/MemoryAccessFloors/Equal_Rate_Threshold.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Unequal_Dephasing_Threshold.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Memory_Floors_Pieces.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Oscillator_Comparison.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Metzler_Cone.thy" = "Analysis/ODE"
+"Isabelle/MemoryAccessFloors/Storage_Function.thy" = "Physics/QuantumMechanics/MemoryAccess"
