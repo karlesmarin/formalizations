@@ -8,3 +8,5 @@ session Memory_Access_Quasistatic = "HOL-Analysis" +
     Memory_Access_Dephasing
     Memory_Access_Extras
     Memory_Access_Quasistatic
+    Memory_Access_Regimes
+    Memory_Robust

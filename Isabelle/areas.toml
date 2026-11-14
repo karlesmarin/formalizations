@@ -77,3 +77,5 @@
 "Isabelle/MemoryAccessFloors/Memory_Access_Dephasing.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Memory_Access_Extras.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Memory_Access_Quasistatic.thy" = "Physics/Quantum control"
+"Isabelle/MemoryAccessFloors/Memory_Access_Regimes.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Memory_Robust.thy" = "Physics/Quantum control"
