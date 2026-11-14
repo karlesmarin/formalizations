@@ -1,7 +1,7 @@
 chapter Formalizations
 
-session Memory_Access_Quasistatic = "HOL-Analysis" +
-  options [timeout = 900]
+session Memory_Access_Quasistatic = "HOL-Probability" +
+  options [timeout = 1800]
   sessions
     "HOL-Decision_Procs"
   theories
@@ -17,3 +17,11 @@ session Memory_Access_Quasistatic = "HOL-Analysis" +
     Slow_Noise_Kernel
     Noise_Loss_Bound
     Dubins_U_Turn
+    Robust_Core
+    Robust_Disk
+    Meridian_Unfolding
+    Noise_Loss_Relax
+    Square_Condition
+    Unitarity_Second_Order
+    Memory_Access_Over
+    Quasistatic_Average
