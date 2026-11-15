@@ -39,3 +39,6 @@ session Memory_Access_Quasistatic = "HOL-Probability" +
     Fixed_Duration_Core
     Robust_Cost_Branches
     Symmetric_Branch
+    Band_Quadratic
+    Middle_Zone
+    Unequal_Sufficient_Region

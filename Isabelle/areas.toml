@@ -106,3 +106,6 @@
 "Isabelle/MemoryAccessFloors/Fixed_Duration_Core.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Robust_Cost_Branches.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Symmetric_Branch.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Band_Quadratic.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Middle_Zone.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Unequal_Sufficient_Region.thy" = "Physics/QuantumMechanics/MemoryAccess"
