@@ -104,3 +104,4 @@
 "Isabelle/MemoryAccessFloors/Unitarity_Density.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Planar_Exposure_Bound.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Fixed_Duration_Core.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Robust_Cost_Branches.thy" = "Physics/QuantumMechanics/MemoryAccess"
