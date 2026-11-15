@@ -45,3 +45,8 @@ session Memory_Access_Quasistatic = "HOL-Probability" +
     Memory_Time_Bound
     Memory_Cycle_No_Reset
     Pop_Lyapunov_Step
+    Dubins_Family_Identity
+    Threshold_Localisation
+    Correlation_Monotone
+    Inf_Affine_Concave
+    Cycle_Utility_Threshold
