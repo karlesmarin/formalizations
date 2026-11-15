@@ -44,3 +44,4 @@ session Memory_Access_Quasistatic = "HOL-Probability" +
     Unequal_Sufficient_Region
     Memory_Time_Bound
     Memory_Cycle_No_Reset
+    Pop_Lyapunov_Step
