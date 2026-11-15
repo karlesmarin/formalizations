@@ -105,3 +105,4 @@
 "Isabelle/MemoryAccessFloors/Planar_Exposure_Bound.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Fixed_Duration_Core.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Robust_Cost_Branches.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Symmetric_Branch.thy" = "Physics/QuantumMechanics/MemoryAccess"
