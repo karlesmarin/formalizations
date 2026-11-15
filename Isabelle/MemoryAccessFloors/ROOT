@@ -34,3 +34,4 @@ session Memory_Access_Quasistatic = "HOL-Probability" +
     Storage_Function
     Square_Unified_Condition
     Induced_Rate_Optimum
+    Unitarity_Density

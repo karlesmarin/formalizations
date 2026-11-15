@@ -101,3 +101,4 @@
 "Isabelle/MemoryAccessFloors/Storage_Function.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Square_Unified_Condition.thy" = "Physics/QuantumMechanics/MemoryAccess"
 "Isabelle/MemoryAccessFloors/Induced_Rate_Optimum.thy" = "Physics/QuantumMechanics/MemoryAccess"
+"Isabelle/MemoryAccessFloors/Unitarity_Density.thy" = "Physics/QuantumMechanics/MemoryAccess"
