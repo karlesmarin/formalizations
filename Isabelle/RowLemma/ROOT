@@ -1,0 +1,8 @@
+chapter Formalizations
+
+session Row_Lemma = "HOL-Analysis" +
+  options [timeout = 600]
+  sessions
+    "HOL-Computational_Algebra"
+  theories
+    Row_Lemma

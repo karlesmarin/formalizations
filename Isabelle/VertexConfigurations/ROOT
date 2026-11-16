@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Vertex_Configurations = HOL +
+  options [timeout = 600]
+  theories
+    Vertex_Configurations

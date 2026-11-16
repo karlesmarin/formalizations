@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Erdos_1148_Weaker = HOL +
+  options [timeout = 600]
+  theories
+    Erdos_1148_Weaker

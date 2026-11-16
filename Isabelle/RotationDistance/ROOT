@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Rotation_Distance = HOL +
+  options [timeout = 600]
+  theories
+    Rotation_Distance

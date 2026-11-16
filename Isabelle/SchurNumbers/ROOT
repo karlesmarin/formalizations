@@ -1,0 +1,8 @@
+chapter Formalizations
+
+session Schur_Numbers = HOL +
+  options [timeout = 900]
+  sessions
+    "HOL-Library"
+  theories
+    Schur_Numbers

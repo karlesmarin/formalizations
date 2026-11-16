@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session SOS_Product_Relation = "HOL-Analysis" +
+  options [timeout = 900]
+  theories
+    SOS_Product_Relation

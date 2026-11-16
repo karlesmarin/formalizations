@@ -1,0 +1,8 @@
+chapter Formalizations
+
+session ERT_Lower = HOL +
+  options [timeout = 1200]
+  sessions
+    "HOL-Library"
+  theories
+    ERT_Lower

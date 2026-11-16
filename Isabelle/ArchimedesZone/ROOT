@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Archimedes_Zone = "HOL-Analysis" +
+  options [timeout = 600]
+  theories
+    Archimedes_Zone
