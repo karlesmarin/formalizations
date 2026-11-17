@@ -125,3 +125,8 @@
 "Isabelle/SchurNumbers/Schur_Numbers.thy" = "Combinatorics/Additive"
 "Isabelle/Erdos1148Weaker/Erdos_1148_Weaker.thy" = "NumberTheory/SumsOfSquares"
 "Isabelle/RowLemma/Row_Lemma.thy" = "NumberTheory/WeightedCharacterSums"
+"Isabelle/BoundaryInertia/Boundary_Inertia_Arith.thy" = "AlgebraicGeometry/SegrePersistence"
+"Isabelle/BSRFourColumnsPieces/BSR_m4_Pieces.thy" = "AlgebraicGeometry/SegrePersistence"
+"Isabelle/BSRFourColumnsLinear/BSR_m4_Linear.thy" = "AlgebraicGeometry/SegrePersistence"
+"Isabelle/BSRFourColumnsLinear2/BSR_m4_Linear2.thy" = "AlgebraicGeometry/SegrePersistence"
+"Isabelle/BSRFourColumnsLinear3/BSR_m4_Linear3.thy" = "AlgebraicGeometry/SegrePersistence"

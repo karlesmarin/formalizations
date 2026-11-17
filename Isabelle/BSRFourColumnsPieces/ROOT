@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session BSR_m4_Pieces = "HOL" +
+  options [timeout = 900]
+  theories
+    BSR_m4_Pieces

@@ -140,3 +140,8 @@ Sessions that were finished in the working queue and had not been uploaded.
 | `SchurNumbers/` (`Schur_Numbers`) | Schur numbers S(2) = 4 and S(3) = 13 (statements as in atlas-lean) |
 | `Erdos1148Weaker/` (`Erdos_1148_Weaker`) | Every n is x^2 + y^2 - z^2 with x^2, y^2, z^2 <= n + 2 sqrt n (weaker form of Erdős problem 1148, formal-conjectures) |
 | `RowLemma/` (`Row_Lemma`) | Row lemma of characters_at_aP: shift-compatible row operators give h^A = (1 - S)^2 h (d even) and (1 - S^2) h (d odd) |
+| `BoundaryInertia/` (`Boundary_Inertia_Arith`) | Arithmetic of the boundary inertia inequality N(q-1)+C(N+2,2) <= M, its m x 4 form 2(3m-1)(q-1) <= m(m+7) and the equivalence with 6q <= m+13 for m >= 5 |
+| `BSRFourColumnsPieces/` (`BSR_m4_Pieces`) | Support triples for m x 4 boundary multipliers (all m >= 5), uniform regular tuples S_m by induction (dPhi onto), cross-product identity, isotropic plane in C^4 |
+| `BSRFourColumnsLinear/` (`BSR_m4_Linear`) | Kernel of the polar map of (x^t b)^2, singular 2 x 2 matrix spaces (common kernel or image), polarization of symmetric trilinear forms |
+| `BSRFourColumnsLinear2/` (`BSR_m4_Linear2`) | Line lemma factorization, rank-one pair step, key step of the common-line commutator lemma, binary forms of positive degree have a zero (FTA) |
+| `BSRFourColumnsLinear3/` (`BSR_m4_Linear3`) | 4- and 5-linear symmetric polarization, positive averaging, rank <= 1 matrix spaces (common image line or kernel hyperplane), support count r <= (a-1)(b-1) |

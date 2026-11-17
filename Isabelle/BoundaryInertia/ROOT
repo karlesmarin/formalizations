@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Boundary_Inertia_Arith = "HOL" +
+  options [timeout = 600]
+  theories
+    Boundary_Inertia_Arith
