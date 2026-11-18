@@ -130,3 +130,4 @@
 "Isabelle/BSRFourColumnsLinear/BSR_m4_Linear.thy" = "AlgebraicGeometry/SegrePersistence"
 "Isabelle/BSRFourColumnsLinear2/BSR_m4_Linear2.thy" = "AlgebraicGeometry/SegrePersistence"
 "Isabelle/BSRFourColumnsLinear3/BSR_m4_Linear3.thy" = "AlgebraicGeometry/SegrePersistence"
+"Isabelle/BSRFourColumnsSmallRows/BSR_m4_Small_Rows.thy" = "AlgebraicGeometry/SegrePersistence"

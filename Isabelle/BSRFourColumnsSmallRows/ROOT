@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session BSRFourColumnsSmallRows = HOL +
+  options [timeout = 600]
+  theories
+    BSR_m4_Small_Rows

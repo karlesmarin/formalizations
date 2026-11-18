@@ -145,3 +145,4 @@ Sessions that were finished in the working queue and had not been uploaded.
 | `BSRFourColumnsLinear/` (`BSR_m4_Linear`) | Kernel of the polar map of (x^t b)^2, singular 2 x 2 matrix spaces (common kernel or image), polarization of symmetric trilinear forms |
 | `BSRFourColumnsLinear2/` (`BSR_m4_Linear2`) | Line lemma factorization, rank-one pair step, key step of the common-line commutator lemma, binary forms of positive degree have a zero (FTA) |
 | `BSRFourColumnsLinear3/` (`BSR_m4_Linear3`) | 4- and 5-linear symmetric polarization, positive averaging, rank <= 1 matrix spaces (common image line or kernel hyperplane), support count r <= (a-1)(b-1) |
+| `BSRFourColumnsSmallRows/` (`BSRFourColumnsSmallRows`) | Small row images (paper on m x 4 biquadratic sums of squares): rank-one row gives a simple covector under flatness; evaluation step; final contradiction from a common eigenvector |
