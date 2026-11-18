@@ -1,7 +1,7 @@
 (*  Title:      Induced_Rate_Optimum.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Algebraic and analytic core of the theorem on rates induced by the coupling (memory-floor notes):
     (T2a) the optimal constant amplitude for a rest rate X and an induced rate K g^2 (arithmetic-geometric

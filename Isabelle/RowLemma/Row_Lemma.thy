@@ -1,5 +1,6 @@
 (*  Title:      Row_Lemma.thy
-    Author:     Carles Marín Muñoz
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
     License:    BSD
 *)
 

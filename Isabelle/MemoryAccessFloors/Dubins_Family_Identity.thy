@@ -1,7 +1,7 @@
 (*  Title:      Dubins_Family_Identity.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Elementary identities and signs for the Dubins family x, y, z.
 *)

@@ -1,7 +1,7 @@
 (*  Title:      Robust_Cost_Branches.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Two short steps of the memory-floor notes.
     (1) The cost of cancelling the leakage (corollary on the robust cost of the robust-offset paper): with the

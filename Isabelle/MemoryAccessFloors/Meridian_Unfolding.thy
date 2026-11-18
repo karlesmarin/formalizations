@@ -1,7 +1,7 @@
 (*  Title:      Meridian_Unfolding.thy
     Author:     Carles Marín
     Copyright (c) 2026 Carles Marín. All rights reserved.
-    License: BSD
+    License:    BSD
 *)
 
 section \<open>Unfolding a piecewise meridian curve onto one plane\<close>

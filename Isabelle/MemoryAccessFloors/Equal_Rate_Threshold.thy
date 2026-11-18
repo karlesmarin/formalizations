@@ -1,7 +1,7 @@
 (*  Title:      Equal_Rate_Threshold.thy
     Author:     Carles Marín
-    Copyright:  Carles Marín
-    License:    BSD-3-Clause
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     From "Memory floors" (C. Marín, paper A, November 2026), Proposition 11, paragraph "The exact threshold
     for equal rates", and Proposition "gap" ("How far apart are the two sides?").

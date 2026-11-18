@@ -1,7 +1,7 @@
 (*  Title:      Memory_Time_Bound.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Corollary cor:time of paper A (memory floors).  The write infidelity of a pulse is r = (1-p)/6 + (1-c)/3, where
     p is the transferred population and c the coherence.  If every pulse of duration T has p <= Bp T and c <= Bc T,

@@ -1,7 +1,7 @@
 (*  Title:      Band_Quadratic.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The band with correlated offsets is an interval between two certified values (paper B, Remark rem:corr):
     for g(s) = Qx + b s + Qy s^2 with b >= 0 and 0 <= sa <= s <= 1, if g(sa) >= 0 and g(1) >= 0 then g(s) >= 0.

@@ -1,7 +1,7 @@
 (*  Title:      Middle_Zone.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Case 4 of the argument "the optimum over Lambda_c lies in the turn-wait-turn family" (paper B,
     Proposition prop:noiseloss (iii)).  With J(x, y) = Lam (2 z^2 + (A0 + x)^2) / 12 + (A0 + y) / 3 and

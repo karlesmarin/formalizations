@@ -1,7 +1,7 @@
 (*  Title:      Metzler_Cone.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Invariant cones of 2x2 linear systems with continuous coefficients whose off-diagonal entries are
     non-negative (Metzler matrices): if y' = A(t) y and y(0) >= 0 componentwise then y(t) >= 0 for all

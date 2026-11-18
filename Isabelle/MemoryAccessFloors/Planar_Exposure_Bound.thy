@@ -1,7 +1,7 @@
 (*  Title:      Planar_Exposure_Bound.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The planar exposure bound (Lemma "planar exposure bound" of the memory-floor note B, sec_robust.tex),
     from the step that is elementary onwards.

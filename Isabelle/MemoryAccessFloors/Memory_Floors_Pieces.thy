@@ -1,7 +1,7 @@
 (*  Title:      Memory_Floors_Pieces.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Elementary pieces of the memory-floor notes A (memory-floors.tex) and B (sec_robust.tex):
     (A) the memory-cycle channel (Proposition "memory cycle with a reset"): composition of the channels

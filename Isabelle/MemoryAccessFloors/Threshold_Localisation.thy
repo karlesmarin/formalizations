@@ -1,7 +1,7 @@
 (*  Title:      Threshold_Localisation.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Pure inequalities used to localise a threshold.
 *)

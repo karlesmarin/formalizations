@@ -1,6 +1,6 @@
 (*  Title:      ZL_Three_Block_Family.thy
-    Author:     Carles Marin
-    Copyright (c) 2026 Carles Marin. All rights reserved.
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
     License:    BSD
 
     The algebraic part of Proposition 6.3 of C. Marin, Why three blocks? (Zenodo,

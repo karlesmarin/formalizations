@@ -1,7 +1,7 @@
 (*  Title:      Symmetric_Branch.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The symmetric branch of the turn-wait-turn family never beats the square pulse (memory-floor notes, slow noise
     with memory loss above the threshold, case 3 of the argument): in units z0 = 1, 2 A0 = pi, for a turn of phi in

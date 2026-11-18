@@ -1,7 +1,7 @@
 (*  Title:      Storage_Function.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Memory-floors note, Proposition "unequal" (very unequal dephasing rates, fixed phase, no detuning),
     in units G = 1.  The swap equations

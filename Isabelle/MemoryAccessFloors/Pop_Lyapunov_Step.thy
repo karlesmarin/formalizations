@@ -1,7 +1,7 @@
 (*  Title:      Pop_Lyapunov_Step.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The Lyapunov step of Theorems thm:pop / thm:fixed of the memory-floor note A (memory-floors.tex, section "Fixed
     durations, and a proof without the maximum principle"), with the derivative identity taken as a HYPOTHESIS.

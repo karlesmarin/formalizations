@@ -1,7 +1,7 @@
 (*  Title:      Memory_Access_Over.thy
     Author:     Carles Marín
     Copyright (c) 2026 Carles Marín. All rights reserved.
-    License: BSD
+    License:    BSD
 
     Theorem 1 of "Exact limits for writing a quantum memory" (C. Marín, draft, November 2026),
     relaxation only: no control pulse transfers more population than the resonant one, in the

@@ -1,7 +1,7 @@
 (*  Title:      Oscillator_Comparison.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Memory-floors note, Proposition "strong" (unequal rates).  Over-damped oscillator
     z'' + 2 phi z' + 4 G^2 z = 0, z(0) = 1, z'(0) = 0, in the closed form zz G phi T, for 2 G < phi.

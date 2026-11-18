@@ -1,7 +1,7 @@
 (*  Title:      Unequal_Sufficient_Region.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The elementary inequalities behind Corollary cor:unequal of paper A (memory floors): a sufficient region
     below |phi_q - phi_m| = 2 sqrt(5) G.  Units G = 1; delta > 1, P = phi_q phi_m, Omega = sqrt (delta^2 - 1),

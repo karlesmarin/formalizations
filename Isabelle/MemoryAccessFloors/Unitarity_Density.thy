@@ -1,7 +1,7 @@
 (*  Title:      Unitarity_Density.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Algebraic core of Theorem 4 (induced rates, every pulse) for the qubit-memory exchange of one excitation.
     Formalised:

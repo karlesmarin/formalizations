@@ -1,7 +1,7 @@
 (*  Title:      U_Turn_Exposure_Family.thy
     Author:     Carles Marín
     Copyright (c) 2026 Carles Marín. All rights reserved.
-    License: BSD
+    License:    BSD
 
     From "Robustness to a static offset costs time and exposure" (C. Marín, draft, November 2026):
     the family "turn by pi + phi, wait w, turn back by phi" of the bounded-curvature U-turn.

@@ -1,6 +1,6 @@
 (*  Title:      BSR_m4_Small_Rows.thy
     Author:     Carles Marín
-    Copyright:  2026
+    Copyright (c) 2026 Carles Marín. All rights reserved.
     License:    BSD
 
    The three algebraic steps of Lemma "Small row images" (label lem:small-rows) of the paper "Every m x 4 biquadratic

@@ -1,7 +1,7 @@
 (*  Title:      Memory_Cycle_No_Reset.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The mathematical core of Proposition prop:noreset of paper A (memory floors): the memory cycle without reset, to
     first order.  Two pieces:

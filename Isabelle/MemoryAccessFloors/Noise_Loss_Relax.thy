@@ -1,7 +1,7 @@
 (*  Title:      Noise_Loss_Relax.thy
     Author:     Carles Marín
     Copyright (c) 2026 Carles Marín. All rights reserved.
-    License: BSD
+    License:    BSD
 
     Lower bound for the error J = s (2 z^2 + A^2) / 6 + (gq A + gm B) / 3 of a transfer when the qubit also relaxes
     (rate gq >= 0), with s the second moment of the slow offset, under the constraints A >= A0, B >= A0 and

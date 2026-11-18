@@ -1,7 +1,7 @@
 (*  Title:      Unitarity_Second_Order.thy
     Author:     Carles Marín
     Copyright (c) 2026 Carles Marín. All rights reserved.
-    License: BSD
+    License:    BSD
 *)
 
 theory Unitarity_Second_Order

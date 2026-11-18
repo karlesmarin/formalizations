@@ -1,7 +1,7 @@
 (*  Title:      Unequal_Dephasing_Threshold.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Resonant swap of one excitation with unequal pure dephasing (memory-floors note, Proposition 11,
     paragraph after "The exact threshold for equal rates").  Rates phi_q = q, phi_m = m, coupling G > 0,

@@ -1,6 +1,6 @@
 (*  Title:      BSR_m4_Linear2.thy
     Author:     Carles Marín
-    Copyright:  2026
+    Copyright (c) 2026 Carles Marín. All rights reserved.
     License:    BSD
 
    More linear-algebra pieces of the paper "Boundary inertia and sums of squares of biquadratic forms" (C. Marín,

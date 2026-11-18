@@ -1,7 +1,7 @@
 (*  Title:      Quasistatic_Average.thy
     Author:     Carles Marín
     Copyright (c) 2026 Carles Marín. All rights reserved.
-    License: BSD
+    License:    BSD
 *)
 
 section \<open>The averaging step of the quasi-static bound\<close>

@@ -1,7 +1,7 @@
 (*  Title:      Correlation_Monotone.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     Monotonicity of the polynomial 6 Delta(C) in the correlation C.
 *)

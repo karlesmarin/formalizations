@@ -1,7 +1,7 @@
 (*  Title:      Robust_Disk.thy
     Author:     Carles Marín
     Copyright (c) 2026 Carles Marín. All rights reserved.
-    License: BSD
+    License:    BSD
 *)
 
 theory Robust_Disk

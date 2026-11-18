@@ -1,7 +1,7 @@
 (*  Title:      Fixed_Duration_Core.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The algebraic core of the proof of Theorem "fixed duration" (thm:fixed) of the memory-floor note A
     (memory-floors.tex, section "Fixed durations, and a proof without the maximum principle").

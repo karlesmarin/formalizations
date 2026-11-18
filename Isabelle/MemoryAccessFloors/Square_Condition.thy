@@ -1,7 +1,7 @@
 (*  Title:      Square_Condition.thy
     Author:     Carles Marín
     Copyright (c) 2026 Carles Marín. All rights reserved.
-    License: BSD
+    License:    BSD
 
     Sufficient condition for the optimality of the square pulse in the transfer with a relaxing qubit. With
     J = s (2 z^2 + A^2) / 6 + (g A + gm B) / 3 under A >= A0, B >= A0 and (z - z0)^2 <= (A - A0) (B - A0), and

@@ -1,7 +1,7 @@
 (*  Title:      Inf_Affine_Concave.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     The infimum of a family of affine functions with non-negative slopes is non-decreasing and concave.
 *)

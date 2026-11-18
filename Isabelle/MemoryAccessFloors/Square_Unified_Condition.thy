@@ -1,7 +1,7 @@
 (*  Title:      Square_Unified_Condition.thy
-    Author:     Carles Marin
-    Copyright:  Carles Marin
-    License:    BSD-3-Clause
+    Author:     Carles Marín
+    Copyright (c) 2026 Carles Marín. All rights reserved.
+    License:    BSD
 
     One sufficient condition for the optimality of the square pulse in the qubit-memory transfer under slow
     (quasi-static) offsets with second moments sq, sm and covariance C, and relaxation of the qubit (gq) and of the
