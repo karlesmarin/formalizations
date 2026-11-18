@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session RationalSOSLengths = HOL +
+  options [timeout = 600]
+  theories
+    Rational_SOS_Lengths_One_Eigenvalue
