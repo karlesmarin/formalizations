@@ -2690,6 +2690,7 @@ import Formalizations
 #print axioms Formalizations.Reusable.matrix_rank_kronecker
 #print axioms Formalizations.Reusable.adjugate_apply_self_eq_det_principal_submatrix
 #print axioms Formalizations.Reusable.wolstenholme_choose_modEq
+#print axioms Formalizations.Reusable.touchard_bell_add_prime
 #print axioms Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight
 #print axioms Formalizations.Reusable.card_biUnion_submodular
 #print axioms Formalizations.Reusable.card_biUnion_union_inter_eq_of_tight

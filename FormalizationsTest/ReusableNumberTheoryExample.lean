@@ -12,3 +12,9 @@ example (p : ℕ) (hp : p.Prime) (h5 : 5 ≤ p) :
   have h := Nat.modEq_iff_dvd.1 (wolstenholme_choose_modEq p hp h5).2.symm
   push_cast at h
   exact h
+
+/-- Touchard at `n = 0`: `B(p) ≡ 2 (mod p)` for every prime `p`. -/
+example (p : ℕ) [Fact p.Prime] : ((p.bell : ℕ) : ZMod p) = 2 := by
+  have h := touchard_bell_add_prime p 0
+  simp only [zero_add, Nat.bell_zero, Nat.bell_one, Nat.cast_one] at h
+  rw [h]; norm_num

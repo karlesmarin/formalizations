@@ -144,6 +144,7 @@ commitment; Lake does not enforce it.
 | `matrix_rank_kronecker` 🆕 | `API` | `rank (A ⊗ₖ B) = rank A · rank B` over a field | `LinearAlgebra` | `Matrix.rank_kronecker` |
 | `adjugate_apply_self_eq_det_principal_submatrix` 🆕 | `API` | `adjugate A i i` is the principal minor of `A` without row and column `i` (any finite index type) | `LinearAlgebra` | `Matrix.adjugate_apply_self_eq_det_submatrix` |
 | `wolstenholme_choose_modEq` 🆕 | `showcase` | Wolstenholme: `C(2p − 1, p − 1) ≡ 1` and `C(2p, p) ≡ 2 (mod p³)` for primes `p ≥ 5` | `NumberTheory` | `Wolstenholme.choose_modEq` |
+| `touchard_bell_add_prime` 🆕 | `showcase` | Touchard: `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers and every prime `p` | `NumberTheory` | `Touchard.bell_add_prime` |
 | `polya_redfield_card_mul_sum_orbit_weight` 🆕 | `showcase` | Pólya–Redfield: `\|G\| · Σ_orbits W` is the cycle index at the power sums of the colour weights | `GroupTheory` | `PolyaRedfield.card_mul_sum_orbit_weight` |
 | `card_biUnion_submodular` 🆕 | `API` | `s ↦ \|s.biUnion t\|` is submodular | `Combinatorics` | `Finset.card_biUnion_union_add_card_biUnion_inter_le` |
 | `card_biUnion_union_inter_eq_of_tight` 🆕 | `API` | Under Hall's condition, unions and intersections of tight sets are tight | `Combinatorics` | `Finset.card_biUnion_union_eq_card_union`, `Finset.card_biUnion_inter_eq_card_inter` |
