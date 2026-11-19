@@ -2699,3 +2699,5 @@ import Formalizations
 #print axioms Franja.not_rational_four_squares
 #print axioms AlternatingRoots.root_nonneg_of_alternating
 #print axioms AlternatingRoots.posSemidef_of_charpoly_alternating
+#print axioms PosSemidefRankSquares.exists_sum_vecMulVec_self
+#print axioms PosSemidefRankSquares.quadForm_eq_sum_sq
