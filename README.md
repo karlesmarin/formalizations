@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.3.0`.
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2695 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2698 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -356,6 +356,7 @@ commitment; Lake does not enforce it.
 | | `GenusThree` 🆕 | The numerical semigroups of genus `3` have gap sets `{1,2,3}`, `{1,2,4}`, `{1,2,5}` or `{1,3,5}` (`⟨4,5,6,7⟩`, `⟨3,5,7⟩`, `⟨3,4⟩`, `⟨2,7⟩`) |
 | | `FourMoments` 🆕 | Proposition prop:n4 of Part II: no numerical semigroup S_T from a centred four-element spectrum with trivial stabiliser has genus 2 (Newton cascade M_2 = 0 => M_5 = 0). |
 | | `FamilyMoments` 🆕 | Odd power-sum moments M_3, M_5, M_7 of the half-system T_k in F_p (Part II, prop:familia). |
+| | `HalfSystems` 🆕 | Vanishing even moments characterise Gauss's half-systems |
 | `NumberTheory.PrescribedMoments` | `Biquanimous` 🆕 | Every 4-part partition of `n ≥ 3` splits into two halves of equal sum iff `n ∈ {3, 4, 6}`; counts of signed zero sums |
 | | `CubicModels` 🆕 | Nodes of the Cayley and Segre cubics; Newton's identities for `e₁ = e₃ = 0`; `(p−1)/2` and `(p−1)(p−3)/8` subsets of `ZMod p` of size 3 and 4 with both moments zero |
 | | `DegreeCount` 🆕 | `#{(a, b) ∣ 2a + 3b = k} = ⌊k/6⌋ + 1 − [k ≡ 1 mod 6]`; for `k ≥ 3` it is `1` iff `k ∈ {3, 4, 5, 7}` |

@@ -2701,3 +2701,6 @@ import Formalizations
 #print axioms AlternatingRoots.posSemidef_of_charpoly_alternating
 #print axioms PosSemidefRankSquares.exists_sum_vecMulVec_self
 #print axioms PosSemidefRankSquares.quadForm_eq_sum_sq
+#print axioms HalfSystems.eq_zero_of_moments
+#print axioms HalfSystems.trichotomy
+#print axioms HalfSystems.moments_of_halfSystem
