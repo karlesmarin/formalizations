@@ -2695,3 +2695,5 @@ import Formalizations
 #print axioms Formalizations.Reusable.card_biUnion_submodular
 #print axioms Formalizations.Reusable.card_biUnion_union_inter_eq_of_tight
 #print axioms Formalizations.Reusable.bondy_exists_erase_injOn
+#print axioms Franja.real_four_squares
+#print axioms Franja.not_rational_four_squares
