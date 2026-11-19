@@ -1,7 +1,7 @@
 # 🔎 Coincidencias con `karlesmarin/formalizations`
 
 Revisión del árbol `main` de `https://github.com/karlesmarin/formalizations`
-el 19 de noviembre de 2026, antes de integrar estas teorías. La comparación
+el 19 de noviembre de 2026, antes de integrar la sesión Isabelle. La comparación
 es de **enunciados y alcance**, no sólo de nombres de archivos.
 
 | Resultado de la nota | Ya formalizado allí | Relación |
@@ -16,6 +16,6 @@ es de **enunciados y alcance**, no sólo de nombres de archivos.
 
 Las pruebas estándar de análisis y probabilidad pueden tener otros antecedentes
 fuera de este repositorio. **Formalizar una identidad no demuestra que prediga
-un exponente en modelos entrenados.** La integración en `formalizations` debe
-conservar las teorías Isabelle como una sesión separada y enlazar los archivos
+un exponente en modelos entrenados.** La [integración en `formalizations`](https://github.com/karlesmarin/formalizations/tree/main/Isabelle/TransformerAttentionPartI)
+conserva las teorías Isabelle como una sesión separada y enlaza los archivos
 Lean existentes, sin copiarlos.
