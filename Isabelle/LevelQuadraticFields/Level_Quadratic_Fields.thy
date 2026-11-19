@@ -3,9 +3,6 @@
     Copyright (c) 2026 Carles Marín. All rights reserved.
     License:    BSD
 
-    Levels of imaginary quadratic fields Q(sqrt(-a)) (-1 as a sum of 1, 2 or 4 squares, by a mod 8, over the AFP Three_Squares) and the fields of the dilation λ = 3/4 inside I_4, for rational sums-of-squares lengths of biquadratic forms; Pfister's "the level is never 3" enters as a named locale assumption
-*)
-
    The level of L = Q(sqrt(-a)), Lemma "lem:level" of "Rational sums-of-squares lengths of biquadratic forms and
    orthogonal dilations" (Carles Marín, in preparation).
    L is modelled concretely: an element is a pair (x,y) of rationals, standing for x + y w with w^2 = -a, and

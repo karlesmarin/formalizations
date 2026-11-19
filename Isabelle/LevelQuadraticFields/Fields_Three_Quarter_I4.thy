@@ -3,9 +3,6 @@
     Copyright (c) 2026 Carles Marín. All rights reserved.
     License:    BSD
 
-    Levels of imaginary quadratic fields Q(sqrt(-a)) (-1 as a sum of 1, 2 or 4 squares, by a mod 8, over the AFP Three_Squares) and the fields of the dilation λ = 3/4 inside I_4, for rational sums-of-squares lengths of biquadratic forms; Pfister's "the level is never 3" enters as a named locale assumption
-*)
-
    Proposition "prop:fields", part (1), of "Rational sums-of-squares lengths of biquadratic forms and orthogonal
    dilations" (Carles Marín, in preparation).  For H = (3/4) I_4 over a field F of characteristic 0 (in particular
    every subfield of the reals): the length is 4, that is, there is an orthogonal T over F whose symmetric part is H
