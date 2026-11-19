@@ -7,7 +7,7 @@ organized the same way: by mathematical area, one topic per file, every file wit
 results.
 
 - 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.3.0`.
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2691 main results depend only on the standard axioms
+- ✅ No `sorry`, no `native_decide`, no new axioms. All 2693 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -180,6 +180,7 @@ commitment; Lake does not enforce it.
 | | `VirtualRoots.Count` 🆕 | The number of virtual roots in `(a, b]` equals the Budan–Fourier drop `V(a) − V(b)` |
 | | `Descartes` 🆕 | The Budan–Fourier count at `0` is Mathlib's `Polynomial.signVariations` |
 | | `NewtonInequalities` 🆕 | Newton's inequalities `e_k² C(n,k−1) C(n,k+1) ≥ e_{k−1} e_{k+1} C(n,k)²` for real-rooted polynomials; log-concavity of the normalized means; real-rootedness survives `derivative` and `reverse` |
+| | `AlternatingRoots` 🆕 | Alternating coefficients of a monic real polynomial force all roots >= 0; real symmetric matrices with alternating charpoly are PSD (`AlternatingRoots.root_nonneg_of_alternating`, `AlternatingRoots.posSemidef_of_charpoly_alternating`). |
 | `Analysis.SpecialFunctions.Airy` | `PowerSeries` 🆕 | The Airy recurrence `c_{k+3} = c_k/((k+2)(k+3))` gives `y'' = X y` in `ℚ⟦X⟧` |
 | | `Basic` 🆕 | The real Airy functions are entire and solve `y'' = x y`; zeros unbounded below (Sturm comparison from Rolle and the IVT); dominant solutions do not decay; a recessive solution by reduction of order and an entire one; infinitely many quantum-bouncer levels |
 | | `Perturbation` 🆕 | `w = u²` for `u'' = (x − E) u` satisfies `w''' = 4 (x − E) w' + 2 w` |

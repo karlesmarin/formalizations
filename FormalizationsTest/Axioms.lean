@@ -2697,3 +2697,5 @@ import Formalizations
 #print axioms Formalizations.Reusable.bondy_exists_erase_injOn
 #print axioms Franja.real_four_squares
 #print axioms Franja.not_rational_four_squares
+#print axioms AlternatingRoots.root_nonneg_of_alternating
+#print axioms AlternatingRoots.posSemidef_of_charpoly_alternating

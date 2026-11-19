@@ -11,6 +11,7 @@ public import Formalizations.Analysis.Polynomial.RealRoots.RealRooted
 public import Formalizations.Analysis.Polynomial.RealRoots.Sturm
 public import Formalizations.Analysis.Polynomial.RealRoots.VirtualRoots.Basic
 public import Formalizations.Analysis.Polynomial.RealRoots.VirtualRoots.Count
+public import Formalizations.Analysis.Polynomial.RealRoots.AlternatingRoots
 public import Formalizations.Analysis.Polynomial.McMullin
 public import Formalizations.Analysis.SpecialFunctions.Airy.Basic
 public import Formalizations.Analysis.SpecialFunctions.Airy.Perturbation
