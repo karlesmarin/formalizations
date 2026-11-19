@@ -1,0 +1,8 @@
+chapter Formalizations
+
+session Level_Fields = "Three_Squares" +
+  options [timeout = 1800]
+  theories
+    Seven_Rat
+    Level_Quadratic_Fields
+    Fields_Three_Quarter_I4

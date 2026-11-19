@@ -1,0 +1,8 @@
+chapter Formalizations
+
+(* encaje: ficha de la cola de formalizacion Isabelle 250 (Lemma lem:aux del paper A, locale con supuestos nombrados); no es herramienta. *)
+session LocalAux = HOL +
+  options [timeout = 600]
+  theories
+    Local_Aux_Locale
+    Local_Aux_Model

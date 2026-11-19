@@ -1,0 +1,7 @@
+chapter Formalizations
+
+(* encaje: ficha de la cola de formalizacion Isabelle 251 (Teorema thm:real (2) y Corolario cor:jump del paper A, parcial con supuesto nombrado de Witt); no es herramienta. *)
+session RealJump = "HOL-Analysis" +
+  options [timeout = 1500]
+  theories
+    Real_Jump_Locale
