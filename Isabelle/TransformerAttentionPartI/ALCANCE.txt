@@ -1,0 +1,4 @@
+Instantánea completa de las teorías listadas en ROOT y sus importaciones.
+Auditoría de dependencias del núcleo y control negativo superados.
+AFP 2026-11-06 es una dependencia externa; su código original no se atribuye al proyecto.
+La prueba formal vale bajo las hipótesis escritas y no acredita una ley empírica universal.

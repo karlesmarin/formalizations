@@ -1,0 +1,39 @@
+ML_OPTS = --minheap 500 --maxheap 1800 --enablegcsharing
+--- cola de la salida ---
+und
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_KL_Remainder 100% (0.579s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Sensitivity
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_KL_Bound 100% (0.231s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Strict_Family
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Smooth_Family
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Regression_Calculus
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Bounds
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Sensitivity 100% (0.655s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Regression_Calculus 100% (1.173s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Smooth_Family 100% (0.200s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Strict_Family 100% (0.248s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Monotonicity
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Bounds 100% (0.613s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Limits
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Monotonicity 100% (0.274s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_All_Null
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Limits 100% (0.344s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Vector_Output
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_All_Null 100% (0.724s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Transport
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Vector_Output 100% (1.968s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Sharp_Binary
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Transport 100% (1.012s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Log_Scores
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_RoPE_Scores
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Ci_Audit
+Timing TAF_Cosine_Ci_20261118 (1 threads, 46.535s elapsed time, 46.704s cpu time, 2.651s GC time, factor 1.00)
+Finished TAF_Cosine_Ci_20261118 (0:01:45 elapsed time, 0:00:52 cpu time, factor 0.50)
+
+Finished at Thu Nov 19 05:42:41 GMT 2026
+0:02:27 elapsed time, 0:00:52 cpu time, factor 0.36
+
+OK: Finished TAF_Cosine_Ci_20261118 (0:01:45 elapsed time, 0:00:52 cpu time, factor 0.50)
+lint_defecto: 2 ATENCIÓN en 38 teorías (enunciado o definición posiblemente vacíos); detalle: python -m excovery.lint_defecto E:\proyectos\NeurIPS\research_program\theorems_20261118\isabelle_ci
+sorry restantes: 0
+CONTROL (lema falso en 38 teorías): falla como debe

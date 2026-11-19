@@ -10,6 +10,16 @@ Isabelle/HOL versions of some Lean modules of this repository, and entries prepa
   never `eval`.
 - 🔗 Each port names the Lean module it follows; the AFP entries go further than the Lean (statements for every `n`).
 
+## 📐 Transformer attention, Part I
+
+[`TransformerAttentionPartI/`](TransformerAttentionPartI/) is an independent
+Isabelle2026 session with eight groups of conditional results and 300 named
+facts audited for oracle dependencies. It uses AFP `Exp_Log_Integral`; the
+README in that directory gives the reproduction command, receipt and negative
+control. The [overlap review](TransformerAttentionPartI/COINCIDENCIAS_FORMALIZATIONS.md)
+links the existing Lean Padé, MaxEnt and entropy theorems to avoid duplicate
+novelty claims. The Ci–RoPE score result depends on its stated score hypothesis.
+
 ## 🗂️ Ports of Lean modules
 
 | Session | Port of | What is proved |

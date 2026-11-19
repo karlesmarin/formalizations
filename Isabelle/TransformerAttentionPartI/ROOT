@@ -1,0 +1,9 @@
+session TAF_Cosine_Ci_20261118 = Exp_Log_Integral +
+  options [document = false, threads = 1, timeout = 300]
+  theories
+    TAF_Ci_Probe
+    TAF_Ci_Foundation
+    TAF_Ci_Tail
+    TAF_RoPE_Ci
+    TAF_RoPE_Scores
+    TAF_Ci_Audit

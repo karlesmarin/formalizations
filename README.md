@@ -22,6 +22,13 @@ results.
 🦉 **Isabelle/HOL.** Some results are also formalized in Isabelle (ports of Lean modules, and entries prepared for
 the Archive of Formal Proofs); see [`Isabelle/README.md`](Isabelle/README.md). They are built separately from Lean.
 
+📐 **Transformer attention, Part I.** An [Isabelle2026/AFP session](Isabelle/TransformerAttentionPartI/)
+formalizes eight groups of conditional results on finite attention laws,
+instrument calibration, truncation, softmax stability and a Ci–RoPE integral
+bridge. Its 300 named facts passed a kernel dependency audit and a negative
+control. The [overlap review](Isabelle/TransformerAttentionPartI/COINCIDENCIAS_FORMALIZATIONS.md)
+identifies the Padé, MaxEnt and entropy results already present in Lean.
+
 📖 **API documentation** of every declaration (doc-gen4, rebuilt on every push):
 <https://karlesmarin.github.io/formalizations/docs/>
 

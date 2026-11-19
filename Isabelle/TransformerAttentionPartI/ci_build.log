@@ -1,0 +1,237 @@
+# Isabelle build log, 2026-11-19T06:42:44
+# image: makarius/isabelle:Isabelle2026 (docker)
+# command: docker run --rm --memory 4g --name kb_taf_cosine_ci_20261118_37744 -v isabelle_home:/home/isabelle/.isabelle -v <AFP>/thys:/afp:ro -v <folder-with-ROOT>:/k -v <settings-file>:/home/isabelle/.isabelle/etc/settings:ro makarius/isabelle:Isabelle2026 build -c -v -j 1 -o threads=1 -d /afp -d /k TAF_Cosine_Ci_20261118
+# session: TAF_Cosine_Ci_20261118
+
+## how to reproduce
+Mounts: <folder-with-ROOT> is the extracted session folder (the one containing ROOT and the .thy files),
+mounted at /k; <AFP>/thys is the thys/ folder of the Archive of Formal Proofs, mounted read-only at /afp
+(the session needs only HOL-Analysis, HOL-Probability and HOL-Decision_Procs, so an empty folder also works);
+isabelle_home is a docker volume for the heap images. <settings-file> is an Isabelle settings file with the two lines ML_OPTIONS32="--minheap 500 --maxheap 1800 --enablegcsharing" and ML_OPTIONS64="--minheap 500 --maxheap 1800 --enablegcsharing" (the ML heap limits), mounted over /home/isabelle/.isabelle/etc/settings.
+Without the settings file the default ML heap is used (the build needs a few GB of memory).
+
+## build output (complete)
+
+Started at Thu Nov 19 05:40:14 GMT 2026 (polyml-5.9.2_x86_64_32-linux on f46f6f19294f)
+ISABELLE_TOOL_JAVA_OPTIONS="-Djava.awt.headless=true -Xms512m -Xmx4g -Xss16m"
+ISABELLE_BUILD_OPTIONS=""
+
+ML_PLATFORM="x86_64_32-linux"
+ML_HOME="/home/isabelle/Isabelle/contrib/polyml-5.9.2-6/x86_64_32-linux"
+ML_SYSTEM="polyml-5.9.2"
+ML_OPTIONS="--minheap 500 --maxheap 1800 --enablegcsharing"
+
+Session Pure/Pure
+Session FOL/FOL
+Session Pure/Pure-Examples
+Session Pure/Pure-ex
+Session Misc/Tools
+Session HOL/HOL (main)
+Session AFP/Cauchy
+Session AFP/Sqrt_Babylonian
+Session HOL/HOL-Cardinals (timing)
+Session HOL/HOL-Library (main timing)
+Session AFP/Binomial-Heaps
+Session AFP/Finger-Trees
+Session HOL/HOL-Combinatorics (main timing)
+Session HOL/HOL-Computational_Algebra (main timing)
+Session HOL/HOL-Number_Theory (main timing)
+Session HOL/HOL-Algebra (main timing)
+Session HOL/HOL-Decision_Procs (timing)
+Session AFP/VectorSpace
+Session AFP/Polynomial_Interpolation
+Session AFP/Sturm_Tarski
+Session AFP/Budan_Fourier
+Session HOL/HOL-Imperative_HOL (timing)
+Session HOL/HOL-ex (timing)
+Session AFP/Landau_Symbols
+Session HOL/HOL-Real_Asymp
+Session HOL/HOL-Analysis (main timing)
+Session HOL/HOL-Complex_Analysis (main timing)
+Session AFP/Bernoulli
+Session AFP/Error_Function
+Session AFP/Euler_MacLaurin
+Session AFP/Generalized_Hypergeometric_Series (AFP)
+Session AFP/Incomplete_Gamma (AFP)
+Session HOL/HOL-Eisbach
+Session AFP/Automatic_Refinement
+Session AFP/Refine_Monadic
+Session AFP/Rank_Nullity_Theorem
+Session AFP/Gauss_Jordan
+Session AFP/Winding_Number_Eval
+Session AFP/Partial_Function_MR
+Session AFP/Regular-Sets
+Session AFP/Abstract-Rewriting
+Session AFP/Matrix
+Session AFP/Trie
+Session AFP/Word_Lib
+Session AFP/Native_Word
+Session AFP/Collections
+Session AFP/Deriving
+Session AFP/Containers
+Session AFP/Show
+Session AFP/Polynomial_Factorization
+Session AFP/Dirichlet_Series
+Session AFP/Zeta_Function
+Session AFP/Exp_Log_Integral (AFP)
+Session Unsorted/TAF_Cosine_Ci_20261118
+Cleaned TAF_Cosine_Ci_20261118
+Running TAF_Cosine_Ci_20261118 ...
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Finite_Weights
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Cosine_Foundation
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Finite_Weights 100% (3.035s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Cosine_Riemann
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Cosine_Foundation 100% (1.122s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_RoPE_Grid
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Cosine_Riemann 100% (0.704s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Ci_Foundation
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Ci_Tail
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_RoPE_Grid 100% (0.268s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Ci_Foundation 100% (0.978s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_RoPE_Ci
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Ci_Tail 100% (0.775s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Ci_Probe
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Cosine_Variation
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_RoPE_Variation
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Exponential_Family
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Ci_Probe 100% (2.261s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_RoPE_Ci 100% (0.506s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Cosine_Variation 100% (0.883s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_RoPE_Variation 100% (0.285s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Probe
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Exponential_Family 100% (0.552s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Secants
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Probe 100% (0.322s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Strict_Covariance
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Secants 100% (0.430s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Tilt
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Strict_Covariance 100% (0.276s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Softmax
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Tilt 100% (1.019s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Uniform_Null
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Softmax 100% (0.626s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Truncation
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Uniform_Null 100% (0.400s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Mixture_Entropy
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Truncation 100% (0.855s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Cumulative
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Power_Family
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Mixture_Entropy 100% (0.607s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Cumulative 100% (0.415s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Power_Support
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Power_Family 100% (0.579s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_KL_Remainder
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Power_Support 100% (0.583s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_KL_Bound
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_KL_Remainder 100% (0.579s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Sensitivity
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_KL_Bound 100% (0.231s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Strict_Family
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Smooth_Family
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Regression_Calculus
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Bounds
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Sensitivity 100% (0.655s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Regression_Calculus 100% (1.173s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Smooth_Family 100% (0.200s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Strict_Family 100% (0.248s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Monotonicity
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Bounds 100% (0.613s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Limits
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Monotonicity 100% (0.274s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_All_Null
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Affine_Limits 100% (0.344s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Vector_Output
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_All_Null 100% (0.724s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Transport
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Vector_Output 100% (1.968s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Sharp_Binary
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Transport 100% (1.012s cumulated time)
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Log_Scores
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_RoPE_Scores
+TAF_Cosine_Ci_20261118: theory TAF_Cosine_Ci_20261118.TAF_Ci_Audit
+Timing TAF_Cosine_Ci_20261118 (1 threads, 46.535s elapsed time, 46.704s cpu time, 2.651s GC time, factor 1.00)
+Finished TAF_Cosine_Ci_20261118 (0:01:45 elapsed time, 0:00:52 cpu time, factor 0.50)
+
+Finished at Thu Nov 19 05:42:41 GMT 2026
+0:02:27 elapsed time, 0:00:52 cpu time, factor 0.36
+
+
+## lint_defecto (statements or definitions that might be vacuous), 2 findings in 38 theories
+- fichero=<folder-with-ROOT>\TAF_Cumulative.thy  linea=78  nombre=finite_quantile  tipo=definition  clase=extremo  nivel=ATENCIÓN  tokens=['Min']  motivo=Min en la definición sin hipótesis de existencia ni no vacuidad visible: si el objeto no existe devuelve un valor por defecto (sInf ∅ = 0, THE/SOME sin unicidad…) y el enunciado compila igual
+- fichero=<folder-with-ROOT>\TAF_RoPE_Scores.thy  linea=67  nombre=finite_rope_max_bound  tipo=lemma  clase=extremo  nivel=ATENCIÓN  tokens=['Max']  motivo=Max en la conclusión sin hipótesis de existencia ni no vacuidad visible: si el objeto no existe devuelve un valor por defecto (sInf ∅ = 0, THE/SOME sin unicidad…) y el enunciado compila igual
+
+## negative control
+A copy of the session with the false lemma
+    lemma control_falso_isa: "(1::int) = 2" by simp
+appended to each of its 38 theories is built with the same command; the build must FAIL on it.
+verdict: falla como debe
+
+### control build summary
+--- cola de la salida ---
+F_Cosine_Ci_20261118.TAF_KL_Bound", "TAF_Cosine_Ci_20261118.TAF_Softmax")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Strict_Family" (unresolved "TAF_Cosine_Ci_20261118.TAF_Sensitivity")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Smooth_Family" (unresolved "TAF_Cosine_Ci_20261118.TAF_KL_Bound")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Regression_Calculus" (unresolved "TAF_Cosine_Ci_20261118.TAF_Mixture_Entropy", "TAF_Cosine_Ci_20261118.TAF_Secants")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Affine_Bounds" (unresolved "TAF_Cosine_Ci_20261118.TAF_Regression_Calculus", "TAF_Cosine_Ci_20261118.TAF_Strict_Covariance")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Affine_Monotonicity" (unresolved "TAF_Cosine_Ci_20261118.TAF_Affine_Bounds")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Affine_Limits" (unresolved "TAF_Cosine_Ci_20261118.TAF_Affine_Monotonicity")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_All_Null" (unresolved "TAF_Cosine_Ci_20261118.TAF_Affine_Bounds", "TAF_Cosine_Ci_20261118.TAF_Uniform_Null")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Vector_Output" (unresolved "TAF_Cosine_Ci_20261118.TAF_Truncation")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Transport" (unresolved "TAF_Cosine_Ci_20261118.TAF_Softmax", "TAF_Cosine_Ci_20261118.TAF_Vector_Output")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Sharp_Binary" (unresolved "TAF_Cosine_Ci_20261118.TAF_Transport")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Log_Scores" (unresolved "TAF_Cosine_Ci_20261118.TAF_Sensitivity", "TAF_Cosine_Ci_20261118.TAF_Sharp_Binary")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_RoPE_Scores" (unresolved "TAF_Cosine_Ci_20261118.TAF_Log_Scores", "TAF_Cosine_Ci_20261118.TAF_RoPE_Ci")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Ci_Audit" (unresolved "TAF_Cosine_Ci_20261118.TAF_Affine_Limits", "TAF_Cosine_Ci_20261118.TAF_All_Null", "TAF_Cosine_Ci_20261118.TAF_Power_Support", "TAF_Cosine_Ci_20261118.TAF_RoPE_Scores", "TAF_Cosine_Ci_20261118.TAF_RoPE_Variation", "TAF_Cosine_Ci_20261118.TAF_Smooth_Family", "TAF_Cosine_Ci_20261118.TAF_Strict_Family")
+*** Failed to finish proof (line 102 of "/k/TAF_Finite_Weights.thy"):
+*** goal (1 subgoal):
+***  1. False
+*** At command "by" (line 102 of "/k/TAF_Finite_Weights.thy")
+Unfinished session(s): TAF_Cosine_Ci_20261118
+
+Finished at Thu Nov 19 05:43:51 GMT 2026
+0:00:57 elapsed time, 0:00:06 cpu time, factor 0.11
+
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Cosine_Riemann" (unresolved "TAF_Cosine_Ci_20261118.TAF_Cosine_Foundation")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_RoPE_Grid" (unresolved "TAF_Cosine_Ci_20261118.TAF_Cosine_Riemann")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Ci_Foundation" (unresolved "TAF_Cosine_Ci_20261118.TAF_RoPE_Grid")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Ci_Tail" (unresolved "TAF_Cosine_Ci_20261118.TAF_Ci_Foundation")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_RoPE_Ci" (unresolved "TAF_Cosine_Ci_20261118.TAF_Ci_Tail")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Ci_Probe" (unresolved "TAF_Cosine_Ci_20261118.TAF_RoPE_Grid")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Cosine_Variation" (unresolved "TAF_Cosine_Ci_20261118.TAF_RoPE_Grid")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_RoPE_Variation" (unresolved "TAF_Cosine_Ci_20261118.TAF_Cosine_Variation")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Exponential_Family" (unresolved "TAF_Cosine_Ci_20261118.TAF_Finite_Weights")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Probe" (unresolved "TAF_Cosine_Ci_20261118.TAF_Finite_Weights")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Secants" (unresolved "TAF_Cosine_Ci_20261118.TAF_Probe")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Strict_Covariance" (unresolved "TAF_Cosine_Ci_20261118.TAF_Secants")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Tilt" (unresolved "TAF_Cosine_Ci_20261118.TAF_Finite_Weights")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Softmax" (unresolved "TAF_Cosine_Ci_20261118.TAF_Exponential_Family", "TAF_Cosine_Ci_20261118.TAF_Tilt")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Uniform_Null" (unresolved "TAF_Cosine_Ci_20261118.TAF_Secants", "TAF_Cosine_Ci_20261118.TAF_Softmax")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Truncation" (unresolved "TAF_Cosine_Ci_20261118.TAF_Secants", "TAF_Cosine_Ci_20261118.TAF_Tilt")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Mixture_Entropy" (unresolved "TAF_Cosine_Ci_20261118.TAF_Exponential_Family", "TAF_Cosine_Ci_20261118.TAF_Truncation")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Cumulative" (unresolved "TAF_Cosine_Ci_20261118.TAF_Mixture_Entropy")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Power_Family" (unresolved "TAF_Cosine_Ci_20261118.TAF_Cumulative")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Power_Support" (unresolved "TAF_Cosine_Ci_20261118.TAF_Power_Family", "TAF_Cosine_Ci_20261118.TAF_Softmax")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_KL_Remainder" (unresolved "TAF_Cosine_Ci_20261118.TAF_Mixture_Entropy")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_KL_Bound" (unresolved "TAF_Cosine_Ci_20261118.TAF_KL_Remainder")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Sensitivity" (unresolved "TAF_Cosine_Ci_20261118.TAF_KL_Bound", "TAF_Cosine_Ci_20261118.TAF_Softmax")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Strict_Family" (unresolved "TAF_Cosine_Ci_20261118.TAF_Sensitivity")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Smooth_Family" (unresolved "TAF_Cosine_Ci_20261118.TAF_KL_Bound")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Regression_Calculus" (unresolved "TAF_Cosine_Ci_20261118.TAF_Mixture_Entropy", "TAF_Cosine_Ci_20261118.TAF_Secants")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Affine_Bounds" (unresolved "TAF_Cosine_Ci_20261118.TAF_Regression_Calculus", "TAF_Cosine_Ci_20261118.TAF_Strict_Covariance")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Affine_Monotonicity" (unresolved "TAF_Cosine_Ci_20261118.TAF_Affine_Bounds")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Affine_Limits" (unresolved "TAF_Cosine_Ci_20261118.TAF_Affine_Monotonicity")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_All_Null" (unresolved "TAF_Cosine_Ci_20261118.TAF_Affine_Bounds", "TAF_Cosine_Ci_20261118.TAF_Uniform_Null")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Vector_Output" (unresolved "TAF_Cosine_Ci_20261118.TAF_Truncation")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Transport" (unresolved "TAF_Cosine_Ci_20261118.TAF_Softmax", "TAF_Cosine_Ci_20261118.TAF_Vector_Output")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Sharp_Binary" (unresolved "TAF_Cosine_Ci_20261118.TAF_Transport")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Log_Scores" (unresolved "TAF_Cosine_Ci_20261118.TAF_Sensitivity", "TAF_Cosine_Ci_20261118.TAF_Sharp_Binary")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_RoPE_Scores" (unresolved "TAF_Cosine_Ci_20261118.TAF_Log_Scores", "TAF_Cosine_Ci_20261118.TAF_RoPE_Ci")
+*** Failed to load theory "TAF_Cosine_Ci_20261118.TAF_Ci_Audit" (unresolved "TAF_Cosine_Ci_20261118.TAF_Affine_Limits", "TAF_Cosine_Ci_20261118.TAF_All_Null", "TAF_Cosine_Ci_20261118.TAF_Power_Support", "TAF_Cosine_Ci_20261118.TAF_RoPE_Scores", "TAF_Cosine_Ci_20261118.TAF_RoPE_Variation", "TAF_Cosine_Ci_20261118.TAF_Smooth_Family", "TAF_Cosine_Ci_20261118.TAF_Strict_Family")
+*** Failed to finish proof (line 102 of "/k/TAF_Finite_Weights.thy"):
+*** goal (1 subgoal):
+***  1. False
+*** At command "by" (line 102 of "/k/TAF_Finite_Weights.thy")
+FALLO: la sesión TAF_Cosine_Ci_20261118 no terminó
+TAF_Cosine_Ci_20261118 FAILED (see also "isabelle build_log -H Error TAF_Cosine_Ci_20261118")
+sorry restantes: 0
+
