@@ -66,3 +66,9 @@ example (A : Matrix (Fin 2) (Fin 2) ℝ) (hA : A.IsSymm)
 example (A : Matrix (Fin 3) (Fin 3) ℝ) (hA : A.PosSemidef) :
     ∃ v : Fin A.rank → (Fin 3 → ℝ), ∀ u, u ⬝ᵥ (A *ᵥ u) = ∑ i, (v i ⬝ᵥ u) ^ 2 :=
   psd_quadForm_eq_sum_rank_sq hA rfl
+
+/-- Rank through the Schur complement: an invertible corner adds its size to the rank. -/
+example (A : Matrix (Fin 1) (Fin 1) ℚ) (hA : IsUnit A) (B : Matrix (Fin 1) (Fin 2) ℚ)
+    (C : Matrix (Fin 2) (Fin 1) ℚ) (D : Matrix (Fin 2) (Fin 2) ℚ) :
+    (fromBlocks A B C D).rank = 1 + (D - C * A⁻¹ * B).rank := by
+  simpa using Formalizations.Reusable.rank_fromBlocks_of_isUnit₁₁ A B C D hA

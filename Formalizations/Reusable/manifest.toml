@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.4.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.5.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.4.0"
+version = "0.5.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -574,4 +574,55 @@ status = "reusable"
 role = "API"
 upstream_candidate = true
 upstream_reason = "Mathlib only has the square factorization posSemidef_iff_eq_conjTranspose_mul_self, not k = rank terms; the same statement as a factorization is in TauCeti (Matrix.PosSemidef.exists_eq_conjTranspose_mul_self_of_rank_le)"
+repo_dependencies = []
+
+[[entry]]
+id = "R0034"
+lean_name = "Formalizations.Reusable.rank_fromBlocks_of_isUnit₁₁"
+statement = "Over a field, a block matrix with invertible top-left block A has rank card m + rank (D - C A⁻¹ B); with A positive definite and zero Schur complement it is PSD of rank card m."
+area = "LinearAlgebra"
+msc = "15A03"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.SchurRank"
+archive_decl = "Matrix.rank_fromBlocks_of_isUnit₁₁, Matrix.rank_fromBlocks_diagonal, Matrix.posSemidef_rank_of_schur_eq_zero"
+paper = "none (piece of the design table, Schur certificates)"
+classical_reference = "F. Zhang, The Schur Complement and Its Applications (2005), §0.9"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has the PSD half (PosDef.fromBlocks₁₁) and the LDU factorization, not the rank of a block-diagonal matrix nor the Schur rank formula"
+repo_dependencies = []
+
+[[entry]]
+id = "R0035"
+lean_name = "Formalizations.Reusable.godsil_gutman"
+statement = "Godsil–Gutman: the sum over all ±1 edge signings of the characteristic polynomials of the signed adjacency matrices is (number of signings) times the matching polynomial."
+area = "Combinatorics"
+msc = "05C31"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.GodsilGutman"
+archive_decl = "SimpleGraph.godsil_gutman"
+paper = "none"
+classical_reference = "C. D. Godsil, I. Gutman, On the matching polynomial of a graph (1981)"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "needs signing matrices and the matching polynomial, not in Mathlib"
+repo_dependencies = []
+
+[[entry]]
+id = "R0036"
+lean_name = "Formalizations.Reusable.bass_determinant_commRing"
+statement = "Bass's determinant formula over any commutative ring: (1-u²)^|V| det(1-uB) = (1-u²)^|E| det(1-uA+u²(D-1)) with B the Hashimoto matrix."
+area = "Combinatorics"
+msc = "05C50"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.Ihara.BassCommRing"
+archive_decl = "SimpleGraph.bass_determinant_commRing"
+paper = "none"
+classical_reference = "H. Bass, The Ihara-Selberg zeta function of a tree lattice, Internat. J. Math. 3 (1992)"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "needs the Hashimoto matrix, not in Mathlib"
 repo_dependencies = []

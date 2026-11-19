@@ -9,6 +9,8 @@ public import Formalizations.Combinatorics.Choose.MiddleBinomialDensity
 public import Formalizations.Combinatorics.SimpleGraph.MatrixTree.Kirchhoff
 public import Formalizations.Combinatorics.Hall.Tight
 public import Formalizations.Combinatorics.SetFamily.Bondy
+public import Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.GodsilGutman
+public import Formalizations.Combinatorics.SimpleGraph.Ihara.BassCommRing
 
 /-!
 # Reusable layer: combinatorics and number theory
@@ -133,5 +135,40 @@ theorem bondy_exists_erase_injOn {α : Type*} [DecidableEq α] (X : Finset α) (
     (F : Finset (Finset α)) (hcard : F.card ≤ X.card) :
     ∃ x ∈ X, Set.InjOn (fun A : Finset α => A.erase x) (F : Set (Finset α)) :=
   Bondy.exists_erase_injOn X hX F hcard
+
+/-- **Godsil–Gutman identity.** Summed over all `±1` signings of the edges, the characteristic
+polynomials of the signed adjacency matrices give `#signings • μ(G)`, the matching polynomial: the
+expected characteristic polynomial of a uniformly random signing is `μ(G)`. This is the spectral
+bridge of the Marcus–Spielman–Srivastava interlacing-families method.
+
+* Archive: `SimpleGraph.godsil_gutman`
+  (`Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.GodsilGutman`); the module cites no
+  paper DOI of ours.
+* Classical reference: C. D. Godsil, I. Gutman, *On the matching polynomial of a graph*, Algebraic
+  Methods in Graph Theory (1981) 241–249.
+* Example: for one edge the two signings give `X² − 1` twice, and `μ(K₂) = X² − 1`. -/
+theorem godsil_gutman {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V)
+    [DecidableRel G.Adj] :
+    (∑ cfg : Sym2 V → Bool, (G.signingMatrix cfg).charpoly)
+      = (Fintype.card (Sym2 V → Bool)) • G.matchingPoly :=
+  G.godsil_gutman
+
+/-- **Bass's determinant formula over any commutative ring.** For a finite simple graph with
+Hashimoto (non-backtracking) matrix `B`, adjacency matrix `A` and degree matrix `D`,
+`(1 - u²)^|V| · det (1 - u B) = (1 - u²)^|E| · det (1 - u A + u² (D - 1))` for every `u` in any
+commutative ring: the Ihara zeta function in determinant form, with no field and no vertex order.
+
+* Archive: `SimpleGraph.bass_determinant_commRing`
+  (`Formalizations.Combinatorics.SimpleGraph.Ihara.BassCommRing`, from the field case
+  `bass_charpolyRev`); the module cites no paper DOI of ours.
+* Classical reference: H. Bass, *The Ihara–Selberg zeta function of a tree lattice*, Internat. J.
+  Math. 3 (1992) 717–797.
+* Example: `u = 0` gives `1 = 1`. -/
+theorem bass_determinant_commRing {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V)
+    [DecidableRel G.Adj] (R : Type*) [CommRing R] (u : R) :
+    (1 - u ^ 2) ^ (Fintype.card V) * (1 - u • G.hashimoto R).det
+      = (1 - u ^ 2) ^ G.edgeFinset.card
+        * (1 - u • G.adjMatrix R + u ^ 2 • (G.degMatrix R - 1)).det :=
+  G.bass_determinant_commRing R u
 
 end Formalizations.Reusable

@@ -13,6 +13,7 @@ public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
 public import Formalizations.LinearAlgebra.Matrix.Adjugate
 public import Formalizations.Analysis.Polynomial.RealRoots.AlternatingRoots
 public import Formalizations.LinearAlgebra.Matrix.PosSemidefRankSquares
+public import Formalizations.LinearAlgebra.Matrix.SchurRank
 
 /-!
 # Reusable layer: linear algebra
@@ -198,5 +199,23 @@ theorem psd_quadForm_eq_sum_rank_sq {n : Type*} [Fintype n] [DecidableEq n] {A :
     (hA : A.PosSemidef) {k : ℕ} (hk : A.rank = k) :
     ∃ v : Fin k → (n → ℝ), ∀ u, u ⬝ᵥ (A *ᵥ u) = ∑ i, (v i ⬝ᵥ u) ^ 2 :=
   PosSemidefRankSquares.quadForm_eq_sum_sq hA hk
+
+/-- **Rank through the Schur complement.** Over a field, if the top-left block `A` of a block matrix
+is invertible, then `rank (fromBlocks A B C D) = card m + rank (D - C * A⁻¹ * B)`. With `A ≻ 0` and a
+zero Schur complement this is the exact certificate "this PSD Gram matrix has rank `card m`"
+(`Matrix.posSemidef_rank_of_schur_eq_zero` in the archive). Mathlib has the PSD half
+(`Matrix.PosDef.fromBlocks₁₁`) and the LDU factorization, not the rank.
+
+* Archive: `Matrix.rank_fromBlocks_of_isUnit₁₁` (`Formalizations.LinearAlgebra.Matrix.SchurRank`;
+  also `Matrix.rank_fromBlocks_diagonal`); a piece of the design table (Schur certificates of sums
+  of squares); the module cites no paper DOI of ours.
+* Classical reference: textbook (Guttman rank additivity; F. Zhang, *The Schur Complement and Its
+  Applications*, Springer 2005, §0.9).
+* Example: `!![1, 1; 1, 1]` has `A = 1` and Schur complement `1 - 1 * 1 * 1 = 0`, so rank `1`. -/
+theorem rank_fromBlocks_of_isUnit₁₁ {m n K : Type*} [Fintype m] [Fintype n] [DecidableEq m]
+    [DecidableEq n] [Field K] (A : Matrix m m K) (B : Matrix m n K) (C : Matrix n m K)
+    (D : Matrix n n K) (hA : IsUnit A) :
+    (fromBlocks A B C D).rank = Fintype.card m + (D - C * A⁻¹ * B).rank :=
+  Matrix.rank_fromBlocks_of_isUnit₁₁ A B C D hA
 
 end Formalizations.Reusable

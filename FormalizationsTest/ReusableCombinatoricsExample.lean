@@ -42,3 +42,16 @@ example (X : Finset ℕ) (hX : X.Nonempty) (F : Finset (Finset ℕ)) (hF : F.car
     ∃ x ∈ X, (F.image (fun A => A.erase x)).card = F.card := by
   obtain ⟨x, hx, hinj⟩ := bondy_exists_erase_injOn X hX F hF
   exact ⟨x, hx, Finset.card_image_of_injOn hinj⟩
+
+/-- Godsil–Gutman for any graph: the average signed characteristic polynomial is `μ(G)`. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj] :
+    (∑ cfg : Sym2 V → Bool, (G.signingMatrix cfg).charpoly)
+      = (Fintype.card (Sym2 V → Bool)) • G.matchingPoly :=
+  godsil_gutman G
+
+/-- Bass's formula over `ℤ` at `u = 2`. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj] :
+    (1 - (2 : ℤ) ^ 2) ^ (Fintype.card V) * (1 - (2 : ℤ) • G.hashimoto ℤ).det
+      = (1 - (2 : ℤ) ^ 2) ^ G.edgeFinset.card
+        * (1 - (2 : ℤ) • G.adjMatrix ℤ + (2 : ℤ) ^ 2 • (G.degMatrix ℤ - 1)).det :=
+  bass_determinant_commRing G ℤ 2

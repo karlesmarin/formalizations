@@ -2693,6 +2693,9 @@ import Formalizations
 #print axioms Formalizations.Reusable.touchard_bell_add_prime
 #print axioms Formalizations.Reusable.posSemidef_of_charpoly_alternating
 #print axioms Formalizations.Reusable.psd_quadForm_eq_sum_rank_sq
+#print axioms Formalizations.Reusable.rank_fromBlocks_of_isUnit₁₁
+#print axioms Formalizations.Reusable.godsil_gutman
+#print axioms Formalizations.Reusable.bass_determinant_commRing
 #print axioms Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight
 #print axioms Formalizations.Reusable.card_biUnion_submodular
 #print axioms Formalizations.Reusable.card_biUnion_union_inter_eq_of_tight
