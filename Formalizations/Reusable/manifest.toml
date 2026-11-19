@@ -573,5 +573,5 @@ classical_reference = "textbook (spectral theorem)"
 status = "reusable"
 role = "API"
 upstream_candidate = true
-upstream_reason = "Mathlib only has the square factorization posSemidef_iff_eq_conjTranspose_mul_self, not k = rank terms"
+upstream_reason = "Mathlib only has the square factorization posSemidef_iff_eq_conjTranspose_mul_self, not k = rank terms; the same statement as a factorization is in TauCeti (Matrix.PosSemidef.exists_eq_conjTranspose_mul_self_of_rank_le)"
 repo_dependencies = []

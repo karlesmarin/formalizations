@@ -184,7 +184,10 @@ theorem posSemidef_of_charpoly_alternating {V : Type*} [Fintype V] [DecidableEq 
 
 /-- **A positive semidefinite matrix of rank `k` is a sum of `k` squares.** Its quadratic form is a sum
 of exactly `k` squares of linear forms: `uᵀ A u = Σ_{i < k} (v_i · u)²`. Mathlib only factors a PSD
-matrix as `Bᴴ B` with `B` square; this keeps exactly `rank A` terms.
+matrix as `Bᴴ B` with `B` square; this keeps exactly `rank A` terms. The same statement, as a
+factorization `B = Aᴴ A` with `rank B ≤ card m` rows, is in TauCeti
+(`Matrix.PosSemidef.exists_eq_conjTranspose_mul_self_of_rank_le`, TauCeti/Analysis/Matrix/
+GramFactorization.lean); ours depends on Mathlib only.
 
 * Archive: `PosSemidefRankSquares.quadForm_eq_sum_sq`
   (`Formalizations.LinearAlgebra.Matrix.PosSemidefRankSquares`); a piece of the design table (artefact
