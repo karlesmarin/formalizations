@@ -55,3 +55,14 @@ example {n : Type*} [Fintype n] [DecidableEq n] (A : Matrix n n ℚ) :
     A.adjugate.trace = ∑ i : n, (A.submatrix ((↑) : {j // j ≠ i} → n) ((↑) : {j // j ≠ i} → n)).det := by
   rw [Matrix.trace]
   exact Finset.sum_congr rfl fun i _ => adjugate_apply_self_eq_det_principal_submatrix A i
+
+/-- A symmetric matrix with alternating characteristic polynomial is PSD (passes the hypothesis on). -/
+example (A : Matrix (Fin 2) (Fin 2) ℝ) (hA : A.IsSymm)
+    (h : ∀ k ≤ A.charpoly.natDegree, 0 ≤ (-1 : ℝ) ^ (A.charpoly.natDegree - k) * A.charpoly.coeff k) :
+    A.PosSemidef :=
+  posSemidef_of_charpoly_alternating hA h
+
+/-- A PSD matrix is a sum of `rank A` squares of linear forms. -/
+example (A : Matrix (Fin 3) (Fin 3) ℝ) (hA : A.PosSemidef) :
+    ∃ v : Fin A.rank → (Fin 3 → ℝ), ∀ u, u ⬝ᵥ (A *ᵥ u) = ∑ i, (v i ⬝ᵥ u) ^ 2 :=
+  psd_quadForm_eq_sum_rank_sq hA rfl

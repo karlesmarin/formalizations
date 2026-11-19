@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.3.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.4.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.3.0"
+version = "0.4.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -540,4 +540,38 @@ status = "reusable"
 role = "showcase"
 upstream_candidate = true
 upstream_reason = "a short congruence next to Mathlib.Combinatorics.Enumerative.Bell; the umbral proof would need its own small API"
+repo_dependencies = []
+
+[[entry]]
+id = "R0032"
+lean_name = "Formalizations.Reusable.posSemidef_of_charpoly_alternating"
+statement = "A real symmetric matrix whose characteristic polynomial has coefficients alternating in sign is positive semidefinite (the polynomial rule is a corollary of Descartes' rule of signs)."
+area = "LinearAlgebra"
+msc = "15B48"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.Analysis.Polynomial.RealRoots.AlternatingRoots"
+archive_decl = "AlternatingRoots.posSemidef_of_charpoly_alternating, AlternatingRoots.root_nonneg_of_alternating"
+paper = "none (piece of the design table, artefact P006)"
+classical_reference = "textbook (spectral theorem; Descartes' rule of signs, Mathlib RuleOfSigns)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has the rule of signs and posSemidef_iff_eigenvalues_nonneg but not the charpoly criterion"
+repo_dependencies = []
+
+[[entry]]
+id = "R0033"
+lean_name = "Formalizations.Reusable.psd_quadForm_eq_sum_rank_sq"
+statement = "The quadratic form of a real positive semidefinite matrix of rank k is a sum of exactly k squares of linear forms."
+area = "LinearAlgebra"
+msc = "15B48"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.PosSemidefRankSquares"
+archive_decl = "PosSemidefRankSquares.quadForm_eq_sum_sq, PosSemidefRankSquares.exists_sum_vecMulVec_self"
+paper = "none (piece of the design table, artefact P006)"
+classical_reference = "textbook (spectral theorem)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib only has the square factorization posSemidef_iff_eq_conjTranspose_mul_self, not k = rank terms"
 repo_dependencies = []

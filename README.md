@@ -6,7 +6,7 @@ Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/le
 organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
 results.
 
-- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.3.0`.
+- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.4.0`.
 - ✅ No `sorry`, no `native_decide`, no new axioms. All 2698 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
@@ -76,7 +76,7 @@ and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
    [[require]]
    name = "formalizations"
    git = "https://github.com/karlesmarin/formalizations"
-   rev = "v0.3.0"
+   rev = "v0.4.0"
    ```
 
 2. In a file of the project (here `Example.lean`), import the minimal module, the area of the theorem (column
@@ -151,7 +151,9 @@ commitment; Lake does not enforce it.
 | `matrix_rank_kronecker` 🆕 | `API` | `rank (A ⊗ₖ B) = rank A · rank B` over a field | `LinearAlgebra` | `Matrix.rank_kronecker` |
 | `adjugate_apply_self_eq_det_principal_submatrix` 🆕 | `API` | `adjugate A i i` is the principal minor of `A` without row and column `i` (any finite index type) | `LinearAlgebra` | `Matrix.adjugate_apply_self_eq_det_submatrix` |
 | `wolstenholme_choose_modEq` 🆕 | `showcase` | Wolstenholme: `C(2p − 1, p − 1) ≡ 1` and `C(2p, p) ≡ 2 (mod p³)` for primes `p ≥ 5` | `NumberTheory` | `Wolstenholme.choose_modEq` |
-| `touchard_bell_add_prime` 🆕 | `showcase` | Touchard: `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers and every prime `p` | `NumberTheory` | `Touchard.bell_add_prime` |
+| `posSemidef_of_charpoly_alternating` 🆕 | `API` | a real symmetric matrix with alternating characteristic polynomial is PSD (corollary of Descartes' rule of signs) | `LinearAlgebra` | `AlternatingRoots.posSemidef_of_charpoly_alternating` |
+| `psd_quadForm_eq_sum_rank_sq` 🆕 | `API` | the quadratic form of a PSD matrix of rank `k` is a sum of exactly `k` squares of linear forms | `LinearAlgebra` | `PosSemidefRankSquares.quadForm_eq_sum_sq` |
+| `touchard_bell_add_prime` | `showcase` | Touchard: `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers and every prime `p` | `NumberTheory` | `Touchard.bell_add_prime` |
 | `polya_redfield_card_mul_sum_orbit_weight` 🆕 | `showcase` | Pólya–Redfield: `\|G\| · Σ_orbits W` is the cycle index at the power sums of the colour weights | `GroupTheory` | `PolyaRedfield.card_mul_sum_orbit_weight` |
 | `card_biUnion_submodular` 🆕 | `API` | `s ↦ \|s.biUnion t\|` is submodular | `Combinatorics` | `Finset.card_biUnion_union_add_card_biUnion_inter_le` |
 | `card_biUnion_union_inter_eq_of_tight` 🆕 | `API` | Under Hall's condition, unions and intersections of tight sets are tight | `Combinatorics` | `Finset.card_biUnion_union_eq_card_union`, `Finset.card_biUnion_inter_eq_card_inter` |
@@ -418,7 +420,7 @@ commitment; Lake does not enforce it.
 | `Probability` | `Kemeny` 🆕 | Kemeny's constant: for a finite Markov chain with stationary `π` and finite hitting times, `Σ_t π_t m_st` does not depend on the start `s`. |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
 | | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
-| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry`, `NumberTheory` 🆕, `GroupTheory` 🆕 | The reusable layer v0.3.0: thirty general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
+| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry`, `NumberTheory` 🆕, `GroupTheory` 🆕 | The reusable layer v0.4.0: thirty-three general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
 | `RepresentationTheory` | `G2Counts` 🆕 | Divisibility counts of the six G2 positive-root values at q = 2, 3 (the arithmetic half of a character-vanishing corollary). |
 | `RepresentationTheory` | `SpinRhoLine` 🆕 | Product of sines `∏_{k=1}^{n-1} 2 sin(kπ/n) = n`; the spin values on the ρ-line, `∏_{j=1}^{m} 2 sin(jπ/(2m+1)) = √(2m+1)` (type B, also in cosine form) and `∏_{j=1}^{m-1} 2 sin(jπ/2m) = √m` (type D), each an integer iff `2m+1` (resp. `m`) is a square; the Dirichlet kernel and the index shift `sin((hq+r)π/q) = (−1)^h sin(rπ/q)`. The identification with the spin characters is not formalized. |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |

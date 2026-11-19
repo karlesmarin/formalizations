@@ -11,6 +11,8 @@ public import Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi
 public import Formalizations.LinearAlgebra.Matrix.Rank
 public import Formalizations.LinearAlgebra.Matrix.Rank.Kronecker
 public import Formalizations.LinearAlgebra.Matrix.Adjugate
+public import Formalizations.Analysis.Polynomial.RealRoots.AlternatingRoots
+public import Formalizations.LinearAlgebra.Matrix.PosSemidefRankSquares
 
 /-!
 # Reusable layer: linear algebra
@@ -161,5 +163,37 @@ theorem adjugate_apply_self_eq_det_principal_submatrix {n R : Type*} [Fintype n]
     [CommRing R] (A : Matrix n n R) (i : n) :
     adjugate A i i = (A.submatrix ((↑) : {j // j ≠ i} → n) ((↑) : {j // j ≠ i} → n)).det :=
   Matrix.adjugate_apply_self_eq_det_submatrix A i
+
+/-- **Alternating characteristic polynomial ⇒ positive semidefinite.** A real symmetric matrix whose
+characteristic polynomial has coefficients alternating in sign, `(-1)^(n-k) · c_k ≥ 0`, is positive
+semidefinite. The polynomial rule behind it (alternating coefficients ⇒ no negative root) is a corollary
+of Descartes' rule of signs in Mathlib (`Polynomial.roots_countP_pos_le_signVariations`).
+
+* Archive: `AlternatingRoots.posSemidef_of_charpoly_alternating`
+  (`Formalizations.Analysis.Polynomial.RealRoots.AlternatingRoots`); a piece of the design table
+  (artefact P006, SOS certificates); the module cites no paper DOI of ours.
+* Classical reference: textbook (spectral theorem; Descartes' rule of signs).
+* Example: an exact PSD check of a rational Gram matrix without pivoting: compute its
+  characteristic polynomial and read the signs. -/
+theorem posSemidef_of_charpoly_alternating {V : Type*} [Fintype V] [DecidableEq V]
+    {A : Matrix V V ℝ} (hA : A.IsSymm)
+    (halt : ∀ k ≤ A.charpoly.natDegree,
+      0 ≤ (-1 : ℝ) ^ (A.charpoly.natDegree - k) * A.charpoly.coeff k) :
+    A.PosSemidef :=
+  AlternatingRoots.posSemidef_of_charpoly_alternating hA halt
+
+/-- **A positive semidefinite matrix of rank `k` is a sum of `k` squares.** Its quadratic form is a sum
+of exactly `k` squares of linear forms: `uᵀ A u = Σ_{i < k} (v_i · u)²`. Mathlib only factors a PSD
+matrix as `Bᴴ B` with `B` square; this keeps exactly `rank A` terms.
+
+* Archive: `PosSemidefRankSquares.quadForm_eq_sum_sq`
+  (`Formalizations.LinearAlgebra.Matrix.PosSemidefRankSquares`); a piece of the design table (artefact
+  P006: a rational PSD Gram matrix of rank `k` certifies `k` REAL squares, not rational ones).
+* Classical reference: textbook (spectral theorem).
+* Example: the Gram matrix `!![1, 1; 1, 1]` (rank 1) of `(x + y)²` gives one square. -/
+theorem psd_quadForm_eq_sum_rank_sq {n : Type*} [Fintype n] [DecidableEq n] {A : Matrix n n ℝ}
+    (hA : A.PosSemidef) {k : ℕ} (hk : A.rank = k) :
+    ∃ v : Fin k → (n → ℝ), ∀ u, u ⬝ᵥ (A *ᵥ u) = ∑ i, (v i ⬝ᵥ u) ^ 2 :=
+  PosSemidefRankSquares.quadForm_eq_sum_sq hA hk
 
 end Formalizations.Reusable
