@@ -2706,3 +2706,6 @@ import Formalizations
 #print axioms HalfSystems.eq_zero_of_moments
 #print axioms HalfSystems.trichotomy
 #print axioms HalfSystems.moments_of_halfSystem
+#print axioms Matrix.rank_fromBlocks_diagonal
+#print axioms Matrix.rank_fromBlocks_of_isUnit₁₁
+#print axioms Matrix.posSemidef_rank_of_schur_eq_zero
