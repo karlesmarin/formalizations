@@ -2712,3 +2712,7 @@ import Formalizations
 #print axioms Matrix.rank_fromBlocks_diagonal
 #print axioms Matrix.rank_fromBlocks_of_isUnit₁₁
 #print axioms Matrix.posSemidef_rank_of_schur_eq_zero
+#print axioms BiquadraticSOS.dotProduct_mulVec_congr
+#print axioms BiquadraticSOS.P_mulVec_orthogonal
+#print axioms BiquadraticSOS.sos_transport
+#print axioms BiquadraticSOS.P_switching
