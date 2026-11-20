@@ -117,6 +117,7 @@ public import Formalizations.LinearAlgebra.Matrix.SchurCommuting
 public import Formalizations.LinearAlgebra.Matrix.PosSemidefRankSquares
 public import Formalizations.LinearAlgebra.Matrix.SchurRank
 public import Formalizations.LinearAlgebra.Matrix.BiquadraticOrthogonal
+public import Formalizations.LinearAlgebra.Matrix.IntOrthonormal
 public import Formalizations.LinearAlgebra.Eigenspace.JointInvolutions
 public import Formalizations.LinearAlgebra.PointwiseProductSpan
 public import Formalizations.LinearAlgebra.RootSystem.PHeight

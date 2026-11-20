@@ -2717,3 +2717,5 @@ import Formalizations
 #print axioms BiquadraticSOS.P_mulVec_orthogonal
 #print axioms BiquadraticSOS.sos_transport
 #print axioms BiquadraticSOS.P_switching
+#print axioms IntOrthonormal.eq_single_of_dotProduct_self_eq_one
+#print axioms IntOrthonormal.columns_of_transpose_mul_self
