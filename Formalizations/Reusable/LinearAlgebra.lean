@@ -15,6 +15,7 @@ public import Formalizations.Analysis.Polynomial.RealRoots.AlternatingRoots
 public import Formalizations.LinearAlgebra.Matrix.PosSemidefRankSquares
 public import Formalizations.LinearAlgebra.Matrix.SchurRank
 public import Formalizations.LinearAlgebra.Matrix.BiquadraticOrthogonal
+public import Formalizations.LinearAlgebra.Matrix.IntOrthonormal
 
 /-!
 # Reusable layer: linear algebra
@@ -25,6 +26,8 @@ copied). The modules imported here are general linear algebra; none is a paper o
 
 ## Main results
 
+* `Formalizations.Reusable.int_columns_of_transpose_mul_self`: the columns of an integer matrix
+  with `Aᵀ A = 1` are signed unit vectors in distinct rows (archive: `IntOrthonormal.columns_of_transpose_mul_self`).
 * `Formalizations.Reusable.biquadratic_sos_transport`: sums of squares of bilinear forms
   representing `P_H` transport to `P_{Dᵀ H D}` when `Dᵀ D = 1` (archive: `BiquadraticSOS.sos_transport`).
 * `Formalizations.Reusable.rank_fromBlocks_zero₂₁_le_card_add_rank`: the rank of
@@ -239,5 +242,23 @@ theorem biquadratic_sos_transport {R n ι : Type*} [CommRing R] [Fintype n] [Dec
     (h : ∀ x y, BiquadraticSOS.P H x y = ∑ i, (x ⬝ᵥ (B i *ᵥ y)) ^ 2) (x : Fin 2 → R) (y : n → R) :
     BiquadraticSOS.P (Dᵀ * H * D) x y = ∑ i, (x ⬝ᵥ ((B i * D) *ᵥ y)) ^ 2 :=
   BiquadraticSOS.sos_transport hD B h x y
+
+/-- **Integer orthonormal columns are signed unit vectors.** If an integer `m × n` matrix satisfies
+`Aᵀ A = 1`, then every column `j` is `± Pi.single (f j) 1` for an injective `f : n → m`: the nonzero
+entries of distinct columns lie in distinct rows. The one-vector case (an integer vector with
+`v ⬝ᵥ v = 1` is `± Pi.single i 1`) is `IntOrthonormal.eq_single_of_dotProduct_self_eq_one`. False over
+`ℚ`: `(3/5, 4/5)` has norm one.
+
+* Archive: `IntOrthonormal.columns_of_transpose_mul_self`
+  (`Formalizations.LinearAlgebra.Matrix.IntOrthonormal`; also
+  `IntOrthonormal.eq_single_of_dotProduct_self_eq_one`); a piece of the design table (first step of the
+  integer lengths of `P_H`, signed graphs).
+* Classical reference: textbook (sums of integer squares).
+* Example: the columns of `!![0, 1; -1, 0]` are `-e₁` and `e₀`. -/
+theorem int_columns_of_transpose_mul_self {m n : Type*} [Fintype m] [DecidableEq m] [Fintype n]
+    [DecidableEq n] {A : Matrix m n ℤ} (hA : Aᵀ * A = 1) :
+    ∃ f : n → m, Function.Injective f ∧
+      ∀ j, (fun i => A i j) = Pi.single (f j) 1 ∨ (fun i => A i j) = Pi.single (f j) (-1) :=
+  IntOrthonormal.columns_of_transpose_mul_self hA
 
 end Formalizations.Reusable

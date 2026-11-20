@@ -2695,6 +2695,7 @@ import Formalizations
 #print axioms Formalizations.Reusable.psd_quadForm_eq_sum_rank_sq
 #print axioms Formalizations.Reusable.rank_fromBlocks_of_isUnit₁₁
 #print axioms Formalizations.Reusable.biquadratic_sos_transport
+#print axioms Formalizations.Reusable.int_columns_of_transpose_mul_self
 #print axioms Formalizations.Reusable.godsil_gutman
 #print axioms Formalizations.Reusable.bass_determinant_commRing
 #print axioms Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight

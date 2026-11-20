@@ -78,3 +78,9 @@ example (H D : Matrix (Fin 3) (Fin 3) ℚ) (hD : Dᵀ * D = 1) (B : Fin 4 → Ma
     (h : ∀ x y, BiquadraticSOS.P H x y = ∑ i, (x ⬝ᵥ (B i *ᵥ y)) ^ 2) (x : Fin 2 → ℚ) (y : Fin 3 → ℚ) :
     BiquadraticSOS.P (Dᵀ * H * D) x y = ∑ i, (x ⬝ᵥ ((B i * D) *ᵥ y)) ^ 2 :=
   biquadratic_sos_transport hD B h x y
+
+/-- Integer orthonormal columns are signed unit vectors in distinct rows. -/
+example (A : Matrix (Fin 3) (Fin 2) ℤ) (hA : Aᵀ * A = 1) :
+    ∃ f : Fin 2 → Fin 3, Function.Injective f ∧
+      ∀ j, (fun i => A i j) = Pi.single (f j) 1 ∨ (fun i => A i j) = Pi.single (f j) (-1) :=
+  int_columns_of_transpose_mul_self hA

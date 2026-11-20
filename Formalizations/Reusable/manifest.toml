@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.6.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.7.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.6.0"
+version = "0.7.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -642,4 +642,21 @@ status = "reusable"
 role = "API"
 upstream_candidate = false
 upstream_reason = "about the specific biquadratic form P_H; the generic congruence of bilinear forms is in Mathlib/TauCeti"
+repo_dependencies = []
+
+[[entry]]
+id = "R0038"
+lean_name = "Formalizations.Reusable.int_columns_of_transpose_mul_self"
+statement = "If an integer m × n matrix A satisfies AᵀA = I, every column j is ±e_{f(j)} for an injective f : n → m (signed unit vectors in distinct rows); in particular an integer vector with v·v = 1 is ±e_i. False over ℚ."
+area = "LinearAlgebra"
+msc = "15B36"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.IntOrthonormal"
+archive_decl = "IntOrthonormal.columns_of_transpose_mul_self, IntOrthonormal.eq_single_of_dotProduct_self_eq_one"
+paper = "none (piece of the design table: integer lengths of P_H, signed graphs)"
+classical_reference = "textbook (sums of integer squares; signed permutation matrices)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has signed permutation matrices but not this characterization of integer matrices with orthonormal columns"
 repo_dependencies = []

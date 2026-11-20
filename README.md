@@ -6,7 +6,7 @@ Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/le
 organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
 results.
 
-- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.6.0`.
+- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.7.0`.
 - ✅ No `sorry`, no `native_decide`, no new axioms. All 2713 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
@@ -76,7 +76,7 @@ and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
    [[require]]
    name = "formalizations"
    git = "https://github.com/karlesmarin/formalizations"
-   rev = "v0.6.0"
+   rev = "v0.7.0"
    ```
 
 2. In a file of the project (here `Example.lean`), import the minimal module, the area of the theorem (column
@@ -155,6 +155,7 @@ commitment; Lake does not enforce it.
 | `godsil_gutman` 🆕 | 🏛️ `showcase` | Godsil–Gutman: the average characteristic polynomial over `±1` signings is the matching polynomial | 🧩 `Combinatorics` | `SimpleGraph.godsil_gutman` |
 | `bass_determinant_commRing` 🆕 | 🏛️ `showcase` | Bass's determinant formula for the Ihara zeta function over any commutative ring | 🧩 `Combinatorics` | `SimpleGraph.bass_determinant_commRing` |
 | `biquadratic_sos_transport` 🆕 | 🔌 `API` | sums of squares of bilinear forms representing `P_H` transport to `P_{Dᵀ H D}` when `Dᵀ D = 1` (signed switching: `D = diag(±1)`) | 🔢 `LinearAlgebra` | `BiquadraticSOS.sos_transport` |
+| `int_columns_of_transpose_mul_self` 🆕 | 🔌 `API` | the columns of an integer matrix with `Aᵀ A = 1` are signed unit vectors in distinct rows (`v ⬝ᵥ v = 1` over `ℤ` ⇒ `v = ±eᵢ`) | 🔢 `LinearAlgebra` | `IntOrthonormal.columns_of_transpose_mul_self` |
 | `posSemidef_of_charpoly_alternating` | 🔌 `API` | a real symmetric matrix with alternating characteristic polynomial is PSD (corollary of Descartes' rule of signs) | 🔢 `LinearAlgebra` | `AlternatingRoots.posSemidef_of_charpoly_alternating` |
 | `psd_quadForm_eq_sum_rank_sq` | 🔌 `API` | the quadratic form of a PSD matrix of rank `k` is a sum of exactly `k` squares of linear forms | 🔢 `LinearAlgebra` | `PosSemidefRankSquares.quadForm_eq_sum_sq` |
 | `touchard_bell_add_prime` | 🏛️ `showcase` | Touchard: `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers and every prime `p` | 🔣 `NumberTheory` | `Touchard.bell_add_prime` |
