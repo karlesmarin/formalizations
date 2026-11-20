@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session LengthsOneCore = "HOL-Analysis" +
+  options [timeout = 600]
+  theories
+    Lengths_One_Core

@@ -138,3 +138,6 @@
 "Isabelle/RealJump/Real_Jump_Locale.thy" = "Algebra/QuadraticForms"
 "Isabelle/LocalAuxSigns/Local_Aux_Locale.thy" = "Algebra/QuadraticForms"
 "Isabelle/LocalAuxSigns/Local_Aux_Model.thy" = "Algebra/QuadraticForms"
+"Isabelle/LengthsLocalCriterion/Lengths_Local_Criterion.thy" = "Algebra/QuadraticForms"
+"Isabelle/LengthsLocalCriterion/Lengths_Local_Model.thy" = "Algebra/QuadraticForms"
+"Isabelle/LengthsOneCore/Lengths_One_Core.thy" = "Algebra/QuadraticForms"
