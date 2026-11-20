@@ -1,0 +1,9 @@
+chapter Formalizations
+
+session LengthsPropTenUpper = "HOL-Analysis" +
+  options [timeout = 600]
+  sessions
+    "Jordan_Normal_Form"
+    "BenOr_Kozen_Reif"
+  theories
+    Prop_Ten_Upper

@@ -1,0 +1,8 @@
+chapter Formalizations
+
+session LengthsPropForestUpper = "HOL-Analysis" +
+  options [timeout = 900]
+  sessions
+    "Jordan_Normal_Form"
+  theories
+    Prop_Forest_Upper

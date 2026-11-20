@@ -1,0 +1,14 @@
+chapter Formalizations
+
+session RationalHilbertSymbol = "HOL-Number_Theory" +
+  options [timeout = 900]
+  theories
+    Rational_Hilbert_Symbol
+
+session LengthsExample610 in "LengthsExample610" = "HOL-Number_Theory" +
+  options [timeout = 900]
+  sessions
+    "Jordan_Normal_Form"
+    RationalHilbertSymbol
+  theories
+    Example_6_10

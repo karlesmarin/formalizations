@@ -1,0 +1,11 @@
+chapter Formalizations
+
+session LengthsPlaneRotations = "HOL-Analysis" +
+  options [timeout = 600]
+  theories
+    Rational_Plane_Rotations
+
+session LengthsPropAux in "LengthsPropAux" = LengthsPlaneRotations +
+  options [timeout = 900]
+  theories
+    Prop_Aux
