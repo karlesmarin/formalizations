@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.5.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.6.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.5.0"
+version = "0.6.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -625,4 +625,21 @@ status = "reusable"
 role = "showcase"
 upstream_candidate = false
 upstream_reason = "needs the Hashimoto matrix, not in Mathlib"
+repo_dependencies = []
+
+[[entry]]
+id = "R0037"
+lean_name = "Formalizations.Reusable.biquadratic_sos_transport"
+statement = "For P_H(x, y) = (x₀² + x₁²)(y·y) + 2x₀x₁(y·Hy) over a commutative ring and DᵀD = 1, every sum-of-squares representation of P_H by bilinear forms x·(B_i y) transports to one of P_{DᵀHD} by the forms B_i D (same number of squares); signed-graph switching is D = diag(s), s_i² = 1."
+area = "LinearAlgebra"
+msc = "15A63"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.BiquadraticOrthogonal"
+archive_decl = "BiquadraticSOS.sos_transport, BiquadraticSOS.P_mulVec_orthogonal, BiquadraticSOS.P_switching"
+paper = "none (piece of the design table: lengths of P_H, signed graphs)"
+classical_reference = "change of variables y ↦ Dy (textbook); the form P_H of Blekherman–Plaumann–Sinn–Vinzant and Hanselka–Sinn"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "about the specific biquadratic form P_H; the generic congruence of bilinear forms is in Mathlib/TauCeti"
 repo_dependencies = []

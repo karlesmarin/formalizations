@@ -14,6 +14,7 @@ public import Formalizations.LinearAlgebra.Matrix.Adjugate
 public import Formalizations.Analysis.Polynomial.RealRoots.AlternatingRoots
 public import Formalizations.LinearAlgebra.Matrix.PosSemidefRankSquares
 public import Formalizations.LinearAlgebra.Matrix.SchurRank
+public import Formalizations.LinearAlgebra.Matrix.BiquadraticOrthogonal
 
 /-!
 # Reusable layer: linear algebra
@@ -24,6 +25,8 @@ copied). The modules imported here are general linear algebra; none is a paper o
 
 ## Main results
 
+* `Formalizations.Reusable.biquadratic_sos_transport`: sums of squares of bilinear forms
+  representing `P_H` transport to `P_{Dᵀ H D}` when `Dᵀ D = 1` (archive: `BiquadraticSOS.sos_transport`).
 * `Formalizations.Reusable.rank_fromBlocks_zero₂₁_le_card_add_rank`: the rank of
   `fromBlocks A B 0 D` is at most the number of rows of `A` plus the rank of `D` (archive:
   `Matrix.rank_fromBlocks_zero₂₁_le_right`).
@@ -217,5 +220,24 @@ theorem rank_fromBlocks_of_isUnit₁₁ {m n K : Type*} [Fintype m] [Fintype n] 
     (D : Matrix n n K) (hA : IsUnit A) :
     (fromBlocks A B C D).rank = Fintype.card m + (D - C * A⁻¹ * B).rank :=
   Matrix.rank_fromBlocks_of_isUnit₁₁ A B C D hA
+
+/-- **Sums of squares of bilinear forms under orthogonal congruence.** For the biquadratic form
+`P_H(x, y) = (x₀² + x₁²) (y ⬝ᵥ y) + 2 x₀ x₁ (y ⬝ᵥ H y)` over a commutative ring and `Dᵀ D = 1`,
+every representation `P_H = ∑ i (x ⬝ᵥ B i y)²` gives `P_{Dᵀ H D} = ∑ i (x ⬝ᵥ (B i D) y)²` with the same
+number of squares; so the sum-of-squares length of `P_H` is invariant under `H ↦ Dᵀ H D` (signed-graph
+switching is `D = diagonal s`, `s i² = 1`: `BiquadraticSOS.P_switching`).
+
+* Archive: `BiquadraticSOS.sos_transport` (`Formalizations.LinearAlgebra.Matrix.BiquadraticOrthogonal`;
+  also `BiquadraticSOS.P_mulVec_orthogonal`, `BiquadraticSOS.P_switching`); a piece of the design
+  table (lengths of `P_H`, signed graphs).
+* Classical reference: change of variables `y ↦ D y` (textbook); the form `P_H` is that of
+  Blekherman–Plaumann–Sinn–Vinzant and Hanselka–Sinn.
+* Example: with `D = diagonal ![1, -1]` the two-square representation of `P_H` transports to one of
+  `P_{D H D}`. -/
+theorem biquadratic_sos_transport {R n ι : Type*} [CommRing R] [Fintype n] [DecidableEq n]
+    [Fintype ι] {H D : Matrix n n R} (hD : Dᵀ * D = 1) (B : ι → Matrix (Fin 2) n R)
+    (h : ∀ x y, BiquadraticSOS.P H x y = ∑ i, (x ⬝ᵥ (B i *ᵥ y)) ^ 2) (x : Fin 2 → R) (y : n → R) :
+    BiquadraticSOS.P (Dᵀ * H * D) x y = ∑ i, (x ⬝ᵥ ((B i * D) *ᵥ y)) ^ 2 :=
+  BiquadraticSOS.sos_transport hD B h x y
 
 end Formalizations.Reusable

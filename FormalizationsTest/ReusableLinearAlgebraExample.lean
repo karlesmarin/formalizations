@@ -72,3 +72,9 @@ example (A : Matrix (Fin 1) (Fin 1) ℚ) (hA : IsUnit A) (B : Matrix (Fin 1) (Fi
     (C : Matrix (Fin 2) (Fin 1) ℚ) (D : Matrix (Fin 2) (Fin 2) ℚ) :
     (fromBlocks A B C D).rank = 1 + (D - C * A⁻¹ * B).rank := by
   simpa using Formalizations.Reusable.rank_fromBlocks_of_isUnit₁₁ A B C D hA
+
+/-- Sums of squares of bilinear forms transport under an orthogonal change `H ↦ Dᵀ H D`. -/
+example (H D : Matrix (Fin 3) (Fin 3) ℚ) (hD : Dᵀ * D = 1) (B : Fin 4 → Matrix (Fin 2) (Fin 3) ℚ)
+    (h : ∀ x y, BiquadraticSOS.P H x y = ∑ i, (x ⬝ᵥ (B i *ᵥ y)) ^ 2) (x : Fin 2 → ℚ) (y : Fin 3 → ℚ) :
+    BiquadraticSOS.P (Dᵀ * H * D) x y = ∑ i, (x ⬝ᵥ ((B i * D) *ᵥ y)) ^ 2 :=
+  biquadratic_sos_transport hD B h x y

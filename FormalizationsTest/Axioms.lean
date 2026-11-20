@@ -2694,6 +2694,7 @@ import Formalizations
 #print axioms Formalizations.Reusable.posSemidef_of_charpoly_alternating
 #print axioms Formalizations.Reusable.psd_quadForm_eq_sum_rank_sq
 #print axioms Formalizations.Reusable.rank_fromBlocks_of_isUnit₁₁
+#print axioms Formalizations.Reusable.biquadratic_sos_transport
 #print axioms Formalizations.Reusable.godsil_gutman
 #print axioms Formalizations.Reusable.bass_determinant_commRing
 #print axioms Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight
