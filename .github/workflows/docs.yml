@@ -63,6 +63,11 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/
+      # The deploy step used to query the artifact about 10 ms after the upload finalized and found none
+      # ("Fetching artifact metadata failed"); a short pause lets the artifact API catch up.
+      - name: Wait for the artifact to be visible
+        if: github.event_name == 'push'
+        run: sleep 30
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push'
         uses: actions/deploy-pages@v4
