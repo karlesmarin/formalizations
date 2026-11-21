@@ -55,3 +55,34 @@ example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRe
       = (1 - (2 : ℤ) ^ 2) ^ G.edgeFinset.card
         * (1 - (2 : ℤ) • G.adjMatrix ℤ + (2 : ℤ) ^ 2 • (G.degMatrix ℤ - 1)).det :=
   bass_determinant_commRing G ℤ 2
+
+/-- Brégman for a `2 × 2` `(0,1)`-matrix. -/
+example (A : Matrix (Fin 2) (Fin 2) ℕ) (hA : ∀ i j, A i j ≤ 1) :
+    (A.permanent : ℝ) ≤ ∏ i, (((∑ j, A i j).factorial : ℕ) : ℝ) ^ ((1 : ℝ) / (∑ j, A i j : ℕ)) :=
+  bregman_permanent_le 2 A hA
+
+/-- De Bruijn–Erdős: locally 3-colourable graphs on `ℕ` are 3-colourable. -/
+example (G : SimpleGraph ℕ) (h : ∀ s : Finset ℕ, (G.induce (↑s : Set ℕ)).Colorable 3) :
+    G.Colorable 3 :=
+  (colorable_iff_forall_finite_induce G 3).2 h
+
+/-- Bruck–Ryser–Chowla: no finite projective plane has order `6` (`6 ≡ 2 mod 4`, `6` is not a sum of two
+squares). -/
+example (P L : Type*) [Membership P L] [Configuration.ProjectivePlane P L] [Finite P] [Finite L] :
+    Configuration.ProjectivePlane.order P L ≠ 6 := by
+  intro h6
+  obtain ⟨a, b, hab⟩ := bruck_ryser_chowla P L (Or.inr (by rw [h6]))
+  rw [h6] at hab
+  have ha : a ≤ 2 := by nlinarith
+  have hb : b ≤ 2 := by nlinarith
+  interval_cases a <;> interval_cases b <;> omega
+
+/-- The empty set is independent in the transversal matroid of any family. -/
+example (A : Fin 2 → Finset ℕ) : (Theorems.TransversalMatroid.transversalMatroid A).Indep
+    ((∅ : Finset ℕ) : Set ℕ) :=
+  (transversalMatroid_indep A ∅).2 (Theorems.TransversalMatroid.partialTransversal_empty A)
+
+/-- The oriented incidence matrix factors the Laplacian of a graph on `Fin 3` over `ℤ`. -/
+example (G : SimpleGraph (Fin 3)) [DecidableRel G.Adj] :
+    G.orientedIncMatrix ℤ * (G.orientedIncMatrix ℤ).transpose = G.lapMatrix ℤ :=
+  orientedIncMatrix_mul_transpose ℤ G

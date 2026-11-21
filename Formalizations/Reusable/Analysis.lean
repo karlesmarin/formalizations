@@ -10,6 +10,7 @@ public import Formalizations.Analysis.Polynomial.EnestromKakeya
 public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
 public import Formalizations.RepresentationTheory.SpinRhoLine
 public import Formalizations.Reusable.Polynomial
+public import Formalizations.Analysis.InnerProductSpace.Hlawka
 
 /-!
 # Reusable layer: analysis
@@ -24,6 +25,8 @@ under the same name.
 
 ## Main results
 
+* `Formalizations.Reusable.hlawka_generalised`: the generalised Hlawka inequality for `n ≥ 3` vectors of a real
+  inner product space (archive: `Hlawka.generalised`).
 * `Formalizations.Reusable.airy_eq_zeros_unbounded_below`: every solution of `y'' = x y` has zeros
   unbounded below (archive: `Airy.sturm_unbounded_zeros`).
 * `Formalizations.Reusable.glasser_integral`: `∫_{v>0} v^{-1/2} e^{-a/v - b v} dv = √(π/b) e^{-2√(ab)}`
@@ -104,5 +107,23 @@ theorem enestrom_kakeya_ne_zero {n : ℕ} (a : ℕ → ℝ) (hpos : ∀ k ≤ n,
     (hmono : ∀ k, k < n → a (k + 1) ≤ a k) {z : ℂ} (hz : ‖z‖ < 1) :
     ∑ k ∈ Finset.range (n + 1), (a k : ℂ) * z ^ k ≠ 0 :=
   Dilog.enestrom_kakeya a hpos hmono hz
+
+
+/-- **Generalised Hlawka inequality (Djoković 1963; Smiley–Smiley 1964).** For `n ≥ 3` vectors of a real
+inner product space, write `d_k` for the sum of the norms of all `k`-element subsums. Then
+`d_2 + ⋯ + d_{n-1} ≤ (2^(n-2) - 1) (d_1 + d_n)`. For `n = 3` this is Hlawka's inequality
+`‖x+y‖ + ‖y+z‖ + ‖z+x‖ ≤ ‖x‖ + ‖y‖ + ‖z‖ + ‖x+y+z‖`.
+
+* Archive: `Hlawka.generalised` (`Formalizations.Analysis.InnerProductSpace.Hlawka`; the case `n = 3` is
+  `Hlawka.norm_add_add_le`); the module cites no paper DOI of ours.
+* Classical reference: D. Ž. Djoković, *Generalizations of Hlawka's inequality*, Glasnik Mat.-Fiz. Astronom.
+  18 (1963) 169–175; D. M. Smiley, M. F. Smiley, *The polygonal inequalities*, Amer. Math. Monthly 71 (1964)
+  755–760.
+* Example: four vectors of `ℝ`, `n = 4`: `d_2 + d_3 ≤ 3 (d_1 + d_4)`. -/
+theorem hlawka_generalised {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
+    (hn : 3 ≤ n) (x : Fin n → E) :
+    ∑ k ∈ Finset.Icc 2 (n - 1), ∑ S ∈ (Finset.univ : Finset (Fin n)).powersetCard k, ‖∑ i ∈ S, x i‖
+      ≤ (2 ^ (n - 2) - 1 : ℝ) * (∑ i, ‖x i‖ + ‖∑ i, x i‖) :=
+  Hlawka.generalised hn x
 
 end Formalizations.Reusable

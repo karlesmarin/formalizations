@@ -11,6 +11,11 @@ public import Formalizations.Combinatorics.Hall.Tight
 public import Formalizations.Combinatorics.SetFamily.Bondy
 public import Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.GodsilGutman
 public import Formalizations.Combinatorics.SimpleGraph.Ihara.BassCommRing
+public import Formalizations.Combinatorics.Permanent.Bregman
+public import Formalizations.Combinatorics.SimpleGraph.Coloring.DeBruijnErdos
+public import Formalizations.Combinatorics.Configuration.BruckRyserChowla
+public import Formalizations.Combinatorics.Matroid.Transversal
+public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
 
 /-!
 # Reusable layer: combinatorics and number theory
@@ -21,6 +26,16 @@ for Kirchhoff's matrix-tree theorem. Each theorem is proved by the archive theor
 
 ## Main results
 
+* `Formalizations.Reusable.bregman_permanent_le`: Brégman's theorem, `per A ≤ ∏ᵢ (rᵢ!)^(1/rᵢ)` for `(0,1)`-matrices
+  (archive: `Bregman.permanent_le`).
+* `Formalizations.Reusable.colorable_iff_forall_finite_induce`: the de Bruijn–Erdős colouring theorem (archive:
+  `SimpleGraph.colorable_iff_forall_finite_induce`).
+* `Formalizations.Reusable.bruck_ryser_chowla`: a projective plane of order `n ≡ 1, 2 (mod 4)` forces `n` to be a
+  sum of two squares (archive: `BruckRyserChowla.exists_sq_add_sq`).
+* `Formalizations.Reusable.transversalMatroid_indep`: the independent sets of a transversal matroid are the partial
+  transversals (archive: `Theorems.TransversalMatroid.transversalMatroid_indep`).
+* `Formalizations.Reusable.orientedIncMatrix_mul_transpose`: `N Nᵀ = D - A` for the oriented incidence matrix
+  (archive: `SimpleGraph.orientedIncMatrix_mul_transpose`).
 * `Formalizations.Reusable.pomerance_density_add_dvd_centralBinom`: for every `k ≥ 1`, the
   proportion of `n < x` with `n + k ∣ C(2n, n)` tends to `1` (archive:
   `MiddleBinomial.tendsto_density_add_dvd_centralBinom`).
@@ -170,5 +185,80 @@ theorem bass_determinant_commRing {V : Type*} [Fintype V] [DecidableEq V] (G : S
       = (1 - u ^ 2) ^ G.edgeFinset.card
         * (1 - u • G.adjMatrix R + u ^ 2 • (G.degMatrix R - 1)).det :=
   G.bass_determinant_commRing R u
+
+
+/-- **Brégman's theorem (Minc's conjecture).** For an `n × n` `(0,1)`-matrix `A` with row sums
+`rᵢ = Σⱼ A i j`, the permanent satisfies `per A ≤ ∏ᵢ (rᵢ!)^(1/rᵢ)`. A zero row makes `per A = 0`, and with
+`1/0 = 0` its factor is `(0!)^0 = 1`, so no non-zero-row hypothesis is needed.
+
+* Archive: `Bregman.permanent_le` (`Formalizations.Combinatorics.Permanent.Bregman`; the logarithmic form is
+  `Bregman.log_bound`); the module cites no paper DOI of ours.
+* Classical reference: L. M. Brégman, *Some properties of nonnegative matrices and their permanents*, Soviet
+  Math. Dokl. 14 (1973) 945–949; A. Schrijver, *A short proof of Minc's conjecture*, J. Combin. Theory Ser. A
+  25 (1978) 80–83.
+* Example: a `2 × 2` `(0,1)`-matrix. -/
+theorem bregman_permanent_le (n : ℕ) (A : Matrix (Fin n) (Fin n) ℕ) (hA : ∀ i j, A i j ≤ 1) :
+    (A.permanent : ℝ) ≤ ∏ i, (((∑ j, A i j).factorial : ℕ) : ℝ) ^ ((1 : ℝ) / (∑ j, A i j : ℕ)) :=
+  Bregman.permanent_le n A hA
+
+/-- **De Bruijn–Erdős colouring theorem.** A graph `G` is `n`-colourable iff every finite induced subgraph is
+`n`-colourable (no finiteness hypothesis on the vertex type).
+
+* Archive: `SimpleGraph.colorable_iff_forall_finite_induce`
+  (`Formalizations.Combinatorics.SimpleGraph.Coloring.DeBruijnErdos`, by Rado's selection lemma).
+* Classical reference: N. G. de Bruijn, P. Erdős, *A colour problem for infinite graphs and a problem in the
+  theory of relations*, Indag. Math. 54 (1951) 371–373.
+* Example: a graph on `ℕ` all of whose finite induced subgraphs are 3-colourable is 3-colourable. -/
+theorem colorable_iff_forall_finite_induce {V : Type*} (G : SimpleGraph V) (n : ℕ) :
+    G.Colorable n ↔ ∀ s : Finset V, (G.induce (↑s : Set V)).Colorable n :=
+  SimpleGraph.colorable_iff_forall_finite_induce G n
+
+/-- **Bruck–Ryser–Chowla theorem.** If a finite projective plane of order `n` exists and `n ≡ 1` or `2 (mod 4)`,
+then `n` is a sum of two squares (so there is no plane of order `6` or `14`).
+
+* Archive: `BruckRyserChowla.exists_sq_add_sq`
+  (`Formalizations.Combinatorics.Configuration.BruckRyserChowla`); the module cites no paper DOI of ours.
+* Classical reference: R. H. Bruck, H. J. Ryser, *The nonexistence of certain finite projective planes*,
+  Canad. J. Math. 1 (1949) 88–93; S. Chowla, H. J. Ryser, *Combinatorial problems*, Canad. J. Math. 2 (1950)
+  93–99.
+* Example: no finite projective plane has order `6`. -/
+theorem bruck_ryser_chowla (P L : Type*) [Membership P L] [Configuration.ProjectivePlane P L] [Finite P]
+    [Finite L]
+    (h : Configuration.ProjectivePlane.order P L % 4 = 1 ∨
+      Configuration.ProjectivePlane.order P L % 4 = 2) :
+    ∃ a b : ℕ, Configuration.ProjectivePlane.order P L = a ^ 2 + b ^ 2 :=
+  BruckRyserChowla.exists_sq_add_sq P L h
+
+/-- **Transversal matroids.** For a finite family `A : Fin t → Finset α` of sets, the independent finite sets of
+the transversal matroid presented by `A` are exactly the partial transversals of `A` (the sets `I` admitting an
+injection `I → Fin t` with `x ∈ A (f x)`). By Hall's theorem (`partialTransversal_iff_hall` in the archive) these
+are the `I` with `|S| ≤ |⋃_{x ∈ S} {i | x ∈ A i}|` for all `S ⊆ I`.
+
+* Archive: `Theorems.TransversalMatroid.transversalMatroid_indep`, with the definition
+  `Theorems.TransversalMatroid.transversalMatroid` and the Hall characterization
+  `Theorems.TransversalMatroid.partialTransversal_iff_hall`
+  (`Formalizations.Combinatorics.Matroid.Transversal`); the module cites no paper DOI of ours.
+* Classical reference: J. Edmonds, D. R. Fulkerson, *Transversals and matroid partition*, J. Res. Nat. Bur.
+  Standards 69B (1965) 147–153; J. Oxley, *Matroid Theory* (2nd ed., 2011), §1.6.
+* Example: the empty set is independent in every transversal matroid. -/
+theorem transversalMatroid_indep {α : Type*} [DecidableEq α] {t : Nat} (A : Fin t → Finset α)
+    (I : Finset α) :
+    (Theorems.TransversalMatroid.transversalMatroid A).Indep (I : Set α) ↔
+      Theorems.TransversalMatroid.IsPartialTransversal A I :=
+  Theorems.TransversalMatroid.transversalMatroid_indep A I
+
+/-- **Laplacian factorization.** The Gram matrix of the oriented incidence matrix of a finite simple graph on a
+linearly ordered vertex type is the graph Laplacian: `N * Nᵀ = D - A` (Mathlib's `SimpleGraph.lapMatrix`), over
+any ring. The unoriented incidence matrix gives `D + A` instead.
+
+* Archive: `SimpleGraph.orientedIncMatrix_mul_transpose`
+  (`Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix`); the module cites no paper DOI of ours.
+* Classical reference: N. Biggs, *Algebraic Graph Theory* (2nd ed., 1993), ch. 4; C. Godsil, G. Royle,
+  *Algebraic Graph Theory* (2001), §8.3 (oriented incidence matrix) and §13.1 (the Laplacian).
+* Example: a graph on `Fin 3` over `ℤ`. -/
+theorem orientedIncMatrix_mul_transpose (R : Type*) [Ring R] {α : Type*} [Fintype α] [LinearOrder α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] :
+    G.orientedIncMatrix R * (G.orientedIncMatrix R).transpose = G.lapMatrix R :=
+  G.orientedIncMatrix_mul_transpose (R := R)
 
 end Formalizations.Reusable

@@ -18,3 +18,9 @@ example (p : ℕ) [Fact p.Prime] : ((p.bell : ℕ) : ZMod p) = 2 := by
   have h := touchard_bell_add_prime p 0
   simp only [zero_add, Nat.bell_zero, Nat.bell_one, Nat.cast_one] at h
   rw [h]; norm_num
+
+/-- Dedekind reciprocity at `h = k = 1`: `s(1, 1) + s(1, 1) = 0`. -/
+example : DedekindSum.ded 1 1 + DedekindSum.ded 1 1 = 0 := by
+  have h := ded_reciprocity (h := 1) (k := 1) (by norm_num) one_pos one_pos
+  norm_num at h
+  rw [h]; norm_num

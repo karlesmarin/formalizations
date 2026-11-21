@@ -16,6 +16,7 @@ public import Formalizations.LinearAlgebra.Matrix.PosSemidefRankSquares
 public import Formalizations.LinearAlgebra.Matrix.SchurRank
 public import Formalizations.LinearAlgebra.Matrix.BiquadraticOrthogonal
 public import Formalizations.LinearAlgebra.Matrix.IntOrthonormal
+public import Formalizations.LinearAlgebra.Matrix.SchurCommuting
 
 /-!
 # Reusable layer: linear algebra
@@ -26,6 +27,8 @@ copied). The modules imported here are general linear algebra; none is a paper o
 
 ## Main results
 
+* `Formalizations.Reusable.schur_commuting_finrank_le`: a commutative subspace of `M_n(K)` has dimension
+  `≤ n² / 4 + 1` (archive: `SchurCommuting.finrank_le`).
 * `Formalizations.Reusable.int_columns_of_transpose_mul_self`: the columns of an integer matrix
   with `Aᵀ A = 1` are signed unit vectors in distinct rows (archive: `IntOrthonormal.columns_of_transpose_mul_self`).
 * `Formalizations.Reusable.biquadratic_sos_transport`: sums of squares of bilinear forms
@@ -260,5 +263,21 @@ theorem int_columns_of_transpose_mul_self {m n : Type*} [Fintype m] [DecidableEq
     ∃ f : n → m, Function.Injective f ∧
       ∀ j, (fun i => A i j) = Pi.single (f j) 1 ∨ (fun i => A i j) = Pi.single (f j) (-1) :=
   IntOrthonormal.columns_of_transpose_mul_self hA
+
+
+/-- **Schur's bound on commutative subspaces.** A subspace `S` of `M_n(K)` over a field `K` whose elements
+pairwise commute has `dim S ≤ ⌊n² / 4⌋ + 1`. The bound is attained for `n ≥ 1`
+(`SchurCommuting.finrank_le_and_attained`).
+
+* Archive: `SchurCommuting.finrank_le` (`Formalizations.LinearAlgebra.Matrix.SchurCommuting`; the sharpness is
+  `SchurCommuting.finrank_le_and_attained`); the module cites no paper DOI of ours.
+* Classical reference: I. Schur, *Zur Theorie der vertauschbaren Matrizen*, J. Reine Angew. Math. 130 (1905) 66–76
+  66–76; N. Jacobson, *Schur's theorems on commutative matrices*, Bull. Amer. Math. Soc. 50 (1944) 431–436;
+  M. Mirzakhani, *A simple proof of a theorem of Schur*, Amer. Math. Monthly 105 (1998) 260–262.
+* Example: a commutative subspace of `M₂(ℚ)` has dimension at most `2`. -/
+theorem schur_commuting_finrank_le {K : Type*} [Field K] {n : ℕ}
+    (S : Submodule K (Matrix (Fin n) (Fin n) K)) (hS : ∀ A ∈ S, ∀ B ∈ S, A * B = B * A) :
+    Module.finrank K S ≤ n ^ 2 / 4 + 1 :=
+  SchurCommuting.finrank_le S hS
 
 end Formalizations.Reusable

@@ -2696,6 +2696,14 @@ import Formalizations
 #print axioms Formalizations.Reusable.rank_fromBlocks_of_isUnit₁₁
 #print axioms Formalizations.Reusable.biquadratic_sos_transport
 #print axioms Formalizations.Reusable.int_columns_of_transpose_mul_self
+#print axioms Formalizations.Reusable.hlawka_generalised
+#print axioms Formalizations.Reusable.bregman_permanent_le
+#print axioms Formalizations.Reusable.colorable_iff_forall_finite_induce
+#print axioms Formalizations.Reusable.schur_commuting_finrank_le
+#print axioms Formalizations.Reusable.bruck_ryser_chowla
+#print axioms Formalizations.Reusable.transversalMatroid_indep
+#print axioms Formalizations.Reusable.ded_reciprocity
+#print axioms Formalizations.Reusable.orientedIncMatrix_mul_transpose
 #print axioms Formalizations.Reusable.godsil_gutman
 #print axioms Formalizations.Reusable.bass_determinant_commRing
 #print axioms Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight

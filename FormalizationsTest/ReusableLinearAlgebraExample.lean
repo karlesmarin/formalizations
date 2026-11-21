@@ -84,3 +84,8 @@ example (A : Matrix (Fin 3) (Fin 2) ℤ) (hA : Aᵀ * A = 1) :
     ∃ f : Fin 2 → Fin 3, Function.Injective f ∧
       ∀ j, (fun i => A i j) = Pi.single (f j) 1 ∨ (fun i => A i j) = Pi.single (f j) (-1) :=
   int_columns_of_transpose_mul_self hA
+
+/-- Schur: a commutative subspace of `M₂(ℚ)` has dimension at most `2`. -/
+example (S : Submodule ℚ (Matrix (Fin 2) (Fin 2) ℚ)) (hS : ∀ A ∈ S, ∀ B ∈ S, A * B = B * A) :
+    Module.finrank ℚ S ≤ 2 := by
+  simpa using schur_commuting_finrank_le S hS

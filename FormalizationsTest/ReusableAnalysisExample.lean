@@ -33,3 +33,9 @@ example {z : ℂ} (hz : ‖z‖ < 1) : (1 : ℂ) + z / 2 + z ^ 2 / 3 ≠ 0 := by
   simp only [Finset.sum_range_succ, Finset.sum_range_zero]
   push_cast
   ring
+
+/-- Generalised Hlawka for `n = 4` vectors of `ℝ`: `d₂ + d₃ ≤ 3 (d₁ + d₄)`. -/
+example (x : Fin 4 → ℝ) :
+    ∑ k ∈ Finset.Icc 2 (4 - 1), ∑ S ∈ (Finset.univ : Finset (Fin 4)).powersetCard k, ‖∑ i ∈ S, x i‖
+      ≤ (2 ^ (4 - 2) - 1 : ℝ) * (∑ i, ‖x i‖ + ‖∑ i, x i‖) :=
+  hlawka_generalised (by norm_num) x

@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.7.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.8.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.7.0"
+version = "0.8.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -659,4 +659,140 @@ status = "reusable"
 role = "API"
 upstream_candidate = true
 upstream_reason = "Mathlib has signed permutation matrices but not this characterization of integer matrices with orthonormal columns"
+repo_dependencies = []
+
+[[entry]]
+id = "R0039"
+lean_name = "Formalizations.Reusable.hlawka_generalised"
+statement = "Generalised Hlawka inequality: for n ≥ 3 vectors of a real inner product space, with d_k the sum of the norms of all k-element subsums, d_2 + ⋯ + d_{n-1} ≤ (2^(n-2) − 1)(d_1 + d_n); n = 3 is Hlawka's ‖x+y‖+‖y+z‖+‖z+x‖ ≤ ‖x‖+‖y‖+‖z‖+‖x+y+z‖."
+area = "Analysis"
+msc = "26D15"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Analysis.InnerProductSpace.Hlawka"
+archive_decl = "Hlawka.generalised, Hlawka.norm_add_add_le"
+paper = "none"
+classical_reference = "D. Ž. Djoković, Generalizations of Hlawka's inequality, Glasnik Mat.-Fiz. Astronom. 18 (1963); D. M. Smiley, M. F. Smiley, The polygonal inequalities, Amer. Math. Monthly 71 (1964)"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "Mathlib has no Hlawka-type inequality"
+repo_dependencies = []
+
+[[entry]]
+id = "R0040"
+lean_name = "Formalizations.Reusable.bregman_permanent_le"
+statement = "Brégman's theorem (Minc's conjecture): for an n × n (0,1)-matrix A with row sums r_i, per A ≤ ∏ (r_i!)^(1/r_i); zero rows allowed (factor 1)."
+area = "Combinatorics"
+msc = "15A15"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.Permanent.Bregman"
+archive_decl = "Bregman.permanent_le, Bregman.log_bound"
+paper = "none"
+classical_reference = "L. M. Brégman, Some properties of nonnegative matrices and their permanents, Soviet Math. Dokl. 14 (1973); A. Schrijver, A short proof of Minc's conjecture, J. Combin. Theory Ser. A 25 (1978)"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "uses Mathlib's Matrix.permanent; the entropy-free fibre-counting proof is long and specific"
+repo_dependencies = []
+
+[[entry]]
+id = "R0041"
+lean_name = "Formalizations.Reusable.colorable_iff_forall_finite_induce"
+statement = "De Bruijn–Erdős: a graph G is n-colourable iff every finite induced subgraph is n-colourable (no finiteness hypothesis on the vertex type)."
+area = "Combinatorics"
+msc = "05C15"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.Coloring.DeBruijnErdos"
+archive_decl = "SimpleGraph.colorable_iff_forall_finite_induce"
+paper = "none"
+classical_reference = "N. G. de Bruijn, P. Erdős, A colour problem for infinite graphs and a problem in the theory of relations, Indag. Math. 54 (1951)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has no compactness theorem for graph colouring"
+repo_dependencies = []
+
+[[entry]]
+id = "R0042"
+lean_name = "Formalizations.Reusable.schur_commuting_finrank_le"
+statement = "Schur's bound: a subspace of M_n(K) over a field K whose elements pairwise commute has dimension ≤ ⌊n²/4⌋ + 1 (attained for n ≥ 1)."
+area = "LinearAlgebra"
+msc = "15A27"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.SchurCommuting"
+archive_decl = "SchurCommuting.finrank_le, SchurCommuting.finrank_le_and_attained"
+paper = "none"
+classical_reference = "I. Schur, Zur Theorie der vertauschbaren Matrizen, J. Reine Angew. Math. 130 (1905) 66–76; N. Jacobson, Schur's theorems on commutative matrices, Bull. AMS 50 (1944); M. Mirzakhani, A simple proof of a theorem of Schur, Amer. Math. Monthly 105 (1998)"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "no Mathlib counterpart; a specific extremal bound"
+repo_dependencies = []
+
+[[entry]]
+id = "R0043"
+lean_name = "Formalizations.Reusable.bruck_ryser_chowla"
+statement = "Bruck–Ryser–Chowla: if a finite projective plane of order n exists and n ≡ 1 or 2 (mod 4), then n is a sum of two squares (so no plane of order 6 or 14)."
+area = "Combinatorics"
+msc = "51E15"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.Configuration.BruckRyserChowla"
+archive_decl = "BruckRyserChowla.exists_sq_add_sq"
+paper = "none"
+classical_reference = "R. H. Bruck, H. J. Ryser, The nonexistence of certain finite projective planes, Canad. J. Math. 1 (1949); S. Chowla, H. J. Ryser, Combinatorial problems, Canad. J. Math. 2 (1950)"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "uses Mathlib's Configuration.ProjectivePlane; a specific theorem of finite geometry, not a general API"
+repo_dependencies = []
+
+[[entry]]
+id = "R0044"
+lean_name = "Formalizations.Reusable.transversalMatroid_indep"
+statement = "For a finite family A : Fin t → Finset α, the independent finite sets of the transversal matroid presented by A are exactly the partial transversals of A (by Hall, the I with |S| ≤ |⋃_{x∈S} {i | x ∈ A i}| for all S ⊆ I)."
+area = "Combinatorics"
+msc = "05B35"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.Matroid.Transversal"
+archive_decl = "Theorems.TransversalMatroid.transversalMatroid_indep, Theorems.TransversalMatroid.transversalMatroid, Theorems.TransversalMatroid.partialTransversal_iff_hall"
+paper = "none"
+classical_reference = "J. Edmonds, D. R. Fulkerson, Transversals and matroid partition, J. Res. Nat. Bur. Standards 69B (1965); J. Oxley, Matroid Theory (2nd ed., 2011), Section 1.6"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has matroids but not transversal matroids"
+repo_dependencies = []
+
+[[entry]]
+id = "R0045"
+lean_name = "Formalizations.Reusable.ded_reciprocity"
+statement = "Dedekind reciprocity: for coprime positive integers h, k, s(h,k) + s(k,h) = (h² + k² + 1)/(12hk) − 1/4, with s(h,k) = Σ_{r<k} ((r/k))((hr/k)) the Dedekind sum."
+area = "NumberTheory"
+msc = "11F20"
+import = "Formalizations.Reusable.NumberTheory"
+archive_module = "Formalizations.NumberTheory.DedekindSum"
+archive_decl = "DedekindSum.ded_reciprocity, DedekindSum.ded, DedekindSum.saw"
+paper = "none"
+classical_reference = "R. Dedekind, Erläuterungen zu zwei Fragmenten von Riemann, in B. Riemann, Gesammelte mathematische Werke (2nd ed., Teubner, 1892) 466–478; H. Rademacher, E. Grosswald, Dedekind Sums, Carus Math. Monogr. 16 (1972)"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Mathlib has neither the sawtooth function nor Dedekind sums; the reciprocity would go with a first Dedekind-sum file, and our definitions (saw, ded) would need Mathlib-style naming and generality before a PR"
+repo_dependencies = []
+
+[[entry]]
+id = "R0046"
+lean_name = "Formalizations.Reusable.orientedIncMatrix_mul_transpose"
+statement = "For a finite simple graph on a linearly ordered vertex type, over any ring, the oriented incidence matrix N satisfies N Nᵀ = D − A, the Laplacian (Mathlib's SimpleGraph.lapMatrix)."
+area = "Combinatorics"
+msc = "05C50"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix"
+archive_decl = "SimpleGraph.orientedIncMatrix_mul_transpose"
+paper = "none"
+classical_reference = "N. Biggs, Algebraic Graph Theory (2nd ed., 1993), ch. 4; C. Godsil, G. Royle, Algebraic Graph Theory (2001), §8.3 (incidence matrix of an oriented graph) and §13.1 (the Laplacian matrix)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has the Laplacian and the unoriented incidence matrix but not the oriented one"
 repo_dependencies = []

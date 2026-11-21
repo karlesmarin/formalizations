@@ -6,7 +6,7 @@ Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/le
 organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
 results.
 
-- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.7.0`.
+- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.8.0`.
 - ✅ No `sorry`, no `native_decide`, no new axioms. All 2713 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
@@ -76,7 +76,7 @@ and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
    [[require]]
    name = "formalizations"
    git = "https://github.com/karlesmarin/formalizations"
-   rev = "v0.7.0"
+   rev = "v0.8.0"
    ```
 
 2. In a file of the project (here `Example.lean`), import the minimal module, the area of the theorem (column
@@ -156,6 +156,14 @@ commitment; Lake does not enforce it.
 | `bass_determinant_commRing` 🆕 | 🏛️ `showcase` | Bass's determinant formula for the Ihara zeta function over any commutative ring | 🧩 `Combinatorics` | `SimpleGraph.bass_determinant_commRing` |
 | `biquadratic_sos_transport` 🆕 | 🔌 `API` | sums of squares of bilinear forms representing `P_H` transport to `P_{Dᵀ H D}` when `Dᵀ D = 1` (signed switching: `D = diag(±1)`) | 🔢 `LinearAlgebra` | `BiquadraticSOS.sos_transport` |
 | `int_columns_of_transpose_mul_self` 🆕 | 🔌 `API` | the columns of an integer matrix with `Aᵀ A = 1` are signed unit vectors in distinct rows (`v ⬝ᵥ v = 1` over `ℤ` ⇒ `v = ±eᵢ`) | 🔢 `LinearAlgebra` | `IntOrthonormal.columns_of_transpose_mul_self` |
+| `hlawka_generalised` 🆕 | 🏛️ `showcase` | generalised Hlawka inequality: `d₂ + ⋯ + d_{n−1} ≤ (2ⁿ⁻² − 1)(d₁ + d_n)` for `n ≥ 3` vectors of a real inner product space (`n = 3` is Hlawka's) | 📈 `Analysis` | `Hlawka.generalised` |
+| `bregman_permanent_le` 🆕 | 🏛️ `showcase` | Brégman: `per A ≤ ∏ᵢ (rᵢ!)^(1/rᵢ)` for an `n × n` `(0,1)`-matrix with row sums `rᵢ` | 🧩 `Combinatorics` | `Bregman.permanent_le` |
+| `colorable_iff_forall_finite_induce` 🆕 | 🔌 `API` | de Bruijn–Erdős: a graph is `n`-colourable iff every finite induced subgraph is | 🧩 `Combinatorics` | `SimpleGraph.colorable_iff_forall_finite_induce` |
+| `schur_commuting_finrank_le` 🆕 | 🏛️ `showcase` | Schur: a commutative subspace of `M_n(K)` has dimension `≤ ⌊n²/4⌋ + 1` (attained) | 🔢 `LinearAlgebra` | `SchurCommuting.finrank_le` |
+| `bruck_ryser_chowla` 🆕 | 🏛️ `showcase` | Bruck–Ryser–Chowla: a projective plane of order `n ≡ 1, 2 (mod 4)` forces `n` to be a sum of two squares | 🧩 `Combinatorics` | `BruckRyserChowla.exists_sq_add_sq` |
+| `transversalMatroid_indep` 🆕 | 🔌 `API` | the independent sets of the transversal matroid of a finite set family are its partial transversals | 🧩 `Combinatorics` | `Theorems.TransversalMatroid.transversalMatroid_indep` |
+| `ded_reciprocity` 🆕 | 🔌 `API` | Dedekind reciprocity: `s(h,k) + s(k,h) = (h² + k² + 1)/(12hk) − 1/4` for coprime `h, k > 0` | 🔣 `NumberTheory` | `DedekindSum.ded_reciprocity` |
+| `orientedIncMatrix_mul_transpose` 🆕 | 🔌 `API` | oriented incidence matrix `N`: `N Nᵀ = D − A`, the graph Laplacian, over any ring | 🧩 `Combinatorics` | `SimpleGraph.orientedIncMatrix_mul_transpose` |
 | `posSemidef_of_charpoly_alternating` | 🔌 `API` | a real symmetric matrix with alternating characteristic polynomial is PSD (corollary of Descartes' rule of signs) | 🔢 `LinearAlgebra` | `AlternatingRoots.posSemidef_of_charpoly_alternating` |
 | `psd_quadForm_eq_sum_rank_sq` | 🔌 `API` | the quadratic form of a PSD matrix of rank `k` is a sum of exactly `k` squares of linear forms | 🔢 `LinearAlgebra` | `PosSemidefRankSquares.quadForm_eq_sum_sq` |
 | `touchard_bell_add_prime` | 🏛️ `showcase` | Touchard: `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers and every prime `p` | 🔣 `NumberTheory` | `Touchard.bell_add_prime` |
@@ -428,7 +436,7 @@ commitment; Lake does not enforce it.
 | `Probability` | `Kemeny` 🆕 | Kemeny's constant: for a finite Markov chain with stationary `π` and finite hitting times, `Σ_t π_t m_st` does not depend on the start `s`. |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
 | | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
-| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry`, `NumberTheory` 🆕, `GroupTheory` 🆕 | The reusable layer v0.5.0: thirty-six general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
+| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry`, `NumberTheory` 🆕, `GroupTheory` 🆕 | The reusable layer: forty-six general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
 | `RepresentationTheory` | `G2Counts` 🆕 | Divisibility counts of the six G2 positive-root values at q = 2, 3 (the arithmetic half of a character-vanishing corollary). |
 | `RepresentationTheory` | `SpinRhoLine` 🆕 | Product of sines `∏_{k=1}^{n-1} 2 sin(kπ/n) = n`; the spin values on the ρ-line, `∏_{j=1}^{m} 2 sin(jπ/(2m+1)) = √(2m+1)` (type B, also in cosine form) and `∏_{j=1}^{m-1} 2 sin(jπ/2m) = √m` (type D), each an integer iff `2m+1` (resp. `m`) is a square; the Dirichlet kernel and the index shift `sin((hq+r)π/q) = (−1)^h sin(rπ/q)`. The identification with the spin characters is not formalized. |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |
