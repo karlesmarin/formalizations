@@ -6,6 +6,7 @@ Authors: Carles Marín, Claude (AI assistant)
 module
 
 public import Formalizations.GroupTheory.GroupAction.PolyaRedfield
+public import Formalizations.GroupTheory.GroupAction.Separation
 
 /-!
 # Reusable layer: group actions
@@ -16,6 +17,8 @@ paper of the archive, and imports only Mathlib.
 
 ## Main results
 
+* `Formalizations.Reusable.separation_lemma_of_pretransitive`: if `G` acts pretransitively on `Ω` and
+  `#A · #B < #Ω`, some `g` moves `A` off `B` (archive: `TotD.separation_lemma_of_pretransitive`).
 * `Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight`: the weighted Pólya–Redfield
   enumeration theorem for colourings `α → C` under Mathlib's `arrowAction` (archive:
   `PolyaRedfield.card_mul_sum_orbit_weight`).
@@ -49,5 +52,21 @@ theorem polya_redfield_card_mul_sum_orbit_weight {G α C R : Type*} [Group G] [F
       ∑ g : G, (∑ c, w c) ^ (Fintype.card (Function.fixedPoints (MulAction.toPerm g : Equiv.Perm α))) *
         ((MulAction.toPerm g : Equiv.Perm α).cycleType.map (fun k => ∑ c, w c ^ k)).prod :=
   PolyaRedfield.card_mul_sum_orbit_weight w
+
+
+/-- **Separation lemma (transitive case).** If a group `G` acts pretransitively on `Ω` and `A B : Finset Ω`
+satisfy `#A · #B < #Ω`, then some `g : G` maps `A` off `B`: `g • a ∉ B` for all `a ∈ A`. No finiteness of
+`G` or `Ω` is assumed; the hypothesis forces `Ω` to be finite (`Nat.card` of an infinite type is `0`).
+
+* Archive: `TotD.separation_lemma_of_pretransitive` (`Formalizations.GroupTheory.GroupAction.Separation`, a
+  covering argument by B. H. Neumann's coset-cover lemma, `Subgroup.exists_index_le_card_of_leftCoset_cover`);
+  the module cites no paper DOI of ours.
+* Classical reference: P. J. Cameron, *Synchronization*, LTCC lecture notes, 2010, Lecture 3 (as cited in the
+  archive module).
+* Example: in `Perm (Fin 4)` some permutation moves `0` off `{1}`, since `1 · 1 < 4`. -/
+theorem separation_lemma_of_pretransitive (G : Type*) {Ω : Type*} [Group G] [MulAction G Ω]
+    [MulAction.IsPretransitive G Ω] {A B : Finset Ω} (h : A.card * B.card < Nat.card Ω) :
+    ∃ g : G, ∀ a ∈ A, g • a ∉ B :=
+  TotD.separation_lemma_of_pretransitive G h
 
 end Formalizations.Reusable

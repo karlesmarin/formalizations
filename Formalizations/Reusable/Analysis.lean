@@ -11,6 +11,7 @@ public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMi
 public import Formalizations.RepresentationTheory.SpinRhoLine
 public import Formalizations.Reusable.Polynomial
 public import Formalizations.Analysis.InnerProductSpace.Hlawka
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.ZielinskiZych
 
 /-!
 # Reusable layer: analysis
@@ -25,6 +26,8 @@ under the same name.
 
 ## Main results
 
+* `Formalizations.Reusable.zielinski_zych_inequality`: `x^α − π^α/2 + (π^α/2) cos x + α π^(α−1) sin x ≥ 0` for every
+  `α > 0` and `x ≥ 0` (archive: `QSL.zz_inequality_all`).
 * `Formalizations.Reusable.hlawka_generalised`: the generalised Hlawka inequality for `n ≥ 3` vectors of a real
   inner product space (archive: `Hlawka.generalised`).
 * `Formalizations.Reusable.airy_eq_zeros_unbounded_below`: every solution of `y'' = x y` has zeros
@@ -125,5 +128,21 @@ theorem hlawka_generalised {E : Type*} [NormedAddCommGroup E] [InnerProductSpace
     ∑ k ∈ Finset.Icc 2 (n - 1), ∑ S ∈ (Finset.univ : Finset (Fin n)).powersetCard k, ‖∑ i ∈ S, x i‖
       ≤ (2 ^ (n - 2) - 1 : ℝ) * (∑ i, ‖x i‖ + ‖∑ i, x i‖) :=
   Hlawka.generalised hn x
+
+
+/-- **The Zieliński–Zych inequality.** For every `α > 0` and `x ≥ 0`,
+`0 ≤ x^α − π^α/2 + (π^α/2) cos x + α π^(α−1) sin x`. It is the analytic core of the fractional-moment
+quantum speed limit `π^α ≤ 2 M_α τ^α`; `α = 1` is the Margolus–Levitin case.
+
+* Archive: `QSL.zz_inequality_all` (`Formalizations.Physics.QuantumMechanics.SpeedLimit.ZielinskiZych`; the
+  archive proves it for `0 < α ≤ 1` by a harmonic-mean bound and for `α ≥ 1` by Bernoulli plus a split of
+  `tan`); the module cites no paper DOI of ours.
+* Classical reference: the inequality is stated (without proof) in M. Zieliński, M. Zych, Phys. Rev. A 74,
+  034301 (2006), as cited in the archive module.
+* Example: `α = 1`, the inequality `0 ≤ x − π/2 + (π/2) cos x + sin x` behind the Margolus–Levitin bound. -/
+theorem zielinski_zych_inequality {α x : ℝ} (hα : 0 < α) (hx : 0 ≤ x) :
+    0 ≤ x ^ α - Real.pi ^ α / 2 + Real.pi ^ α / 2 * Real.cos x +
+      α * Real.pi ^ (α - 1) * Real.sin x :=
+  QSL.zz_inequality_all hα hx
 
 end Formalizations.Reusable

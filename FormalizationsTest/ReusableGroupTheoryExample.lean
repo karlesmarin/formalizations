@@ -25,3 +25,7 @@ example {G α C : Type*} [Group G] [Fintype G] [MulAction G α] [Fintype α] [Fi
   rw [h]
   refine Finset.sum_congr rfl fun g _ => ?_
   rw [pow_add]
+
+/-- Separation: some permutation of `Fin 4` sends `0` outside `{1}` (`1 · 1 < 4`). -/
+example : ∃ g : Equiv.Perm (Fin 4), ∀ a ∈ ({0} : Finset (Fin 4)), g • a ∉ ({1} : Finset (Fin 4)) :=
+  separation_lemma_of_pretransitive (Equiv.Perm (Fin 4)) (by simp)

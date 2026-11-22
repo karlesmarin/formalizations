@@ -2708,6 +2708,9 @@ import Formalizations
 #print axioms Formalizations.Reusable.ncard_choose_eq_le_two_mul_log
 #print axioms Formalizations.Reusable.sum_card_divisors_mul_totient
 #print axioms Formalizations.Reusable.chebyshev_S_docagne
+#print axioms Formalizations.Reusable.zielinski_zych_inequality
+#print axioms Formalizations.Reusable.separation_lemma_of_pretransitive
+#print axioms Formalizations.Reusable.derivative_coe_charpolyRev
 #print axioms Formalizations.Reusable.godsil_gutman
 #print axioms Formalizations.Reusable.bass_determinant_commRing
 #print axioms Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight

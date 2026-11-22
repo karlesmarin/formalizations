@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.9.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.10.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.9.0"
+version = "0.10.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -863,4 +863,55 @@ status = "reusable"
 role = "API"
 upstream_candidate = true
 upstream_reason = "Mathlib has the Chebyshev polynomials S and the Cassini-type identity S_sq_add_S_sq but not the two-index identity"
+repo_dependencies = []
+
+[[entry]]
+id = "R0051"
+lean_name = "Formalizations.Reusable.zielinski_zych_inequality"
+statement = "The Zieliński–Zych inequality: for every α > 0 and x ≥ 0, 0 ≤ x^α − π^α/2 + (π^α/2) cos x + α π^(α−1) sin x; the analytic core of the fractional-moment speed limit π^α ≤ 2 M_α τ^α (α = 1 is Margolus–Levitin)."
+area = "Analysis"
+msc = "26D05"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Physics.QuantumMechanics.SpeedLimit.ZielinskiZych"
+archive_decl = "QSL.zz_inequality_all, QSL.zz_inequality, QSL.zz_inequality_of_one_le"
+paper = "none"
+classical_reference = "M. Zieliński, M. Zych, Phys. Rev. A 74, 034301 (2006) (the inequality is stated there without proof, per the archive module)"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "a specific inequality of quantum speed-limit theory, not a lemma of an existing Mathlib theory"
+repo_dependencies = []
+
+[[entry]]
+id = "R0052"
+lean_name = "Formalizations.Reusable.separation_lemma_of_pretransitive"
+statement = "Separation lemma, transitive case: if G acts pretransitively on Ω and A, B are finite subsets with #A · #B < #Ω, some g ∈ G satisfies g • a ∉ B for all a ∈ A (no finiteness of G or Ω assumed)."
+area = "GroupTheory"
+msc = "20B25"
+import = "Formalizations.Reusable.GroupTheory"
+archive_module = "Formalizations.GroupTheory.GroupAction.Separation"
+archive_decl = "TotD.separation_lemma_of_pretransitive, TotD.separation_lemma_of_pretransitive'"
+paper = "none"
+classical_reference = "P. J. Cameron, Synchronization, LTCC lecture notes (2010), Lecture 3 (as cited in the archive module)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has Neumann's coset-cover lemma (Subgroup.exists_index_le_card_of_leftCoset_cover) but not this consequence for group actions"
+repo_dependencies = []
+
+[[entry]]
+id = "R0053"
+lean_name = "Formalizations.Reusable.derivative_coe_charpolyRev"
+statement = "Newton's identity for traces: for a square matrix M over a commutative ring R, d/dX (charpolyRev M) = − charpolyRev M · Σₖ trace(M^(k+1)) Xᵏ in R⟦X⟧, with charpolyRev M = det(1 − X • M)."
+area = "LinearAlgebra"
+msc = "15A15"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi"
+archive_decl = "Matrix.derivative_coe_charpolyRev, Matrix.resolventSeries_eq_inv, Matrix.trace_resolventSeries"
+paper = "none"
+classical_reference = "unverified (Newton's identities; no source checked)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has charpolyRev and its low coefficients but not the logarithmic-derivative identity for traces of powers"
 repo_dependencies = []

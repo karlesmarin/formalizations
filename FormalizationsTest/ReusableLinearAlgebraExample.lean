@@ -95,3 +95,10 @@ example (S : Submodule ℚ (Matrix (Fin 2) (Fin 2) ℚ)) (hS : ∀ A ∈ S, ∀ 
 example : (2 : ℚ) - ((2 : ℚ)⁻¹ + ((1 : ℚ)⁻¹ - 2)⁻¹)⁻¹ = 4 := by
   have h := hua_identity (a := (2 : ℚ)) (b := 1) (by norm_num) (by norm_num) (by norm_num)
   rw [h]; norm_num
+
+open PowerSeries in
+/-- Newton's identity for traces for a `2 × 2` integer matrix. -/
+example (M : Matrix (Fin 2) (Fin 2) ℤ) :
+    d⁄dX (M.charpolyRev : ℤ⟦X⟧) =
+      -(M.charpolyRev : ℤ⟦X⟧) * PowerSeries.mk fun k => (M ^ (k + 1)).trace :=
+  Formalizations.Reusable.derivative_coe_charpolyRev M

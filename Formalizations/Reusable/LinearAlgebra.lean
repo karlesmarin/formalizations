@@ -28,6 +28,9 @@ copied). The modules imported here are general linear algebra; none is a paper o
 
 ## Main results
 
+* `Formalizations.Reusable.derivative_coe_charpolyRev`: Newton's identity for traces,
+  `d/dX (charpolyRev M) = − charpolyRev M · ∑ₖ trace (Mᵏ⁺¹) Xᵏ` in `R⟦X⟧` (archive:
+  `Matrix.derivative_coe_charpolyRev`).
 * `Formalizations.Reusable.hua_identity`: Hua's identity `a − (a⁻¹ + (b⁻¹ − a)⁻¹)⁻¹ = a b a` in a division ring
   (archive: `DGH.hua_classical`).
 * `Formalizations.Reusable.schur_commuting_finrank_le`: a commutative subspace of `M_n(K)` has dimension
@@ -293,5 +296,23 @@ theorem schur_commuting_finrank_le {K : Type*} [Field K] {n : ℕ}
 theorem hua_identity {K : Type*} [DivisionRing K] {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) (hab : a * b ≠ 1) :
     a - (a⁻¹ + (b⁻¹ - a)⁻¹)⁻¹ = a * b * a :=
   DGH.hua_classical ha hb hab
+
+
+open PowerSeries in
+/-- **Newton's identity for traces.** For a square matrix `M` over a commutative ring `R`, with `charpolyRev M =
+det (1 − X • M)` viewed in `R⟦X⟧`, `d/dX (charpolyRev M) = − charpolyRev M · ∑ₖ trace (Mᵏ⁺¹) Xᵏ`: the
+logarithmic derivative of the reversed characteristic polynomial is minus the generating function of the traces
+of the powers of `M`. No eigenvalues and no hypothesis on `R`.
+
+* Archive: `Matrix.derivative_coe_charpolyRev` (`Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi`: Jacobi's
+  formula plus the resolvent series `(1 − X • M)⁻¹ = ∑ₖ Mᵏ Xᵏ`); the module cites no paper DOI of ours.
+* Classical reference: Newton's identities between power sums and elementary symmetric functions; no source
+  verified (unverified).
+* Example: the identity for a `2 × 2` integer matrix. -/
+theorem derivative_coe_charpolyRev {n R : Type*} [Fintype n] [DecidableEq n] [CommRing R]
+    (M : Matrix n n R) :
+    d⁄dX (M.charpolyRev : R⟦X⟧) =
+      -(M.charpolyRev : R⟦X⟧) * PowerSeries.mk fun k => (M ^ (k + 1)).trace :=
+  Matrix.derivative_coe_charpolyRev M
 
 end Formalizations.Reusable

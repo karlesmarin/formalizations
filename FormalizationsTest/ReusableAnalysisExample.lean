@@ -39,3 +39,9 @@ example (x : Fin 4 → ℝ) :
     ∑ k ∈ Finset.Icc 2 (4 - 1), ∑ S ∈ (Finset.univ : Finset (Fin 4)).powersetCard k, ‖∑ i ∈ S, x i‖
       ≤ (2 ^ (4 - 2) - 1 : ℝ) * (∑ i, ‖x i‖ + ‖∑ i, x i‖) :=
   hlawka_generalised (by norm_num) x
+
+
+/-- Zieliński–Zych at `α = 1` (the Margolus–Levitin case): `0 ≤ x − π/2 + (π/2) cos x + sin x` for `x ≥ 0`. -/
+example {x : ℝ} (hx : 0 ≤ x) : 0 ≤ x - π / 2 + π / 2 * Real.cos x + Real.sin x := by
+  have h := zielinski_zych_inequality one_pos hx
+  simpa using h
