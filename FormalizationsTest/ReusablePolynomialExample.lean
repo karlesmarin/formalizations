@@ -96,3 +96,9 @@ example (p : Polynomial ℝ) (hp : p.Splits) (k : ℕ) : ((derivative^[k]) p).Sp
 degree. -/
 example (p : Polynomial ℝ) (hp : p.Splits) : p.reverse.roots.card = p.reverse.natDegree :=
   splits_iff_card_roots.1 (splits_reverse hp)
+
+/-- d'Ocagne at `p = 2`, `q = 1` over `ℤ`: `S 2 · S 0 − S 1 · S 1 = −S 0`. -/
+example : Polynomial.Chebyshev.S ℤ 2 * Polynomial.Chebyshev.S ℤ (1 - 1) -
+      Polynomial.Chebyshev.S ℤ 1 * Polynomial.Chebyshev.S ℤ (2 - 1) =
+    - Polynomial.Chebyshev.S ℤ (2 - 1 - 1) :=
+  chebyshev_S_docagne ℤ 2 1

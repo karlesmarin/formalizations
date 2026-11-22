@@ -17,6 +17,7 @@ public import Formalizations.LinearAlgebra.Matrix.SchurRank
 public import Formalizations.LinearAlgebra.Matrix.BiquadraticOrthogonal
 public import Formalizations.LinearAlgebra.Matrix.IntOrthonormal
 public import Formalizations.LinearAlgebra.Matrix.SchurCommuting
+public import Formalizations.RingTheory.DGH.Absorb
 
 /-!
 # Reusable layer: linear algebra
@@ -27,6 +28,8 @@ copied). The modules imported here are general linear algebra; none is a paper o
 
 ## Main results
 
+* `Formalizations.Reusable.hua_identity`: Hua's identity `a − (a⁻¹ + (b⁻¹ − a)⁻¹)⁻¹ = a b a` in a division ring
+  (archive: `DGH.hua_classical`).
 * `Formalizations.Reusable.schur_commuting_finrank_le`: a commutative subspace of `M_n(K)` has dimension
   `≤ n² / 4 + 1` (archive: `SchurCommuting.finrank_le`).
 * `Formalizations.Reusable.int_columns_of_transpose_mul_self`: the columns of an integer matrix
@@ -279,5 +282,16 @@ theorem schur_commuting_finrank_le {K : Type*} [Field K] {n : ℕ}
     (S : Submodule K (Matrix (Fin n) (Fin n) K)) (hS : ∀ A ∈ S, ∀ B ∈ S, A * B = B * A) :
     Module.finrank K S ≤ n ^ 2 / 4 + 1 :=
   SchurCommuting.finrank_le S hS
+
+
+/-- **Hua's identity.** In a division ring `K`, for `a ≠ 0`, `b ≠ 0` and `a b ≠ 1`,
+`a − (a⁻¹ + (b⁻¹ − a)⁻¹)⁻¹ = a b a`. It holds with no commutativity assumption.
+
+* Archive: `DGH.hua_classical` (`Formalizations.RingTheory.DGH.Absorb`); the module cites no paper DOI of ours.
+* Classical reference: L.-K. Hua, *On the automorphisms of a sfield*, Proc. Nat. Acad. Sci. USA 35 (1949) 386–389.
+* Example: over `ℚ` with `a = 2`, `b = 1`: `2 − (1/2 + (1 − 2)⁻¹)⁻¹ = 4 = 2 · 1 · 2`. -/
+theorem hua_identity {K : Type*} [DivisionRing K] {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) (hab : a * b ≠ 1) :
+    a - (a⁻¹ + (b⁻¹ - a)⁻¹)⁻¹ = a * b * a :=
+  DGH.hua_classical ha hb hab
 
 end Formalizations.Reusable

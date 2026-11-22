@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.8.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.9.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.8.0"
+version = "0.9.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -795,4 +795,72 @@ status = "reusable"
 role = "API"
 upstream_candidate = true
 upstream_reason = "Mathlib has the Laplacian and the unoriented incidence matrix but not the oriented one"
+repo_dependencies = []
+
+[[entry]]
+id = "R0047"
+lean_name = "Formalizations.Reusable.hua_identity"
+statement = "Hua's identity in a division ring: for a ≠ 0, b ≠ 0 and ab ≠ 1, a − (a⁻¹ + (b⁻¹ − a)⁻¹)⁻¹ = aba."
+area = "LinearAlgebra"
+msc = "16K40"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.RingTheory.DGH.Absorb"
+archive_decl = "DGH.hua_classical"
+paper = "none"
+classical_reference = "L.-K. Hua, On the automorphisms of a sfield, Proc. Nat. Acad. Sci. USA 35 (1949) 386–389"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has the parallel-sum identity inv_add_inv' but not Hua's identity; a short lemma in Mathlib.Algebra.Field.Basic"
+repo_dependencies = []
+
+[[entry]]
+id = "R0048"
+lean_name = "Formalizations.Reusable.ncard_choose_eq_le_two_mul_log"
+statement = "Singmaster's bound: an integer a ≥ 2 occurs at most 2⌊log₂ a⌋ times in Pascal's triangle (the set of positions (n,k), k ≤ n, with C(n,k) = a is finite with at most that many elements; Singmaster states 2 + 2⌊log₂ a⌋)."
+area = "Combinatorics"
+msc = "11B65"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.Choose.Singmaster"
+archive_decl = "Singmaster.ncard_choose_eq_le_two_mul_log, Singmaster.ncard_choose_eq_le"
+paper = "none"
+classical_reference = "D. Singmaster, How often does an integer occur as a binomial coefficient?, Amer. Math. Monthly 78 (1971) 385–386"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "a classical theorem about the multiplicity of binomial coefficients, not a lemma of an existing Mathlib theory"
+repo_dependencies = []
+
+[[entry]]
+id = "R0049"
+lean_name = "Formalizations.Reusable.sum_card_divisors_mul_totient"
+statement = "The Dirichlet identity τ ∗ φ = σ: for every n, Σ_{d∣n} τ(d) φ(n/d) = σ(n), with τ the number of divisors, φ Euler's totient and σ the sum of divisors."
+area = "NumberTheory"
+msc = "11A25"
+import = "Formalizations.Reusable.NumberTheory"
+archive_module = "Formalizations.NumberTheory.ArithmeticFunction.DivisorTotient"
+archive_decl = "DivisorTotient.sum_card_divisors_mul_totient"
+paper = "none"
+classical_reference = "G. H. Hardy, E. M. Wright, An Introduction to the Theory of Numbers, Ch. XVI (the arithmetical functions φ, d and σ)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has phi ∗ ζ = id and σ = ζ ∗ pow 1 but not this convolution identity; it would go with the arithmetic-function API"
+repo_dependencies = []
+
+[[entry]]
+id = "R0050"
+lean_name = "Formalizations.Reusable.chebyshev_S_docagne"
+statement = "d'Ocagne's identity for the Vieta–Fibonacci polynomials: over a commutative ring, for Mathlib's Polynomial.Chebyshev.S and all p, q : ℤ, S p · S (q−1) − S q · S (p−1) = − S (p−q−1); the case q = p+1 is S_sq_add_S_sq."
+area = "Polynomial"
+msc = "11B39"
+import = "Formalizations.Reusable.Polynomial"
+archive_module = "Formalizations.RingTheory.Polynomial.Chebyshev.Docagne"
+archive_decl = "Orbit.S_docagne"
+paper = "none"
+classical_reference = "d'Ocagne's identity for Fibonacci numbers, named after M. d'Ocagne; stated, e.g., in E. W. Weisstein, d'Ocagne's Identity, MathWorld"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Mathlib has the Chebyshev polynomials S and the Cassini-type identity S_sq_add_S_sq but not the two-index identity"
 repo_dependencies = []

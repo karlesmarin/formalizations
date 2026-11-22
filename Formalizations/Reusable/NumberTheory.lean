@@ -8,6 +8,7 @@ module
 public import Formalizations.NumberTheory.Wolstenholme
 public import Formalizations.Combinatorics.Enumerative.Touchard
 public import Formalizations.NumberTheory.DedekindSum
+public import Formalizations.NumberTheory.ArithmeticFunction.DivisorTotient
 
 /-!
 # Reusable layer: number theory
@@ -18,6 +19,8 @@ the archive, and imports only Mathlib.
 
 ## Main results
 
+* `Formalizations.Reusable.sum_card_divisors_mul_totient`: the Dirichlet identity `τ ∗ φ = σ`,
+  `Σ_{d ∣ n} τ(d) φ(n/d) = σ(n)` (archive: `DivisorTotient.sum_card_divisors_mul_totient`).
 * `Formalizations.Reusable.ded_reciprocity`: Dedekind's reciprocity law for the Dedekind sums `s(h, k)`
   (archive: `DedekindSum.ded_reciprocity`).
 * `Formalizations.Reusable.wolstenholme_choose_modEq`: Wolstenholme's theorem,
@@ -72,5 +75,18 @@ theorem touchard_bell_add_prime (p : ℕ) [Fact p.Prime] (n : ℕ) :
 theorem ded_reciprocity {h k : ℕ} (hc : Nat.Coprime h k) (hh : 0 < h) (hk : 0 < k) :
     DedekindSum.ded h k + DedekindSum.ded k h = ((h : ℚ) ^ 2 + k ^ 2 + 1) / (12 * h * k) - 1 / 4 :=
   DedekindSum.ded_reciprocity hc hh hk
+
+
+/-- **The Dirichlet identity `τ ∗ φ = σ`.** For every `n`, `Σ_{d ∣ n} τ(d) φ(n/d) = σ(n)`, where `τ(d)` is the
+number of divisors of `d`, `φ` Euler's totient and `σ(n)` the sum of the divisors of `n`.
+
+* Archive: `DivisorTotient.sum_card_divisors_mul_totient` (`Formalizations.NumberTheory.ArithmeticFunction.DivisorTotient`);
+  the module cites no paper DOI of ours.
+* Classical reference: G. H. Hardy, E. M. Wright, *An Introduction to the Theory of Numbers*, Ch. XVI (the
+  arithmetical functions φ, d and σ).
+* Example: for `n = 6`, `τ(1)φ(6) + τ(2)φ(3) + τ(3)φ(2) + τ(6)φ(1) = 2 + 4 + 2 + 4 = 12 = σ(6)`. -/
+theorem sum_card_divisors_mul_totient (n : ℕ) :
+    ∑ d ∈ n.divisors, d.divisors.card * Nat.totient (n / d) = ∑ d ∈ n.divisors, d :=
+  DivisorTotient.sum_card_divisors_mul_totient n
 
 end Formalizations.Reusable

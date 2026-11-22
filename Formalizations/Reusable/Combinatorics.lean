@@ -16,6 +16,7 @@ public import Formalizations.Combinatorics.SimpleGraph.Coloring.DeBruijnErdos
 public import Formalizations.Combinatorics.Configuration.BruckRyserChowla
 public import Formalizations.Combinatorics.Matroid.Transversal
 public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
+public import Formalizations.Combinatorics.Choose.Singmaster
 
 /-!
 # Reusable layer: combinatorics and number theory
@@ -26,6 +27,8 @@ for Kirchhoff's matrix-tree theorem. Each theorem is proved by the archive theor
 
 ## Main results
 
+* `Formalizations.Reusable.ncard_choose_eq_le_two_mul_log`: Singmaster's bound, an integer `a ≥ 2` occurs at most
+  `2 ⌊log₂ a⌋` times in Pascal's triangle (archive: `Singmaster.ncard_choose_eq_le_two_mul_log`).
 * `Formalizations.Reusable.bregman_permanent_le`: Brégman's theorem, `per A ≤ ∏ᵢ (rᵢ!)^(1/rᵢ)` for `(0,1)`-matrices
   (archive: `Bregman.permanent_le`).
 * `Formalizations.Reusable.colorable_iff_forall_finite_induce`: the de Bruijn–Erdős colouring theorem (archive:
@@ -260,5 +263,20 @@ theorem orientedIncMatrix_mul_transpose (R : Type*) [Ring R] {α : Type*} [Finty
     (G : SimpleGraph α) [DecidableRel G.Adj] :
     G.orientedIncMatrix R * (G.orientedIncMatrix R).transpose = G.lapMatrix R :=
   G.orientedIncMatrix_mul_transpose (R := R)
+
+
+/-- **Singmaster's bound.** An integer `a ≥ 2` occurs at most `2 ⌊log₂ a⌋` times in Pascal's triangle: the set of
+positions `(n, k)` with `k ≤ n` and `C(n, k) = a` is finite with at most that many elements. This is a sharpening
+of the form stated by Singmaster, `2 + 2 ⌊log₂ a⌋` (archive: `Singmaster.ncard_choose_eq_le`).
+
+* Archive: `Singmaster.ncard_choose_eq_le_two_mul_log` (`Formalizations.Combinatorics.Choose.Singmaster`); the
+  module cites no paper DOI of ours.
+* Classical reference: D. Singmaster, *How often does an integer occur as a binomial coefficient?*, Amer. Math.
+  Monthly 78 (1971) 385–386.
+* Example: the integer `2` occurs at most twice in Pascal's triangle. -/
+theorem ncard_choose_eq_le_two_mul_log (a : ℕ) (ha : 2 ≤ a) :
+    {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a}.Finite ∧
+    {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a}.ncard ≤ 2 * Nat.log 2 a :=
+  Singmaster.ncard_choose_eq_le_two_mul_log a ha
 
 end Formalizations.Reusable

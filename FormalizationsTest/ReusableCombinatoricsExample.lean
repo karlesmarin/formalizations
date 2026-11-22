@@ -86,3 +86,10 @@ example (A : Fin 2 → Finset ℕ) : (Theorems.TransversalMatroid.transversalMat
 example (G : SimpleGraph (Fin 3)) [DecidableRel G.Adj] :
     G.orientedIncMatrix ℤ * (G.orientedIncMatrix ℤ).transpose = G.lapMatrix ℤ :=
   orientedIncMatrix_mul_transpose ℤ G
+
+/-- Singmaster: the integer `2` occurs at most twice in Pascal's triangle. -/
+example : {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = 2}.ncard ≤ 2 := by
+  have h := (ncard_choose_eq_le_two_mul_log 2 le_rfl).2
+  have hl : Nat.log 2 2 = 1 := Nat.log_eq_of_pow_le_of_lt_pow (by norm_num) (by norm_num)
+  rw [hl] at h
+  simpa using h

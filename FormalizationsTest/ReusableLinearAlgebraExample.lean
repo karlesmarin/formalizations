@@ -89,3 +89,9 @@ example (A : Matrix (Fin 3) (Fin 2) ℤ) (hA : Aᵀ * A = 1) :
 example (S : Submodule ℚ (Matrix (Fin 2) (Fin 2) ℚ)) (hS : ∀ A ∈ S, ∀ B ∈ S, A * B = B * A) :
     Module.finrank ℚ S ≤ 2 := by
   simpa using schur_commuting_finrank_le S hS
+
+
+/-- Hua's identity over `ℚ` with `a = 2`, `b = 1`: `2 − (1/2 + (1 − 2)⁻¹)⁻¹ = 4`. -/
+example : (2 : ℚ) - ((2 : ℚ)⁻¹ + ((1 : ℚ)⁻¹ - 2)⁻¹)⁻¹ = 4 := by
+  have h := hua_identity (a := (2 : ℚ)) (b := 1) (by norm_num) (by norm_num) (by norm_num)
+  rw [h]; norm_num

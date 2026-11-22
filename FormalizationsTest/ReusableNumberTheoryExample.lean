@@ -24,3 +24,7 @@ example : DedekindSum.ded 1 1 + DedekindSum.ded 1 1 = 0 := by
   have h := ded_reciprocity (h := 1) (k := 1) (by norm_num) one_pos one_pos
   norm_num at h
   rw [h]; norm_num
+
+/-- `τ ∗ φ = σ` at `n = 6`: `2 + 4 + 2 + 4 = 12`. -/
+example : ∑ d ∈ (6 : ℕ).divisors, d.divisors.card * Nat.totient (6 / d) = ∑ d ∈ (6 : ℕ).divisors, d :=
+  sum_card_divisors_mul_totient 6

@@ -9,6 +9,7 @@ public import Formalizations.Analysis.Polynomial.RealRoots.RealRooted
 public import Formalizations.Analysis.Polynomial.RealRoots.NewtonInequalities
 public import Formalizations.Analysis.Polynomial.RealRoots.Sturm
 public import Formalizations.Analysis.Polynomial.RealRoots.BudanFourier
+public import Formalizations.RingTheory.Polynomial.Chebyshev.Docagne
 
 /-!
 # Reusable layer: real polynomials and their real roots
@@ -26,6 +27,8 @@ This module imports no paper of the archive: only the four general modules of
 
 ## Main results
 
+* `Formalizations.Reusable.chebyshev_S_docagne`: d'Ocagne's identity `S p · S (q − 1) − S q · S (p − 1) = − S (p − q − 1)`
+  for the Vieta–Fibonacci polynomials (archive: `Orbit.S_docagne`).
 * `Formalizations.Reusable.splits_of_alternating_sign`: alternating signs at `n + 1` points and
   degree at most `n` give `Splits` (archive: `MSS.realRooted_of_alternating`).
 * `Formalizations.Reusable.card_roots_toFinset_ge_of_alternating_sign`: alternating signs at
@@ -213,5 +216,22 @@ quadratic.
 * Example: `X · (X − 2)` splits, so its reverse `1 − 2X` splits. -/
 theorem splits_reverse {p : Polynomial ℝ} (hp : p.Splits) : p.reverse.Splits :=
   (realRooted_iff_splits _).1 (Newton.RealRooted.reverse ((realRooted_iff_splits p).2 hp))
+
+
+/-- **d'Ocagne's identity for the Vieta–Fibonacci polynomials.** For Mathlib's `Polynomial.Chebyshev.S` (the
+rescaled Chebyshev polynomials of the second kind, indexed by `ℤ`) over a commutative ring `R`, and all
+`p q : ℤ`, `S p · S (q − 1) − S q · S (p − 1) = − S (p − q − 1)`. The case `q = p + 1` is the Cassini-type
+identity `Polynomial.Chebyshev.S_sq_add_S_sq`; at `X = 1` it is d'Ocagne's identity for Fibonacci numbers.
+
+* Archive: `Orbit.S_docagne` (`Formalizations.RingTheory.Polynomial.Chebyshev.Docagne`); the module cites no
+  paper DOI of ours.
+* Classical reference: d'Ocagne's identity for Fibonacci numbers, named after M. d'Ocagne; stated, e.g., in
+  E. W. Weisstein, *d'Ocagne's Identity*, MathWorld.
+* Example: at `p = 2`, `q = 1`: `S 2 · S 0 − S 1 · S 1 = −S 0`, that is `X² − 1 − X² = −1`. -/
+theorem chebyshev_S_docagne (R : Type*) [CommRing R] (p q : ℤ) :
+    Polynomial.Chebyshev.S R p * Polynomial.Chebyshev.S R (q - 1) -
+        Polynomial.Chebyshev.S R q * Polynomial.Chebyshev.S R (p - 1) =
+      - Polynomial.Chebyshev.S R (p - q - 1) :=
+  Orbit.S_docagne R p q
 
 end Formalizations.Reusable

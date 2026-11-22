@@ -2704,6 +2704,10 @@ import Formalizations
 #print axioms Formalizations.Reusable.transversalMatroid_indep
 #print axioms Formalizations.Reusable.ded_reciprocity
 #print axioms Formalizations.Reusable.orientedIncMatrix_mul_transpose
+#print axioms Formalizations.Reusable.hua_identity
+#print axioms Formalizations.Reusable.ncard_choose_eq_le_two_mul_log
+#print axioms Formalizations.Reusable.sum_card_divisors_mul_totient
+#print axioms Formalizations.Reusable.chebyshev_S_docagne
 #print axioms Formalizations.Reusable.godsil_gutman
 #print axioms Formalizations.Reusable.bass_determinant_commRing
 #print axioms Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight
