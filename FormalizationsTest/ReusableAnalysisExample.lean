@@ -45,3 +45,13 @@ example (x : Fin 4 → ℝ) :
 example {x : ℝ} (hx : 0 ≤ x) : 0 ≤ x - π / 2 + π / 2 * Real.cos x + Real.sin x := by
   have h := zielinski_zych_inequality one_pos hx
   simpa using h
+
+/-- Margolus–Levitin: the orthogonalization time is at least `π / (2 Ebar)` when `Ebar > 0`. -/
+example {p E : ℕ → ℝ} {Ebar τ : ℝ} (hp : ∀ n, 0 ≤ p n) (hE : ∀ n, 0 ≤ E n) (hτ : 0 ≤ τ)
+    (hsum : HasSum p 1) (hmean : HasSum (fun n => p n * E n) Ebar)
+    (hRe : HasSum (fun n => p n * Real.cos (E n * τ)) 0)
+    (hIm : HasSum (fun n => p n * Real.sin (E n * τ)) 0) (hpos : 0 < Ebar) :
+    Real.pi / (2 * Ebar) ≤ τ := by
+  have h := margolus_levitin hp hE hτ hsum hmean hRe hIm
+  rw [div_le_iff₀ (by positivity)]
+  linarith

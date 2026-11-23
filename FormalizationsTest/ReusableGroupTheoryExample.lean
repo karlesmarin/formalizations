@@ -29,3 +29,10 @@ example {G α C : Type*} [Group G] [Fintype G] [MulAction G α] [Fintype α] [Fi
 /-- Separation: some permutation of `Fin 4` sends `0` outside `{1}` (`1 · 1 < 4`). -/
 example : ∃ g : Equiv.Perm (Fin 4), ∀ a ∈ ({0} : Finset (Fin 4)), g • a ∉ ({1} : Finset (Fin 4)) :=
   separation_lemma_of_pretransitive (Equiv.Perm (Fin 4)) (by simp)
+
+/-- Praeger with `m = 1`: if every point moves and no set of two or more points is moved off itself,
+there is at most one orbit. -/
+example {G Ω : Type*} [Group G] [MulAction G Ω] (hfix : ∀ x : Ω, ∃ g : G, g • x ≠ x)
+    (hmove : ∀ (Γ : Finset Ω) (g : G), (∀ x ∈ Γ, g • x ∉ Γ) → Γ.card ≤ 1) :
+    Nat.card (MulAction.orbitRel.Quotient G Ω) ≤ 1 :=
+  (praeger_bounded_movement 1 le_rfl hfix hmove).2.1
