@@ -36,3 +36,10 @@ example {G Ω : Type*} [Group G] [MulAction G Ω] (hfix : ∀ x : Ω, ∃ g : G,
     (hmove : ∀ (Γ : Finset Ω) (g : G), (∀ x ∈ Γ, g • x ∉ Γ) → Γ.card ≤ 1) :
     Nat.card (MulAction.orbitRel.Quotient G Ω) ≤ 1 :=
   (praeger_bounded_movement 1 le_rfl hfix hmove).2.1
+
+/-- The hypotheses of Praeger's theorem can all hold: the swap on two points moves every point, and no
+set of two points is moved off itself, so `m = 1` applies. (Non-vacuity check, BGSMath session 3,
+pitfall 6.) -/
+example : (∀ x : Fin 2, ∃ g : Equiv.Perm (Fin 2), g • x ≠ x) ∧
+    (∀ (Γ : Finset (Fin 2)) (g : Equiv.Perm (Fin 2)), (∀ x ∈ Γ, g • x ∉ Γ) → Γ.card ≤ 1) := by
+  decide
