@@ -1,0 +1,7 @@
+{
+  "challenge_module": "FormalizationsTest.Comparator.ChallengeV011",
+  "solution_module": "FormalizationsTest.Comparator.SolutionV011",
+  "theorem_names": ["Formalizations.Reusable.margolus_levitin", "Formalizations.Reusable.praeger_bounded_movement"],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}
