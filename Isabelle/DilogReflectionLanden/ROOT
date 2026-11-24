@@ -1,0 +1,10 @@
+chapter Formalizations
+
+session Dilog_Reflection_Landen = "HOL-Complex_Analysis" +
+  options [timeout = 900]
+  sessions
+    Polylog
+    Bernoulli
+    "HOL-Real_Asymp"
+  theories
+    Dilog_Reflection_Landen

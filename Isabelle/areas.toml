@@ -158,3 +158,4 @@
 "Isabelle/LengthsPropForestUpper/Prop_Forest_Upper.thy" = "Algebra/QuadraticForms"
 "Isabelle/ZeroNNCriterion/Zero_NN_Criterion.thy" = "AlgebraicGeometry/SegrePersistence"
 "Isabelle/RowsColumnsKernel/Rows_Columns_Kernel.thy" = "AlgebraicGeometry/SegrePersistence"
+"Isabelle/DilogReflectionLanden/Dilog_Reflection_Landen.thy" = "Analysis/SpecialFunctions/Polylog"
