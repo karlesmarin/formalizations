@@ -7,6 +7,7 @@ module
 
 public import Formalizations.GroupTheory.GroupAction.PolyaRedfield
 public import Formalizations.GroupTheory.GroupAction.Separation
+public import Formalizations.GroupTheory.GroupAction.BoundedMovement
 
 /-!
 # Reusable layer: group actions
@@ -17,6 +18,8 @@ paper of the archive, and imports only Mathlib.
 
 ## Main results
 
+* `Formalizations.Reusable.praeger_bounded_movement`: Praeger's theorem on bounded movement
+  (archive: `Praeger.bounded_movement`).
 * `Formalizations.Reusable.separation_lemma_of_pretransitive`: if `G` acts pretransitively on `Ω` and
   `#A · #B < #Ω`, some `g` moves `A` off `B` (archive: `TotD.separation_lemma_of_pretransitive`).
 * `Formalizations.Reusable.polya_redfield_card_mul_sum_orbit_weight`: the weighted Pólya–Redfield
@@ -68,5 +71,23 @@ theorem separation_lemma_of_pretransitive (G : Type*) {Ω : Type*} [Group G] [Mu
     [MulAction.IsPretransitive G Ω] {A B : Finset Ω} (h : A.card * B.card < Nat.card Ω) :
     ∃ g : G, ∀ a ∈ A, g • a ∉ B :=
   TotD.separation_lemma_of_pretransitive G h
+
+/-- **Praeger's theorem on bounded movement.** Let a group `G` act on `Ω` so that every point is moved by
+some element, and suppose that whenever `g` maps a finite set `Γ` off itself, `#Γ ≤ m` (with `m ≥ 1`).
+Then `Ω` is finite, there are at most `2m − 1` orbits, every orbit has at most `3m` points, and
+`|Ω| ≤ 3m + t − 1`, where `t` is the number of orbits.
+
+* Archive: `Praeger.bounded_movement` (`Formalizations.GroupTheory.GroupAction.BoundedMovement`); the
+  module cites no paper DOI of ours.
+* Classical reference: C. E. Praeger, *On permutation groups with bounded movement*, J. Algebra 144
+  (1991) 436–442; R. Whitty, Theorem of the Day, «Praeger's Theorem on Bounded Movement».
+* Example: with `m = 1` there is at most one orbit. -/
+theorem praeger_bounded_movement {G Ω : Type*} [Group G] [MulAction G Ω] (m : ℕ) (hm : 1 ≤ m)
+    (hfix : ∀ x : Ω, ∃ g : G, g • x ≠ x)
+    (hmove : ∀ (Γ : Finset Ω) (g : G), (∀ x ∈ Γ, g • x ∉ Γ) → Γ.card ≤ m) :
+    Finite Ω ∧ Nat.card (MulAction.orbitRel.Quotient G Ω) ≤ 2 * m - 1 ∧
+      (∀ x : Ω, Nat.card (MulAction.orbit G x) ≤ 3 * m) ∧
+      Nat.card Ω ≤ 3 * m + Nat.card (MulAction.orbitRel.Quotient G Ω) - 1 :=
+  Praeger.bounded_movement m hm hfix hmove
 
 end Formalizations.Reusable

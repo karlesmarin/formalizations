@@ -45,3 +45,43 @@ example (x : Fin 4 → ℝ) :
 example {x : ℝ} (hx : 0 ≤ x) : 0 ≤ x - π / 2 + π / 2 * Real.cos x + Real.sin x := by
   have h := zielinski_zych_inequality one_pos hx
   simpa using h
+
+/-- Margolus–Levitin: the orthogonalization time is at least `π / (2 Ebar)` when `Ebar > 0`. -/
+example {p E : ℕ → ℝ} {Ebar τ : ℝ} (hp : ∀ n, 0 ≤ p n) (hE : ∀ n, 0 ≤ E n) (hτ : 0 ≤ τ)
+    (hsum : HasSum p 1) (hmean : HasSum (fun n => p n * E n) Ebar)
+    (hRe : HasSum (fun n => p n * Real.cos (E n * τ)) 0)
+    (hIm : HasSum (fun n => p n * Real.sin (E n * τ)) 0) (hpos : 0 < Ebar) :
+    Real.pi / (2 * Ebar) ≤ τ := by
+  have h := margolus_levitin hp hE hτ hsum hmean hRe hIm
+  rw [div_le_iff₀ (by positivity)]
+  linarith
+
+/-- The hypotheses of Margolus–Levitin can all hold, and the bound is then attained: a two-level system
+with energies `0` and `2`, equal weights, mean energy `1`, becomes orthogonal at `τ = π/2`, and
+`π = 2 · 1 · (π/2)`. (Non-vacuity check.) -/
+example : ∃ (p E : ℕ → ℝ) (Ebar τ : ℝ), (∀ n, 0 ≤ p n) ∧ (∀ n, 0 ≤ E n) ∧ 0 ≤ τ ∧ HasSum p 1 ∧
+    HasSum (fun n => p n * E n) Ebar ∧ HasSum (fun n => p n * Real.cos (E n * τ)) 0 ∧
+    HasSum (fun n => p n * Real.sin (E n * τ)) 0 ∧ Real.pi = 2 * Ebar * τ := by
+  have hpi : (2 : ℝ) * (Real.pi / 2) = Real.pi := by ring
+  have hz : ∀ g : ℕ → ℝ, (∀ n, 2 ≤ n → g n = 0) → HasSum g (∑ n ∈ Finset.range 2, g n) := by
+    intro g hg
+    exact hasSum_sum_of_ne_finset_zero fun n hn => hg n (by simp at hn; omega)
+  let p : ℕ → ℝ := fun n => if n < 2 then 1 / 2 else 0
+  let E : ℕ → ℝ := fun n => if n = 1 then 2 else 0
+  have hp0 : ∀ n, 2 ≤ n → p n = 0 := fun n hn => by
+    simp only [p]; split_ifs with h
+    · exact absurd h (by omega)
+    · rfl
+  refine ⟨p, E, 1, Real.pi / 2, fun n => ?_, fun n => ?_, by positivity, ?_, ?_, ?_, ?_, by ring⟩
+  · simp only [p]; split_ifs <;> norm_num
+  · simp only [E]; split_ifs <;> norm_num
+  · convert hz p hp0 using 1
+    norm_num [Finset.sum_range_succ, p]
+  · convert hz (fun n => p n * E n) (fun n hn => by simp only [hp0 n hn, zero_mul]) using 1
+    norm_num [Finset.sum_range_succ, p, E]
+  · convert hz (fun n => p n * Real.cos (E n * (Real.pi / 2)))
+      (fun n hn => by simp only [hp0 n hn, zero_mul]) using 1
+    norm_num [Finset.sum_range_succ, p, E, hpi]
+  · convert hz (fun n => p n * Real.sin (E n * (Real.pi / 2)))
+      (fun n hn => by simp only [hp0 n hn, zero_mul]) using 1
+    norm_num [Finset.sum_range_succ, p, E, hpi]

@@ -12,6 +12,7 @@ public import Formalizations.RepresentationTheory.SpinRhoLine
 public import Formalizations.Reusable.Polynomial
 public import Formalizations.Analysis.InnerProductSpace.Hlawka
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.ZielinskiZych
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin
 
 /-!
 # Reusable layer: analysis
@@ -26,6 +27,8 @@ under the same name.
 
 ## Main results
 
+* `Formalizations.Reusable.margolus_levitin`: the Margolus–Levitin quantum speed limit
+  `π ≤ 2 ⟨E⟩ τ` for the orthogonalization time `τ` (archive: `QSL.margolus_levitin`).
 * `Formalizations.Reusable.zielinski_zych_inequality`: `x^α − π^α/2 + (π^α/2) cos x + α π^(α−1) sin x ≥ 0` for every
   `α > 0` and `x ≥ 0` (archive: `QSL.zz_inequality_all`).
 * `Formalizations.Reusable.hlawka_generalised`: the generalised Hlawka inequality for `n ≥ 3` vectors of a real
@@ -144,5 +147,23 @@ theorem zielinski_zych_inequality {α x : ℝ} (hα : 0 < α) (hx : 0 ≤ x) :
     0 ≤ x ^ α - Real.pi ^ α / 2 + Real.pi ^ α / 2 * Real.cos x +
       α * Real.pi ^ (α - 1) * Real.sin x :=
   QSL.zz_inequality_all hα hx
+
+/-- **The Margolus–Levitin theorem** (`ℏ = 1`). If a normalized population distribution `p` over
+nonnegative energies `E` has mean energy `Ebar` and its autocorrelation `S(τ) = ∑ₙ pₙ e^(−i Eₙ τ)`
+vanishes at a time `τ ≥ 0` (real and imaginary parts given separately), then `π ≤ 2 · Ebar · τ`:
+a state needs at least `π / (2 ⟨E⟩)` to evolve into an orthogonal one.
+
+* Archive: `QSL.margolus_levitin` (`Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin`,
+  through the cosine inequality `1 − (2/π)(x + sin x) ≤ cos x` for `x ≥ 0`); the module cites no paper DOI
+  of ours.
+* Classical reference: N. Margolus, L. B. Levitin, *The maximum speed of dynamical evolution*, Physica D
+  120 (1998) 188–195.
+* Example: the orthogonalization time is at least `π / (2 Ebar)` when `Ebar > 0`. -/
+theorem margolus_levitin {p E : ℕ → ℝ} {Ebar τ : ℝ} (hp : ∀ n, 0 ≤ p n) (hE : ∀ n, 0 ≤ E n)
+    (hτ : 0 ≤ τ) (hsum : HasSum p 1) (hmean : HasSum (fun n => p n * E n) Ebar)
+    (hRe : HasSum (fun n => p n * Real.cos (E n * τ)) 0)
+    (hIm : HasSum (fun n => p n * Real.sin (E n * τ)) 0) :
+    Real.pi ≤ 2 * Ebar * τ :=
+  QSL.margolus_levitin hp hE hτ hsum hmean hRe hIm
 
 end Formalizations.Reusable

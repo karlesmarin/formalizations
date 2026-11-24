@@ -90,6 +90,11 @@ example (S : Submodule ℚ (Matrix (Fin 2) (Fin 2) ℚ)) (hS : ∀ A ∈ S, ∀ 
     Module.finrank ℚ S ≤ 2 := by
   simpa using schur_commuting_finrank_le S hS
 
+/-- Schur's bound is sharp: `M₂(ℚ)` has a commutative subspace of dimension `2`. -/
+example : ∃ S : Submodule ℚ (Matrix (Fin 2) (Fin 2) ℚ), (∀ A ∈ S, ∀ B ∈ S, A * B = B * A) ∧
+    Module.finrank ℚ S = 2 :=
+  schur_commuting_finrank_attained (K := ℚ) (n := 2) (by norm_num)
+
 
 /-- Hua's identity over `ℚ` with `a = 2`, `b = 1`: `2 − (1/2 + (1 − 2)⁻¹)⁻¹ = 4`. -/
 example : (2 : ℚ) - ((2 : ℚ)⁻¹ + ((1 : ℚ)⁻¹ - 2)⁻¹)⁻¹ = 4 := by

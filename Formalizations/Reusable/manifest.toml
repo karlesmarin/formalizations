@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.10.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.11.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.10.0"
+version = "0.11.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -715,7 +715,7 @@ repo_dependencies = []
 [[entry]]
 id = "R0042"
 lean_name = "Formalizations.Reusable.schur_commuting_finrank_le"
-statement = "Schur's bound: a subspace of M_n(K) over a field K whose elements pairwise commute has dimension ≤ ⌊n²/4⌋ + 1 (attained for n ≥ 1)."
+statement = "Schur's bound: a subspace of M_n(K) over a field K whose elements pairwise commute has dimension ≤ ⌊n²/4⌋ + 1 (sharp: R0056)."
 area = "LinearAlgebra"
 msc = "15A27"
 import = "Formalizations.Reusable.LinearAlgebra"
@@ -914,4 +914,55 @@ status = "reusable"
 role = "API"
 upstream_candidate = true
 upstream_reason = "Mathlib has charpolyRev and its low coefficients but not the logarithmic-derivative identity for traces of powers"
+repo_dependencies = []
+
+[[entry]]
+id = "R0054"
+lean_name = "Formalizations.Reusable.margolus_levitin"
+statement = "The Margolus–Levitin quantum speed limit (ℏ = 1): for a normalized population p over nonnegative energies E with mean Ebar, if the autocorrelation Σ pₙ e^(−i Eₙ τ) vanishes at τ ≥ 0, then π ≤ 2 · Ebar · τ."
+area = "Analysis"
+msc = "81P68"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin"
+archive_decl = "QSL.margolus_levitin"
+paper = "none"
+classical_reference = "N. Margolus, L. B. Levitin, The maximum speed of dynamical evolution, Physica D 120 (1998) 188–195"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "a theorem of quantum speed-limit theory, not a lemma of an existing Mathlib theory"
+repo_dependencies = []
+
+[[entry]]
+id = "R0055"
+lean_name = "Formalizations.Reusable.praeger_bounded_movement"
+statement = "Praeger's theorem on bounded movement: if a group acts on Ω with no fixed point and every finite set moved off itself by some element has at most m ≥ 1 points, then Ω is finite, there are at most 2m − 1 orbits, every orbit has at most 3m points and |Ω| ≤ 3m + t − 1, t the number of orbits."
+area = "GroupTheory"
+msc = "20B05"
+import = "Formalizations.Reusable.GroupTheory"
+archive_module = "Formalizations.GroupTheory.GroupAction.BoundedMovement"
+archive_decl = "Praeger.bounded_movement"
+paper = "none (Theorem of the Day)"
+classical_reference = "C. E. Praeger, On permutation groups with bounded movement, J. Algebra 144 (1991) 436–442"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "a specific theorem on permutation groups; Mathlib has no theory of movement of group actions"
+repo_dependencies = []
+
+[[entry]]
+id = "R0056"
+lean_name = "Formalizations.Reusable.schur_commuting_finrank_attained"
+statement = "Schur's bound is sharp: for every field K and n ≥ 1 there is a subspace of M_n(K) whose elements pairwise commute, of dimension exactly ⌊n²/4⌋ + 1 (the companion of R0042)."
+area = "LinearAlgebra"
+msc = "15A27"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.SchurCommuting"
+archive_decl = "SchurCommuting.exists_finrank_eq, SchurCommuting.finrank_le_and_attained"
+paper = "none"
+classical_reference = "I. Schur, Zur Theorie der vertauschbaren Matrizen, J. Reine Angew. Math. 130 (1905) 66–76"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "no Mathlib counterpart; the extremal example of a specific bound"
 repo_dependencies = []
