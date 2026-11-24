@@ -1,0 +1,6 @@
+session BSR_m4_Moments = "HOL-Analysis" +
+  options [timeout = 600]
+  sessions
+    "HOL-Computational_Algebra"
+  theories
+    BSR_m4_Moments

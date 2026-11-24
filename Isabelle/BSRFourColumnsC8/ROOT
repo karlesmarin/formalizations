@@ -1,0 +1,4 @@
+session BSR_m4_C8 = "HOL-Analysis" +
+  options [timeout = 900]
+  theories
+    BSR_m4_C8

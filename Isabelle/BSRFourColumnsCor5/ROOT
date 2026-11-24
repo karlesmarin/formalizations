@@ -1,0 +1,4 @@
+session BSR_m4_Cor5 = "HOL" +
+  options [timeout = 300]
+  theories
+    BSR_m4_Cor5

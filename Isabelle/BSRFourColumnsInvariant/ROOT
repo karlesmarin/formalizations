@@ -1,0 +1,8 @@
+session BSR_m4_Invariant = "HOL-Analysis" +
+  options [timeout = 600]
+  sessions
+    "HOL-Computational_Algebra"
+  theories
+    BSR_m4_Polar
+    BSR_m4_Invariant
+    BSR_m4_LowIndex
