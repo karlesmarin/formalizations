@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Integer_Length = "HOL-Library" +
+  options [timeout = 1200]
+  theories
+    IL_Formula

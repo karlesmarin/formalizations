@@ -178,3 +178,4 @@ Sessions that were finished in the working queue and had not been uploaded.
 | `DilogReflectionLanden/` (`Dilog_Reflection_Landen`) | Euler reflection, Landen and duplication for the real dilogarithm on top of the AFP Polylog entry; Li2(1/2) = pi^2/12 - (ln 2)^2/2 |
 | `FejerJackson/` (`Fejer_Jackson`) | Fejer-Jackson inequality (partial sums of sin(k theta)/k are positive on (0, pi)) and the Clausen bound Cl2(theta) >= sin(theta)/2 |
 | `MargolusLevitin/` (`Margolus_Levitin`) | Margolus-Levitin (pi <= 2 Ebar tau) and the L1 Mandelstam-Tamm bound (1 <= D1 tau) for a finite energy distribution |
+| `LengthsIntegerLength/` (`Integer_Length`) | Integer length formula: the least number of integer squares is n + P + (z mod 2) for the graph model (lengths paper) |
