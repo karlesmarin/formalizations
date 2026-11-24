@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Margolus_Levitin = "HOL-Analysis" +
+  options [timeout = 900]
+  theories
+    Margolus_Levitin
