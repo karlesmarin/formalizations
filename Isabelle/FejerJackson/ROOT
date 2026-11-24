@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Fejer_Jackson = "HOL-Analysis" +
+  options [timeout = 900]
+  theories
+    Fejer_Jackson
