@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Rows_Columns_Kernel = "HOL-Analysis" +
+  options [timeout = 600]
+  theories
+    Rows_Columns_Kernel

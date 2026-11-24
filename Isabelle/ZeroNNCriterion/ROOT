@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session Zero_NN_Criterion = "HOL-Analysis" +
+  options [timeout = 600]
+  theories
+    Zero_NN_Criterion

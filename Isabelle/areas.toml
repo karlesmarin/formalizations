@@ -156,3 +156,5 @@
 "Isabelle/LengthsPlaneRotations/LengthsPropAux/Prop_Aux.thy" = "Algebra/QuadraticForms"
 "Isabelle/LengthsPropTenUpper/Prop_Ten_Upper.thy" = "Algebra/QuadraticForms"
 "Isabelle/LengthsPropForestUpper/Prop_Forest_Upper.thy" = "Algebra/QuadraticForms"
+"Isabelle/ZeroNNCriterion/Zero_NN_Criterion.thy" = "AlgebraicGeometry/SegrePersistence"
+"Isabelle/RowsColumnsKernel/Rows_Columns_Kernel.thy" = "AlgebraicGeometry/SegrePersistence"
