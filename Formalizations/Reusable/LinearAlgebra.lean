@@ -35,6 +35,8 @@ copied). The modules imported here are general linear algebra; none is a paper o
   (archive: `DGH.hua_classical`).
 * `Formalizations.Reusable.schur_commuting_finrank_le`: a commutative subspace of `M_n(K)` has dimension
   `≤ n² / 4 + 1` (archive: `SchurCommuting.finrank_le`).
+* `Formalizations.Reusable.schur_commuting_finrank_attained`: for `n ≥ 1` some commutative subspace of `M_n(K)` has
+  dimension exactly `n² / 4 + 1`, so Schur's bound is sharp (archive: `SchurCommuting.exists_finrank_eq`).
 * `Formalizations.Reusable.int_columns_of_transpose_mul_self`: the columns of an integer matrix
   with `Aᵀ A = 1` are signed unit vectors in distinct rows (archive: `IntOrthonormal.columns_of_transpose_mul_self`).
 * `Formalizations.Reusable.biquadratic_sos_transport`: sums of squares of bilinear forms
@@ -285,6 +287,19 @@ theorem schur_commuting_finrank_le {K : Type*} [Field K] {n : ℕ}
     (S : Submodule K (Matrix (Fin n) (Fin n) K)) (hS : ∀ A ∈ S, ∀ B ∈ S, A * B = B * A) :
     Module.finrank K S ≤ n ^ 2 / 4 + 1 :=
   SchurCommuting.finrank_le S hS
+
+/-- **Schur's bound is sharp.** For every field `K` and `n ≥ 1` there is a subspace of `M_n(K)` whose elements
+pairwise commute and whose dimension is exactly `⌊n² / 4⌋ + 1`: the scalar matrices plus the block of matrices
+supported on a `⌈n/2⌉ × ⌊n/2⌋` corner (any two of them multiply to zero).
+
+* Archive: `SchurCommuting.exists_finrank_eq` (`Formalizations.LinearAlgebra.Matrix.SchurCommuting`); the module
+  cites no paper DOI of ours.
+* Classical reference: I. Schur, *Zur Theorie der vertauschbaren Matrizen*, J. Reine Angew. Math. 130 (1905) 66–76.
+* Example: over `ℚ` a commutative subspace of `M₂(ℚ)` of dimension `2` exists. -/
+theorem schur_commuting_finrank_attained {K : Type*} [Field K] {n : ℕ} (hn : 1 ≤ n) :
+    ∃ S : Submodule K (Matrix (Fin n) (Fin n) K), (∀ A ∈ S, ∀ B ∈ S, A * B = B * A) ∧
+      Module.finrank K S = n ^ 2 / 4 + 1 :=
+  SchurCommuting.exists_finrank_eq (K := K) hn
 
 
 /-- **Hua's identity.** In a division ring `K`, for `a ≠ 0`, `b ≠ 0` and `a b ≠ 1`,

@@ -6,8 +6,10 @@ Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/le
 organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
 results.
 
-- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.10.0`.
-- ✅ No `sorry`, no `native_decide`, no new axioms. All 2726 main results depend only on the standard axioms
+- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.11.0`.
+- ✅ No `sorry`, no `native_decide`, no new axioms (the only exceptions are the comparator challenges
+  `FormalizationsTest/Comparator/Challenge*.lean`: they state the trusted statements with `sorry` by design, are not
+  part of any build target, and `lake comparator` checks the solutions against them). All 2732 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -76,7 +78,7 @@ and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
    [[require]]
    name = "formalizations"
    git = "https://github.com/karlesmarin/formalizations"
-   rev = "v0.10.0"
+   rev = "v0.11.0"
    ```
 
 2. In a file of the project (here `Example.lean`), import the minimal module, the area of the theorem (column
@@ -159,7 +161,7 @@ commitment; Lake does not enforce it.
 | `hlawka_generalised` 🆕 | 🏛️ `showcase` | generalised Hlawka inequality: `d₂ + ⋯ + d_{n−1} ≤ (2ⁿ⁻² − 1)(d₁ + d_n)` for `n ≥ 3` vectors of a real inner product space (`n = 3` is Hlawka's) | 📈 `Analysis` | `Hlawka.generalised` |
 | `bregman_permanent_le` 🆕 | 🏛️ `showcase` | Brégman: `per A ≤ ∏ᵢ (rᵢ!)^(1/rᵢ)` for an `n × n` `(0,1)`-matrix with row sums `rᵢ` | 🧩 `Combinatorics` | `Bregman.permanent_le` |
 | `colorable_iff_forall_finite_induce` 🆕 | 🔌 `API` | de Bruijn–Erdős: a graph is `n`-colourable iff every finite induced subgraph is | 🧩 `Combinatorics` | `SimpleGraph.colorable_iff_forall_finite_induce` |
-| `schur_commuting_finrank_le` 🆕 | 🏛️ `showcase` | Schur: a commutative subspace of `M_n(K)` has dimension `≤ ⌊n²/4⌋ + 1` (attained) | 🔢 `LinearAlgebra` | `SchurCommuting.finrank_le` |
+| `schur_commuting_finrank_le` 🆕 | 🏛️ `showcase` | Schur: a commutative subspace of `M_n(K)` has dimension `≤ ⌊n²/4⌋ + 1` | 🔢 `LinearAlgebra` | `SchurCommuting.finrank_le` |
 | `bruck_ryser_chowla` 🆕 | 🏛️ `showcase` | Bruck–Ryser–Chowla: a projective plane of order `n ≡ 1, 2 (mod 4)` forces `n` to be a sum of two squares | 🧩 `Combinatorics` | `BruckRyserChowla.exists_sq_add_sq` |
 | `transversalMatroid_indep` 🆕 | 🔌 `API` | the independent sets of the transversal matroid of a finite set family are its partial transversals | 🧩 `Combinatorics` | `Theorems.TransversalMatroid.transversalMatroid_indep` |
 | `ded_reciprocity` 🆕 | 🔌 `API` | Dedekind reciprocity: `s(h,k) + s(k,h) = (h² + k² + 1)/(12hk) − 1/4` for coprime `h, k > 0` | 🔣 `NumberTheory` | `DedekindSum.ded_reciprocity` |
@@ -171,6 +173,9 @@ commitment; Lake does not enforce it.
 | `zielinski_zych_inequality` 🆕 | 🏛️ `showcase` | Zieliński–Zych: `x^α − π^α/2 + (π^α/2) cos x + α π^(α−1) sin x ≥ 0` for every `α > 0`, `x ≥ 0` (the core of the fractional-moment speed limit) | 📈 `Analysis` | `QSL.zz_inequality_all` |
 | `separation_lemma_of_pretransitive` 🆕 | 🔌 `API` | separation lemma: `G` pretransitive on `Ω`, `#A · #B < #Ω` ⇒ some `g` moves `A` off `B` | 🔄 `GroupTheory` | `TotD.separation_lemma_of_pretransitive` |
 | `derivative_coe_charpolyRev` 🆕 | 🔌 `API` | Newton's identity for traces: `d/dX (charpolyRev M) = − charpolyRev M · Σₖ trace(Mᵏ⁺¹) Xᵏ` over any commutative ring | 🔢 `LinearAlgebra` | `Matrix.derivative_coe_charpolyRev` |
+| `margolus_levitin` 🆕 | 🏛️ `showcase` | Margolus–Levitin (`ℏ = 1`): if the autocorrelation vanishes at `τ ≥ 0`, then `π ≤ 2 ⟨E⟩ τ` | 📈 `Analysis` | `QSL.margolus_levitin` |
+| `praeger_bounded_movement` 🆕 | 🏛️ `showcase` | Praeger: bounded movement `m` ⇒ `Ω` finite, `≤ 2m − 1` orbits, orbits of size `≤ 3m`, `\|Ω\| ≤ 3m + t − 1` | 🔄 `GroupTheory` | `Praeger.bounded_movement` |
+| `schur_commuting_finrank_attained` 🆕 | 🏛️ `showcase` | Schur's bound is sharp: for `n ≥ 1` a commutative subspace of `M_n(K)` of dimension `⌊n²/4⌋ + 1` exists | 🔢 `LinearAlgebra` | `SchurCommuting.exists_finrank_eq` |
 | `posSemidef_of_charpoly_alternating` | 🔌 `API` | a real symmetric matrix with alternating characteristic polynomial is PSD (corollary of Descartes' rule of signs) | 🔢 `LinearAlgebra` | `AlternatingRoots.posSemidef_of_charpoly_alternating` |
 | `psd_quadForm_eq_sum_rank_sq` | 🔌 `API` | the quadratic form of a PSD matrix of rank `k` is a sum of exactly `k` squares of linear forms | 🔢 `LinearAlgebra` | `PosSemidefRankSquares.quadForm_eq_sum_sq` |
 | `touchard_bell_add_prime` | 🏛️ `showcase` | Touchard: `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers and every prime `p` | 🔣 `NumberTheory` | `Touchard.bell_add_prime` |

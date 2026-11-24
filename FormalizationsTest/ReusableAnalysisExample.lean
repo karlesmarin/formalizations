@@ -58,7 +58,7 @@ example {p E : ℕ → ℝ} {Ebar τ : ℝ} (hp : ∀ n, 0 ≤ p n) (hE : ∀ n,
 
 /-- The hypotheses of Margolus–Levitin can all hold, and the bound is then attained: a two-level system
 with energies `0` and `2`, equal weights, mean energy `1`, becomes orthogonal at `τ = π/2`, and
-`π = 2 · 1 · (π/2)`. (Non-vacuity check, BGSMath session 3, pitfall 6.) -/
+`π = 2 · 1 · (π/2)`. (Non-vacuity check.) -/
 example : ∃ (p E : ℕ → ℝ) (Ebar τ : ℝ), (∀ n, 0 ≤ p n) ∧ (∀ n, 0 ≤ E n) ∧ 0 ≤ τ ∧ HasSum p 1 ∧
     HasSum (fun n => p n * E n) Ebar ∧ HasSum (fun n => p n * Real.cos (E n * τ)) 0 ∧
     HasSum (fun n => p n * Real.sin (E n * τ)) 0 ∧ Real.pi = 2 * Ebar * τ := by
