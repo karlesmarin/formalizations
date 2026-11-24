@@ -4,11 +4,22 @@
 # project that requires this package then downloads the archive instead of compiling it (`preferReleaseBuild = true`
 # in lakefile.toml); if the download fails, Lake builds from source. `lake upload` needs `gh` (preinstalled on the
 # GitHub-hosted runners) and an existing release, not only a tag.
+# Linux restores the build cache of build.yml (a full build from scratch was killed on the hosted runner); macOS is
+# not built (it reached the 6 h limit on every release), so on macOS Lake builds from source.
+# Manual run for an existing release: Actions > release > Run workflow, with the tag and the systems to build.
 name: release
 
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag of an existing release
+        required: true
+      systems:
+        description: JSON list of runners
+        default: '["ubuntu-latest", "windows-latest"]'
 
 permissions:
   contents: write
@@ -18,20 +29,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: ${{ fromJSON(inputs.systems || '["ubuntu-latest", "windows-latest"]') }}
     runs-on: ${{ matrix.os }}
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
     defaults:
       run:
         shell: bash
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ env.TAG }}
       # Installs elan and the toolchain of lean-toolchain only; the build steps below are explicit.
       - uses: leanprover/lean-action@v1
         with:
           auto-config: false
-          use-github-cache: false
+          use-github-cache: ${{ matrix.os == 'ubuntu-latest' }}
       - name: Mathlib cache
         run: lake exe cache get
       - name: Build
@@ -39,4 +52,4 @@ jobs:
       - name: Upload the build archive to the release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: lake upload "${{ github.event.release.tag_name }}"
+        run: lake upload "$TAG"

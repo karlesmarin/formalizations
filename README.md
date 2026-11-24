@@ -114,8 +114,8 @@ and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
 
 **Prebuilt archives.** `lakefile.toml` sets `preferReleaseBuild = true`: when this package is a dependency, Lake first
 tries to download `formalizations-<platform>.tar.gz` from the GitHub release of the required tag and builds from
-source only if that fails. The workflow `.github/workflows/release.yml` attaches one archive per platform (Linux,
-macOS, Windows) to each published release.
+source only if that fails. The workflow `.github/workflows/release.yml` attaches one archive for Linux and one
+for Windows to each published release; on macOS Lake builds from source.
 
 Alternative to step 2: `import Formalizations.Reusable` imports the whole layer (all areas).
 
