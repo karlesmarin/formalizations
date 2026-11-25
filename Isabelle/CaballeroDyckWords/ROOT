@@ -1,0 +1,22 @@
+chapter Formalizations
+
+session Caballero_Base = "HOL-Number_Theory" +
+  options [timeout = 900]
+  theories
+    Caballero_Divisor_Words
+    Caballero_Count_Algebra
+
+session Caballero_Radix in "Caballero_Radix" = "HOL-Library" +
+  options [timeout = 600]
+  theories
+    Caballero_Radix
+
+session Caballero_Eventos in "Caballero_Eventos" = "HOL-Computational_Algebra" +
+  options [timeout = 600]
+  theories
+    Caballero_Eventos
+
+session Caballero_KR in "Caballero_KR" = "HOL" +
+  options [timeout = 600]
+  theories
+    Caballero_KR

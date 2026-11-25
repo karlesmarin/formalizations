@@ -169,3 +169,8 @@
 "Isabelle/LengthsIntegerLength/IL_Max.thy" = "Algebra/QuadraticForms"
 "Isabelle/LengthsIntegerLength/IL_Model.thy" = "Algebra/QuadraticForms"
 "Isabelle/LengthsIntegerLength/Integer_Length.thy" = "Algebra/QuadraticForms"
+"Isabelle/CaballeroDyckWords/Caballero_Count_Algebra.thy" = "Combinatorics/DyckWords"
+"Isabelle/CaballeroDyckWords/Caballero_Divisor_Words.thy" = "Combinatorics/DyckWords"
+"Isabelle/CaballeroDyckWords/Caballero_Radix/Caballero_Radix.thy" = "Combinatorics/DyckWords"
+"Isabelle/CaballeroDyckWords/Caballero_Eventos/Caballero_Eventos.thy" = "Combinatorics/DyckWords"
+"Isabelle/CaballeroDyckWords/Caballero_KR/Caballero_KR.thy" = "Combinatorics/DyckWords"

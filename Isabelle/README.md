@@ -179,3 +179,7 @@ Sessions that were finished in the working queue and had not been uploaded.
 | `FejerJackson/` (`Fejer_Jackson`) | Fejer-Jackson inequality (partial sums of sin(k theta)/k are positive on (0, pi)) and the Clausen bound Cl2(theta) >= sin(theta)/2 |
 | `MargolusLevitin/` (`Margolus_Levitin`) | Margolus-Levitin (pi <= 2 Ebar tau) and the L1 Mandelstam-Tamm bound (1 <= D1 tau) for a finite energy distribution |
 | `LengthsIntegerLength/` (`Integer_Length`) | Integer length formula: the least number of integer squares is n + P + (z mod 2) for the graph model (lengths paper) |
+| `CaballeroDyckWords/` (`Caballero_Base`) | Dyck words of divisors (Rodríguez Caballero): reduction to the odd part, D_n minus 2D_n = D_m and 2D_n minus D_n = 2^e D_m; the word has τ(m) letters of each kind and is a Dyck word; the final algebra of the count \|L_2q\| = (9q² − 10q + 13)/4 |
+| `CaballeroDyckWords/` (`Caballero_Radix`) | Maximal refinement for Dyck words of divisors: the mixed-radix lemma and conservation of the word w_f (combinatorial core) |
+| `CaballeroDyckWords/` (`Caballero_Eventos`) | Event compression for Dyck words of divisors: the algebraic part (Theorem B and the Presburger step) |
+| `CaballeroDyckWords/` (`Caballero_KR`) | Kassel–Reutenauer observation for Dyck words of divisors: pieces of a_{n,i} as a sum of indicators [d_j ≥ 2i+1] |
