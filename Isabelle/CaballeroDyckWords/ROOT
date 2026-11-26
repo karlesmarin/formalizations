@@ -35,3 +35,8 @@ session Caballero_Levels in "Caballero_Levels" = HOL +
   options [timeout = 600]
   theories
     Caballero_Levels
+
+session Caballero_Setting in "Caballero_Setting" = "HOL-Library" +
+  options [timeout = 600]
+  theories
+    Caballero_Setting
