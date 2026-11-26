@@ -41,3 +41,4 @@ session Caballero_Setting in "Caballero_Setting" = "HOL-Library" +
   theories
     Caballero_Setting
     Caballero_Twonum
+    Caballero_Families
