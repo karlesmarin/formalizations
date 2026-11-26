@@ -40,3 +40,4 @@ session Caballero_Setting in "Caballero_Setting" = "HOL-Library" +
   options [timeout = 600]
   theories
     Caballero_Setting
+    Caballero_Twonum
