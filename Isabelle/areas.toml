@@ -174,3 +174,6 @@
 "Isabelle/CaballeroDyckWords/Caballero_Radix/Caballero_Radix.thy" = "Combinatorics/DyckWords"
 "Isabelle/CaballeroDyckWords/Caballero_Eventos/Caballero_Eventos.thy" = "Combinatorics/DyckWords"
 "Isabelle/CaballeroDyckWords/Caballero_KR/Caballero_KR.thy" = "Combinatorics/DyckWords"
+"Isabelle/CaballeroDyckWords/Caballero_Nonint/Caballero_Nonint.thy" = "Combinatorics/DyckWords"
+"Isabelle/CaballeroDyckWords/Caballero_Fibre4/Caballero_Fibre4.thy" = "Combinatorics/DyckWords"
+"Isabelle/CaballeroDyckWords/Caballero_Levels/Caballero_Levels.thy" = "Combinatorics/DyckWords"

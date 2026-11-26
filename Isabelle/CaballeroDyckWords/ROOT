@@ -20,3 +20,18 @@ session Caballero_KR in "Caballero_KR" = "HOL" +
   options [timeout = 600]
   theories
     Caballero_KR
+
+session Caballero_Nonint in "Caballero_Nonint" = HOL +
+  options [timeout = 600]
+  theories
+    Caballero_Nonint
+
+session Caballero_Fibre4 in "Caballero_Fibre4" = "HOL-Library" +
+  options [timeout = 600]
+  theories
+    Caballero_Fibre4
+
+session Caballero_Levels in "Caballero_Levels" = HOL +
+  options [timeout = 600]
+  theories
+    Caballero_Levels

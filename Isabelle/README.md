@@ -183,3 +183,6 @@ Sessions that were finished in the working queue and had not been uploaded.
 | `CaballeroDyckWords/` (`Caballero_Radix`) | Maximal refinement for Dyck words of divisors: the mixed-radix lemma and conservation of the word w_f (combinatorial core) |
 | `CaballeroDyckWords/` (`Caballero_Eventos`) | Event compression for Dyck words of divisors: the algebraic part (Theorem B and the Presburger step) |
 | `CaballeroDyckWords/` (`Caballero_KR`) | Kassel–Reutenauer observation for Dyck words of divisors: pieces of a_{n,i} as a sum of indicators [d_j ≥ 2i+1] |
+| `CaballeroDyckWords/` (`Caballero_Nonint`) | Dyck words of divisors II (Rodríguez Caballero, paper in preparation), Theorem nonint: the shift between two templates is never an integer (an affine function cannot take the signs +,-,+); a class of templates with equal window sums up to a constant has at most a+1 elements |
+| `CaballeroDyckWords/` (`Caballero_Fibre4`) | Dyck words of divisors II, Corollary fibre4 (first sentence): for a = 3 and b >= 5 four distinct vectors with the same multiset Z(c), hence a fibre of size four |
+| `CaballeroDyckWords/` (`Caballero_Levels`) | Dyck words of divisors II, Proposition levels: for a non-decreasing level vector the generating polynomial of the deficits times Q is a sum of clusters (Q abstract; any a and b) |
