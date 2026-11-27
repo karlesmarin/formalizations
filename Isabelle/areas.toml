@@ -180,3 +180,4 @@
 "Isabelle/CaballeroDyckWords/Caballero_Setting/Caballero_Setting.thy" = "Combinatorics/DyckWords"
 "Isabelle/CaballeroDyckWords/Caballero_Setting/Caballero_Twonum.thy" = "Combinatorics/DyckWords"
 "Isabelle/CaballeroDyckWords/Caballero_Setting/Caballero_Families.thy" = "Combinatorics/DyckWords"
+"Isabelle/SU7CellFinite/SU7_Cell_Finite.thy" = "Physics/Particles/GaugeHiggsUnification"

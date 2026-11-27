@@ -1,0 +1,6 @@
+chapter Formalizations
+
+session SU7_Cell_Finite = HOL +
+  options [timeout = 600]
+  theories
+    SU7_Cell_Finite
