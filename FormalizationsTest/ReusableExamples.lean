@@ -281,3 +281,28 @@ example (X : Finset ℕ) (hX : X.Nonempty) (F : Finset (Finset ℕ)) (hF : F.car
   exact ⟨x, hx, Finset.card_image_of_injOn hinj⟩
 
 end V030
+
+/-- There is a positive period for the Fibonacci sequence modulo 10. -/
+example : ∃ period, 0 < period ∧ ∀ n, Nat.fib (n + period) ≡ Nat.fib n [MOD 10] :=
+  exists_fib_modEq_period 10 (by decide)
+
+/-- Every positive period modulo 10 is divisible by two. -/
+example (period : ℕ) (hpos : 0 < period)
+    (hper : ∀ n, Nat.fib (n + period) ≡ Nat.fib n [MOD 10]) : 2 ∣ period :=
+  even_iff_two_dvd.mp (even_of_fib_modEq_period 10 (by decide) period hpos hper)
+
+/-- The prime 5 divides `F₅`, by the vanishing of the Legendre symbol. -/
+example : (Nat.fib 5 : ZMod 5) = 0 := by
+  let _ : Fact (Nat.Prime 5) := ⟨by decide⟩
+  rw [fib_prime_eq_legendreSym, (legendreSym.eq_zero_iff 5 5).mpr (by decide), Int.cast_zero]
+
+/-- The odd indices which divide their associated Fibonacci sums form an infinite set. -/
+example : {k : ℕ | Odd k ∧ k ∣ (∑ i ∈ Finset.Icc 1 k, Nat.fib i)}.Infinite :=
+  flynn_connolly.2
+
+/-- Doubling sends some point of the cyclic interval `{0, 1}` modulo 5 outside the interval. -/
+example : ∃ x : ZMod 5, x.val < 2 ∧ 2 ≤ ((2 : ZMod 5) * x).val := by
+  let a : (ZMod 5)ˣ := ⟨2, 3, by decide, by decide⟩
+  have h := amiot_interval (n := 5) (k := 2) (by decide) (by decide) 0 a (by decide) (by decide)
+  push Not at h
+  simpa [a] using h

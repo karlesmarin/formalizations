@@ -6,11 +6,11 @@ Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/le
 organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
 results.
 
-- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.13.0`.
+- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.14.0`.
 - ✅ No `sorry`, no `native_decide`, no new axioms (the only exceptions are the comparator challenges
   `FormalizationsTest/Comparator/Challenge*.lean`: they state the trusted statements with `sorry` by design, are not
   part of any build target, and `lake comparator` checks the solutions against them).
-  All 2738 main results depend only on the standard axioms
+  All 2748 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -50,7 +50,7 @@ Import everything with `import Formalizations`, or a single file, e.g.
 ## 💎 Reusable layer
 
 Most of the archive is organized by paper. On top of it, `Formalizations.Reusable` is a small layer of general
-statements, phrased with Mathlib concepts only, under stable names `Formalizations.Reusable.<name>`. Each one is
+statements, phrased with Mathlib concepts or public archive definitions, under stable names `Formalizations.Reusable.<name>`. Each one is
 proved by the archive theorem it re-exposes, so its provenance stays traceable; the archive itself is unchanged.
 The manifest [`Formalizations/Reusable/manifest.toml`](Formalizations/Reusable/manifest.toml) gives, for each entry, an
 English statement, the area (MSC), the minimal import, the archive module, the paper, the classical reference and
@@ -79,7 +79,7 @@ and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
    [[require]]
    name = "formalizations"
    git = "https://github.com/karlesmarin/formalizations"
-   rev = "v0.13.0"
+   rev = "v0.14.0"
    ```
 
 2. In a file of the project (here `Example.lean`), import the minimal module, the area of the theorem (column
@@ -183,6 +183,16 @@ commitment; Lake does not enforce it.
 | `fanoGroup_card` 🆕 | 🏛️ `showcase` | The group preserving the seven lines of the Fano plane has order `168` | 🔄 `GroupTheory` | `TotD.fanoGroup_card` |
 | `resolventSeries_diag_mul_coe_charpolyRev` 🆕 | 🔌 `API` | The diagonal resolvent series times `charpolyRev M` equals `charpolyRev` of the principal submatrix | 🔢 `LinearAlgebra` | `Matrix.resolventSeries_diag_mul_coe_charpolyRev` |
 | `variance_mixture_kurtosis_identity` 🆕 | 🔌 `API` | A Gaussian variance mixture has kurtosis `3 E[V²]/E[V]²` and nonnegative excess kurtosis | 📈 `Analysis` | `Superstatistics.variance_mixture_kurtosis_identity'` |
+| `exists_fib_modEq_period` 🆕 | 🔌 `API` | Fibonacci numbers have a positive period modulo every positive integer | 🔣 `NumberTheory` | `Pisano.exists_period` |
+| `even_of_fib_modEq_period` 🆕 | 🔌 `API` | Every positive Fibonacci period modulo `m > 2` is even | 🔣 `NumberTheory` | `Pisano.even_of_period` |
+| `fib_prime_eq_legendreSym` 🆕 | 🔌 `API` | At a prime `p`, `Fₚ ≡ (5/p) (mod p)` | 🔣 `NumberTheory` | `FibLegendre.fib_prime_eq_legendreSym` |
+| `flynn_connolly` 🆕 | 🏛️ `showcase` | Infinitely many odd `k` divide `F₁ + ⋯ + Fₖ` | 🔣 `NumberTheory` | `FibonacciSumDivisibility.flynn_connolly` |
+| `amiot_interval` 🆕 | 🔌 `API` | A cyclic interval of length `2 ≤ k ≤ n − 2` cannot be preserved by a unit other than `±1` | 🔣 `NumberTheory` | `Segmentos.amiot_interval` |
+| `matchingPoly_forest_eq_charpoly` 🆕 | 🔌 `API` | For a forest, the matching polynomial is the characteristic polynomial of its adjacency matrix | 🧩 `Combinatorics` | `SimpleGraph.matchingPoly_forest_eq_charpoly` |
+| `matchingPoly_splits` 🆕 | 🔌 `API` | Heilmann–Lieb: the matching polynomial of a finite simple graph splits over ℝ | 🧩 `Combinatorics` | `SimpleGraph.matchingPoly_realRooted` |
+| `matchingPoly_root_bound` 🆕 | 🔌 `API` | Heilmann–Lieb: maximum degree at most Δ ≥ 2 bounds the absolute value of each matching root by 2√(Δ−1) | 🧩 `Combinatorics` | `SimpleGraph.matchingPoly_bounded` |
+| `godsil_pathTree_identity` 🆕 | 🏛️ `showcase` | Godsil’s path-tree identity compares matching polynomials before and after deleting the starting vertex | 🧩 `Combinatorics` | `SimpleGraph.godsil_identity`, `SimpleGraph.matchingPoly_deleteIncidenceSet_isolate` |
+| `matchingPoly_root_power_sum_eq_pathTree_walks` 🆕 | 🏛️ `showcase` | Godsil’s moment theorem: the kth power sum of matching roots counts closed tree-like walks of length k | 🧩 `Combinatorics` | `SimpleGraph.matchingPowerSum_eq_treeLikeWalkCount`, `SimpleGraph.treeLikeWalkCount_eq_sum_pathTree_adjMatrix_pow` |
 | `posSemidef_of_charpoly_alternating` | 🔌 `API` | a real symmetric matrix with alternating characteristic polynomial is PSD (corollary of Descartes' rule of signs) | 🔢 `LinearAlgebra` | `AlternatingRoots.posSemidef_of_charpoly_alternating` |
 | `psd_quadForm_eq_sum_rank_sq` | 🔌 `API` | the quadratic form of a PSD matrix of rank `k` is a sum of exactly `k` squares of linear forms | 🔢 `LinearAlgebra` | `PosSemidefRankSquares.quadForm_eq_sum_sq` |
 | `touchard_bell_add_prime` | 🏛️ `showcase` | Touchard: `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers and every prime `p` | 🔣 `NumberTheory` | `Touchard.bell_add_prime` |
@@ -455,7 +465,7 @@ commitment; Lake does not enforce it.
 | `Probability` | `Kemeny` 🆕 | Kemeny's constant: for a finite Markov chain with stationary `π` and finite hitting times, `Σ_t π_t m_st` does not depend on the start `s`. |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
 | | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
-| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry`, `NumberTheory` 🆕, `GroupTheory` 🆕 | The reusable layer: sixty-two general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
+| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry`, `NumberTheory` 🆕, `GroupTheory` 🆕 | The reusable layer: seventy-two general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
 | `RepresentationTheory` | `G2Counts` 🆕 | Divisibility counts of the six G2 positive-root values at q = 2, 3 (the arithmetic half of a character-vanishing corollary). |
 | `RepresentationTheory` | `SpinRhoLine` 🆕 | Product of sines `∏_{k=1}^{n-1} 2 sin(kπ/n) = n`; the spin values on the ρ-line, `∏_{j=1}^{m} 2 sin(jπ/(2m+1)) = √(2m+1)` (type B, also in cosine form) and `∏_{j=1}^{m-1} 2 sin(jπ/2m) = √m` (type D), each an integer iff `2m+1` (resp. `m`) is a square; the Dirichlet kernel and the index shift `sin((hq+r)π/q) = (−1)^h sin(rπ/q)`. The identification with the spin characters is not formalized. |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |

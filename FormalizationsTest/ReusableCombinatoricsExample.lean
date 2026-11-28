@@ -6,6 +6,34 @@ import Formalizations.Reusable.Combinatorics
 
 open Formalizations.Reusable Filter Topology
 
+/-- `matchingPoly_forest_eq_charpoly` identifies the matching polynomial of a tree with the
+characteristic polynomial of its adjacency matrix. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+    (hG : G.IsTree) : G.matchingPoly = (G.adjMatrix ℝ).charpoly :=
+  matchingPoly_forest_eq_charpoly G hG.isAcyclic
+
+/-- `matchingPoly_splits` applies to the triangle, which has a cycle. -/
+example : (⊤ : SimpleGraph (Fin 3)).matchingPoly.Splits :=
+  matchingPoly_splits ⊤
+
+/-- `matchingPoly_root_bound` gives the interval `[-2, 2]` when all degrees are at most two. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+    (hdeg : ∀ v, G.degree v ≤ 2) {x : ℝ} (hx : G.matchingPoly.IsRoot x) : |x| ≤ 2 := by
+  simpa [show (2 : ℝ) - 1 = 1 by norm_num] using matchingPoly_root_bound G 2 (by decide) hdeg hx
+
+open Classical in
+/-- `godsil_pathTree_identity` gives a divisibility relation after deleting the starting vertex. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) (u : V) :
+    G.matchingPoly ∣ (G.induce {v | v ≠ u}).matchingPoly * (G.pathTree u).matchingPoly :=
+  ⟨((G.pathTree u).induce {r | r ≠ G.pathTreeRoot u}).matchingPoly,
+    (godsil_pathTree_identity G u).symm⟩
+
+/-- `matchingPoly_root_power_sum_eq_pathTree_walks` at order zero counts the trivial walk at each
+vertex. Equivalently, the number of complex roots counted with multiplicity is the vertex count. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj] :
+    ((G.matchingPoly.map (algebraMap ℝ ℂ)).roots.card : ℂ) = Fintype.card V := by
+  simpa [Matrix.one_apply] using matchingPoly_root_power_sum_eq_pathTree_walks G 0
+
 /-- Pomerance: eventually more than half of the `n < x` have `n + 2 ∣ C(2n, n)`. -/
 example : ∀ᶠ x : ℕ in atTop,
     (1 / 2 : ℝ) < (((Finset.range x).filter (fun n => n + 2 ∣ Nat.centralBinom n)).card : ℝ) / x :=

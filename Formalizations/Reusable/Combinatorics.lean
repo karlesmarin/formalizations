@@ -17,6 +17,8 @@ public import Formalizations.Combinatorics.Configuration.BruckRyserChowla
 public import Formalizations.Combinatorics.Matroid.Transversal
 public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
 public import Formalizations.Combinatorics.Choose.Singmaster
+public import Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.HeilmannLiebBound
+public import Formalizations.Combinatorics.SimpleGraph.Ihara.MomentAssembly
 
 /-!
 # Reusable layer: combinatorics and number theory
@@ -27,6 +29,13 @@ for Kirchhoff's matrix-tree theorem. Each theorem is proved by the archive theor
 
 ## Main results
 
+* `Formalizations.Reusable.matchingPoly_forest_eq_charpoly`: the matching polynomial of a forest
+  is the characteristic polynomial of its adjacency matrix.
+* `Formalizations.Reusable.matchingPoly_splits` and `Formalizations.Reusable.matchingPoly_root_bound`:
+  the Heilmann–Lieb real-rootedness and maximum-degree bound.
+* `Formalizations.Reusable.godsil_pathTree_identity` and
+  `Formalizations.Reusable.matchingPoly_root_power_sum_eq_pathTree_walks`: Godsil's
+  path-tree identity and moment theorem.
 * `Formalizations.Reusable.ncard_choose_eq_le_two_mul_log`: Singmaster's bound, an integer `a ≥ 2` occurs at most
   `2 ⌊log₂ a⌋` times in Pascal's triangle (archive: `Singmaster.ncard_choose_eq_le_two_mul_log`).
 * `Formalizations.Reusable.bregman_permanent_le`: Brégman's theorem, `per A ≤ ∏ᵢ (rᵢ!)^(1/rᵢ)` for `(0,1)`-matrices
@@ -278,5 +287,80 @@ theorem ncard_choose_eq_le_two_mul_log (a : ℕ) (ha : 2 ≤ a) :
     {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a}.Finite ∧
     {p : ℕ × ℕ | p.2 ≤ p.1 ∧ Nat.choose p.1 p.2 = a}.ncard ≤ 2 * Nat.log 2 a :=
   Singmaster.ncard_choose_eq_le_two_mul_log a ha
+
+/-- **Matching polynomial of a forest.** Over `ℝ`, a finite forest's matching polynomial is
+the characteristic polynomial of its adjacency matrix.
+
+* Archive: `SimpleGraph.matchingPoly_forest_eq_charpoly`.
+* Classical reference: C. D. Godsil, *Matchings and walks in graphs*, J. Graph Theory 5 (1981)
+  285–297.
+* Example: for an edgeless graph on `n` vertices, both polynomials are `X ^ n`. -/
+theorem matchingPoly_forest_eq_charpoly {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) [DecidableRel G.Adj] (hG : G.IsAcyclic) :
+    G.matchingPoly = (G.adjMatrix ℝ).charpoly :=
+  G.matchingPoly_forest_eq_charpoly hG
+
+/-- **Heilmann–Lieb real-rootedness.** The matching polynomial of every finite simple graph
+splits over `ℝ`.
+
+* Archive: `SimpleGraph.matchingPoly_realRooted`.
+* Classical reference: O. J. Heilmann, E. H. Lieb, *Theory of monomer-dimer systems*,
+  Comm. Math. Phys. 27 (1972) 190–232.
+* Example: the matching polynomial of a triangle splits over `ℝ`. -/
+theorem matchingPoly_splits {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) [DecidableRel G.Adj] :
+    G.matchingPoly.Splits :=
+  G.matchingPoly_realRooted
+
+/-- **Heilmann–Lieb root bound.** For a finite simple graph with all degrees at most `Δ ≥ 2`,
+every real root of the matching polynomial has absolute value at most `2√(Δ − 1)`.
+The polynomial splits over `ℝ` by `matchingPoly_splits`.
+
+* Archive: `SimpleGraph.matchingPoly_bounded`.
+* Classical reference: O. J. Heilmann, E. H. Lieb, *Theory of monomer-dimer systems*,
+  Comm. Math. Phys. 27 (1972) 190–232.
+* Example: if all degrees are at most two, all roots lie in `[-2, 2]`. -/
+theorem matchingPoly_root_bound {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) [DecidableRel G.Adj] (Δ : ℕ) (hΔ : 2 ≤ Δ)
+    (hdeg : ∀ v, G.degree v ≤ Δ) {x : ℝ} (hx : G.matchingPoly.IsRoot x) :
+    |x| ≤ 2 * Real.sqrt ((Δ : ℝ) - 1) :=
+  (G.matchingPoly_bounded Δ hΔ hdeg).2 x hx
+
+open Classical in
+/-- **Godsil's path-tree identity.** Write `T` for the tree of simple paths starting at `u`
+and `r` for the trivial path. Then `μ(G) μ(T - r) = μ(G - u) μ(T)`, where deleting a vertex
+takes the induced graph on the remaining vertices.
+
+* Archive: `SimpleGraph.godsil_identity` and `SimpleGraph.matchingPoly_deleteIncidenceSet_isolate`.
+* Classical reference: C. D. Godsil, *Matchings and walks in graphs*, J. Graph Theory 5 (1981)
+  285–297.
+* Example: the result gives the polynomial identity needed to compare the two deletion ratios. -/
+theorem godsil_pathTree_identity {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) (u : V) :
+    G.matchingPoly * ((G.pathTree u).induce {r | r ≠ G.pathTreeRoot u}).matchingPoly =
+      (G.induce {v | v ≠ u}).matchingPoly * (G.pathTree u).matchingPoly := by
+  have h := G.godsil_identity u
+  unfold SimpleGraph.godsil_identity_target at h
+  rw [SimpleGraph.matchingPoly_deleteIncidenceSet_isolate,
+    SimpleGraph.matchingPoly_deleteIncidenceSet_isolate] at h
+  exact mul_right_cancel₀ Polynomial.X_ne_zero (by simpa only [mul_assoc, mul_comm,
+    mul_left_comm] using h)
+
+/-- **Godsil's moment theorem.** The sum of the `k`-th powers of the complex roots of a finite
+simple graph's matching polynomial, with multiplicity, equals the number of closed tree-like
+walks of length `k`. For each starting vertex `v`, count closed walks from the root of the
+path tree at `v` using the root–root entry of the `k`-th power of its adjacency matrix.
+
+* Archive: `SimpleGraph.matchingPowerSum_eq_treeLikeWalkCount` and
+  `SimpleGraph.treeLikeWalkCount_eq_sum_pathTree_adjMatrix_pow`.
+* Classical reference: C. D. Godsil, *Matchings and walks in graphs*, J. Graph Theory 5 (1981)
+  285–297.
+* Example: at `k = 0` the root power sum equals the number of vertices. -/
+theorem matchingPoly_root_power_sum_eq_pathTree_walks {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) [DecidableRel G.Adj] (k : ℕ) :
+    ((G.matchingPoly.map (algebraMap ℝ ℂ)).roots.map (· ^ k)).sum =
+      ((∑ v : V, ((G.pathTree v).adjMatrix ℕ ^ k) (G.pathTreeRoot v) (G.pathTreeRoot v)) : ℕ) := by
+  change G.matchingPowerSum k = _
+  rw [G.matchingPowerSum_eq_treeLikeWalkCount, G.treeLikeWalkCount_eq_sum_pathTree_adjMatrix_pow]
 
 end Formalizations.Reusable

@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.13.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.14.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.13.0"
+version = "0.14.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -1068,3 +1068,173 @@ role = "API"
 upstream_candidate = true
 upstream_reason = "Expressed using Mathlib’s Gaussian measure, product measures and integrals."
 repo_dependencies = []
+
+[[entry]]
+id = "R0063"
+lean_name = "Formalizations.Reusable.exists_fib_modEq_period"
+statement = "For every positive m, the Fibonacci sequence modulo m has a positive period valid from index zero."
+area = "NumberTheory"
+msc = "11B39"
+import = "Formalizations.Reusable.NumberTheory"
+archive_module = "Formalizations.NumberTheory.Fibonacci.Pisano"
+archive_decl = "Pisano.exists_period"
+paper = "none cited for this result"
+classical_reference = "D. D. Wall, Fibonacci series modulo m, Amer. Math. Monthly 67 (1960), 525–532"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Periodicity expressed with Mathlib’s Nat.fib and Nat.ModEq."
+repo_dependencies = []
+
+[[entry]]
+id = "R0064"
+lean_name = "Formalizations.Reusable.even_of_fib_modEq_period"
+statement = "For every modulus m > 2, each positive period of the Fibonacci sequence modulo m is even."
+area = "NumberTheory"
+msc = "11B39"
+import = "Formalizations.Reusable.NumberTheory"
+archive_module = "Formalizations.NumberTheory.Fibonacci.Pisano"
+archive_decl = "Pisano.even_of_period"
+paper = "none cited for this result"
+classical_reference = "D. D. Wall, Fibonacci series modulo m, Amer. Math. Monthly 67 (1960), 525–532"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "A parity lemma for periods of Mathlib’s Nat.fib modulo m."
+repo_dependencies = []
+
+[[entry]]
+id = "R0065"
+lean_name = "Formalizations.Reusable.fib_prime_eq_legendreSym"
+statement = "For every prime p, the pth Fibonacci number equals the Legendre symbol (5/p) modulo p."
+area = "NumberTheory"
+msc = "11B39"
+import = "Formalizations.Reusable.NumberTheory"
+archive_module = "Formalizations.NumberTheory.Fibonacci.FibLegendre"
+archive_decl = "FibLegendre.fib_prime_eq_legendreSym"
+paper = "none cited for this result"
+classical_reference = "É. Lucas, Théorie des fonctions numériques simplement périodiques, Amer. J. Math. 1 (1878)"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "A congruence relating Mathlib’s Nat.fib, legendreSym and ZMod; the related Mathlib results have different conclusions."
+repo_dependencies = []
+
+[[entry]]
+id = "R0066"
+lean_name = "Formalizations.Reusable.flynn_connolly"
+statement = "Infinitely many odd k divide the sum F₁ + ⋯ + Fₖ. For odd primes p ≡ 2 modulo 3 and p ≡ ±2 modulo 5, both k = F_(2p) and k = F_(4p) are odd and satisfy F_(k+2) ≡ 1 modulo k."
+area = "NumberTheory"
+msc = "11B39"
+import = "Formalizations.Reusable.NumberTheory"
+archive_module = "Formalizations.NumberTheory.Fibonacci.SumDivisibility"
+archive_decl = "FibonacciSumDivisibility.flynn_connolly"
+paper = "none by the archive author"
+classical_reference = "O. Flynn-Connolly, On the divisibility of sums of Fibonacci numbers, INTEGERS 25 (2025), A87, Theorem 2 and Corollary 2; arXiv:2504.09938v3"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "A specific theorem about Fibonacci sums with an explicit prime-index construction and an infinitude conclusion."
+repo_dependencies = ["Formalizations.NumberTheory.Fibonacci.Pisano", "Formalizations.NumberTheory.Fibonacci.FibLegendre"]
+
+[[entry]]
+id = "R0067"
+lean_name = "Formalizations.Reusable.amiot_interval"
+statement = "A cyclic interval of k consecutive residues modulo n, with 1 < k < n − 1, cannot be preserved by multiplication by a unit other than ±1."
+area = "NumberTheory"
+msc = "20K01"
+import = "Formalizations.Reusable.NumberTheory"
+archive_module = "Formalizations.NumberTheory.SymplecticCharacterOrders.Segments"
+archive_decl = "Segmentos.amiot_interval"
+paper = "C. Marín, Where the character values of Sp(2m) at a torsion element fail to generate the ring of integers, Zenodo (2026), doi:10.5281/zenodo.22813216"
+classical_reference = "E. Amiot, About the number of generators of a musical scale, Theorem 1 (2009), arXiv:0909.0039"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "An interval stability lemma expressed with Mathlib’s ZMod, units and residue representatives."
+repo_dependencies = []
+
+[[entry]]
+id = "R0068"
+lean_name = "Formalizations.Reusable.matchingPoly_forest_eq_charpoly"
+statement = "The matching polynomial of a finite forest equals the characteristic polynomial of its real adjacency matrix."
+area = "Combinatorics"
+msc = "05C31"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.ForestRealRooted"
+archive_decl = "SimpleGraph.matchingPoly_forest_eq_charpoly"
+paper = "none"
+classical_reference = "C. D. Godsil, Matchings and walks in graphs, J. Graph Theory 5 (1981) 285–297, doi:10.1002/jgt.3190050310"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s matching polynomial with Mathlib’s adjacency matrix and characteristic polynomial."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Basic"]
+
+[[entry]]
+id = "R0069"
+lean_name = "Formalizations.Reusable.matchingPoly_splits"
+statement = "Heilmann–Lieb real-rootedness: the matching polynomial of every finite simple graph splits over ℝ."
+area = "Combinatorics"
+msc = "05C31"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.ForestRealRooted"
+archive_decl = "SimpleGraph.matchingPoly_realRooted"
+paper = "none"
+classical_reference = "O. J. Heilmann, E. H. Lieb, Theory of monomer-dimer systems, Comm. Math. Phys. 27 (1972) 190–232"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s matching polynomial with Mathlib’s Polynomial.Splits."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Basic"]
+
+[[entry]]
+id = "R0070"
+lean_name = "Formalizations.Reusable.matchingPoly_root_bound"
+statement = "Heilmann–Lieb: if every vertex degree is at most Δ ≥ 2, then every real root of the matching polynomial lies in [−2√(Δ−1), 2√(Δ−1)]."
+area = "Combinatorics"
+msc = "05C31"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.HeilmannLiebBound"
+archive_decl = "SimpleGraph.matchingPoly_bounded"
+paper = "none"
+classical_reference = "O. J. Heilmann, E. H. Lieb, Theory of monomer-dimer systems, Comm. Math. Phys. 27 (1972) 190–232"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s matching polynomial with Mathlib’s degree and polynomial root API."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Basic"]
+
+[[entry]]
+id = "R0071"
+lean_name = "Formalizations.Reusable.godsil_pathTree_identity"
+statement = "Godsil’s path-tree identity: μ(G) μ(T−r) = μ(G−u) μ(T), where T is the path tree at u, r is its root, and deletion takes the induced graph on the remaining vertices."
+area = "Combinatorics"
+msc = "05C31"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Divisibility"
+archive_decl = "SimpleGraph.godsil_identity, SimpleGraph.matchingPoly_deleteIncidenceSet_isolate"
+paper = "none"
+classical_reference = "C. D. Godsil, Matchings and walks in graphs, J. Graph Theory 5 (1981) 285–297, doi:10.1002/jgt.3190050310"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s matching polynomial and path tree with Mathlib’s induced subgraph."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Basic", "Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.PathTree", "Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.MatchingSum"]
+
+[[entry]]
+id = "R0072"
+lean_name = "Formalizations.Reusable.matchingPoly_root_power_sum_eq_pathTree_walks"
+statement = "Godsil’s moment theorem: the sum of kth powers of the complex matching roots with multiplicity counts closed tree-like walks of length k, expressed by the root entries of the path-tree adjacency matrix powers."
+area = "Combinatorics"
+msc = "05C31"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.Ihara.MomentAssembly"
+archive_decl = "SimpleGraph.matchingPowerSum_eq_treeLikeWalkCount, SimpleGraph.treeLikeWalkCount_eq_sum_pathTree_adjMatrix_pow"
+paper = "none"
+classical_reference = "C. D. Godsil, Matchings and walks in graphs, J. Graph Theory 5 (1981) 285–297, doi:10.1002/jgt.3190050310"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s matching polynomial and path tree with Mathlib’s polynomial roots and adjacency matrix."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Basic", "Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.PathTree", "Formalizations.Combinatorics.SimpleGraph.Ihara.MomentBridge"]

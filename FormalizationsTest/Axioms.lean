@@ -2745,3 +2745,13 @@ import Formalizations
 #print axioms Formalizations.Reusable.fanoGroup_card
 #print axioms Formalizations.Reusable.resolventSeries_diag_mul_coe_charpolyRev
 #print axioms Formalizations.Reusable.variance_mixture_kurtosis_identity
+#print axioms Formalizations.Reusable.exists_fib_modEq_period
+#print axioms Formalizations.Reusable.even_of_fib_modEq_period
+#print axioms Formalizations.Reusable.fib_prime_eq_legendreSym
+#print axioms Formalizations.Reusable.flynn_connolly
+#print axioms Formalizations.Reusable.amiot_interval
+#print axioms Formalizations.Reusable.matchingPoly_forest_eq_charpoly
+#print axioms Formalizations.Reusable.matchingPoly_splits
+#print axioms Formalizations.Reusable.matchingPoly_root_bound
+#print axioms Formalizations.Reusable.godsil_pathTree_identity
+#print axioms Formalizations.Reusable.matchingPoly_root_power_sum_eq_pathTree_walks

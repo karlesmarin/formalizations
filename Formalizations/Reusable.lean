@@ -19,7 +19,7 @@ public import Formalizations.Reusable.Polynomial
 # Reusable layer (v0.3.0)
 
 A small, deliberately maintained layer on top of the archive: general statements, phrased with
-Mathlib concepts only, under stable names `Formalizations.Reusable.<name>`. Each theorem is proved
+Mathlib concepts or public archive definitions, under stable names `Formalizations.Reusable.<name>`. Each theorem is proved
 by the archive theorem it re-exposes (`:= Archive.name ...`), so its provenance stays traceable;
 the archive itself (one module per paper) is unchanged.
 
