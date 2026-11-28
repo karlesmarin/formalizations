@@ -85,3 +85,19 @@ example : ∃ (p E : ℕ → ℝ) (Ebar τ : ℝ), (∀ n, 0 ≤ p n) ∧ (∀ n
   · convert hz (fun n => p n * Real.sin (E n * (Real.pi / 2)))
       (fun n hn => by simp only [hp0 n hn, zero_mul]) using 1
     norm_num [Finset.sum_range_succ, p, E, hpi]
+
+/-- A distribution with unit mean absolute energy deviation needs at least one unit of time. -/
+example {p E : ℕ → ℝ} {Ebar τ : ℝ} (hp : ∀ n, 0 ≤ p n) (hτ : 0 ≤ τ) (hsum : HasSum p 1)
+    (hdev : HasSum (fun n => p n * |E n - Ebar|) 1)
+    (horth : HasSum (fun n => (p n : ℂ) * Complex.exp ((-(E n * τ) : ℝ) * Complex.I)) 0) :
+    1 ≤ τ := by
+  simpa only [one_mul] using mandelstam_tamm_L1 hp hτ hsum hdev horth
+
+open MeasureTheory ProbabilityTheory in
+/-- The kurtosis bound for a Gaussian variance mixture. -/
+example (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    (h₂ : MemLp (fun v : ℝ => v) 2 μ) (h₀ : ∀ᵐ v ∂μ, 0 ≤ v)
+    (hmean : 0 < ∫ v, v ∂μ) :
+    3 ≤ (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 4 ∂(μ.prod (gaussianReal 0 1))) /
+      (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 2 ∂(μ.prod (gaussianReal 0 1))) ^ 2 :=
+  (variance_mixture_kurtosis_identity μ h₂ h₀ hmean).2.2

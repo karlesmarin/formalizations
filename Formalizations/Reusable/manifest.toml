@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.12.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.13.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.12.0"
+version = "0.13.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -982,4 +982,89 @@ status = "reusable"
 role = "API"
 upstream_candidate = true
 upstream_reason = "a reciprocity lemma for Mathlib's Polynomial.cyclotomic and Polynomial.reverse; no counterpart found in the pinned Mathlib"
+repo_dependencies = []
+
+[[entry]]
+id = "R0058"
+lean_name = "Formalizations.Reusable.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two"
+statement = "For two-by-two matrices A and B over a commutative ring, AB + BA = tr(A) B + tr(B) A + (tr(AB) − tr(A)tr(B)) I."
+area = "LinearAlgebra"
+msc = "15A24"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.LinearAlgebra.Matrix.FinTwo"
+archive_decl = "Matrix.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two"
+paper = "none cited for this result"
+classical_reference = "Polarization of the two-by-two Cayley–Hamilton identity"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "A trace identity over commutative rings that complements Mathlib’s Cayley–Hamilton theorem."
+repo_dependencies = []
+
+[[entry]]
+id = "R0059"
+lean_name = "Formalizations.Reusable.mandelstam_tamm_L1"
+statement = "For a probability distribution over real energy levels, if its autocorrelation vanishes at time τ ≥ 0, then D₁τ ≥ 1, where D₁ is the mean absolute energy deviation from the reference energy."
+area = "Analysis"
+msc = "81P68"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Physics.QuantumMechanics.SpeedLimit.MandelstamTamm"
+archive_decl = "QSL.mandelstam_tamm_L1"
+paper = "none cited for this result"
+classical_reference = "L. Mandelstam and I. Tamm, The uncertainty relation between energy and time in non-relativistic quantum mechanics (1945); the archive proves an L¹ variant"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "A quantum speed limit with distribution and autocorrelation hypotheses."
+repo_dependencies = ["Formalizations.Physics.QuantumMechanics.SpeedLimit.MargolusLevitin"]
+
+[[entry]]
+id = "R0060"
+lean_name = "Formalizations.Reusable.fanoGroup_card"
+statement = "The group of permutations of the seven points of the Fano plane that preserve its seven lines has order 168."
+area = "GroupTheory"
+msc = "51E15"
+import = "Formalizations.Reusable.GroupTheory"
+archive_module = "Formalizations.GroupTheory.GroupAction.FanoOrder"
+archive_decl = "TotD.fanoGroup_card"
+paper = "none cited for this result"
+classical_reference = "Classical count for the Fano plane, by ordered noncollinear triples"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "A concrete finite group calculation for this model of the Fano plane."
+repo_dependencies = ["Formalizations.GroupTheory.GroupAction.DistinguishingNumber"]
+
+[[entry]]
+id = "R0061"
+lean_name = "Formalizations.Reusable.resolventSeries_diag_mul_coe_charpolyRev"
+statement = "For a square matrix M over a commutative ring, the power series with coefficients (Mᵏ)ᵢᵢ times the reversed characteristic polynomial of M equals the reversed characteristic polynomial of the principal submatrix deleting i."
+area = "LinearAlgebra"
+msc = "15A15"
+import = "Formalizations.Reusable.LinearAlgebra"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.Ihara.ResolventDiag"
+archive_decl = "Matrix.resolventSeries_diag_mul_coe_charpolyRev"
+paper = "none cited for this result"
+classical_reference = "Diagonal cofactor formula applied to the formal matrix resolvent"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "A denominator-free identity using Mathlib’s characteristic polynomials and formal power series."
+repo_dependencies = ["Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi", "Formalizations.LinearAlgebra.Matrix.Adjugate"]
+
+[[entry]]
+id = "R0062"
+lean_name = "Formalizations.Reusable.variance_mixture_kurtosis_identity"
+statement = "For independent standard normal Z and nonnegative V with finite second moment and positive mean, √V · Z has kurtosis 3 E[V²] / E[V]² and excess kurtosis 3 Var(V) / E[V]² ≥ 0."
+area = "Analysis"
+msc = "60E05"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Probability.Distributions.Superstatistics.StudentMixture"
+archive_decl = "Superstatistics.variance_mixture_kurtosis_identity'"
+paper = "none cited for this result"
+classical_reference = "Classical Gaussian scale-mixture moment formula"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "Expressed using Mathlib’s Gaussian measure, product measures and integrals."
 repo_dependencies = []

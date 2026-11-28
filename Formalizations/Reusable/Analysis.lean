@@ -5,6 +5,8 @@ Authors: Carles Marín, Claude (AI assistant)
 -/
 module
 
+public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MandelstamTamm
+public import Formalizations.Probability.Distributions.Superstatistics.StudentMixture
 public import Formalizations.Analysis.SpecialFunctions.Airy.Basic
 public import Formalizations.Analysis.Polynomial.EnestromKakeya
 public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
@@ -165,5 +167,35 @@ theorem margolus_levitin {p E : ℕ → ℝ} {Ebar τ : ℝ} (hp : ∀ n, 0 ≤ 
     (hIm : HasSum (fun n => p n * Real.sin (E n * τ)) 0) :
     Real.pi ≤ 2 * Ebar * τ :=
   QSL.margolus_levitin hp hE hτ hsum hmean hRe hIm
+
+/-- The Mandelstam–Tamm-type speed limit in L¹ form (ℏ = 1). If the autocorrelation vanishes at
+a nonnegative time `τ`, then `1 ≤ D1 * τ`, where `D1` is the mean absolute energy deviation from
+the reference energy `Ebar`. Archive: `QSL.mandelstam_tamm_L1`. -/
+theorem mandelstam_tamm_L1 {p E : ℕ → ℝ} {Ebar D1 τ : ℝ}
+    (hp : ∀ n, 0 ≤ p n) (hτ : 0 ≤ τ) (hsum : HasSum p 1)
+    (hdev : HasSum (fun n => p n * |E n - Ebar|) D1)
+    (horth : HasSum
+      (fun n => (p n : ℂ) * Complex.exp ((-(E n * τ) : ℝ) * Complex.I)) 0) :
+    1 ≤ D1 * τ :=
+  QSL.mandelstam_tamm_L1 hp hτ hsum hdev horth
+
+open MeasureTheory ProbabilityTheory in
+/-- The kurtosis of `√V * Z`, for independent nonnegative `V` and standard normal `Z`, is
+`3 E[V²] / E[V]²`. Its excess kurtosis is `3 Var(V) / E[V]²` and is nonnegative.
+Archive: `Superstatistics.variance_mixture_kurtosis_identity'`. -/
+theorem variance_mixture_kurtosis_identity
+    (μV : Measure ℝ) [IsProbabilityMeasure μV]
+    (hV2 : MemLp (fun v : ℝ => v) 2 μV)
+    (hVnn : ∀ᵐ v ∂μV, 0 ≤ v)
+    (heV : 0 < ∫ v, v ∂μV) :
+    (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 4 ∂(μV.prod (gaussianReal 0 1)))
+        / (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 2 ∂(μV.prod (gaussianReal 0 1))) ^ 2
+      = 3 * (∫ v, v ^ 2 ∂μV) / (∫ v, v ∂μV) ^ 2
+    ∧ (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 4 ∂(μV.prod (gaussianReal 0 1)))
+          / (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 2 ∂(μV.prod (gaussianReal 0 1))) ^ 2 - 3
+      = 3 * ((∫ v, v ^ 2 ∂μV) - (∫ v, v ∂μV) ^ 2) / (∫ v, v ∂μV) ^ 2
+    ∧ 3 ≤ (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 4 ∂(μV.prod (gaussianReal 0 1)))
+          / (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 2 ∂(μV.prod (gaussianReal 0 1))) ^ 2 :=
+  Superstatistics.variance_mixture_kurtosis_identity' μV hV2 hVnn heV
 
 end Formalizations.Reusable

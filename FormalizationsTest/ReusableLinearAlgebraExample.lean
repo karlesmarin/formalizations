@@ -107,3 +107,17 @@ example (M : Matrix (Fin 2) (Fin 2) ℤ) :
     d⁄dX (M.charpolyRev : ℤ⟦X⟧) =
       -(M.charpolyRev : ℤ⟦X⟧) * PowerSeries.mk fun k => (M ^ (k + 1)).trace :=
   Formalizations.Reusable.derivative_coe_charpolyRev M
+
+/-- The polarized identity for integer matrices. -/
+example (A B : Matrix (Fin 2) (Fin 2) ℤ) :
+    A * B + B * A = A.trace • B + B.trace • A +
+      ((A * B).trace - A.trace * B.trace) • (1 : Matrix (Fin 2) (Fin 2) ℤ) :=
+  Formalizations.Reusable.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two A B
+
+open scoped PowerSeries in
+/-- A diagonal resolvent series for a two-by-two matrix over the integers. -/
+example (M : Matrix (Fin 2) (Fin 2) ℤ) :
+    (PowerSeries.mk fun k => (M ^ k) 0 0) * (M.charpolyRev : ℤ⟦X⟧) =
+      ((M.submatrix (Subtype.val : {j // j ≠ (0 : Fin 2)} → Fin 2)
+        (Subtype.val : {j // j ≠ (0 : Fin 2)} → Fin 2)).charpolyRev : ℤ⟦X⟧) :=
+  Formalizations.Reusable.resolventSeries_diag_mul_coe_charpolyRev M 0

@@ -2739,3 +2739,9 @@ import Formalizations
 #print axioms BiquadraticSOS.P_switching
 #print axioms IntOrthonormal.eq_single_of_dotProduct_self_eq_one
 #print axioms IntOrthonormal.columns_of_transpose_mul_self
+
+#print axioms Formalizations.Reusable.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two
+#print axioms Formalizations.Reusable.mandelstam_tamm_L1
+#print axioms Formalizations.Reusable.fanoGroup_card
+#print axioms Formalizations.Reusable.resolventSeries_diag_mul_coe_charpolyRev
+#print axioms Formalizations.Reusable.variance_mixture_kurtosis_identity

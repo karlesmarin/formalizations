@@ -5,6 +5,8 @@ Authors: Carles Marín, Claude (AI assistant)
 -/
 module
 
+public import Formalizations.LinearAlgebra.Matrix.FinTwo
+public import Formalizations.Combinatorics.SimpleGraph.Ihara.ResolventDiag
 public import Formalizations.LinearAlgebra.Matrix.BlockRank
 public import Formalizations.LinearAlgebra.Matrix.CauchyBinet
 public import Formalizations.LinearAlgebra.Matrix.Charpoly.Jacobi
@@ -329,5 +331,24 @@ theorem derivative_coe_charpolyRev {n R : Type*} [Fintype n] [DecidableEq n] [Co
     d⁄dX (M.charpolyRev : R⟦X⟧) =
       -(M.charpolyRev : R⟦X⟧) * PowerSeries.mk fun k => (M ^ (k + 1)).trace :=
   Matrix.derivative_coe_charpolyRev M
+
+/-- The polarized Cayley–Hamilton identity for two-by-two matrices over a commutative ring.
+Archive: `Matrix.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two`. -/
+theorem mul_add_mul_eq_trace_smul_add_trace_smul_fin_two {R : Type*} [CommRing R]
+    (A B : Matrix (Fin 2) (Fin 2) R) :
+    A * B + B * A = A.trace • B + B.trace • A +
+      ((A * B).trace - A.trace * B.trace) • (1 : Matrix (Fin 2) (Fin 2) R) :=
+  Matrix.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two A B
+
+open scoped PowerSeries in
+/-- The diagonal series of matrix powers times the reversed characteristic polynomial equals the
+reversed characteristic polynomial of the principal submatrix with that index removed.
+Archive: `Matrix.resolventSeries_diag_mul_coe_charpolyRev`. -/
+theorem resolventSeries_diag_mul_coe_charpolyRev {n R : Type*} [Fintype n] [DecidableEq n]
+    [CommRing R] (M : Matrix n n R) (i : n) :
+    (PowerSeries.mk fun k => (M ^ k) i i) * (M.charpolyRev : R⟦X⟧) =
+      ((M.submatrix (Subtype.val : {j // j ≠ i} → n) (Subtype.val : {j // j ≠ i} → n)).charpolyRev :
+        R⟦X⟧) := by
+  simpa only [Matrix.resolventSeries_apply] using Matrix.resolventSeries_diag_mul_coe_charpolyRev M i
 
 end Formalizations.Reusable

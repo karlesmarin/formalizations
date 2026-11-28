@@ -6,11 +6,11 @@ Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/le
 organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
 results.
 
-- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.12.0`.
+- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.13.0`.
 - ✅ No `sorry`, no `native_decide`, no new axioms (the only exceptions are the comparator challenges
   `FormalizationsTest/Comparator/Challenge*.lean`: they state the trusted statements with `sorry` by design, are not
   part of any build target, and `lake comparator` checks the solutions against them).
-  All 2733 main results depend only on the standard axioms
+  All 2738 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -79,7 +79,7 @@ and Mathlib versions (Lean `v4.35.0`, Mathlib `f0b4c81`):
    [[require]]
    name = "formalizations"
    git = "https://github.com/karlesmarin/formalizations"
-   rev = "v0.11.0"
+   rev = "v0.13.0"
    ```
 
 2. In a file of the project (here `Example.lean`), import the minimal module, the area of the theorem (column
@@ -178,6 +178,11 @@ commitment; Lake does not enforce it.
 | `praeger_bounded_movement` | 🏛️ `showcase` | Praeger: bounded movement `m` ⇒ `Ω` finite, `≤ 2m − 1` orbits, orbits of size `≤ 3m`, `\|Ω\| ≤ 3m + t − 1` | 🔄 `GroupTheory` | `Praeger.bounded_movement` |
 | `schur_commuting_finrank_attained` | 🏛️ `showcase` | Schur's bound is sharp: for `n ≥ 1` a commutative subspace of `M_n(K)` of dimension `⌊n²/4⌋ + 1` exists | 🔢 `LinearAlgebra` | `SchurCommuting.exists_finrank_eq` |
 | `reverse_cyclotomic` 🆕 | 🔌 `API` | For `n ≥ 2`, the real cyclotomic polynomial `Φₙ` equals its coefficient reversal | 🔣 `NumberTheory` | `CycloParity.reverse_cyclotomic` |
+| `mul_add_mul_eq_trace_smul_add_trace_smul_fin_two` 🆕 | 🔌 `API` | Polarized Cayley–Hamilton identity for two `2 × 2` matrices over a commutative ring | 🔢 `LinearAlgebra` | `Matrix.mul_add_mul_eq_trace_smul_add_trace_smul_fin_two` |
+| `mandelstam_tamm_L1` 🆕 | 🏛️ `showcase` | L¹ Mandelstam–Tamm speed limit: vanishing autocorrelation at `τ ≥ 0` implies `1 ≤ D₁ τ` | 📈 `Analysis` | `QSL.mandelstam_tamm_L1` |
+| `fanoGroup_card` 🆕 | 🏛️ `showcase` | The group preserving the seven lines of the Fano plane has order `168` | 🔄 `GroupTheory` | `TotD.fanoGroup_card` |
+| `resolventSeries_diag_mul_coe_charpolyRev` 🆕 | 🔌 `API` | The diagonal resolvent series times `charpolyRev M` equals `charpolyRev` of the principal submatrix | 🔢 `LinearAlgebra` | `Matrix.resolventSeries_diag_mul_coe_charpolyRev` |
+| `variance_mixture_kurtosis_identity` 🆕 | 🔌 `API` | A Gaussian variance mixture has kurtosis `3 E[V²]/E[V]²` and nonnegative excess kurtosis | 📈 `Analysis` | `Superstatistics.variance_mixture_kurtosis_identity'` |
 | `posSemidef_of_charpoly_alternating` | 🔌 `API` | a real symmetric matrix with alternating characteristic polynomial is PSD (corollary of Descartes' rule of signs) | 🔢 `LinearAlgebra` | `AlternatingRoots.posSemidef_of_charpoly_alternating` |
 | `psd_quadForm_eq_sum_rank_sq` | 🔌 `API` | the quadratic form of a PSD matrix of rank `k` is a sum of exactly `k` squares of linear forms | 🔢 `LinearAlgebra` | `PosSemidefRankSquares.quadForm_eq_sum_sq` |
 | `touchard_bell_add_prime` | 🏛️ `showcase` | Touchard: `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers and every prime `p` | 🔣 `NumberTheory` | `Touchard.bell_add_prime` |
@@ -450,7 +455,7 @@ commitment; Lake does not enforce it.
 | `Probability` | `Kemeny` 🆕 | Kemeny's constant: for a finite Markov chain with stationary `π` and finite hitting times, `Σ_t π_t m_st` does not depend on the start `s`. |
 | `Probability.Distributions.Superstatistics` | `LaplaceMixture` 🆕 | A centered Gaussian with exponentially distributed variance (rate `λ`) has a Laplace marginal with rate `√(2λ)`; the Glasser integral `∫ v^{−1/2} e^{−a/v − bv} dv = √(π/b) e^{−2√(ab)}` |
 | | `StudentMixture` 🆕 | The Gaussian–Gamma precision mixture is the Student-t density (with the `b^a` normalization); `E[Z²] = 1`, `E[Z⁴] = 3`; variance mixtures `√V · Z` have excess kurtosis `3 Var(V)/E[V]² ≥ 0` |
-| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry`, `NumberTheory` 🆕, `GroupTheory` 🆕 | The reusable layer: fifty-three general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
+| `Reusable` | `Geometry`, `MeasureTheory`, `Analysis`, `Polynomial`, `Combinatorics`, `LinearAlgebra`, `AlgebraicGeometry`, `NumberTheory` 🆕, `GroupTheory` 🆕 | The reusable layer: sixty-two general results of the archive under stable names `Formalizations.Reusable.*` (see [Reusable layer](#-reusable-layer) and `Reusable/manifest.toml`) |
 | `RepresentationTheory` | `G2Counts` 🆕 | Divisibility counts of the six G2 positive-root values at q = 2, 3 (the arithmetic half of a character-vanishing corollary). |
 | `RepresentationTheory` | `SpinRhoLine` 🆕 | Product of sines `∏_{k=1}^{n-1} 2 sin(kπ/n) = n`; the spin values on the ρ-line, `∏_{j=1}^{m} 2 sin(jπ/(2m+1)) = √(2m+1)` (type B, also in cosine form) and `∏_{j=1}^{m-1} 2 sin(jπ/2m) = √m` (type D), each an integer iff `2m+1` (resp. `m`) is a square; the Dirichlet kernel and the index shift `sin((hq+r)π/q) = (−1)^h sin(rπ/q)`. The identification with the spin characters is not formalized. |
 | `RepresentationTheory.Symplectic` | `ResidueCapacity` 🆕 | The type-C residue identity `2R + 2m = P(x)² + P(2x)` in `ℤ[G]`; `N_q(x) ≥ N_q(ρ)` with equality iff the capacities hold, and then `R x = R ρ` |

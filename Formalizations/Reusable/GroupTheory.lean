@@ -5,6 +5,7 @@ Authors: Carles Marín, Claude (AI assistant)
 -/
 module
 
+public import Formalizations.GroupTheory.GroupAction.FanoOrder
 public import Formalizations.GroupTheory.GroupAction.PolyaRedfield
 public import Formalizations.GroupTheory.GroupAction.Separation
 public import Formalizations.GroupTheory.GroupAction.BoundedMovement
@@ -89,5 +90,15 @@ theorem praeger_bounded_movement {G Ω : Type*} [Group G] [MulAction G Ω] (m : 
       (∀ x : Ω, Nat.card (MulAction.orbit G x) ≤ 3 * m) ∧
       Nat.card Ω ≤ 3 * m + Nat.card (MulAction.orbitRel.Quotient G Ω) - 1 :=
   Praeger.bounded_movement m hm hfix hmove
+
+open scoped Pointwise in
+/-- The collineation group of the Fano plane has order 168.
+The group is the stabilizer of the seven lines on `Fin 7`.
+Archive: `TotD.fanoGroup_card`. -/
+theorem fanoGroup_card :
+    Nat.card (MulAction.stabilizer (Equiv.Perm (Fin 7))
+      ({{0, 1, 2}, {0, 3, 4}, {0, 5, 6}, {1, 3, 5}, {1, 4, 6}, {2, 3, 6}, {2, 4, 5}} :
+        Finset (Finset (Fin 7)))) = 168 :=
+  TotD.fanoGroup_card
 
 end Formalizations.Reusable

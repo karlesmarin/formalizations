@@ -43,3 +43,11 @@ check.) -/
 example : (∀ x : Fin 2, ∃ g : Equiv.Perm (Fin 2), g • x ≠ x) ∧
     (∀ (Γ : Finset (Fin 2)) (g : Equiv.Perm (Fin 2)), (∀ x ∈ Γ, g • x ∉ Γ) → Γ.card ≤ 1) := by
   decide
+
+open scoped Pointwise in
+/-- The collineation group of the Fano plane has order 168. -/
+example :
+    Nat.card (MulAction.stabilizer (Equiv.Perm (Fin 7))
+      ({{0, 1, 2}, {0, 3, 4}, {0, 5, 6}, {1, 3, 5}, {1, 4, 6}, {2, 3, 6}, {2, 4, 5}} :
+        Finset (Finset (Fin 7)))) = 168 :=
+  fanoGroup_card
