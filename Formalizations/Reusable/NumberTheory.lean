@@ -9,15 +9,17 @@ public import Formalizations.NumberTheory.Wolstenholme
 public import Formalizations.Combinatorics.Enumerative.Touchard
 public import Formalizations.NumberTheory.DedekindSum
 public import Formalizations.NumberTheory.ArithmeticFunction.DivisorTotient
+public import Formalizations.NumberTheory.Cyclotomic.ParityBounds
 
 /-!
 # Reusable layer: number theory
 
-Stable names for congruences of the archive. Each theorem is proved by the archive theorem it
-re-exposes (no proof is copied). The module imported here is general number theory, not a paper of
-the archive, and imports only Mathlib.
+Stable names for archive results in number theory. Each theorem re-exposes its archive proof.
 
 ## Main results
+
+* `Formalizations.Reusable.reverse_cyclotomic`: cyclotomic polynomials over ℝ are palindromic
+  for `n ≥ 2` (archive: `CycloParity.reverse_cyclotomic`).
 
 * `Formalizations.Reusable.sum_card_divisors_mul_totient`: the Dirichlet identity `τ ∗ φ = σ`,
   `Σ_{d ∣ n} τ(d) φ(n/d) = σ(n)` (archive: `DivisorTotient.sum_card_divisors_mul_totient`).
@@ -88,5 +90,15 @@ number of divisors of `d`, `φ` Euler's totient and `σ(n)` the sum of the divis
 theorem sum_card_divisors_mul_totient (n : ℕ) :
     ∑ d ∈ n.divisors, d.divisors.card * Nat.totient (n / d) = ∑ d ∈ n.divisors, d :=
   DivisorTotient.sum_card_divisors_mul_totient n
+
+/-- **Cyclotomic reciprocity.** For `n ≥ 2`, reversing the coefficients of the real cyclotomic
+polynomial `Φₙ` leaves it unchanged.
+
+* Archive: `CycloParity.reverse_cyclotomic` (`Formalizations.NumberTheory.Cyclotomic.ParityBounds`).
+* Classical reference: G. J. O. Jameson, *The cyclotomic polynomials*, Proposition 1.3.
+* Example: `Φ₆ = X² - X + 1` is palindromic. -/
+theorem reverse_cyclotomic (n : ℕ) (hn : 2 ≤ n) :
+    (Polynomial.cyclotomic n ℝ).reverse = Polynomial.cyclotomic n ℝ :=
+  CycloParity.reverse_cyclotomic n hn
 
 end Formalizations.Reusable

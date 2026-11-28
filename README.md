@@ -6,11 +6,11 @@ Lean 4 formalizations by Carles Marín, built on [Mathlib](https://github.com/le
 organized the same way: by mathematical area, one topic per file, every file with a module docstring listing its main
 results.
 
-- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.11.0`.
+- 🔧 Lean `v4.35.0`; Mathlib pinned in `lakefile.toml` (commit `f0b4c81`). Package version `0.12.0`.
 - ✅ No `sorry`, no `native_decide`, no new axioms (the only exceptions are the comparator challenges
   `FormalizationsTest/Comparator/Challenge*.lean`: they state the trusted statements with `sorry` by design, are not
   part of any build target, and `lake comparator` checks the solutions against them).
-  All 2732 main results depend only on the standard axioms
+  All 2733 main results depend only on the standard axioms
   (`propext`, `Classical.choice`, `Quot.sound`), checked by `scripts/check_axioms.sh` on every push (CI).
   The choice-free core of `SetTheory.Ordinal.Gentzen` depends on `propext` alone.
 - 🔬 Most files are the machine-checked core of a research note: the identities and finite certificates a paper
@@ -174,9 +174,10 @@ commitment; Lake does not enforce it.
 | `zielinski_zych_inequality` 🆕 | 🏛️ `showcase` | Zieliński–Zych: `x^α − π^α/2 + (π^α/2) cos x + α π^(α−1) sin x ≥ 0` for every `α > 0`, `x ≥ 0` (the core of the fractional-moment speed limit) | 📈 `Analysis` | `QSL.zz_inequality_all` |
 | `separation_lemma_of_pretransitive` 🆕 | 🔌 `API` | separation lemma: `G` pretransitive on `Ω`, `#A · #B < #Ω` ⇒ some `g` moves `A` off `B` | 🔄 `GroupTheory` | `TotD.separation_lemma_of_pretransitive` |
 | `derivative_coe_charpolyRev` 🆕 | 🔌 `API` | Newton's identity for traces: `d/dX (charpolyRev M) = − charpolyRev M · Σₖ trace(Mᵏ⁺¹) Xᵏ` over any commutative ring | 🔢 `LinearAlgebra` | `Matrix.derivative_coe_charpolyRev` |
-| `margolus_levitin` 🆕 | 🏛️ `showcase` | Margolus–Levitin (`ℏ = 1`): if the autocorrelation vanishes at `τ ≥ 0`, then `π ≤ 2 ⟨E⟩ τ` | 📈 `Analysis` | `QSL.margolus_levitin` |
-| `praeger_bounded_movement` 🆕 | 🏛️ `showcase` | Praeger: bounded movement `m` ⇒ `Ω` finite, `≤ 2m − 1` orbits, orbits of size `≤ 3m`, `\|Ω\| ≤ 3m + t − 1` | 🔄 `GroupTheory` | `Praeger.bounded_movement` |
-| `schur_commuting_finrank_attained` 🆕 | 🏛️ `showcase` | Schur's bound is sharp: for `n ≥ 1` a commutative subspace of `M_n(K)` of dimension `⌊n²/4⌋ + 1` exists | 🔢 `LinearAlgebra` | `SchurCommuting.exists_finrank_eq` |
+| `margolus_levitin` | 🏛️ `showcase` | Margolus–Levitin (`ℏ = 1`): if the autocorrelation vanishes at `τ ≥ 0`, then `π ≤ 2 ⟨E⟩ τ` | 📈 `Analysis` | `QSL.margolus_levitin` |
+| `praeger_bounded_movement` | 🏛️ `showcase` | Praeger: bounded movement `m` ⇒ `Ω` finite, `≤ 2m − 1` orbits, orbits of size `≤ 3m`, `\|Ω\| ≤ 3m + t − 1` | 🔄 `GroupTheory` | `Praeger.bounded_movement` |
+| `schur_commuting_finrank_attained` | 🏛️ `showcase` | Schur's bound is sharp: for `n ≥ 1` a commutative subspace of `M_n(K)` of dimension `⌊n²/4⌋ + 1` exists | 🔢 `LinearAlgebra` | `SchurCommuting.exists_finrank_eq` |
+| `reverse_cyclotomic` 🆕 | 🔌 `API` | For `n ≥ 2`, the real cyclotomic polynomial `Φₙ` equals its coefficient reversal | 🔣 `NumberTheory` | `CycloParity.reverse_cyclotomic` |
 | `posSemidef_of_charpoly_alternating` | 🔌 `API` | a real symmetric matrix with alternating characteristic polynomial is PSD (corollary of Descartes' rule of signs) | 🔢 `LinearAlgebra` | `AlternatingRoots.posSemidef_of_charpoly_alternating` |
 | `psd_quadForm_eq_sum_rank_sq` | 🔌 `API` | the quadratic form of a PSD matrix of rank `k` is a sum of exactly `k` squares of linear forms | 🔢 `LinearAlgebra` | `PosSemidefRankSquares.quadForm_eq_sum_sq` |
 | `touchard_bell_add_prime` | 🏛️ `showcase` | Touchard: `B(n + p) ≡ B(n) + B(n + 1) (mod p)` for Bell numbers and every prime `p` | 🔣 `NumberTheory` | `Touchard.bell_add_prime` |

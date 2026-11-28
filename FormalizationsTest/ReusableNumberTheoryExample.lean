@@ -28,3 +28,7 @@ example : DedekindSum.ded 1 1 + DedekindSum.ded 1 1 = 0 := by
 /-- `τ ∗ φ = σ` at `n = 6`: `2 + 4 + 2 + 4 = 12`. -/
 example : ∑ d ∈ (6 : ℕ).divisors, d.divisors.card * Nat.totient (6 / d) = ∑ d ∈ (6 : ℕ).divisors, d :=
   sum_card_divisors_mul_totient 6
+
+/-- `reverse_cyclotomic` at `n = 6`: the sixth cyclotomic polynomial is palindromic. -/
+example : (Polynomial.cyclotomic 6 ℝ).reverse = Polynomial.cyclotomic 6 ℝ :=
+  reverse_cyclotomic 6 (by decide)

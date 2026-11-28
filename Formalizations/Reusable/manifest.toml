@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.11.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.12.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.11.0"
+version = "0.12.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -965,4 +965,21 @@ status = "reusable"
 role = "showcase"
 upstream_candidate = false
 upstream_reason = "no Mathlib counterpart; the extremal example of a specific bound"
+repo_dependencies = []
+
+[[entry]]
+id = "R0057"
+lean_name = "Formalizations.Reusable.reverse_cyclotomic"
+statement = "Cyclotomic reciprocity: for n ≥ 2, the nth cyclotomic polynomial over ℝ equals its coefficient reversal."
+area = "NumberTheory"
+msc = "11R18"
+import = "Formalizations.Reusable.NumberTheory"
+archive_module = "Formalizations.NumberTheory.Cyclotomic.ParityBounds"
+archive_decl = "CycloParity.reverse_cyclotomic"
+paper = "none"
+classical_reference = "G. J. O. Jameson, The cyclotomic polynomials, lecture notes, Proposition 1.3"
+status = "reusable"
+role = "API"
+upstream_candidate = true
+upstream_reason = "a reciprocity lemma for Mathlib's Polynomial.cyclotomic and Polynomial.reverse; no counterpart found in the pinned Mathlib"
 repo_dependencies = []
