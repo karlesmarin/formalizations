@@ -19,6 +19,8 @@ public import Formalizations.Combinatorics.SimpleGraph.OrientedIncMatrix
 public import Formalizations.Combinatorics.Choose.Singmaster
 public import Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.HeilmannLiebBound
 public import Formalizations.Combinatorics.SimpleGraph.Ihara.MomentAssembly
+public import Formalizations.Combinatorics.SimpleGraph.Ihara.GodsilMoment
+public import Formalizations.Combinatorics.SimpleGraph.Ihara.GapWindow
 
 /-!
 # Reusable layer: combinatorics and number theory
@@ -36,6 +38,14 @@ for Kirchhoff's matrix-tree theorem. Each theorem is proved by the archive theor
 * `Formalizations.Reusable.godsil_pathTree_identity` and
   `Formalizations.Reusable.matchingPoly_root_power_sum_eq_pathTree_walks`: Godsil's
   path-tree identity and moment theorem.
+* `Formalizations.Reusable.matchingPoly_derivative_eq_sum_vertex_deletions`: the matching
+  polynomial derivative is the sum of the matching polynomials of the vertex-deleted graphs.
+* `Formalizations.Reusable.treeLikeWalkCount_eq_trace_of_lt_egirth`,
+  `Formalizations.Reusable.trace_hashimoto_pow` and
+  `Formalizations.Reusable.trace_sub_matchingPoly_root_power_sum_eq_trace_hashimoto`: the
+  tree-like walk trace identity, Hashimoto walk count and matching gap law.
+* `Formalizations.Reusable.ihara_Nk_explicit`: the generating function of the positive
+  Hashimoto traces from the differentiated Bass determinant identity.
 * `Formalizations.Reusable.ncard_choose_eq_le_two_mul_log`: Singmaster's bound, an integer `a ≥ 2` occurs at most
   `2 ⌊log₂ a⌋` times in Pascal's triangle (archive: `Singmaster.ncard_choose_eq_le_two_mul_log`).
 * `Formalizations.Reusable.bregman_permanent_le`: Brégman's theorem, `per A ≤ ∏ᵢ (rᵢ!)^(1/rᵢ)` for `(0,1)`-matrices
@@ -362,5 +372,82 @@ theorem matchingPoly_root_power_sum_eq_pathTree_walks {V : Type*} [Fintype V] [D
       ((∑ v : V, ((G.pathTree v).adjMatrix ℕ ^ k) (G.pathTreeRoot v) (G.pathTreeRoot v)) : ℕ) := by
   change G.matchingPowerSum k = _
   rw [G.matchingPowerSum_eq_treeLikeWalkCount, G.treeLikeWalkCount_eq_sum_pathTree_adjMatrix_pow]
+
+open Classical in
+/-- **Matching polynomial derivative.** The derivative of `μ(G)` is the sum of the matching
+polynomials of the induced graphs obtained by deleting one vertex at a time.
+
+* Archive: `SimpleGraph.sum_matchingPoly_deleteIncidenceSet` and
+  `SimpleGraph.matchingPoly_deleteIncidenceSet_isolate`.
+* Classical reference: C. D. Godsil, *Matchings and walks in graphs*, J. Graph Theory 5 (1981)
+  285–297.
+* Example: evaluating at a real number gives the sum of the evaluated deletion polynomials. -/
+theorem matchingPoly_derivative_eq_sum_vertex_deletions {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) :
+    G.matchingPoly.derivative = ∑ v : V, (G.induce {w | w ≠ v}).matchingPoly := by
+  apply mul_right_cancel₀ Polynomial.X_ne_zero
+  rw [Finset.sum_mul, ← mul_comm Polynomial.X]
+  simpa only [SimpleGraph.matchingPoly_deleteIncidenceSet_isolate] using
+    G.sum_matchingPoly_deleteIncidenceSet.symm
+
+/-- **Tree-like walks below the girth.** Below the extended girth, every closed walk is tree-like,
+so their count is the trace of the corresponding adjacency matrix power over `ℕ`.
+
+* Archive: `SimpleGraph.treeLikeWalkCount_eq_trace_of_lt_egirth`.
+* Classical reference: C. D. Godsil, *Matchings and walks in graphs*, J. Graph Theory 5 (1981)
+  285–297.
+* Example: in a forest the trace counts tree-like walks at every length. -/
+theorem treeLikeWalkCount_eq_trace_of_lt_egirth {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) [DecidableRel G.Adj] (k : ℕ) (hk : (k : ℕ∞) < G.egirth) :
+    G.treeLikeWalkCount k = (G.adjMatrix ℕ ^ k).trace :=
+  SimpleGraph.treeLikeWalkCount_eq_trace_of_lt_egirth k hk
+
+/-- **Hashimoto trace and non-backtracking walks.** The trace of the `k`-th power of the
+Hashimoto matrix counts closed non-backtracking walks based at darts, cast into the coefficient
+ring. Closure uses the same non-backtracking relation as each intervening step.
+
+* Archive: `SimpleGraph.trace_hashimoto_pow`.
+* Classical reference: A. Terras, *Zeta Functions of Graphs: A Stroll through the Garden*,
+  Cambridge University Press, 2011.
+* Example: at `k = 0` there is one trivial walk per dart. -/
+theorem trace_hashimoto_pow {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) [DecidableRel G.Adj] (R : Type*) [CommRing R] (k : ℕ) :
+    (G.hashimoto R ^ k).trace = ((∑ e : G.Dart, (Matrix.relWalks G.nbRel k e e).card : ℕ) : R) :=
+  G.trace_hashimoto_pow R k
+
+/-- **Matching gap law.** For `1 ≤ k ≤ girth + 1`, the adjacency trace minus the `k`-th power
+sum of the complex matching roots, counted with multiplicity, equals the Hashimoto trace.
+
+* Archive: `SimpleGraph.trace_sub_matchingPowerSum_eq_trace_hashimoto`.
+* Example: the identity applies at the girth of every finite graph that contains a cycle. -/
+theorem trace_sub_matchingPoly_root_power_sum_eq_trace_hashimoto {V : Type*}
+    [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+    {k : ℕ} (hk : 0 < k) (hwin : (k : ℕ∞) ≤ G.egirth + 1) :
+    ((G.adjMatrix ℕ ^ k).trace : ℂ) - ((G.matchingPoly.map (algebraMap ℝ ℂ)).roots.map (· ^ k)).sum
+      = (G.hashimoto ℂ ^ k).trace :=
+  G.trace_sub_matchingPowerSum_eq_trace_hashimoto hk hwin
+
+/-- **Ihara trace generating function.** Let `B`, `A` and `D` be the Hashimoto, adjacency and
+degree matrices. Differentiating Bass's determinant identity gives the series whose coefficient
+at `X^k` is `tr(B^(k+1))`. The inverse is taken in the formal power series ring and its argument
+has constant coefficient `1`.
+
+* Archive: `SimpleGraph.ihara_Nk_explicit`.
+* Classical reference: H. Bass, *The Ihara–Selberg zeta function of a tree lattice*,
+  Internat. J. Math. 3 (1992) 717–797.
+* Example: extracting the coefficient of `X^k` over `ℚ` gives the trace at length `k + 1`. -/
+theorem ihara_Nk_explicit {V : Type*} [Fintype V] [DecidableEq V] [LinearOrder V]
+    (G : SimpleGraph V) [DecidableRel G.Adj] (R : Type*) [Field R] [Infinite R] :
+    let X : Polynomial R := Polynomial.X
+    let vertexFactor : PowerSeries R := ((1 - X ^ 2) ^ Fintype.card V : Polynomial R)
+    let edgeFactor : PowerSeries R := ((1 - X ^ 2) ^ G.edgeFinset.card : Polynomial R)
+    let hashimotoDet : PowerSeries R := (1 - X • (G.hashimoto R).map Polynomial.C).det
+    let bassDet : PowerSeries R := (1 - X • (G.adjMatrix R).map Polynomial.C
+      + X ^ 2 • ((G.degMatrix R - 1).map Polynomial.C)).det
+    PowerSeries.mk (fun k => (G.hashimoto R ^ (k + 1)).trace) =
+      PowerSeries.invOfUnit (vertexFactor * hashimotoDet) 1 *
+        (hashimotoDet * PowerSeries.derivative vertexFactor - edgeFactor * PowerSeries.derivative bassDet -
+          bassDet * PowerSeries.derivative edgeFactor) :=
+  G.ihara_Nk_explicit R
 
 end Formalizations.Reusable

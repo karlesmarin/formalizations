@@ -2755,3 +2755,13 @@ import Formalizations
 #print axioms Formalizations.Reusable.matchingPoly_root_bound
 #print axioms Formalizations.Reusable.godsil_pathTree_identity
 #print axioms Formalizations.Reusable.matchingPoly_root_power_sum_eq_pathTree_walks
+#print axioms Formalizations.Reusable.Li₂_add_Li₂_one_sub
+#print axioms Formalizations.Reusable.Li₂_landen
+#print axioms Formalizations.Reusable.Li₂_sq
+#print axioms Formalizations.Reusable.rogersL_fiveterm
+#print axioms Formalizations.Reusable.Li₂c_I
+#print axioms Formalizations.Reusable.matchingPoly_derivative_eq_sum_vertex_deletions
+#print axioms Formalizations.Reusable.treeLikeWalkCount_eq_trace_of_lt_egirth
+#print axioms Formalizations.Reusable.trace_hashimoto_pow
+#print axioms Formalizations.Reusable.trace_sub_matchingPoly_root_power_sum_eq_trace_hashimoto
+#print axioms Formalizations.Reusable.ihara_Nk_explicit

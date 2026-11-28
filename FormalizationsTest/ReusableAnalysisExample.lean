@@ -101,3 +101,36 @@ example (μ : Measure ℝ) [IsProbabilityMeasure μ]
     3 ≤ (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 4 ∂(μ.prod (gaussianReal 0 1))) /
       (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 2 ∂(μ.prod (gaussianReal 0 1))) ^ 2 :=
   (variance_mixture_kurtosis_identity μ h₂ h₀ hmean).2.2
+
+/-- Euler's reflection formula gives a closed form at its fixed point `1/2`. -/
+example : Dilog.Li₂ (1 / 2) = π ^ 2 / 12 - Real.log (1 / 2) ^ 2 / 2 := by
+  have h := Li₂_add_Li₂_one_sub (x := 1 / 2) (by norm_num [Set.mem_Ioo])
+  rw [show 1 - (1 / 2 : ℝ) = 1 / 2 by norm_num, ← pow_two] at h
+  linarith
+
+/-- Landen's identity relates the real dilogarithm at `1/3` and `-1/2`. -/
+example : Dilog.Li₂ (1 / 3) + Dilog.Li₂ (-1 / 2) = -Real.log (2 / 3) ^ 2 / 2 := by
+  have h := Li₂_landen (x := 1 / 3) (by norm_num [Set.mem_Ioo])
+  rw [show (1 / 3 : ℝ) / (1 / 3 - 1) = -1 / 2 by norm_num,
+    show 1 - (1 / 3 : ℝ) = 2 / 3 by norm_num] at h
+  exact h
+
+/-- The value at `-1/2` in terms of the values at `1/4` and `1/2`. -/
+example : Dilog.Li₂ (-1 / 2) = Dilog.Li₂ (1 / 4) / 2 - Dilog.Li₂ (1 / 2) := by
+  have h := Li₂_sq (x := 1 / 2) (by norm_num)
+  rw [show (1 / 2 : ℝ) ^ 2 = 1 / 4 by norm_num] at h
+  rw [neg_div]
+  linarith
+
+/-- The Rogers five-term relation at `x = y = 1/2`. -/
+example : 2 * Dilog.rogersL (1 / 2) = Dilog.rogersL (1 / 4) + 2 * Dilog.rogersL (1 / 3) := by
+  have h := rogersL_fiveterm (x := 1 / 2) (y := 1 / 2)
+    (by norm_num [Set.mem_Ioo]) (by norm_num [Set.mem_Ioo])
+  rw [show (1 / 2 : ℝ) * (1 - 1 / 2) / (1 - 1 / 2 * (1 / 2)) = 1 / 3 by norm_num,
+    show (1 / 2 : ℝ) * (1 / 2) = 1 / 4 by norm_num] at h
+  linarith
+
+/-- Catalan's constant is the imaginary part of the complex dilogarithm at `i`. -/
+example : (Dilog.Li₂c Complex.I).im = Dilog.catalanConst := by
+  rw [Li₂c_I, Complex.add_im, Complex.ofReal_im, Complex.mul_im]
+  simp

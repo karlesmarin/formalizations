@@ -1,4 +1,4 @@
-# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.14.0).
+# Manifest of the reusable layer of karlesmarin/formalizations (package version 0.15.0).
 # One entry per theorem `Formalizations.Reusable.<name>`. Each is proved by the archive theorem in `archive_decl`
 # (no proof is copied). Usage examples, one file per area with that area's minimal import:
 # FormalizationsTest/Reusable<Area>Example.lean (all of them together: FormalizationsTest/ReusableExamples.lean).
@@ -10,7 +10,7 @@
 
 [layer]
 package = "formalizations"
-version = "0.14.0"
+version = "0.15.0"
 lean = "leanprover/lean4:v4.35.0"
 mathlib = "f0b4c8150aa0dbc758aff1291410c5ae335aff3a"
 import_all = "Formalizations.Reusable"
@@ -1238,3 +1238,173 @@ role = "showcase"
 upstream_candidate = false
 upstream_reason = "Uses the archive’s matching polynomial and path tree with Mathlib’s polynomial roots and adjacency matrix."
 repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Basic", "Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.PathTree", "Formalizations.Combinatorics.SimpleGraph.Ihara.MomentBridge"]
+
+[[entry]]
+id = "R0073"
+lean_name = "Formalizations.Reusable.Li₂_add_Li₂_one_sub"
+statement = "Euler’s reflection formula for 0 < x < 1: Li₂(x) + Li₂(1 − x) = π²/6 − log(x) log(1 − x)."
+area = "Analysis"
+msc = "33B30"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic"
+archive_decl = "Dilog.Li₂_add_Li₂_one_sub"
+paper = "none"
+classical_reference = "L. Lewin, Polylogarithms and Associated Functions, North-Holland, 1981"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s real dilogarithm."
+repo_dependencies = ["Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic"]
+
+[[entry]]
+id = "R0074"
+lean_name = "Formalizations.Reusable.Li₂_landen"
+statement = "Landen’s identity for 0 < x < 1/2: Li₂(x) + Li₂(x/(x − 1)) = −log²(1 − x)/2."
+area = "Analysis"
+msc = "33B30"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic"
+archive_decl = "Dilog.Li₂_landen"
+paper = "none"
+classical_reference = "L. Lewin, Polylogarithms and Associated Functions, North-Holland, 1981"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s real dilogarithm."
+repo_dependencies = ["Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic"]
+
+[[entry]]
+id = "R0075"
+lean_name = "Formalizations.Reusable.Li₂_sq"
+statement = "Duplication for the real dilogarithm: Li₂(x²) = 2(Li₂(x) + Li₂(−x)) for |x| ≤ 1."
+area = "Analysis"
+msc = "33B30"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic"
+archive_decl = "Dilog.Li₂_sq"
+paper = "none"
+classical_reference = "L. Lewin, Polylogarithms and Associated Functions, North-Holland, 1981"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s real dilogarithm."
+repo_dependencies = ["Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic"]
+
+[[entry]]
+id = "R0076"
+lean_name = "Formalizations.Reusable.rogersL_fiveterm"
+statement = "Abel’s five-term relation for the Rogers dilogarithm on (0, 1): L(x) + L(y) = L(xy) + L(x(1 − y)/(1 − xy)) + L(y(1 − x)/(1 − xy))."
+area = "Analysis"
+msc = "33B30"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Analysis.SpecialFunctions.Dilogarithm.FiveTerm"
+archive_decl = "Dilog.rogersL_fiveterm"
+paper = "none"
+classical_reference = "D. Zagier, The dilogarithm function, Frontiers in Number Theory, Physics, and Geometry II, Springer, 2007, 3–65"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s Rogers dilogarithm."
+repo_dependencies = ["Formalizations.Analysis.SpecialFunctions.Dilogarithm.Basic"]
+
+[[entry]]
+id = "R0077"
+lean_name = "Formalizations.Reusable.Li₂c_I"
+statement = "At the imaginary unit, the complex dilogarithm is Li₂(i) = −π²/48 + i G, where G is Catalan’s constant."
+area = "Analysis"
+msc = "33B30"
+import = "Formalizations.Reusable.Analysis"
+archive_module = "Formalizations.Analysis.SpecialFunctions.Dilogarithm.ComplexBoundary"
+archive_decl = "Dilog.Li₂c_I"
+paper = "none"
+classical_reference = "C. O’Sullivan, Zeros of the dilogarithm, Math. Comp. 85 (2016) 2967–2993"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s complex dilogarithm and Catalan constant."
+repo_dependencies = ["Formalizations.Analysis.SpecialFunctions.Dilogarithm.ComplexBoundary", "Formalizations.Analysis.SpecialFunctions.Dilogarithm.Clausen"]
+
+[[entry]]
+id = "R0078"
+lean_name = "Formalizations.Reusable.matchingPoly_derivative_eq_sum_vertex_deletions"
+statement = "The derivative of the matching polynomial equals the sum of the matching polynomials of the induced graphs obtained by deleting one vertex at a time."
+area = "Combinatorics"
+msc = "05C31"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.Ihara.GodsilMoment"
+archive_decl = "SimpleGraph.sum_matchingPoly_deleteIncidenceSet"
+paper = "none"
+classical_reference = "C. D. Godsil, Matchings and walks in graphs, J. Graph Theory 5 (1981) 285–297, doi:10.1002/jgt.3190050310"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s matching polynomial with Mathlib’s induced subgraph and polynomial derivative."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Basic"]
+
+[[entry]]
+id = "R0079"
+lean_name = "Formalizations.Reusable.treeLikeWalkCount_eq_trace_of_lt_egirth"
+statement = "Below the extended girth, the number of closed tree-like walks of length k equals the trace of the kth adjacency matrix power over ℕ."
+area = "Combinatorics"
+msc = "05C50"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.Ihara.TreeLikeWalks"
+archive_decl = "SimpleGraph.treeLikeWalkCount_eq_trace_of_lt_egirth"
+paper = "none"
+classical_reference = "C. D. Godsil, Matchings and walks in graphs, J. Graph Theory 5 (1981) 285–297, doi:10.1002/jgt.3190050310"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s tree-like walk count with Mathlib’s extended girth and adjacency matrix."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.Ihara.TreeLikeWalks"]
+
+[[entry]]
+id = "R0080"
+lean_name = "Formalizations.Reusable.trace_hashimoto_pow"
+statement = "The trace of the kth Hashimoto matrix power counts closed non-backtracking walks based at darts, cast into the coefficient ring."
+area = "Combinatorics"
+msc = "05C50"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.Ihara.NbWalkCount"
+archive_decl = "SimpleGraph.trace_hashimoto_pow"
+paper = "none"
+classical_reference = "A. Terras, Zeta Functions of Graphs: A Stroll through the Garden, Cambridge University Press, 2011"
+status = "reusable"
+role = "API"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s Hashimoto matrix, non-backtracking relation and finite relation walks."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.Ihara.Bass", "Formalizations.Combinatorics.SimpleGraph.Ihara.NbWalkCount", "Formalizations.LinearAlgebra.Matrix.WalkCount"]
+
+[[entry]]
+id = "R0081"
+lean_name = "Formalizations.Reusable.trace_sub_matchingPoly_root_power_sum_eq_trace_hashimoto"
+statement = "For 1 ≤ k ≤ girth + 1, the adjacency trace minus the kth power sum of the complex matching roots, counted with multiplicity, equals the Hashimoto trace."
+area = "Combinatorics"
+msc = "05C50"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.Ihara.GapWindow"
+archive_decl = "SimpleGraph.trace_sub_matchingPowerSum_eq_trace_hashimoto"
+paper = "none"
+classical_reference = "none (matching gap law in the archive)"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "Connects the archive’s matching polynomial and Hashimoto matrix using Mathlib’s roots and matrix trace."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.MatchingPolynomial.Basic", "Formalizations.Combinatorics.SimpleGraph.Ihara.Bass"]
+
+[[entry]]
+id = "R0082"
+lean_name = "Formalizations.Reusable.ihara_Nk_explicit"
+statement = "The series with coefficient tr(B^(k+1)) at X^k for the Hashimoto matrix B is given by differentiating Bass’s determinant identity and inverting its unit factor."
+area = "Combinatorics"
+msc = "05C50"
+import = "Formalizations.Reusable.Combinatorics"
+archive_module = "Formalizations.Combinatorics.SimpleGraph.Ihara.TraceFormula"
+archive_decl = "SimpleGraph.ihara_Nk_explicit"
+paper = "none"
+classical_reference = "H. Bass, The Ihara–Selberg zeta function of a tree lattice, Internat. J. Math. 3 (1992) 717–797"
+status = "reusable"
+role = "showcase"
+upstream_candidate = false
+upstream_reason = "Uses the archive’s Hashimoto matrix with Mathlib’s graph matrices, determinants and formal power series."
+repo_dependencies = ["Formalizations.Combinatorics.SimpleGraph.Ihara.Bass"]

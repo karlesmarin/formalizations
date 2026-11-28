@@ -4,7 +4,47 @@ same code a user pastes into a file of their own project (README, section "Reusa
 -/
 import Formalizations.Reusable.Combinatorics
 
-open Formalizations.Reusable Filter Topology
+open Formalizations.Reusable Filter Topology Classical
+
+/-- `matchingPoly_derivative_eq_sum_vertex_deletions` evaluated at a real number. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) (x : ℝ) :
+    G.matchingPoly.derivative.eval x = ∑ v : V, ((G.induce {w | w ≠ v}).matchingPoly).eval x := by
+  rw [matchingPoly_derivative_eq_sum_vertex_deletions G, Polynomial.eval_finsetSum]
+
+/-- `treeLikeWalkCount_eq_trace_of_lt_egirth` applies to forests at every length. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+    (hG : G.IsAcyclic) (k : ℕ) : G.treeLikeWalkCount k = (G.adjMatrix ℕ ^ k).trace :=
+  treeLikeWalkCount_eq_trace_of_lt_egirth G k (by simp [hG.egirth_eq_top])
+
+/-- `trace_hashimoto_pow` at order zero counts the trivial walk at each dart. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj] :
+    (∑ e : G.Dart, (Matrix.relWalks G.nbRel 0 e e).card) = Fintype.card G.Dart := by
+  have h := trace_hashimoto_pow G ℤ 0
+  simp only [pow_zero, Matrix.trace_one] at h
+  exact_mod_cast h.symm
+
+/-- `trace_sub_matchingPoly_root_power_sum_eq_trace_hashimoto` applies at the extended girth
+whenever it equals a positive natural number. -/
+example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+    {k : ℕ} (hk : 0 < k) (hg : (k : ℕ∞) = G.egirth) :
+    ((G.adjMatrix ℕ ^ k).trace : ℂ) - ((G.matchingPoly.map (algebraMap ℝ ℂ)).roots.map (· ^ k)).sum
+      = (G.hashimoto ℂ ^ k).trace :=
+  trace_sub_matchingPoly_root_power_sum_eq_trace_hashimoto G hk (by rw [hg]; exact le_self_add)
+
+/-- `ihara_Nk_explicit` gives the positive Hashimoto traces by coefficient extraction over `ℚ`. -/
+example {V : Type*} [Fintype V] [DecidableEq V] [LinearOrder V]
+    (G : SimpleGraph V) [DecidableRel G.Adj] (k : ℕ) :
+    let X : Polynomial ℚ := Polynomial.X
+    let vertexFactor : PowerSeries ℚ := ((1 - X ^ 2) ^ Fintype.card V : Polynomial ℚ)
+    let edgeFactor : PowerSeries ℚ := ((1 - X ^ 2) ^ G.edgeFinset.card : Polynomial ℚ)
+    let hashimotoDet : PowerSeries ℚ := (1 - X • (G.hashimoto ℚ).map Polynomial.C).det
+    let bassDet : PowerSeries ℚ := (1 - X • (G.adjMatrix ℚ).map Polynomial.C
+      + X ^ 2 • ((G.degMatrix ℚ - 1).map Polynomial.C)).det
+    (G.hashimoto ℚ ^ (k + 1)).trace = PowerSeries.coeff k
+      (PowerSeries.invOfUnit (vertexFactor * hashimotoDet) 1 *
+        (hashimotoDet * PowerSeries.derivative vertexFactor - edgeFactor * PowerSeries.derivative bassDet -
+          bassDet * PowerSeries.derivative edgeFactor)) := by
+  simpa only [PowerSeries.coeff_mk] using congrArg (PowerSeries.coeff k) (ihara_Nk_explicit G ℚ)
 
 /-- `matchingPoly_forest_eq_charpoly` identifies the matching polynomial of a tree with the
 characteristic polynomial of its adjacency matrix. -/
@@ -21,7 +61,6 @@ example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRe
     (hdeg : ∀ v, G.degree v ≤ 2) {x : ℝ} (hx : G.matchingPoly.IsRoot x) : |x| ≤ 2 := by
   simpa [show (2 : ℝ) - 1 = 1 by norm_num] using matchingPoly_root_bound G 2 (by decide) hdeg hx
 
-open Classical in
 /-- `godsil_pathTree_identity` gives a divisibility relation after deleting the starting vertex. -/
 example {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) (u : V) :
     G.matchingPoly ∣ (G.induce {v | v ≠ u}).matchingPoly * (G.pathTree u).matchingPoly :=

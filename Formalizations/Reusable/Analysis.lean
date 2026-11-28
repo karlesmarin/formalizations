@@ -8,6 +8,8 @@ module
 public import Formalizations.Physics.QuantumMechanics.SpeedLimit.MandelstamTamm
 public import Formalizations.Probability.Distributions.Superstatistics.StudentMixture
 public import Formalizations.Analysis.SpecialFunctions.Airy.Basic
+public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.ComplexBoundary
+public import Formalizations.Analysis.SpecialFunctions.Dilogarithm.FiveTerm
 public import Formalizations.Analysis.Polynomial.EnestromKakeya
 public import Formalizations.Probability.Distributions.Superstatistics.LaplaceMixture
 public import Formalizations.RepresentationTheory.SpinRhoLine
@@ -43,6 +45,10 @@ under the same name.
   (archive: `SpinRhoLine.prod_two_sin`).
 * `Formalizations.Reusable.enestrom_kakeya_ne_zero`: a polynomial with positive non-increasing
   real coefficients has no zero in the open unit disc (archive: `Dilog.enestrom_kakeya`).
+* `Formalizations.Reusable.Li₂_add_Li₂_one_sub`, `Formalizations.Reusable.Li₂_landen`,
+  `Formalizations.Reusable.Li₂_sq`: reflection, Landen and duplication for the real dilogarithm.
+* `Formalizations.Reusable.rogersL_fiveterm`: the five-term relation for the Rogers dilogarithm.
+* `Formalizations.Reusable.Li₂c_I`: the complex dilogarithm at the imaginary unit.
 -/
 
 @[expose] public section
@@ -197,5 +203,40 @@ theorem variance_mixture_kurtosis_identity
     ∧ 3 ≤ (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 4 ∂(μV.prod (gaussianReal 0 1)))
           / (∫ ω, (Real.sqrt ω.1 * ω.2) ^ 2 ∂(μV.prod (gaussianReal 0 1))) ^ 2 :=
   Superstatistics.variance_mixture_kurtosis_identity' μV hV2 hVnn heV
+
+/-- **Euler's reflection formula** for the real dilogarithm on `(0, 1)`:
+`Li₂(x) + Li₂(1 − x) = π²/6 − log(x) log(1 − x)`.
+Archive: `Dilog.Li₂_add_Li₂_one_sub`. -/
+theorem Li₂_add_Li₂_one_sub {x : ℝ} (hx : x ∈ Ioo (0 : ℝ) 1) :
+    Dilog.Li₂ x + Dilog.Li₂ (1 - x) = π ^ 2 / 6 - Real.log x * Real.log (1 - x) :=
+  Dilog.Li₂_add_Li₂_one_sub hx
+
+/-- **Landen's identity** for the real dilogarithm on `(0, 1/2)`:
+`Li₂(x) + Li₂(x / (x − 1)) = −log²(1 − x)/2`.
+Archive: `Dilog.Li₂_landen`. -/
+theorem Li₂_landen {x : ℝ} (hx : x ∈ Ioo (0 : ℝ) (1 / 2)) :
+    Dilog.Li₂ x + Dilog.Li₂ (x / (x - 1)) = -Real.log (1 - x) ^ 2 / 2 :=
+  Dilog.Li₂_landen hx
+
+/-- **Duplication** for the real dilogarithm on `[-1, 1]`:
+`Li₂(x²) = 2 (Li₂(x) + Li₂(−x))`. Archive: `Dilog.Li₂_sq`. -/
+theorem Li₂_sq {x : ℝ} (hx : |x| ≤ 1) :
+    Dilog.Li₂ (x ^ 2) = 2 * (Dilog.Li₂ x + Dilog.Li₂ (-x)) :=
+  Dilog.Li₂_sq hx
+
+/-- **Abel's five-term relation** for the Rogers dilogarithm. For `x, y ∈ (0, 1)`,
+`L(x) + L(y) = L(xy) + L(x(1 − y)/(1 − xy)) + L(y(1 − x)/(1 − xy))`.
+Archive: `Dilog.rogersL_fiveterm`. -/
+theorem rogersL_fiveterm {x y : ℝ} (hx : x ∈ Ioo (0 : ℝ) 1) (hy : y ∈ Ioo (0 : ℝ) 1) :
+    Dilog.rogersL x + Dilog.rogersL y =
+      Dilog.rogersL (x * y) + Dilog.rogersL (x * (1 - y) / (1 - x * y))
+        + Dilog.rogersL (y * (1 - x) / (1 - x * y)) :=
+  Dilog.rogersL_fiveterm hx hy
+
+/-- **The dilogarithm at the imaginary unit** is `Li₂(i) = −π²/48 + i G`, where `G`
+is Catalan's constant. Archive: `Dilog.Li₂c_I`. -/
+theorem Li₂c_I :
+    Dilog.Li₂c Complex.I = ((-(π ^ 2) / 48 : ℝ) : ℂ) + (Dilog.catalanConst : ℂ) * Complex.I :=
+  Dilog.Li₂c_I
 
 end Formalizations.Reusable
